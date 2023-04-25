@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 
 
@@ -17,16 +17,23 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
+    if (app.arguments().contains(QStringLiteral("--widgets")))
+    {
+        qDebug() << "Under construction!";
+        return 0;
+    }
+    else
+    {
+        QQmlApplicationEngine engine;
+        const QUrl url(QStringLiteral("qrc:/main.qml"));
+        QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+            &app, [url](QObject *obj, const QUrl &objUrl) {
+                if (!obj && url == objUrl)
+                    QCoreApplication::exit(-1);
+            }, Qt::QueuedConnection);
+        engine.load(url);
 
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
-    engine.load(url);
-
-    return app.exec();
+        return app.exec();
+    }
 }
