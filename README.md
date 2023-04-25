@@ -1,1 +1,1 @@
-# toncoin-wallet
+# toncoin-wallet-mit
