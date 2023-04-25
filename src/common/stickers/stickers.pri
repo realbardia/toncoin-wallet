@@ -1,0 +1,4 @@
+ 
+
+RESOURCES += \
+    $$PWD/stickers.qrc

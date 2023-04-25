@@ -15,9 +15,15 @@
         <file>globals/fonts/UbuntuMono-R.ttf</file>
         <file>globals/fonts/Vazir-Regular-FD.ttf</file>
         <file>qtquickcontrols2.conf</file>
-        <file>components/HeaderItem.qml</file>
+        <file>components/THeaderItem.qml</file>
         <file>components/TComboBox.qml</file>
         <file>components/TDialog.qml</file>
         <file>components/TItemDelegate.qml</file>
+        <file>components/TButton.qml</file>
+        <file>components/TLabel.qml</file>
+        <file>components/THeaderLabel.qml</file>
+        <file>intro/StartPage.qml</file>
+        <file>components/TPage.qml</file>
+        <file>components/TColumn.qml</file>
     </qresource>
 </RCC>

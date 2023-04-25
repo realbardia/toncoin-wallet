@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/ton/common/stickers">
+        <file>Success.tgs</file>
+        <file>Test Time.tgs</file>
+        <file>Too Bad.tgs</file>
+        <file>Waiting TON.tgs</file>
+        <file>Congratulations.tgs</file>
+        <file>Created.tgs</file>
+        <file>Loading.tgs</file>
+        <file>Main.tgs</file>
+        <file>Password.tgs</file>
+        <file>Recovery Phrase.tgs</file>
+        <file>Start.tgs</file>
+    </qresource>
+</RCC>

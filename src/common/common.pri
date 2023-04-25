@@ -1,0 +1,1 @@
+include(stickers/stickers.pri)

@@ -8,7 +8,7 @@ import AsemanQml.Base 2.0
 QtObject {
     readonly property real dialogsRoundness: Math.max(Devices.navigationBarHeight, 8) * 1.8
     readonly property real roundness: 16
-    readonly property real groupsRoundness: 8
+    readonly property real controlsRoundness: 6
 
     readonly property bool mobileView: mwin && mwin.width < mwin.height? true : false
     readonly property real panelWidth: 320

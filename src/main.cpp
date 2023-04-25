@@ -1,11 +1,14 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 
+#include "qtquick/cpp/tgstickeritem.h"
 
 int main(int argc, char *argv[])
 {
     qputenv("QT_ANDROID_ENABLE_WORKAROUND_TO_DISABLE_PREDICTIVE_TEXT", "1");
     qputenv("QT_LOGGING_RULES", "qt.qml.connections=false");
+
+    qmlRegisterType<TON::QML::TgStickerItem>("TonToolkit", 1, 0, "TgStickerItem");
 
 #if !defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

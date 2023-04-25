@@ -1,10 +1,12 @@
 pragma Singleton
 
 import QtQuick 2.10
-import QtQuick.Controls.Material 2.0
+import AsemanQml.Base 2.0
+
 
 Item
 {
+    readonly property string globalFontSize: 9 * Devices.fontDensity
     readonly property string globalFont: ubuntu.name + ", " + vazir.name
 
     FontLoader { id: ubuntu; source: "fonts/Ubuntu-R.ttf"}

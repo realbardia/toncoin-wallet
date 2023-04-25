@@ -6,6 +6,8 @@ import QtQuick.Controls.Material 2.3
 import AsemanQml.Base 2.0
 import AsemanQml.Controls 2.0
 import AsemanQml.Viewport 2.0
+import "intro" as Intro
+import "components"
 import "globals"
 
 AsemanWindow {
@@ -33,6 +35,10 @@ AsemanWindow {
         mainItem: Item {
             id: mainScene
             anchors.fill: parent
+
+            Intro.StartPage {
+                anchors.fill: parent
+            }
         }
     }
 }

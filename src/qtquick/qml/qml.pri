@@ -1,3 +1,2 @@
-
 RESOURCES += \
     $$PWD/qml.qrc 
