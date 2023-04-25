@@ -3,6 +3,7 @@ QT += quick
 INCLUDEPATH += $$PWD
 
 include (core/core.pri)
+include (thirdparty/thirdparty.pri)
 include (qml/qml.pri)
 
 SOURCES += \

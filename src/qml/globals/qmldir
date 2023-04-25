@@ -1,0 +1,4 @@
+singleton AppSettings 1.0 AppSettings.qml
+singleton Colors 1.0 Colors.qml
+singleton Constants 1.0 Constants.qml
+singleton Fonts 1.0 Fonts.qml

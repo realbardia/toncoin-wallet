@@ -1,5 +1,19 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>MainWindow.qml</file>
+        <file>globals/AppSettings.qml</file>
+        <file>globals/Colors.qml</file>
+        <file>globals/Constants.qml</file>
+        <file>globals/Fonts.qml</file>
+        <file>globals/qmldir</file>
+        <file>globals/fonts/Ubuntu-B.ttf</file>
+        <file>globals/fonts/Ubuntu-L.ttf</file>
+        <file>globals/fonts/Ubuntu-M.ttf</file>
+        <file>globals/fonts/Ubuntu-R.ttf</file>
+        <file>globals/fonts/UbuntuMono-B.ttf</file>
+        <file>globals/fonts/UbuntuMono-R.ttf</file>
+        <file>globals/fonts/Vazir-Regular-FD.ttf</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>
