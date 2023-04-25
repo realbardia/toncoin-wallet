@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QIcon>
 #include <QQmlApplicationEngine>
 
 #include "qtquick/cpp/tgstickeritem.h"
@@ -21,6 +22,8 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/ton/common/icons/icon.png"));
+
     if (app.arguments().contains(QStringLiteral("--widgets")))
     {
         qDebug() << "Under construction!";

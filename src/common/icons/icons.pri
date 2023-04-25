@@ -1,0 +1,4 @@
+ 
+
+RESOURCES += \
+    $$PWD/icons.qrc
