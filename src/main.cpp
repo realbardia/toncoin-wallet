@@ -3,6 +3,8 @@
 #include <QQmlApplicationEngine>
 
 #include "qtquick/cpp/tgstickeritem.h"
+#include "qtquick/cpp/qmlwidgetmenu.h"
+#include "qtquick/cpp/qmlwidgetmenuitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +21,10 @@ int main(int argc, char *argv[])
     qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "TonToolkit.private", 1, 0, "TScrollView");
 //    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "TonToolkit.private", 1, 0, "TScrollView");
 #endif
+
+    qmlRegisterType<QmlWidgetMenu>("TonToolkit.private", 1, 0, "QmlWidgetMenu");
+    qmlRegisterType<QmlWidgetMenuItem>("TonToolkit.private", 1, 0, "QmlWidgetMenuItem");
+
 
 #if !defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

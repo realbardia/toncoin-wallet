@@ -39,5 +39,6 @@
         <file>components/private/TScrollViewDesktopClassic.qml</file>
         <file>components/private/TScrollViewMobile.qml</file>
         <file>intro/TestTimePage.qml</file>
+        <file>components/TTextField.qml</file>
     </qresource>
 </RCC>
