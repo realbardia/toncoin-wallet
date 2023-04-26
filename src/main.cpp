@@ -11,6 +11,15 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TON::QML::TgStickerItem>("TonToolkit", 1, 0, "TgStickerItem");
 
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewMobile.qml"), "TonToolkit.private", 1, 0, "TScrollView");
+#elif defined(Q_OS_MACOS)
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "TonToolkit.private", 1, 0, "TScrollView");
+#else
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "TonToolkit.private", 1, 0, "TScrollView");
+//    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "TonToolkit.private", 1, 0, "TScrollView");
+#endif
+
 #if !defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif

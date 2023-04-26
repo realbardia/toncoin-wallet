@@ -1,19 +1,25 @@
 import QtQuick 2.15
 import AsemanQml.Viewport 2.0
+import AsemanQml.Controls 2.0
 import TonToolkit 1.0
 import "../components"
 import "../globals"
 
 TPage {
+    id: page
+    data: [headerColumn, body, footerColumn]
 
     property alias sticker: sticker.source
     property alias title: headerTitle.text
     property alias body: body.text
     property alias mainButton: mainBtn
     property alias secondaryButton: secondaryBtn
-    property alias checkBox: checkBox
+    property alias backable: backButton.visible
+
+    default property alias sceneData: customColumn.data
 
     TColumn {
+        id: headerColumn
         anchors.bottom: parent.verticalCenter
         anchors.bottomMargin: 7
         anchors.horizontalCenter: parent.horizontalCenter
@@ -45,15 +51,15 @@ TPage {
     }
 
     TColumn {
+        id: footerColumn
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.margins: 50
 
-        TCheckBox {
-            id: checkBox
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 160
-            visible: text.length
+        TColumn {
+            id: customColumn
+            anchors.left: parent.left
+            anchors.right: parent.right
         }
 
         TButton {
@@ -71,5 +77,13 @@ TPage {
             enabled: text.length
             width: 160
         }
+    }
+
+    HeaderMenuButton {
+        id: backButton
+        ratio: 1
+        buttonColor: Colors.foreground
+        visible: false
+        onClicked: page.ViewportType.open = false
     }
 }

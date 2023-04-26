@@ -12,7 +12,9 @@ SimplePageTemplate {
         text: qsTr("Set a Passcode")
     }
 
-    checkBox {
+    TCheckBox {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 160
         text: qsTr("Enable Touch ID")
     }
 }

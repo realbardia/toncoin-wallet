@@ -18,6 +18,7 @@ SimplePageTemplate {
     Component {
         id: recovery_phrase_component
         RecoveryPhrasePage {
+            ViewportType.gestureWidth: dialogOpened? 0 : width
             anchors.fill: parent
         }
     }

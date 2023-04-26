@@ -34,5 +34,10 @@
         <file>intro/RecoveryPhrasePage.qml</file>
         <file>components/TGridView.qml</file>
         <file>components/TRow.qml</file>
+        <file>components/TScrollView.qml</file>
+        <file>components/private/TScrollViewDesktop.qml</file>
+        <file>components/private/TScrollViewDesktopClassic.qml</file>
+        <file>components/private/TScrollViewMobile.qml</file>
+        <file>intro/TestTimePage.qml</file>
     </qresource>
 </RCC>

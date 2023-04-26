@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import AsemanQml.Base 2.0
 import AsemanQml.Viewport 2.0
 import TonToolkit 1.0
 import "../components"
@@ -21,7 +22,14 @@ SimplePageTemplate {
     Component {
         id: congratulation_component
         CongratulationPage {
+            id: cpage
+            ViewportType.gestureWidth: 0
             anchors.fill: parent
+            Component.onCompleted: {
+                Qt.callLater(function(){
+                    BackHandler.pushHandler(cpage, function(){ return false; })
+                })
+            }
         }
     }
 }

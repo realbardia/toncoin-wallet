@@ -9,54 +9,68 @@ import "../globals"
 TPage {
     id: recovertPage
 
-    TGridView {
-        id: gridv
-        anchors.fill: parent
-        cellWidth: width / Math.floor(width/150)
-        cellHeight: 50
-        model: 24
-        header: Item {
-            width: gridv.width
-            height: headerScene.height
-            onHeightChanged: gridv.positionViewAtBeginning()
-        }
+    property alias dialogOpened: warnDialog.opened
 
-        footer: Item {
-            width: gridv.width
-            height: 180
+    QtObject {
+        id: prv
 
-            TButton {
-                anchors.centerIn: parent
-                anchors.verticalCenterOffset: -15
-                width: 160
-                text: qsTr("Done")
-                onClicked: Viewport.viewport.append(success_component, {}, "page")
-            }
-        }
+        property variant startDate
+        property int retryCount: 0
 
-        delegate: Item {
-            width: gridv.cellWidth
-            height: gridv.cellHeight
-
-            TRow {
-                anchors.centerIn: parent
-
-                TLabel {
-                    opacity: 0.7
-                    text: (model.index+1)  + "."
-                }
-                TLabel {
-                    text: qsTr("Word %1").arg(model.index+1)
-                }
-            }
-        }
+        Component.onCompleted: startDate = new Date
     }
 
-    HScrollBar {
-        scrollArea: gridv
-        color: Colors.foreground
-        anchors.right: parent.right
-        height: gridv.height
+    TScrollView {
+        anchors.fill: parent
+
+        TGridView {
+            id: gridv
+            cellWidth: width / Math.floor(width/150)
+            cellHeight: 50
+            model: 24
+            header: Item {
+                width: gridv.width
+                height: headerScene.height
+                onHeightChanged: gridv.positionViewAtBeginning()
+            }
+
+            footer: Item {
+                width: gridv.width
+                height: 180
+
+                TButton {
+                    anchors.centerIn: parent
+                    anchors.verticalCenterOffset: -15
+                    width: 160
+                    text: qsTr("Done")
+                    onClicked: {
+                        let msecs = (new Date).getTime() - prv.startDate.getTime();
+                        prv.retryCount++;
+                        if (msecs < 30000)
+                            warnDialog.open();
+                        else
+                            Viewport.viewport.append(test_time_component, {}, "page")
+                    }
+                }
+            }
+
+            delegate: Item {
+                width: gridv.cellWidth
+                height: gridv.cellHeight
+
+                TRow {
+                    anchors.centerIn: parent
+
+                    TLabel {
+                        opacity: 0.4
+                        text: (model.index+1)  + "."
+                    }
+                    TLabel {
+                        text: qsTr("Word %1").arg(model.index+1)
+                    }
+                }
+            }
+        }
     }
 
     Item {
@@ -134,9 +148,45 @@ TPage {
         }
     }
 
+    HeaderMenuButton {
+        ratio: 1
+        buttonColor: Colors.foreground
+        onClicked: recovertPage.ViewportType.open = false
+    }
+
+    TDialog {
+        id: warnDialog
+        anchors.fill: parent
+        title: qsTr("Sure done?")
+        buttons: prv.retryCount < 2? [qsTr("Ok, sorry")] : [qsTr("Skip"), qsTr("Ok, sorry")]
+        onButtonClicked: {
+            if (prv.retryCount < 2) {
+                warnDialog.close();
+                return;
+            }
+
+            switch (index) {
+            case 0:
+                Viewport.viewport.append(test_time_component, {}, "page");
+                warnDialog.close();
+                break;
+            case 1:
+                warnDialog.close();
+                break;
+            }
+        }
+
+        TLabel {
+            width: Math.min(recovertPage.width - 40, 300)
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: qsTr("You didn't have enough time to write these words down.")
+        }
+    }
+
     Component {
-        id: success_component
-        SuccessPage {
+        id: test_time_component
+        TestTimePage {
+            id: tpage
             anchors.fill: parent
         }
     }
