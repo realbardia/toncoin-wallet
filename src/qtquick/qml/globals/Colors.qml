@@ -1,12 +1,9 @@
 pragma Singleton
 
 import QtQuick 2.12
-import QtQuick.Controls.Material 2.3
 import AsemanQml.Base 2.0
 
 AsemanObject {
-    Material.theme: darkMode? Material.Dark : Material.Light
-
     SystemPalette { id: desktopPallete; colorGroup: SystemPalette.Active }
 
     property bool darkMode: AppSettings.theme == 1? true : false
@@ -21,7 +18,7 @@ AsemanObject {
     readonly property color foreground: darkMode? "#fff" : "#222"
 
     readonly property color accent: "#339cec"
-    readonly property color primary: Material.primaryColor
+    readonly property color primary: "#000000"
 
     readonly property color red: "#F44336"
     readonly property color green: "#4CAF50"

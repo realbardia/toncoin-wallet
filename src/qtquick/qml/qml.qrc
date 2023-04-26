@@ -25,5 +25,11 @@
         <file>intro/StartPage.qml</file>
         <file>components/TPage.qml</file>
         <file>components/TColumn.qml</file>
+        <file>intro/IntroPage.qml</file>
+        <file>intro/CongratulationPage.qml</file>
+        <file>intro/SimplePageTemplate.qml</file>
+        <file>intro/SuccessPage.qml</file>
+        <file>components/TCheckBox.qml</file>
+        <file>components/TMaterialIcon.qml</file>
     </qresource>
 </RCC>

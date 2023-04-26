@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Templates 2.0
-import QtQuick.Controls.Material 2.15
 import AsemanQml.Base 2.0
 import "../globals"
 
@@ -19,7 +18,7 @@ Dialog {
     }
     background: Rectangle {
         radius: 14
-        color: Material.dialogColor
+        color: Colors.background
 
         MouseArea {
             anchors.fill: parent

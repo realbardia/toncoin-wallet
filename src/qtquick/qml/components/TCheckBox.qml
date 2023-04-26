@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtGraphicalEffects 1.15
 import AsemanQml.Base 2.0
+import AsemanQml.MaterialIcons 2.0
 import "../globals"
 
 MouseArea {
@@ -18,10 +19,10 @@ MouseArea {
             opacityAnim.start();
         }
     }
+    onClicked: checked = !checked
 
     property alias text: label.text
-    property bool flat
-    property bool highlight
+    property bool checked
 
     NumberAnimation {
         id: opacityAnim
@@ -43,9 +44,8 @@ MouseArea {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: Colors.accent
         radius: Constants.controlsRoundness
-        visible: !flat
+        visible: false
     }
 
     Item {
@@ -73,14 +73,47 @@ MouseArea {
         source: highlightScene
     }
 
-    TLabel {
-        id: label
+    Row {
         anchors.centerIn: parent
-        color: highlight? Colors.accent : "#fff"
+        spacing: 10
         scale: marea.pressed? 0.97 : 1
 
         Behavior on scale {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+        }
+
+        Item {
+            anchors.verticalCenter: parent.verticalCenter
+            width: 18
+            height: width
+
+            Rectangle {
+                anchors.fill: parent
+                radius: Constants.controlsRoundness/2
+                color:  marea.checked? Colors.accent : Colors.foreground
+                opacity: marea.checked? 1 : 0.3
+            }
+
+            TMaterialIcon {
+                anchors.centerIn: parent
+                text: MaterialIcons.mdi_check
+                color: "#fff"
+                opacity: marea.checked? 1 : 0
+                scale: marea.checked? 1 : 2
+
+                Behavior on opacity {
+                    NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+                }
+                Behavior on scale {
+                    NumberAnimation { easing.type: Easing.OutBack; duration: 200 }
+                }
+            }
+        }
+
+        TLabel {
+            id: label
+            anchors.verticalCenter: parent.verticalCenter
+            color: Colors.foreground
         }
     }
 }

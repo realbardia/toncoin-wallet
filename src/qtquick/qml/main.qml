@@ -9,7 +9,7 @@ AsemanApplication {
     applicationDisplayName: qsTr("TON Wallet")
     applicationVersion: "1.0.0"
     statusBarStyle: {
-        if ((mWin.viewport.currentType == "float" || mWin.viewport.currentType == "popup"))
+        if ((mWin.currentViewport.currentType == "float" || mWin.currentViewport.currentType == "popup"))
             return AsemanApplication.StatusBarStyleLight;
         else
         if (Colors.darkMode)

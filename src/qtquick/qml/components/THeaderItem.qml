@@ -1,16 +1,13 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.3
 import AsemanQml.Base 2.0
 import AsemanQml.MaterialIcons 2.0
 import "../globals"
 
-ToolBar {
+Rectangle {
     id: dis
     height: Devices.standardTitleBarHeight + Devices.statusBarHeight
-    Material.elevation: 0
-    Material.primary: Colors.headerColor
+    color: Colors.headerColor
 
     signal clicked()
 
@@ -25,7 +22,7 @@ ToolBar {
         width: parent.width
         anchors.bottom: parent.bottom
         height: 1
-        color: Material.foreground
+        color: Colors.foreground
         opacity: 0.1
     }
 
@@ -35,7 +32,7 @@ ToolBar {
         anchors.topMargin: Devices.statusBarHeight
         onClicked: dis.clicked()
 
-        Button {
+        TButton {
             id: backButton
             flat: true
             anchors.verticalCenter: parent.verticalCenter
@@ -47,7 +44,7 @@ ToolBar {
             RowLayout {
                 anchors.centerIn: parent
 
-                Label {
+                TLabel {
                     id: backLabel
                     font.family: MaterialIcons.family
                     font.pixelSize: 22
@@ -56,19 +53,19 @@ ToolBar {
             }
         }
 
-        Label {
+        TLabel {
             id: titleLabel
             anchors.centerIn: parent
             font.weight: Font.Medium
             font.pixelSize: 16
 
-            Label {
+            TLabel {
                 id: descLabel
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.bottom
                 anchors.topMargin: -2
                 font.pixelSize: 11
-                color: Material.accentColor
+                color: Colors.accent
             }
         }
     }
