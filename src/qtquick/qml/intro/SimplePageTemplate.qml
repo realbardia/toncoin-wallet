@@ -42,7 +42,6 @@ TPage {
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.weight: Font.Light
-        text: qsTr("TON Wallet allows you to make fast and secure blockchian-based payments without intermediaries.")
     }
 
     TColumn {

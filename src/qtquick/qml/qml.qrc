@@ -31,5 +31,8 @@
         <file>intro/SuccessPage.qml</file>
         <file>components/TCheckBox.qml</file>
         <file>components/TMaterialIcon.qml</file>
+        <file>intro/RecoveryPhrasePage.qml</file>
+        <file>components/TGridView.qml</file>
+        <file>components/TRow.qml</file>
     </qresource>
 </RCC>

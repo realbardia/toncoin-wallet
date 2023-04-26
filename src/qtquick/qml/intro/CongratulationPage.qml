@@ -12,12 +12,12 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("Proceed")
-        onClicked: Viewport.viewport.append(success_component, {}, "page")
+        onClicked: Viewport.viewport.append(recovery_phrase_component, {}, "page")
     }
 
     Component {
-        id: success_component
-        SuccessPage {
+        id: recovery_phrase_component
+        RecoveryPhrasePage {
             anchors.fill: parent
         }
     }

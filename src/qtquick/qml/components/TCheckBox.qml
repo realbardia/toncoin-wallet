@@ -73,7 +73,7 @@ MouseArea {
         source: highlightScene
     }
 
-    Row {
+    TRow {
         anchors.centerIn: parent
         spacing: 10
         scale: marea.pressed? 0.97 : 1
