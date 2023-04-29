@@ -10,11 +10,20 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("Set a Passcode")
+        onTabPressed: {
+            touchIdCheck.focus = true;
+            touchIdCheck.forceActiveFocus();
+        }
     }
 
     TCheckBox {
+        id: touchIdCheck
         anchors.horizontalCenter: parent.horizontalCenter
         width: 160
         text: qsTr("Enable Touch ID")
+        onTabPressed: {
+            mainButton.focus = true;
+            mainButton.forceActiveFocus();
+        }
     }
 }

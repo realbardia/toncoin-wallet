@@ -14,6 +14,10 @@ SimplePageTemplate {
     mainButton {
         text: qsTr("Continue")
         onClicked: Viewport.viewport.append(success_component, {}, "page")
+        onTabPressed: {
+            field_1.focus = true;
+            field_1.forceActiveFocus();
+        }
     }
 
     component CustomTextField: TTextField {
@@ -54,6 +58,10 @@ SimplePageTemplate {
         CustomTextField {
             id: field_3
             label: "18:"
+            Keys.onTabPressed: {
+                mainButton.focus = true;
+                mainButton.forceActiveFocus();
+            }
         }
     }
 

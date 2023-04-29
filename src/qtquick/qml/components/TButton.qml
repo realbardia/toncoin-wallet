@@ -3,15 +3,15 @@ import QtGraphicalEffects 1.15
 import AsemanQml.Base 2.0
 import "../globals"
 
-MouseArea {
+TControlElement {
     id: marea
     width: label.width + 20
     height: 38
-    pressAndHoldInterval: 300
-    onPressedChanged: {
-        if (pressed) {
-            highlightArea.pinX = marea.mouseX;
-            highlightArea.pinY = marea.mouseY;
+
+    onFocusChanged: {
+        if (focus) {
+            highlightArea.pinX = pressed? marea.mouseX : width/2;
+            highlightArea.pinY = pressed? marea.mouseY : height/2;
             highlightArea.opacity = 0.15;
             ratioAnim.start();
         } else {
