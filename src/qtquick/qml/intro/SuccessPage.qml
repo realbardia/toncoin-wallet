@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import AsemanQml.Viewport 2.0
 import TonToolkit 1.0
 import "../components"
 import "../globals"
@@ -14,6 +15,7 @@ SimplePageTemplate {
             touchIdCheck.focus = true;
             touchIdCheck.forceActiveFocus();
         }
+        onClicked: Viewport.viewport.append(passcode_component, {}, "page");
     }
 
     TCheckBox {
@@ -24,6 +26,14 @@ SimplePageTemplate {
         onTabPressed: {
             mainButton.focus = true;
             mainButton.forceActiveFocus();
+        }
+    }
+
+    Component {
+        id: passcode_component
+        PasscodePage {
+            id: ppage
+            anchors.fill: parent
         }
     }
 }

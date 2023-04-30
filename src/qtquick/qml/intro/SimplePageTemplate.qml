@@ -10,6 +10,8 @@ TPage {
     data: [headerColumn, body, footerColumn]
 
     property alias sticker: sticker.source
+    property alias stickerLoop: sticker.loops
+
     property alias title: headerTitle.text
     property alias body: body.text
     property alias mainButton: mainBtn
@@ -67,6 +69,8 @@ TPage {
             id: mainBtn
             anchors.horizontalCenter: parent.horizontalCenter
             width: 160
+            opacity: enabled? 1 : 0
+            enabled: text.length
         }
 
         TButton {
