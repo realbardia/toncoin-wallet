@@ -12,24 +12,33 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("Create my wallet")
-        onClicked: Viewport.viewport.append(congratulation_component, {}, "page")
+        onClicked: Viewport.viewport.append(congratulation_component, {}, "stack")
     }
 
     secondaryButton {
         text: qsTr("Import existing wallet")
+        onClicked: Viewport.viewport.append(import_component, {}, "stack")
     }
 
     Component {
         id: congratulation_component
         CongratulationPage {
             id: cpage
-            ViewportType.gestureWidth: 0
             anchors.fill: parent
+            ViewportType.gestureWidth: 0
             Component.onCompleted: {
                 Qt.callLater(function(){
                     BackHandler.pushHandler(cpage, function(){ return false; })
                 })
             }
+        }
+    }
+
+    Component {
+        id: import_component
+        ImportWalletPage {
+            id: ipage
+            anchors.fill: parent
         }
     }
 }

@@ -3,9 +3,8 @@ pragma Singleton
 import QtQuick 2.10
 import AsemanQml.Base 2.0
 
+Item {
 
-Item
-{
     readonly property string globalFontSize: 9 * Devices.fontDensity
     readonly property string globalFont: ubuntu.name + ", " + vazir.name
 

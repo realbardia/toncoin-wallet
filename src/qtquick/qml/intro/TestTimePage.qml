@@ -16,13 +16,15 @@ TPage {
         body: qsTr("Let's check that you wrote them down correctly. Please enter the words <b>%1</b>, <b>%2</b> and <b>%3</b>.").arg(5).arg(15).arg(18)
         backable: true
 
+        onCloseRequest: dis.ViewportType.open = false
+
         mainButton {
             text: qsTr("Continue")
             onClicked: {
                 if (field_1.text.length == 0) {
                     errorDialog.open();
                 } else {
-                    Viewport.viewport.append(success_component, {}, "page")
+                    Viewport.viewport.append(success_component, {}, "stack")
                 }
             }
             onTabPressed: {
@@ -110,11 +112,6 @@ TPage {
             id: spage
             ViewportType.gestureWidth: 0
             anchors.fill: parent
-            Component.onCompleted: {
-                Qt.callLater(function(){
-                    BackHandler.pushHandler(spage, function(){ return false; })
-                })
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import AsemanQml.Base 2.0
 import "../globals"
 
 Rectangle {
@@ -8,5 +9,9 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onWheel: wheel.accepted = true
+        onClicked: {
+            GlobalSignals.discardMenus();
+            Devices.hideKeyboard();
+        }
     }
 }

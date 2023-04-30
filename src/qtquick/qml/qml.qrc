@@ -43,5 +43,12 @@
         <file>components/TControlElement.qml</file>
         <file>intro/PasscodePage.qml</file>
         <file>components/TPasswordField.qml</file>
+        <file>components/TMenu.qml</file>
+        <file>globals/GlobalSignals.qml</file>
+        <file>intro/DonePage.qml</file>
+        <file>intro/ImportWalletPage.qml</file>
+        <file>components/TListView.qml</file>
+        <file>intro/WalletImportSuccessPage.qml</file>
+        <file>intro/WalletImportErrorPage.qml</file>
     </qresource>
 </RCC>

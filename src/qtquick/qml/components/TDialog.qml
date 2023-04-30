@@ -79,6 +79,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             onWheel: wheel.accepted = true
+            onClicked: GlobalSignals.discardMenus()
         }
 
         Behavior on opacity {

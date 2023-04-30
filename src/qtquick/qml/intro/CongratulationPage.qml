@@ -12,7 +12,7 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("Proceed")
-        onClicked: Viewport.viewport.append(recovery_phrase_component, {}, "page")
+        onClicked: Viewport.viewport.append(recovery_phrase_component, {}, "stack")
     }
 
     Component {

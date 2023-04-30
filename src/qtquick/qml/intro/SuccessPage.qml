@@ -1,13 +1,18 @@
 import QtQuick 2.15
+import AsemanQml.Base 2.0
 import AsemanQml.Viewport 2.0
 import TonToolkit 1.0
 import "../components"
 import "../globals"
 
 SimplePageTemplate {
+    id: page
     sticker: "qrc:/ton/common/stickers/Success.tgs"
     title: qsTr("Perfect!")
     body: qsTr("Now set up a passcode to secure transactions.")
+    backable: true
+
+    onCloseRequest: page.ViewportType.open = false
 
     mainButton {
         text: qsTr("Set a Passcode")
@@ -15,7 +20,7 @@ SimplePageTemplate {
             touchIdCheck.focus = true;
             touchIdCheck.forceActiveFocus();
         }
-        onClicked: Viewport.viewport.append(passcode_component, {}, "page");
+        onClicked: Viewport.viewport.append(passcode_component, {}, "stack");
     }
 
     TCheckBox {

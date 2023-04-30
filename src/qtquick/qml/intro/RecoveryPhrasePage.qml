@@ -49,7 +49,7 @@ TPage {
                         if (msecs < 30000)
                             warnDialog.open();
                         else
-                            Viewport.viewport.append(test_time_component, {}, "page")
+                            Viewport.viewport.append(test_time_component, {}, "stack")
                     }
                 }
             }
@@ -167,7 +167,7 @@ TPage {
 
             switch (index) {
             case 0:
-                Viewport.viewport.append(test_time_component, {}, "page");
+                Viewport.viewport.append(test_time_component, {}, "stack");
                 warnDialog.close();
                 break;
             case 1:

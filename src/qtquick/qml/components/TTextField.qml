@@ -69,6 +69,14 @@ TControlElement {
         property bool singalBlocker
     }
 
+    Connections {
+        target: GlobalSignals
+        function onDiscardMenus() {
+            if (suggestionsMenu)
+                suggestionsMenu.destroy();
+        }
+    }
+
     property variant suggestionsMenu
     property variant suggestions: new Array
 

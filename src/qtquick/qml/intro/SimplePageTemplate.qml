@@ -20,23 +20,30 @@ TPage {
 
     default property alias sceneData: customColumn.data
 
+    signal closeRequest()
+
     TColumn {
         id: headerColumn
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 40
         anchors.bottom: parent.verticalCenter
         anchors.bottomMargin: 7
-        anchors.horizontalCenter: parent.horizontalCenter
 
         TgStickerItem {
             id: sticker
             anchors.horizontalCenter: parent.horizontalCenter
-            width: headerTitle.width
+            width: 160
             height: width
             autoPlay: true
         }
 
         THeaderLabel {
             id: headerTitle
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
     }
 
@@ -89,6 +96,6 @@ TPage {
         ratio: 1
         buttonColor: Colors.foreground
         visible: false
-        onClicked: page.ViewportType.open = false
+        onClicked: page.closeRequest()
     }
 }
