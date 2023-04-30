@@ -60,6 +60,7 @@ TPage {
             id: customColumn
             anchors.left: parent.left
             anchors.right: parent.right
+            z: 10
         }
 
         TButton {

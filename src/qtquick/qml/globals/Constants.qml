@@ -13,5 +13,7 @@ QtObject {
     readonly property bool mobileView: mwin && mwin.width < mwin.height? true : false
     readonly property real panelWidth: 320
 
+    readonly property real itemsHeight: 40
+
     property ApplicationWindow mwin
 }

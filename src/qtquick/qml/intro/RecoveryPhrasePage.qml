@@ -26,7 +26,7 @@ TPage {
         TGridView {
             id: gridv
             cellWidth: width / Math.floor(width/150)
-            cellHeight: 50
+            cellHeight: 40
             model: 24
             header: Item {
                 width: gridv.width
