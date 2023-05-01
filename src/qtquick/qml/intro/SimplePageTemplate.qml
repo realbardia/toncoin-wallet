@@ -91,10 +91,8 @@ TPage {
         }
     }
 
-    HeaderMenuButton {
+    THeaderBackButton {
         id: backButton
-        ratio: 1
-        buttonColor: Colors.foreground
         visible: false
         onClicked: page.closeRequest()
     }

@@ -50,5 +50,7 @@
         <file>components/TListView.qml</file>
         <file>intro/WalletImportSuccessPage.qml</file>
         <file>intro/WalletImportErrorPage.qml</file>
+        <file>components/THeaderMenuButton.qml</file>
+        <file>components/THeaderBackButton.qml</file>
     </qresource>
 </RCC>

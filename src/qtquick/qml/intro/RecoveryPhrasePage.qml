@@ -148,9 +148,7 @@ TPage {
         }
     }
 
-    HeaderMenuButton {
-        ratio: 1
-        buttonColor: Colors.foreground
+    THeaderBackButton {
         onClicked: recovertPage.ViewportType.open = false
     }
 
