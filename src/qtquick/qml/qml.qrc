@@ -75,5 +75,6 @@
         <file>globals/GlobalValues.qml</file>
         <file>transfer/TransactionDialog.qml</file>
         <file>settings/SettingsPage.qml</file>
+        <file>connect/ConnectPage.qml</file>
     </qresource>
 </RCC>

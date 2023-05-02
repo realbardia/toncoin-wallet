@@ -5,6 +5,7 @@ import AsemanQml.MaterialIcons 2.0
 import TonToolkit 1.0
 import "../transfer" as Transfer
 import "../settings" as Settings
+import "../connect" as Connect
 import "../components"
 import "../globals"
 
@@ -377,6 +378,15 @@ TPage {
     Component {
         id: settings_component
         Settings.SettingsPage {
+        }
+    }
+
+    Component {
+        id: connect_component
+        Connect.ConnectPage {
+            width: page.width
+            closable: true
+            onCloseRequest: ViewportType.open = false
         }
     }
 
