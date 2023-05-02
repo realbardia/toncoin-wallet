@@ -12,6 +12,7 @@ TControlElement {
     property alias font: input.font
     property alias color: input.color
     property alias text: input.text
+    property alias contentHeight: input.contentHeight
     property alias placeholderText: placeholder.text
 
     property real leftPadding
@@ -26,13 +27,14 @@ TControlElement {
         }
     }
 
-    TextInput {
+    TextEdit {
         id: input
         anchors.fill: parent
         anchors.leftMargin: dis.leftPadding
         anchors.rightMargin: dis.rightPadding
         anchors.topMargin: dis.topPadding
         anchors.bottomMargin: dis.bottomPadding
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.family: Fonts.globalFont
         font.pixelSize: Fonts.globalFontSize
         selectByMouse: true
@@ -45,14 +47,7 @@ TControlElement {
         topPadding: 8
         clip: true
 
-        onFocusChanged: checkMenu()
-        onTextChanged: checkMenu()
-
         Keys.onTabPressed: dis.tabPressed()
-        Keys.onDownPressed: if (suggestionsMenu) suggestionsMenu.list.currentIndex = Math.min(suggestionsMenu.list.count-1, suggestionsMenu.list.currentIndex+1)
-        Keys.onUpPressed: if (suggestionsMenu) suggestionsMenu.list.currentIndex = Math.max(0, suggestionsMenu.list.currentIndex-1)
-        Keys.onReturnPressed: if (suggestionsMenu) suggestionsMenu.list.currentItem.select()
-        Keys.onEnterPressed: if (suggestionsMenu) suggestionsMenu.list.currentItem.select()
 
         TLabel {
             id: placeholder
@@ -67,33 +62,7 @@ TControlElement {
             opacity: 0.4
             visible: input.text.length == 0
         }
-
-        function checkMenu() {
-            if (singalBlocker)
-                return;
-            if (focus && suggestions.length && text.length) {
-                if (suggestionsMenu)
-                    return;
-
-                suggestionsMenu = suggestionsMenu_component.createObject(dis);
-            } else if (suggestionsMenu) {
-                suggestionsMenu.destroy();
-            }
-        }
-
-        property bool singalBlocker
     }
-
-    Connections {
-        target: GlobalSignals
-        function onDiscardMenus() {
-            if (suggestionsMenu)
-                suggestionsMenu.destroy();
-        }
-    }
-
-    property variant suggestionsMenu
-    property variant suggestions: new Array
 
     Behavior on scale {
         NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
@@ -190,99 +159,6 @@ TControlElement {
             shortcut: "Delete"
             enabled: input.selectionStart && input.selectionStart != input.selectionEnd
             onClicked: input.remove(input.selectionStart, input.selectionEnd)
-        }
-    }
-
-    Component {
-        id: suggestionsMenu_component
-
-        Item {
-            id: suggestionsMenuItem
-            x: 0
-            y: dis.height
-            width: dis.width
-            height: Math.min(suggestionsList.count * Constants.itemsHeight, 100)
-            visible: suggestionsList.count > 0
-
-            property alias list: suggestionsList
-
-            Component.onCompleted: {
-                BackHandler.pushHandler(suggestionsMenuItem, suggestionsMenuItem.destroy);
-            }
-
-            FastDropShadow {
-                anchors.fill: parent
-                anchors.margins: 1
-                radius: 5
-                color: Colors.foreground
-                source: suggestionsMenuBack
-            }
-
-            Rectangle {
-                id: suggestionsMenuBack
-                anchors.fill: parent
-                radius: Constants.controlsRoundness
-                color: Colors.background
-
-                Rectangle {
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: parent.verticalCenter
-                    color: Colors.background
-                }
-            }
-
-            ListView {
-                id: suggestionsList
-                anchors.fill: parent
-                model: {
-                    var res = new Array;
-                    suggestions.forEach(function(f){
-                        if (f.toLowerCase().indexOf(dis.text.toLowerCase()) == 0)
-                            res[res.length] = f;
-                    });
-                    suggestions.forEach(function(f){
-                        if (f.toLowerCase().indexOf(dis.text.toLowerCase()) > 0)
-                            res[res.length] = f;
-                    });
-                    return res;
-                }
-
-                clip: true
-
-                highlightMoveDuration: 200
-                highlightRangeMode: ListView.StrictlyEnforceRange
-                preferredHighlightBegin: 0
-                preferredHighlightEnd: height
-                highlight: Rectangle {
-                    width: suggestionsList.width
-                    height: Constants.itemsHeight
-                    opacity: 0.1
-                    color: Colors.foreground
-                }
-
-                delegate: TItemDelegate {
-                    width: suggestionsList.width
-                    height: Constants.itemsHeight
-                    onClicked: select()
-
-                    function select() {
-                        suggestionsMenuItem.destroy();
-                        input.text = modelData;
-                    }
-
-                    TLabel {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.margins: 10 * Devices.density
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        text: modelData
-                    }
-                }
-            }
         }
     }
 }

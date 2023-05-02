@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import AsemanQml.Base 2.0
 import AsemanQml.Viewport 2.0
+import "../../globals"
 
 AbstractViewportType {
     id: item
@@ -9,7 +10,7 @@ AbstractViewportType {
     foreground.x: foregroundItem? -foregroundItem.x : 0
     foreground.height: foregroundItem? foregroundItem.height : item.height
     foreground.z: 10
-    foreground.parent: dragArea
+    foreground.parent: drawerScene
     foregroundScene.color: "transparent"
 
     property real openRatio: open? 1 : 0
@@ -26,19 +27,10 @@ AbstractViewportType {
 
     NumberAnimation {
         id: foregroundAnim
-        target: foreground
+        target: foregroundArea
         property: "y"
         easing.type: Easing.OutCubic
         duration: 300
-    }
-
-    Item {
-        width: foregroundItem? foregroundItem.width : item.width
-        x: foregroundItem? foregroundItem.x : 0
-        height: item.height - dragArea.y - item.foreground.y
-        anchors.bottom: parent.bottom
-        z: 5
-        clip: true
     }
 
     MouseArea {
@@ -60,7 +52,7 @@ AbstractViewportType {
         y: parent.height - item.foreground.height * item.ratio
         z: 10
         drag {
-            target: item.foreground
+            target: foregroundArea
             axis: Drag.YAxis
             minimumY: 0
             maximumY: item.height - 10
@@ -69,19 +61,54 @@ AbstractViewportType {
                 if (dragArea.drag.active)
                     return;
 
-                var ratio = 1 - foreground.y / dragArea.height
+                var ratio = 1 - foregroundArea.y / dragArea.height
                 if (ratio < 0.7) {
                     open = false
                 } else {
-                    foregroundAnim.from = foreground.y
+                    foregroundAnim.from = foregroundArea.y
                     foregroundAnim.to = 0
                     foregroundAnim.start()
                 }
             }
         }
 
-        MouseArea {
-            anchors.fill: parent
+        Item {
+            id: foregroundArea
+            width: parent.width
+            height: parent.height
+            z: 20
+            clip: true
+
+            Viewport {
+                id: slaveViewport
+                anchors.fill: parent
+                opacity: 0
+                mainItem: MouseArea {
+                    id: drawerScene
+                    anchors.fill: parent
+                }
+            }
+
+            Rectangle {
+                id: maskRect
+                radius: Constants.roundness
+                anchors.fill: parent
+                visible: false
+
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.verticalCenter
+                    anchors.bottom: parent.bottom
+                    color: Colors.background
+                }
+            }
+
+            OpacityMask {
+                anchors.fill: parent
+                maskSource: maskRect
+                source: slaveViewport
+            }
         }
     }
 }

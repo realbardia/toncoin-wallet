@@ -88,7 +88,7 @@ TListView {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.verticalCenterOffset: 3
                         font.pixelSize: 8 * Devices.fontDensity
-                        opacity: 0.5
+                        opacity: 0.6
                         text: model.send? qsTr("to") : qsTr("from")
                     }
                 }
@@ -107,7 +107,7 @@ TListView {
                     anchors.left: parent.left
                     anchors.leftMargin: 2
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    opacity: 0.5
+                    opacity: 0.6
                     font.pixelSize: 8 * Devices.fontDensity
                     text: qsTr("-%1 storage fee").arg(model.fee)
                 }
@@ -142,7 +142,7 @@ TListView {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: 18
-                opacity: 0.5
+                opacity: 0.6
                 text: model.time
             }
         }

@@ -41,7 +41,7 @@ TPage {
             anchors.right: parent.right
             text: qsTr("Your wallet address")
             horizontalAlignment: Text.AlignHCenter
-            opacity: 0.5
+            opacity: 0.6
         }
 
         TItemDelegate {

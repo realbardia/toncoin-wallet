@@ -42,7 +42,7 @@ TControlElement {
         target: highlightArea
         property: "width"
         easing.type: Easing.Linear
-        duration: Devices.isIOS? 0 : 300
+        duration: 300
         from: 0; to: Math.max(marea.width, marea.height) * 2.1
     }
 

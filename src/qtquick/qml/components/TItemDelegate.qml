@@ -6,12 +6,14 @@ import "../globals"
 
 TControlElement {
     id: marea
-    height: 42
+    height: Constants.itemsHeight
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     pressAndHoldInterval: 300
     data: [opacityAnim, ratioAnim, background, highlightScene, opacMask, scene]
 
     onFocusChanged: {
+        if (blockTimer.running)
+            return;
         if (focus) {
             highlightArea.pinX = pressed? marea.mouseX : width/2;
             highlightArea.pinY = pressed? marea.mouseY : height/2;
@@ -26,6 +28,13 @@ TControlElement {
     property alias highlightColor: highlightArea.color
     property alias radius: background.radius
 
+    Timer {
+        id: blockTimer
+        interval: 100
+        repeat: false
+        running: true
+    }
+
     NumberAnimation {
         id: opacityAnim
         target: highlightArea
@@ -39,7 +48,7 @@ TControlElement {
         target: highlightArea
         property: "width"
         easing.type: Easing.Linear
-        duration: Devices.isIOS? 0 : 300
+        duration: 300
         from: 0; to: Math.max(marea.width, marea.height) * 2.1
     }
 

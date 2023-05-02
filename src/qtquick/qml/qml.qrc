@@ -61,5 +61,8 @@
         <file>components/TViewport.qml</file>
         <file>components/viewporttypes/TViewportDialog.qml</file>
         <file>wallet/EmptyWalletElement.qml</file>
+        <file>components/TDrawer.qml</file>
+        <file>transfer/SendCustomDialog.qml</file>
+        <file>components/TTextArea.qml</file>
     </qresource>
 </RCC>

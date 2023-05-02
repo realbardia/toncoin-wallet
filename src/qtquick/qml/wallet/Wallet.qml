@@ -255,6 +255,7 @@ TPage {
                 text: qsTr("Send")
                 icon.text: MaterialIcons.mdi_arrow_top_right
                 icon.font.pixelSize: 12 * Devices.fontDensity
+                onClicked: Viewport.viewport.append(send_component, {}, "tdrawer")
             }
         }
 
@@ -308,7 +309,7 @@ TPage {
                     color: "#fff"
                     text: "≈ $" + balanceUSD
                     font.pixelSize: 7 * Devices.fontDensity
-                    opacity: 0.5
+                    opacity: 0.6
                 }
             }
 
@@ -328,6 +329,13 @@ TPage {
     Component {
         id: receive_component
         Transfer.ReceiveDialog {
+            width: parent.width
+        }
+    }
+
+    Component {
+        id: send_component
+        Transfer.SendCustomDialog {
             width: parent.width
         }
     }
