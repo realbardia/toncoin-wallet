@@ -1,6 +1,7 @@
 import QtQuick 2.15
 
 MouseArea {
+    id: marea
     pressAndHoldInterval: 300
 
     onPressedChanged: {
@@ -8,7 +9,6 @@ MouseArea {
         if (focus)
             forceActiveFocus();
     }
-    onWheel: wheel.accepted = true
 
     Keys.onEnterPressed: marea.clicked(null)
     Keys.onReturnPressed: marea.clicked(null)

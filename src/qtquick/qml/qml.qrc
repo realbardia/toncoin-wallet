@@ -52,5 +52,9 @@
         <file>intro/WalletImportErrorPage.qml</file>
         <file>components/THeaderMenuButton.qml</file>
         <file>components/THeaderBackButton.qml</file>
+        <file>wallet/WalletPage.qml</file>
+        <file>wallet/Wallet.qml</file>
+        <file>wallet/TransactionsList.qml</file>
+        <file>components/TWalletAddress.qml</file>
     </qresource>
 </RCC>

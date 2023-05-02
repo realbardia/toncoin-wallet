@@ -1,24 +1,79 @@
 import QtQuick 2.15
+import QtGraphicalEffects 1.15
+import AsemanQml.Base 2.0
+import AsemanQml.MaterialIcons 2.0
 import "../globals"
 
-MouseArea {
+TControlElement {
     id: marea
+    height: 42
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     pressAndHoldInterval: 300
-    data: [rect, scene]
+    data: [opacityAnim, ratioAnim, background, highlightScene, opacMask, scene]
 
-    property alias radius: rect.radius
+    onFocusChanged: {
+        if (focus) {
+            highlightArea.pinX = pressed? marea.mouseX : width/2;
+            highlightArea.pinY = pressed? marea.mouseY : height/2;
+            highlightArea.opacity = 0.1;
+            ratioAnim.start();
+        } else {
+            opacityAnim.start();
+        }
+    }
+
     default property alias sceneData: scene.data
+    property alias highlightColor: highlightArea.color
+    property alias radius: background.radius
+
+    NumberAnimation {
+        id: opacityAnim
+        target: highlightArea
+        property: "opacity"
+        easing.type: Easing.Linear
+        duration: 300
+        from: 0.1; to: 0
+    }
+    NumberAnimation {
+        id: ratioAnim
+        target: highlightArea
+        property: "width"
+        easing.type: Easing.Linear
+        duration: Devices.isIOS? 0 : 300
+        from: 0; to: Math.max(marea.width, marea.height) * 2.1
+    }
 
     Rectangle {
-        id: rect
+        id: background
         anchors.fill: parent
-        color: Colors.foreground
-        opacity: marea.pressed? 0.1 : 0
+        visible: false
+    }
 
-        Behavior on opacity {
-            NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+    Item {
+        id: highlightScene
+        z: 10
+        anchors.fill: parent
+        clip: true
+        visible: false
+
+        Rectangle {
+            id: highlightArea
+            x: pinX - width/2
+            y: pinY - height/2
+            color: Colors.foreground
+            height: width
+            radius: height / 2
+
+            property real pinX
+            property real pinY
         }
+    }
+
+    OpacityMask {
+        id: opacMask
+        anchors.fill: parent
+        maskSource: background
+        source: highlightScene
     }
 
     Item {

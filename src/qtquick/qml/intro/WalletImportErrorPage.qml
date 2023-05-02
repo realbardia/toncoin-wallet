@@ -12,6 +12,7 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("View my wallet")
+        onClicked: AppSettings.privateKey = "1a8a1190-441b-49dd-815c-ef9ef0295846"
     }
 
     secondaryButton {

@@ -11,4 +11,7 @@ Settings {
 
     property real width: 440
     property real height: 720
+
+    property string privateKey
+    property string publicKey
 }

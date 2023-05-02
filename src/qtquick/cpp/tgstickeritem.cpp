@@ -12,9 +12,11 @@ TgStickerItem::TgStickerItem(QQuickItem *parent)
 {
     mLottieItem = new LottieQuick::LottieAnimation(this);
     mLottieItem->setProperty("loops", -1);
+    mLottieItem->setTransformOrigin(QQuickItem::TopLeft);
+    mLottieItem->setScale(0.5);
 
-    connect(this, &QQuickItem::widthChanged, this, [this](){ mLottieItem->setWidth(width()); });
-    connect(this, &QQuickItem::heightChanged, this, [this](){ mLottieItem->setHeight(height()); });
+    connect(this, &QQuickItem::widthChanged, this, [this](){ mLottieItem->setWidth(width()*2); });
+    connect(this, &QQuickItem::heightChanged, this, [this](){ mLottieItem->setHeight(height()*2); });
 
     connect(mLottieItem, &LottieQuick::LottieAnimation::loopsChanged, this, &TgStickerItem::loopsChanged);
     connect(mLottieItem, &LottieQuick::LottieAnimation::autoPlayChanged, this, &TgStickerItem::autoPlayChanged);

@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtGraphicalEffects 1.15
 import AsemanQml.Base 2.0
+import AsemanQml.MaterialIcons 2.0
 import "../globals"
 
 TControlElement {
@@ -20,8 +21,13 @@ TControlElement {
     }
 
     property alias text: label.text
+    property alias font: label.font
+    property alias icon: icon
     property bool flat
     property bool highlight
+    property alias highlightColor: highlightArea.color
+    property color color: "#fff"
+    property alias radius: background.radius
 
     NumberAnimation {
         id: opacityAnim
@@ -37,7 +43,7 @@ TControlElement {
         property: "width"
         easing.type: Easing.Linear
         duration: Devices.isIOS? 0 : 300
-        from: 0; to: marea.width*2
+        from: 0; to: Math.max(marea.width, marea.height) * 2.1
     }
 
     Rectangle {
@@ -73,14 +79,28 @@ TControlElement {
         source: highlightScene
     }
 
-    TLabel {
-        id: label
+    TRow {
         anchors.centerIn: parent
-        color: highlight? Colors.accent : "#fff"
         scale: marea.pressed? 0.97 : 1
+        spacing: 2
 
         Behavior on scale {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+        }
+
+        TLabel {
+            id: icon
+            anchors.verticalCenter: parent.verticalCenter
+            color: highlight? Colors.accent : marea.color
+            font.family: MaterialIcons.family
+            visible: text.length
+        }
+
+        TLabel {
+            id: label
+            anchors.verticalCenter: parent.verticalCenter
+            color: highlight? Colors.accent : marea.color
+            visible: text.length
         }
     }
 }
