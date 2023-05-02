@@ -11,11 +11,9 @@ TDrawer {
 
     property string selectedAddress
 
-    property Item valueItem
-
     mainButton {
         text: qsTr("Continue")
-        onClicked: valueItem = Viewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
+        onClicked: Viewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
         enabled: selectedAddress.length > 0? true : false
     }
 
@@ -86,7 +84,7 @@ TDrawer {
 
                 TItemDelegate {
                     anchors.fill: parent
-                    onClicked: valueItem = Viewport.viewport.append(send_component, {"address": item.address, "domain": domain.text}, "stack")
+                    onClicked: Viewport.viewport.append(send_component, {"address": item.address, "domain": domain.text}, "stack")
 
                     TColumn {
                         id: clmn

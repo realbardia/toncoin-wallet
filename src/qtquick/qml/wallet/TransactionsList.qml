@@ -3,6 +3,7 @@ import AsemanQml.Base 2.0
 import AsemanQml.Viewport 2.0
 import AsemanQml.MaterialIcons 2.0
 import TonToolkit 1.0
+import "../transfer" as Transfer
 import "../components"
 import "../globals"
 
@@ -31,6 +32,7 @@ TListView {
 
         TItemDelegate {
             anchors.fill: parent
+            onClicked: Viewport.viewport.append(transaction_component, {"amount": model.amount, "send": model.send, "fee": model.fee, "comment": model.comment, "transaction": model.transaction, "domain": model.domain, "address": model.address}, "tdrawer")
 
             TColumn {
                 id: clmn
@@ -63,10 +65,10 @@ TListView {
                             font.weight: Font.Medium
                             color: model.send? Colors.red : Colors.green
                             text: {
-                                var idx = model.value.indexOf(".");
+                                var idx = model.amount.indexOf(".");
                                 if (idx < 0)
-                                    return model.value;
-                                return model.value.slice(0, idx);
+                                    return model.amount;
+                                return model.amount.slice(0, idx);
                             }
                         }
 
@@ -77,10 +79,10 @@ TListView {
                             color: model.send? Colors.red : Colors.green
                             visible: text.length
                             text: {
-                                var idx = model.value.indexOf(".");
+                                var idx = model.amount.indexOf(".");
                                 if (idx < 0)
                                     return "";
-                                return model.value.slice(idx);
+                                return model.amount.slice(idx);
                             }
                         }
                     }
@@ -160,6 +162,15 @@ TListView {
             opacity: 0.1
             color: Colors.foreground
             visible: model.index != listv.count
+        }
+    }
+
+    Component {
+        id: transaction_component
+        Transfer.TransactionDialog {
+            width: listv.width
+            closable: true
+            onCloseRequest: ViewportType.open = false
         }
     }
 }

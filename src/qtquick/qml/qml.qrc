@@ -73,5 +73,6 @@
         <file>transfer/SendDoneDialog.qml</file>
         <file>wallet/LockDialog.qml</file>
         <file>globals/GlobalValues.qml</file>
+        <file>transfer/TransactionDialog.qml</file>
     </qresource>
 </RCC>

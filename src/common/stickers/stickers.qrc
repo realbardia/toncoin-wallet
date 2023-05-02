@@ -11,5 +11,7 @@
         <file>Password.tgs</file>
         <file>Recovery Phrase.tgs</file>
         <file>Start.tgs</file>
+        <file>Material Busy.tgs</file>
+        <file>Material Busy Accented.tgs</file>
     </qresource>
 </RCC>

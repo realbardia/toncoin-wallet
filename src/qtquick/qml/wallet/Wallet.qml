@@ -20,54 +20,66 @@ TPage {
     ListModel {
         id: testModel
         ListElement {
-            value: "1.091"
+            amount: "1.091"
             send: false
             address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
+            domain: "aseman.io"
+            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
             fee: "0.000012345"
             comment: "Testing peyments, D."
             time: "12:55"
             date: "September 5"
         }
         ListElement {
-            value: "10"
+            amount: "10"
             send: true
             address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
+            domain: "aseman.io"
+            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
             fee: "0.000012345"
             comment: "Testing peyments, D."
             time: "12:55"
             date: "September 5"
         }
         ListElement {
-            value: "2"
+            amount: "2"
             send: false
             address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
+            domain: "aseman.io"
+            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
             fee: "0.000012345"
             comment: "Testing peyments, D."
             time: "12:55"
             date: "September 4"
         }
         ListElement {
-            value: "1.091"
+            amount: "1.091"
             send: false
             address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
+            domain: "aseman.io"
+            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
             fee: "0.000012345"
             comment: "Testing peyments, D."
             time: "12:55"
             date: "September 2"
         }
         ListElement {
-            value: "10"
+            amount: "10"
             send: true
             address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
+            domain: "aseman.io"
+            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
             fee: "0.000012345"
             comment: "Testing peyments, D."
             time: "12:55"
             date: "September 2"
         }
         ListElement {
-            value: "2"
+            amount: "2"
             send: false
             address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
+            domain: "aseman.io"
+            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
             fee: "0.000012345"
             comment: "Testing peyments, D."
             time: "12:55"
@@ -166,6 +178,39 @@ TPage {
         id: headerArea
         width: parent.width
         height: Math.max(Devices.standardTitleBarHeight, mapListener.result.y + headerHeight)
+
+        TRow {
+            id: connectionRow
+            anchors.horizontalCenter: parent.horizontalCenter
+            opacity: loadingTimer.counter < 4? 1 : 0
+            y: (opacity - 1) * height + 8
+            visible: opacity > 0
+            spacing: 4
+
+            Behavior on opacity {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 250 }
+            }
+
+            Loader {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: -2
+                width: 12
+                height: width
+                active: connectionRow.visible
+                sourceComponent: TgStickerItem {
+                    anchors.fill: parent
+                    autoPlay: true
+                    source: "qrc:/ton/common/stickers/Material Busy.tgs"
+                }
+            }
+
+            TLabel {
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 7 * Devices.fontDensity
+                color: "#fff"
+                text: qsTr("Connecting...")
+            }
+        }
 
         Item {
             anchors.left: parent.left
