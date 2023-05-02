@@ -24,7 +24,7 @@ AsemanApplication {
         if (Devices.isIOS) Devices.fontScale = 1.15;
 
         Fonts.init();
-        Constants.mwin = mWin;
+        GlobalValues.mwin = mWin;
     }
 
     onApplicationStateChanged: {

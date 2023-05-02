@@ -22,7 +22,7 @@ TDrawer {
     TScrollView {
         id: scrollArea
         width: parent.width
-        height: Math.min(210 + Math.max(0, recentsList.count*50), Constants.mwin.height-300)
+        height: Math.min(210 + Math.max(0, recentsList.count*50), GlobalValues.mwin.height-300)
 
         TListView {
             id: recentsList

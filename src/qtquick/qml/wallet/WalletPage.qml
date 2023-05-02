@@ -18,4 +18,9 @@ TPage {
             anchors.fill: parent
         }
     }
+
+    LockDialog {
+        anchors.fill: parent
+        visible: GlobalValues.locked
+    }
 }

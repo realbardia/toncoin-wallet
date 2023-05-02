@@ -315,10 +315,10 @@ TPage {
             }
 
             TButton {
-                flat: true
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.margins: 6 * Devices.density
+                flat: true
                 width: height
                 icon.text: MaterialIcons.mdi_settings_outline
                 icon.font.pixelSize: 15 * Devices.fontDensity
@@ -331,6 +331,8 @@ TPage {
         id: receive_component
         Transfer.ReceiveDialog {
             width: page.width
+            closable: true
+            onCloseRequest: ViewportType.open = false
         }
     }
 
@@ -338,6 +340,8 @@ TPage {
         id: send_component
         Transfer.SendCustomDialog {
             width: page.width
+            closable: true
+            onCloseRequest: ViewportType.open = false
         }
     }
 }

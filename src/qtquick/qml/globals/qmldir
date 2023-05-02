@@ -3,3 +3,4 @@ singleton Colors 1.0 Colors.qml
 singleton Constants 1.0 Constants.qml
 singleton Fonts 1.0 Fonts.qml
 singleton GlobalSignals 1.0 GlobalSignals.qml
+singleton GlobalValues 1.0 GlobalValues.qml
