@@ -64,5 +64,9 @@
         <file>components/TDrawer.qml</file>
         <file>transfer/SendCustomDialog.qml</file>
         <file>components/TTextArea.qml</file>
+        <file>transfer/SendValueDialog.qml</file>
+        <file>components/TSwitch.qml</file>
+        <file>transfer/SendConfirmDialog.qml</file>
+        <file>components/TFlickable.qml</file>
     </qresource>
 </RCC>

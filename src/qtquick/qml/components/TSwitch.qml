@@ -21,6 +21,8 @@ TControlElement {
     }
     onClicked: checked = !checked
 
+    default property alias sceneData: scene.data
+
     property alias text: label.text
     property bool checked
 
@@ -73,54 +75,64 @@ TControlElement {
         source: highlightScene
     }
 
-    TRow {
-        anchors.centerIn: parent
-        spacing: 10
+    Item {
+        id: scene
+        height: parent.height
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 10
         scale: marea.pressed? 0.97 : 1
 
         Behavior on scale {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
         }
 
-        Item {
+        TLabel {
+            id: label
+            anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            width: 18
-            height: width
+            color: Colors.foreground
+        }
+    }
 
-            Rectangle {
-                anchors.fill: parent
-                radius: Constants.controlsRoundness/2
-                color:  marea.checked? Colors.accent : Colors.foreground
-                opacity: marea.checked? 1 : 0.3
+    Item {
+        anchors.right: scene.right
+        anchors.verticalCenter: scene.verticalCenter
+        width: 30
+        height: 22
 
-                Behavior on color {
-                    ColorAnimation { easing.type: Easing.OutCubic; duration: 200 }
-                }
-                Behavior on opacity {
-                    NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
-                }
-            }
+        Rectangle {
+            id: bilbil
+            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width
+            height: parent.height/2
+            radius: height/2
+            color:  marea.checked? Colors.accent : Colors.backgroundDeep
 
-            TMaterialIcon {
-                anchors.centerIn: parent
-                text: MaterialIcons.mdi_check
-                color: "#fff"
-                opacity: marea.checked? 1 : 0
-                scale: marea.checked? 1 : 2
-
-                Behavior on opacity {
-                    NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
-                }
-                Behavior on scale {
-                    NumberAnimation { easing.type: Easing.OutBack; duration: 200 }
-                }
+            Behavior on color {
+                ColorAnimation { easing.type: Easing.OutCubic; duration: 200 }
             }
         }
 
-        TLabel {
-            id: label
+        Rectangle {
+            height: 16
             anchors.verticalCenter: parent.verticalCenter
-            color: Colors.foreground
+            x: marea.checked? parent.width - width : 0
+            width: height
+            radius: height / 2
+            color: Colors.background
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: -2
+                radius: height/2
+                color: bilbil.color
+                z: -1
+            }
+
+            Behavior on x {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+            }
         }
     }
 }

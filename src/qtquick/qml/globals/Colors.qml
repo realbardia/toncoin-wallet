@@ -9,7 +9,7 @@ AsemanObject {
     property bool darkMode: AppSettings.theme == 1? true : false
 
     readonly property color backgroundLight: darkMode? "#111111" : "#ffffff"
-    readonly property color backgroundDeep: darkMode? "#000" : "#f0f0f0"
+    readonly property color backgroundDeep: darkMode? "#000" : "#e0e0e0"
     readonly property color background: darkMode? "#000000" : "#ffffff"
 
     readonly property color headerColor: darkMode? "#222222" : "#ffffff"

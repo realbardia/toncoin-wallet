@@ -13,6 +13,9 @@ TControlElement {
     property alias color: input.color
     property alias text: input.text
     property alias placeholderText: placeholder.text
+    property alias validator: input.validator
+    property alias contentWidth: input.contentWidth
+    property alias highlightArea: highlightArea.visible
 
     property real leftPadding
     property real rightPadding
@@ -33,6 +36,7 @@ TControlElement {
         anchors.rightMargin: dis.rightPadding
         anchors.topMargin: dis.topPadding
         anchors.bottomMargin: dis.bottomPadding
+        verticalAlignment: Text.AlignVCenter
         font.family: Fonts.globalFont
         font.pixelSize: Fonts.globalFontSize
         selectByMouse: true
@@ -57,6 +61,8 @@ TControlElement {
         TLabel {
             id: placeholder
             anchors.fill: parent
+            horizontalAlignment: input.horizontalAlignment
+            verticalAlignment: input.verticalAlignment
             font: input.font
             leftPadding: input.leftPadding
             rightPadding: input.rightPadding
@@ -66,6 +72,7 @@ TControlElement {
             wrapMode: input.wrapMode
             opacity: 0.4
             visible: input.text.length == 0
+            lineHeight: 1
         }
 
         function checkMenu() {
@@ -100,6 +107,7 @@ TControlElement {
     }
 
     Item {
+        id: highlightArea
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom

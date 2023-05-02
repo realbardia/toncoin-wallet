@@ -7,13 +7,20 @@ import "../globals"
 TDrawer {
     id: dis
     title: qsTr("Send TON")
+    height: contentHeight + scrollArea.height
+
+    property string selectedAddress
+    property string selectedDomain
+
+    property Item valueItem
 
     mainButton {
         text: qsTr("Continue")
-        onClicked: Viewport.viewport.append(Qt.createComponent("ReceiveDialog.qml"), {}, "stack")
+        onClicked: valueItem = Viewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
     }
 
     TScrollView {
+        id: scrollArea
         width: parent.width
         height: Math.min(210 + Math.max(0, recentsList.count*50), Constants.mwin.height-300)
 
@@ -45,6 +52,7 @@ TDrawer {
                         width: parent.width
                         placeholderText: qsTr("Enter Wallet Address or Domain...")
                         height: Math.max(contentHeight+18, 50)
+                        onTextChanged: selectedAddress = text
                     }
 
                     TLabel {
@@ -75,6 +83,7 @@ TDrawer {
 
                 TItemDelegate {
                     anchors.fill: parent
+                    onClicked: valueItem = Viewport.viewport.append(send_component, {"address": address.text, "domain": domain.text}, "stack")
 
                     TColumn {
                         id: clmn
@@ -84,6 +93,7 @@ TDrawer {
                         spacing: 0
 
                         TLabel {
+                            id: address
                             anchors.left: parent.left
                             anchors.right: parent.right
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -91,6 +101,7 @@ TDrawer {
                         }
 
                         TLabel {
+                            id: domain
                             anchors.left: parent.left
                             anchors.right: parent.right
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -111,6 +122,14 @@ TDrawer {
                     visible: model.index > 0
                 }
             }
+        }
+    }
+
+    Component {
+        id: send_component
+        SendValueDialog {
+            width: parent.width
+            backable: true
         }
     }
 }

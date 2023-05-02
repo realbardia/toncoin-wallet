@@ -122,8 +122,9 @@ TListView {
                     Rectangle {
                         width: comment.contentWidth + 2*comment.x
                         height: parent.height
-                        color: Colors.backgroundDeep
+                        color: Colors.foreground
                         radius: Constants.controlsRoundness
+                        opacity: 0.1
                     }
 
                     TLabel {
