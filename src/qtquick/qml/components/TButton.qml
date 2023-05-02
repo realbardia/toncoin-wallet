@@ -6,7 +6,7 @@ import "../globals"
 TControlElement {
     id: marea
     width: label.width + 20
-    height: 38
+    height: 42
 
     onFocusChanged: {
         if (focus) {

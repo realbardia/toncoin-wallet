@@ -28,33 +28,66 @@ TPage {
             onClicked: menu.open()
         }
 
-        TPasswordField {
-            id: passField
+        Item {
             width: 160
-            onTextChanged: {
-                if (text.length != digitsCount)
-                    return;
+            height: spage.height * 0.4 - 120
 
-                if (confirmMode.length) {
-                    confirmItem = Viewport.viewport.append(doneComponent, {}, "stack")
-                } else {
-                    var cmp = Qt.createComponent("PasscodePage.qml");
-                    confirmItem = Viewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount}, "stack");
+            TPasswordField {
+                id: passField
+                width: parent.width
+                onTextChanged: {
+                    if (text.length != digitsCount)
+                        return;
+
+                    if (confirmMode.length) {
+                        if (confirmMode != text) {
+                            vibrateTimer.restart();
+                        } else {
+                            confirmItem = Viewport.viewport.append(doneComponent, {}, "stack")
+                        }
+                    } else {
+                        var cmp = Qt.createComponent("PasscodePage.qml");
+                        confirmItem = Viewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount}, "stack");
+                    }
                 }
-            }
 
-            property Item confirmItem
-            onConfirmItemChanged: {
-                if (!confirmItem) {
-                    passField.text = "";
-                    passField.focus = true;
-                    passField.forceActiveFocus();
+                property Item confirmItem
+                onConfirmItemChanged: {
+                    if (!confirmItem) {
+                        passField.text = "";
+                        passField.focus = true;
+                        passField.forceActiveFocus();
+                    }
                 }
-            }
 
-            Component.onCompleted: {
-                focus = true;
-                forceActiveFocus();
+                Component.onCompleted: {
+                    focus = true;
+                    forceActiveFocus();
+                }
+
+                Timer {
+                    id: vibrateTimer
+                    interval: 50
+                    running: false
+                    repeat: true
+                    triggeredOnStart: true
+                    onTriggered: {
+                        passField.x = (counter % 2 == 0? 1 : -1) * 10;
+
+                        counter++;
+                        if (counter == 6) {
+                            passField.x = 0;
+                            counter = 0;
+                            stop();
+                        }
+                    }
+
+                    property int counter: 0
+                }
+
+                Behavior on x {
+                    NumberAnimation { easing.type: Easing.OutCubic; duration: vibrateTimer.interval }
+                }
             }
         }
     }

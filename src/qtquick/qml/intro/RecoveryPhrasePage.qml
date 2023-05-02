@@ -92,7 +92,7 @@ TPage {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 50
-            height: stickerItem.height + 200
+            height: stickerItem.height + bodyLabel.height + headerLabel.height + 100
 
             TLabel {
                 id: bodyLabel

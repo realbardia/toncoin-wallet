@@ -7,7 +7,7 @@ import "../globals"
 
 TPage {
     id: page
-    data: [headerColumn, body, footerColumn]
+    data: [headerColumn, body, customColumn, footerColumn, backButton]
 
     property alias sticker: sticker.source
     property alias stickerLoop: sticker.loops
@@ -27,13 +27,14 @@ TPage {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 40
-        anchors.bottom: parent.verticalCenter
-        anchors.bottomMargin: 7
+        anchors.bottom: body.top
+        anchors.bottomMargin: 4
+        spacing: 10
 
         TgStickerItem {
             id: sticker
             anchors.horizontalCenter: parent.horizontalCenter
-            width: 160
+            width: 120
             height: width
             autoPlay: true
         }
@@ -49,28 +50,28 @@ TPage {
 
     TLabel {
         id: body
-        anchors.top: parent.verticalCenter
+        y: Math.min(parent.height/2 + 7, customColumn.y - height - 20)
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 50
-        anchors.topMargin: 7
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.weight: Font.Light
     }
 
     TColumn {
+        id: customColumn
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: footerColumn.top
+        anchors.bottomMargin: 20
+        z: 10
+    }
+
+    TColumn {
         id: footerColumn
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.margins: 50
-
-        TColumn {
-            id: customColumn
-            anchors.left: parent.left
-            anchors.right: parent.right
-            z: 10
-        }
+        anchors.margins: 64
 
         TButton {
             id: mainBtn
