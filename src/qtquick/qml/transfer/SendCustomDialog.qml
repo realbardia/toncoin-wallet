@@ -78,12 +78,15 @@ TDrawer {
             }
 
             delegate: Item {
+                id: item
                 width: recentsList.width
                 height: clmn.height + 20
 
+                property string address: "5efb8db1-f64f-4a90-a748-e5e9217067db"
+
                 TItemDelegate {
                     anchors.fill: parent
-                    onClicked: valueItem = Viewport.viewport.append(send_component, {"address": address.text, "domain": domain.text}, "stack")
+                    onClicked: valueItem = Viewport.viewport.append(send_component, {"address": item.address, "domain": domain.text}, "stack")
 
                     TColumn {
                         id: clmn
@@ -97,7 +100,7 @@ TDrawer {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            text: "ABcd...ef76"
+                            text: item.address.slice(0,4) + "..." + item.address.slice(item.address.length-4)
                         }
 
                         TLabel {
@@ -130,6 +133,7 @@ TDrawer {
         SendValueDialog {
             width: parent.width
             backable: true
+            onCloseRequest: dis.ViewportType.open = false
         }
     }
 }

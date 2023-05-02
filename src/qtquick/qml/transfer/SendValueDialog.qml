@@ -11,7 +11,7 @@ TDrawer {
 
     mainButton {
         text: qsTr("Continue")
-        onClicked: Viewport.viewport.append(confirm_component, {"address": address, "domain": domain, "value": valueField.text}, "stack")
+        onClicked: Viewport.viewport.append(confirm_component, {"address": address, "domain": domain, "amount": valueField.text}, "stack")
     }
 
     property string address
@@ -111,6 +111,7 @@ TDrawer {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: -2
                 width: 22
+                loops: 0
                 height: width
                 autoPlay: true
                 source: "qrc:/ton/common/stickers/Main.tgs"
@@ -129,6 +130,7 @@ TDrawer {
         SendConfirmDialog {
             width: parent.width
             backable: true
+            onCloseRequest: dis.closeRequest()
         }
     }
 }

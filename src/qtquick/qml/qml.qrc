@@ -68,5 +68,8 @@
         <file>components/TSwitch.qml</file>
         <file>transfer/SendConfirmDialog.qml</file>
         <file>components/TFlickable.qml</file>
+        <file>transfer/SendingTonDialog.qml</file>
+        <file>components/THeaderCloseButton.qml</file>
+        <file>transfer/SendDoneDialog.qml</file>
     </qresource>
 </RCC>

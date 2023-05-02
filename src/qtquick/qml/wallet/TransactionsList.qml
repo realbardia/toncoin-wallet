@@ -49,6 +49,7 @@ TListView {
                         width: 18
                         height: width
                         autoPlay: true
+                        loops: 1
                         source: "qrc:/ton/common/stickers/Main.tgs"
                     }
 

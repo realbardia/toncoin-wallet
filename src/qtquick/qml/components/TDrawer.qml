@@ -14,6 +14,9 @@ TPage {
     property alias title: titleLabel.text
     property alias mainButton: mainButton
     property bool backable
+    property bool closable
+
+    signal closeRequest()
 
     TColumn {
         id: clmn
@@ -27,7 +30,7 @@ TPage {
             id: titleLabel
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: backable? 36 : 0
+            anchors.leftMargin: backable || closable? 36 : 0
             font.pixelSize: 12 * Devices.fontDensity
             font.weight: Font.Medium
 
@@ -37,6 +40,14 @@ TPage {
                 anchors.verticalCenterOffset: -3
                 anchors.right: parent.left
                 onClicked: dis.ViewportType.open = false
+            }
+
+            THeaderCloseButton {
+                visible: closable
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: -1
+                anchors.right: parent.left
+                onClicked: dis.closeRequest()
             }
         }
     }

@@ -290,6 +290,7 @@ TPage {
                         height: width
                         autoPlay: true
                         source: "qrc:/ton/common/stickers/Main.tgs"
+                        loops: 0
                     }
 
                     TLabel {
@@ -329,14 +330,14 @@ TPage {
     Component {
         id: receive_component
         Transfer.ReceiveDialog {
-            width: parent.width
+            width: page.width
         }
     }
 
     Component {
         id: send_component
         Transfer.SendCustomDialog {
-            width: parent.width
+            width: page.width
         }
     }
 }
