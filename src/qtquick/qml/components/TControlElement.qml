@@ -10,8 +10,8 @@ MouseArea {
             forceActiveFocus();
     }
 
-    Keys.onEnterPressed: marea.clicked(null)
-    Keys.onReturnPressed: marea.clicked(null)
+    Keys.onEnterPressed: if (marea.enabled) marea.clicked(null)
+    Keys.onReturnPressed: if (marea.enabled) marea.clicked(null)
     Keys.onTabPressed: tabPressed()
 
     signal tabPressed()

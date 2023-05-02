@@ -77,8 +77,12 @@ TPage {
             id: mainBtn
             anchors.horizontalCenter: parent.horizontalCenter
             width: 160
-            opacity: enabled? 1 : 0
-            enabled: text.length
+            opacity: text.length? 1 : 0
+
+            MouseArea {
+                anchors.fill: parent
+                visible: mainBtn.text.length == 0
+            }
         }
 
         TButton {

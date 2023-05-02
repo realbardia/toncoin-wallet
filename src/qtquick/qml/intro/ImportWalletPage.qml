@@ -22,6 +22,14 @@ TPage {
             id: listv
             model: 24
             spacing: 8
+
+            highlightMoveDuration: 200
+            highlightRangeMode: ListView.ApplyRange
+            preferredHighlightBegin: 0
+            preferredHighlightEnd: height - 100
+
+            signal focusOn(int index)
+
             header: Item {
                 width: listv.width
                 height: headerScene.height
@@ -32,11 +40,21 @@ TPage {
                 width: listv.width
                 height: 100
 
+                onFocusChanged: {
+                    if (!focus)
+                        return;
+
+                    continueBtn.focus = true;
+                    continueBtn.forceActiveFocus();
+                }
+
                 TButton {
+                    id: continueBtn
                     anchors.centerIn: parent
                     anchors.verticalCenterOffset: -15
                     width: 200
                     text: qsTr("Continue")
+                    enabled: wordsMap.count == listv.count
                     onClicked: {
                         if (!wordsMap.contains(0) || wordsMap.value(0).length == 0)
                             warnDialog.open()
@@ -52,6 +70,14 @@ TPage {
 
                 property alias text: textField.text
 
+                onFocusChanged: {
+                    if (!focus)
+                        return;
+
+                    textField.focus = true;
+                    textField.forceActiveFocus();
+                }
+
                 TTextField {
                     id: textField
                     width: 200
@@ -59,7 +85,14 @@ TPage {
                     leftPadding: 24
                     onTextChanged: {
                         wordsMap.remove(model.index);
-                        wordsMap.insert(model.index, text);
+                        if (text.length)
+                            wordsMap.insert(model.index, text);
+                    }
+                    onTabPressed: {
+                        if (model.index < listv.count-1)
+                            listv.currentIndex = model.index+1;
+                        else
+                            listv.footerItem.focus = true;
                     }
                     Component.onCompleted: if (wordsMap.contains(model.index)) text = wordsMap.value(model.index);
 
@@ -95,7 +128,7 @@ TPage {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 50
-            height: stickerItem.height + 200
+            height: stickerItem.height + bodyColumn.height + headerLabel.height + 100
 
             TColumn {
                 id: bodyColumn

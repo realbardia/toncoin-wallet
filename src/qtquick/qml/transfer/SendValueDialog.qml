@@ -11,7 +11,8 @@ TDrawer {
 
     mainButton {
         text: qsTr("Continue")
-        onClicked: Viewport.viewport.append(confirm_component, {"address": address, "domain": domain, "amount": valueField.text}, "stack")
+        enabled: amountField.text*1 > 0 && !insufficientLabel.visible? true : false
+        onClicked: Viewport.viewport.append(confirm_component, {"address": address, "domain": domain, "amount": amountField.text}, "stack")
     }
 
     property string address
@@ -55,7 +56,7 @@ TDrawer {
     }
 
     TTextField {
-        id: valueField
+        id: amountField
         anchors.centerIn: parent
         height: 54
         width: Math.max(100, contentWidth + 56)
@@ -87,7 +88,7 @@ TDrawer {
             color: Colors.red
             font.pixelSize: 8 * Devices.fontDensity
             text: qsTr("Insufficient funds")
-            visible: valueField.text*1 > balance.text*1? true : false
+            visible: amountField.text*1 > balance.text*1? true : false
         }
     }
 
@@ -95,7 +96,7 @@ TDrawer {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        onCheckedChanged: if (checked) valueField.text = balance.text
+        onCheckedChanged: if (checked) amountField.text = balance.text
 
         TRow {
             anchors.left: parent.left

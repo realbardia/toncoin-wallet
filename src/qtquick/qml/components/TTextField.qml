@@ -9,6 +9,7 @@ TControlElement {
     scale: marea.pressed? 0.97 : 1
     height: Constants.itemsHeight
 
+    property alias length: input.length
     property alias font: input.font
     property alias color: input.color
     property alias text: input.text

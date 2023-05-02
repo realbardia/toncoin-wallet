@@ -49,8 +49,9 @@ TControlElement {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: Colors.accent
+        color: marea.enabled? Colors.accent : Colors.foreground
         radius: Constants.controlsRoundness
+        opacity: marea.enabled? 1 : 0.3
         visible: !flat
     }
 

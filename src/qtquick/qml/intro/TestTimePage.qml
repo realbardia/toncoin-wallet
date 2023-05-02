@@ -20,6 +20,7 @@ TPage {
 
         mainButton {
             text: qsTr("Continue")
+            enabled: field_1.length && field_2.length && field_3.length
             onClicked: {
                 if (field_1.text.length == 0) {
                     errorDialog.open();

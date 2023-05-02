@@ -10,13 +10,13 @@ TDrawer {
     height: contentHeight + scrollArea.height
 
     property string selectedAddress
-    property string selectedDomain
 
     property Item valueItem
 
     mainButton {
         text: qsTr("Continue")
         onClicked: valueItem = Viewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
+        enabled: selectedAddress.length > 0? true : false
     }
 
     TScrollView {
