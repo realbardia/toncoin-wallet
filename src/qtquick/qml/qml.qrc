@@ -56,5 +56,10 @@
         <file>wallet/Wallet.qml</file>
         <file>wallet/TransactionsList.qml</file>
         <file>components/TWalletAddress.qml</file>
+        <file>transfer/ReceiveDialog.qml</file>
+        <file>components/viewporttypes/TViewportDrawer.qml</file>
+        <file>components/TViewport.qml</file>
+        <file>components/viewporttypes/TViewportDialog.qml</file>
+        <file>wallet/EmptyWalletElement.qml</file>
     </qresource>
 </RCC>

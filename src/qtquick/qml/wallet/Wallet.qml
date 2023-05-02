@@ -3,6 +3,7 @@ import AsemanQml.Base 2.0
 import AsemanQml.Viewport 2.0
 import AsemanQml.MaterialIcons 2.0
 import TonToolkit 1.0
+import "../transfer" as Transfer
 import "../components"
 import "../globals"
 
@@ -100,11 +101,20 @@ TPage {
             anchors.centerIn: parent
             width: 120
             height: width
-            active: loadingTimer.running
+            active: loadingTimer.counter == 0
             sourceComponent: TgStickerItem {
                 anchors.fill: parent
                 autoPlay: true
                 source: "qrc:/ton/common/stickers/Loading.tgs"
+            }
+        }
+
+        Loader {
+            anchors.fill: parent
+            active: loadingTimer.counter < 4 && loadingTimer.counter != 0
+            sourceComponent: EmptyWalletElement {
+                anchors.fill: parent
+                anchors.margins: 20
             }
         }
     }
@@ -112,9 +122,21 @@ TPage {
     Timer {
         id: loadingTimer
         interval: 1500
-        repeat: false
+        repeat: true
         running: true
-        onTriggered: listv.model = testModel
+        onTriggered: {
+            counter++
+            switch (counter) {
+            case 1:
+                break;
+            case 4:
+                listv.model = testModel;
+                break;
+            }
+
+        }
+
+        property int counter
     }
 
     Item {
@@ -221,6 +243,7 @@ TPage {
                 text: qsTr("Receive")
                 icon.text: MaterialIcons.mdi_arrow_bottom_left
                 icon.font.pixelSize: 12 * Devices.fontDensity
+                onClicked: Viewport.viewport.append(receive_component, {}, "tdrawer")
             }
 
             TButton {
@@ -285,7 +308,7 @@ TPage {
                     color: "#fff"
                     text: "≈ $" + balanceUSD
                     font.pixelSize: 7 * Devices.fontDensity
-                    opacity: 0.6
+                    opacity: 0.5
                 }
             }
 
@@ -299,6 +322,13 @@ TPage {
                 icon.font.pixelSize: 15 * Devices.fontDensity
                 highlightColor: "#fff"
             }
+        }
+    }
+
+    Component {
+        id: receive_component
+        Transfer.ReceiveDialog {
+            width: parent.width
         }
     }
 }

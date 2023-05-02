@@ -189,11 +189,7 @@ TPage {
             id: wpage
             anchors.fill: parent
             ViewportType.gestureWidth: 0
-            Component.onCompleted: {
-                Qt.callLater(function(){
-                    BackHandler.pushHandler(wpage, function(){ return false; })
-                })
-            }
+            ViewportType.blockBack: true
         }
     }
 
@@ -203,11 +199,7 @@ TPage {
             id: wpage
             anchors.fill: parent
             ViewportType.gestureWidth: 0
-            Component.onCompleted: {
-                Qt.callLater(function(){
-                    BackHandler.pushHandler(wpage, function(){ return false; })
-                })
-            }
+            ViewportType.blockBack: true
         }
     }
 }

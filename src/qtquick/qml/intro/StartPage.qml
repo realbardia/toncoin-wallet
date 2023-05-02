@@ -26,11 +26,7 @@ SimplePageTemplate {
             id: cpage
             anchors.fill: parent
             ViewportType.gestureWidth: 0
-            Component.onCompleted: {
-                Qt.callLater(function(){
-                    BackHandler.pushHandler(cpage, function(){ return false; })
-                })
-            }
+            ViewportType.blockBack: true
         }
     }
 

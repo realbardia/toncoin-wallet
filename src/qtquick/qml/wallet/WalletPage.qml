@@ -10,7 +10,7 @@ TPage {
 
     property alias viewport: viewport
 
-    Viewport {
+    TViewport {
         id: viewport
         anchors.fill: parent
         mainItem: Wallet {
