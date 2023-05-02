@@ -14,4 +14,6 @@ Settings {
 
     property string privateKey
     property string publicKey
+
+    property bool touchId
 }

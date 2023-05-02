@@ -6,6 +6,6 @@ import QtQuick.Controls.Material 2.3
 import AsemanQml.Base 2.0
 
 QtObject {
-    property bool locked: true
+    property bool locked: AppSettings.touchId
     property ApplicationWindow mwin
 }

@@ -4,6 +4,7 @@ import AsemanQml.Viewport 2.0
 import AsemanQml.MaterialIcons 2.0
 import TonToolkit 1.0
 import "../transfer" as Transfer
+import "../settings" as Settings
 import "../components"
 import "../globals"
 
@@ -368,7 +369,14 @@ TPage {
                 icon.text: MaterialIcons.mdi_settings_outline
                 icon.font.pixelSize: 15 * Devices.fontDensity
                 highlightColor: "#fff"
+                onClicked: Viewport.viewport.append(settings_component, {}, "activity")
             }
+        }
+    }
+
+    Component {
+        id: settings_component
+        Settings.SettingsPage {
         }
     }
 

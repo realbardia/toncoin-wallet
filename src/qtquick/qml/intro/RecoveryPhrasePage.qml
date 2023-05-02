@@ -10,6 +10,7 @@ TPage {
     id: recovertPage
 
     property alias dialogOpened: warnDialog.opened
+    property bool doneVisible: true
 
     QtObject {
         id: prv
@@ -42,6 +43,7 @@ TPage {
                     anchors.centerIn: parent
                     anchors.verticalCenterOffset: -15
                     width: 160
+                    visible: doneVisible
                     text: qsTr("Done")
                     onClicked: {
                         let msecs = (new Date).getTime() - prv.startDate.getTime();

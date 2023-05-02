@@ -9,8 +9,11 @@ TPage {
 
     property alias backable: spage.backable
     property alias digitsCount: passField.digitsCount
+    property bool closeAtEnd
 
     property string confirmMode
+
+    signal closeRequest()
 
     SimplePageTemplate {
         id: spage
@@ -20,7 +23,12 @@ TPage {
         title: confirmMode.length? qsTr("Confirm a Passcode") : qsTr("Set a Passcode")
         body: qsTr("Enter the %1 digitis in the passcode.").arg(digitsCount)
 
-        onCloseRequest: page.ViewportType.open = false
+        onCloseRequest: {
+            if (closeAtEnd && confirmMode.length == 0)
+                page.closeRequest();
+            else
+                page.ViewportType.open = false;
+        }
 
         secondaryButton {
             z: 20
@@ -42,12 +50,15 @@ TPage {
                     if (confirmMode.length) {
                         if (confirmMode != text) {
                             vibrate();
+                        } else if (closeAtEnd) {
+                            page.closeRequest()
                         } else {
                             confirmItem = Viewport.viewport.append(doneComponent, {}, "stack");
                         }
                     } else {
                         var cmp = Qt.createComponent("PasscodePage.qml");
-                        confirmItem = Viewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount}, "stack");
+                        confirmItem = Viewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount, "closeAtEnd": closeAtEnd}, "stack");
+                        confirmItem.closeRequest.connect(page.closeRequest)
                     }
                 }
 
