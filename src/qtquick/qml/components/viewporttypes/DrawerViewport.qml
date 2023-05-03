@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
+import Toolkit 1.0
+import Viewport 1.0
+import ".."
+import "../private"
 import "../../globals"
 
 AbstractViewportType {
@@ -79,7 +81,7 @@ AbstractViewportType {
             z: 20
             clip: true
 
-            Viewport {
+            TViewport {
                 id: slaveViewport
                 anchors.fill: parent
                 opacity: 0

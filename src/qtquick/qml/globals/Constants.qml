@@ -1,9 +1,7 @@
 pragma Singleton
 
 import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
-import AsemanQml.Base 2.0
+import Toolkit 1.0
 
 QtObject {
     readonly property real dialogsRoundness: 8

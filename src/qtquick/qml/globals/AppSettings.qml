@@ -1,11 +1,11 @@
 pragma Singleton
 
 import QtQuick 2.12
-import AsemanQml.Base 2.0
+import Toolkit 1.0
 
 Settings {
     category: "General"
-    source: AsemanApp.homePath + "/settings.ini"
+    source: TonToolkitApp.homePath + "/settings.ini"
 
     property int theme: 0
 

@@ -1,20 +1,17 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Controls 2.0
-import AsemanQml.Viewport 2.0
+import Toolkit 1.0
 import "intro" as Intro
 import "wallet" as Wallet
 import "components"
 import "globals"
 
-AsemanWindow {
+TWindow {
     id: win
     width: AppSettings.width
     height: AppSettings.height
     visible: true
-    title: AsemanApp.applicationName
-    font.family: Fonts.globalFont
+    title: TonToolkitApp.applicationName
 
     maximumWidth: 450
     minimumWidth: 250
@@ -23,7 +20,7 @@ AsemanWindow {
     minimumHeight: 400
 
     readonly property bool portrait: width<height
-    readonly property Viewport currentViewport: {
+    readonly property TViewport currentViewport: {
         if (introLoader.item)
             return introLoader.item.viewport;
         if (walletLoader.item)

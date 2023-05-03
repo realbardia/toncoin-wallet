@@ -1,9 +1,9 @@
 pragma Singleton
 
 import QtQuick 2.12
-import AsemanQml.Base 2.0
+import Toolkit 1.0
 
-AsemanObject {
+TonToolkitObject {
     SystemPalette { id: desktopPallete; colorGroup: SystemPalette.Active }
 
     property bool darkMode: AppSettings.theme == 1? true : false

@@ -1,6 +1,6 @@
 import QtQuick 2.15
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -12,7 +12,7 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("Proceed")
-        onClicked: Viewport.viewport.append(recovery_phrase_component, {}, "stack")
+        onClicked: TViewport.viewport.append(recovery_phrase_component, {}, "stack")
     }
 
     Component {

@@ -1,8 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import AsemanQml.MaterialIcons 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../transfer" as Transfer
 import "../components"
 import "../globals"
@@ -32,7 +31,7 @@ TListView {
 
         TItemDelegate {
             anchors.fill: parent
-            onClicked: Viewport.viewport.append(transaction_component, {"amount": model.amount, "send": model.send, "fee": model.fee, "comment": model.comment, "transaction": model.transaction, "domain": model.domain, "address": model.address}, "tdrawer")
+            onClicked: TViewport.viewport.append(transaction_component, {"amount": model.amount, "send": model.send, "fee": model.fee, "comment": model.comment, "transaction": model.transaction, "domain": model.domain, "address": model.address}, "drawer")
 
             TColumn {
                 id: clmn

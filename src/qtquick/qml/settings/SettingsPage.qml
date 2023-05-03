@@ -1,7 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../intro" as Intro
 import "../components"
 import "../globals"
@@ -137,11 +137,11 @@ TPage {
 
                         SettingItem {
                             title: qsTr("Show recovery phrase")
-                            onClicked: Viewport.viewport.append(recoverPhrase_component, {}, "float")
+                            onClicked: TViewport.viewport.append(recoverPhrase_component, {}, "popup")
                         }
                         SettingItem {
                             title: qsTr("Change passcode")
-                            onClicked: Viewport.viewport.append(passCode_component, {}, "float")
+                            onClicked: TViewport.viewport.append(passCode_component, {}, "popup")
                         }
                         SettingItem {
                             title: qsTr("Touch ID")

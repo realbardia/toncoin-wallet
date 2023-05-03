@@ -1,6 +1,6 @@
 import QtQuick 2.15
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -22,7 +22,7 @@ TDrawer {
         interval: 2000
         running: true
         repeat: false
-        onTriggered: Viewport.viewport.append(done_component, {}, "stack")
+        onTriggered: TViewport.viewport.append(done_component, {}, "stack")
     }
 
     TColumn {

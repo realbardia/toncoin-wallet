@@ -1,8 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Controls 2.0
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -59,7 +58,7 @@ TPage {
                         if (!wordsMap.contains(0) || wordsMap.value(0).length == 0)
                             warnDialog.open()
                         else
-                            Viewport.viewport.append(wallet_success_component, {}, "stack")
+                            TViewport.viewport.append(wallet_success_component, {}, "stack")
                     }
                 }
             }
@@ -152,7 +151,7 @@ TPage {
                     width: 160
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: qsTr("I don't have those")
-                    onClicked: Viewport.viewport.append(wallet_error_component, {}, "stack")
+                    onClicked: TViewport.viewport.append(wallet_error_component, {}, "stack")
                 }
             }
 

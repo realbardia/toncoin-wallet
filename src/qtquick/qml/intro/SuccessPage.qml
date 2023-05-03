@@ -1,7 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -20,7 +20,7 @@ SimplePageTemplate {
             touchIdCheck.focus = true;
             touchIdCheck.forceActiveFocus();
         }
-        onClicked: Viewport.viewport.append(passcode_component, {}, "stack");
+        onClicked: TViewport.viewport.append(passcode_component, {}, "stack");
     }
 
     TCheckBox {

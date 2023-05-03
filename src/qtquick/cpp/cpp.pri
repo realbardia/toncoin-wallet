@@ -1,14 +1,11 @@
 QT += qml \
     quick
 
+include (toolkit/toolkit.pri)
+include (viewport/viewport.pri)
+
 HEADERS += \
-    $$PWD/qmlwidgetmenu.h \
-    $$PWD/qmlwidgetmenuitem.h \
-    $$PWD/tgstickeritem.h
+    $$PWD/tonqtquick.h
 
 SOURCES += \
-    $$PWD/qmlwidgetmenu.cpp \
-    $$PWD/qmlwidgetmenuitem.cpp \
-    $$PWD/tgstickeritem.cpp
-
-
+    $$PWD/tonqtquick.cpp

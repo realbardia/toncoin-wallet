@@ -1,7 +1,8 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
+import Toolkit 1.0
+import Viewport 1.0
+import "../private"
 
 AbstractViewportType {
     id: item

@@ -1,7 +1,6 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Modern 2.0
-import TonToolkit.private 1.0
+import Toolkit 1.0
+import "../components"
 import "../globals"
 
 TControlElement {
@@ -115,47 +114,47 @@ TControlElement {
         id: menu
 
         QmlWidgetMenuItem {
-            text: qsTr("Select All") + Translations.refresher
+            text: qsTr("Select All")
             shortcut: "Ctrl+A"
             onClicked: input.selectAll()
         }
         QmlWidgetMenuItem {
-            text: qsTr("Deselect") + Translations.refresher
+            text: qsTr("Deselect")
             onClicked: input.deselect()
         }
         QmlWidgetMenuItem{}
         QmlWidgetMenuItem {
-            text: qsTr("Copy") + Translations.refresher
+            text: qsTr("Copy")
             shortcut: "Ctrl+C"
             onClicked: input.copy()
         }
         QmlWidgetMenuItem {
-            text: qsTr("Cut") + Translations.refresher
+            text: qsTr("Cut")
             shortcut: "Ctrl+X"
             onClicked: input.cut()
         }
         QmlWidgetMenuItem {
-            text: qsTr("Paste") + Translations.refresher
+            text: qsTr("Paste")
             shortcut: "Ctrl+V"
             onClicked: input.paste()
             enabled: input.canPaste
         }
         QmlWidgetMenuItem{}
         QmlWidgetMenuItem {
-            text: qsTr("Undo") + Translations.refresher
+            text: qsTr("Undo")
             shortcut: "Ctrl+Z"
             onClicked: input.cut()
             enabled: input.canUndo
         }
         QmlWidgetMenuItem {
-            text: qsTr("Redo") + Translations.refresher
+            text: qsTr("Redo")
             shortcut: "Ctrl+Shift+Z"
             onClicked: input.paste()
             enabled: input.canRedo
         }
         QmlWidgetMenuItem{}
         QmlWidgetMenuItem {
-            text: qsTr("Delete") + Translations.refresher
+            text: qsTr("Delete")
             shortcut: "Delete"
             enabled: input.selectionStart && input.selectionStart != input.selectionEnd
             onClicked: input.remove(input.selectionStart, input.selectionEnd)

@@ -1,7 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -25,7 +25,7 @@ TPage {
                 if (field_1.text.length == 0) {
                     errorDialog.open();
                 } else {
-                    Viewport.viewport.append(success_component, {}, "stack")
+                    TViewport.viewport.append(success_component, {}, "stack")
                 }
             }
             onTabPressed: {

@@ -1,21 +1,21 @@
 import QtQuick 2.12
-import AsemanQml.Base 2.0
-import AsemanQml.Controls 2.0
+import Toolkit 1.0
+import "components"
 import "globals"
 
-AsemanApplication {
+TApplication {
     id: app
     applicationName: "TON Wallet"
     applicationDisplayName: qsTr("TON Wallet")
     applicationVersion: "1.0.0"
     statusBarStyle: {
-        if ((mWin.currentViewport.currentType == "float" || mWin.currentViewport.currentType == "popup"))
-            return AsemanApplication.StatusBarStyleLight;
+        if ((mWin.currentViewport.currentType == "popup"))
+            return TonToolkitApp.StatusBarStyleLight;
         else
         if (Colors.darkMode)
-            return AsemanApplication.StatusBarStyleLight;
+            return TonToolkitApp.StatusBarStyleLight;
         else
-            return AsemanApplication.StatusBarStyleDark;
+            return TonToolkitApp.StatusBarStyleDark;
     }
 
     Component.onCompleted: {
@@ -37,7 +37,5 @@ AsemanApplication {
     MainWindow {
         id: mWin
         visible: true
-        font.family: Fonts.globalFont
-        font.letterSpacing: -0.5
     }
 }

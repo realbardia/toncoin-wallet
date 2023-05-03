@@ -1,7 +1,6 @@
 import QtQuick 2.0
-import AsemanQml.Base 2.0
-import AsemanQml.Controls 2.0
-import AsemanQml.MaterialIcons 2.0
+import Toolkit 1.0
+import "../components"
 import "../globals"
 
 THeaderMenuButton {

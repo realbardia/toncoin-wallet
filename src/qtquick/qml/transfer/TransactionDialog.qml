@@ -1,8 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import AsemanQml.MaterialIcons 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -13,7 +12,7 @@ TDrawer {
 
     mainButton {
         text: canceled? qsTr("Retry to send TON to this address") : qsTr("Send TON to this address")
-        onClicked: Viewport.viewport.append(send_component, {"address": address, "domain": domain}, "stack")
+        onClicked: TViewport.viewport.append(send_component, {"address": address, "domain": domain}, "stack")
     }
 
     property bool pending

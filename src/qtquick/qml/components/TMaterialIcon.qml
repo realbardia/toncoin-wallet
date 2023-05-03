@@ -1,6 +1,6 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.MaterialIcons 2.0
+import Toolkit 1.0
+import "../components"
 
 TLabel {
     font.family: MaterialIcons.family

@@ -1,6 +1,6 @@
 import QtQuick 2.15
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -53,11 +53,11 @@ TPage {
                         } else if (closeAtEnd) {
                             page.closeRequest()
                         } else {
-                            confirmItem = Viewport.viewport.append(doneComponent, {}, "stack");
+                            confirmItem = TViewport.viewport.append(doneComponent, {}, "stack");
                         }
                     } else {
                         var cmp = Qt.createComponent("PasscodePage.qml");
-                        confirmItem = Viewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount, "closeAtEnd": closeAtEnd}, "stack");
+                        confirmItem = TViewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount, "closeAtEnd": closeAtEnd}, "stack");
                         confirmItem.closeRequest.connect(page.closeRequest)
                     }
                 }

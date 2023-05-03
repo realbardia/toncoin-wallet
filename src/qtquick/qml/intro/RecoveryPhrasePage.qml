@@ -1,8 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Controls 2.0
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -51,7 +50,7 @@ TPage {
                         if (msecs < 30000)
                             warnDialog.open();
                         else
-                            Viewport.viewport.append(test_time_component, {}, "stack")
+                            TViewport.viewport.append(test_time_component, {}, "stack")
                     }
                 }
             }
@@ -167,7 +166,7 @@ TPage {
 
             switch (index) {
             case 0:
-                Viewport.viewport.append(test_time_component, {}, "stack");
+                TViewport.viewport.append(test_time_component, {}, "stack");
                 warnDialog.close();
                 break;
             case 1:

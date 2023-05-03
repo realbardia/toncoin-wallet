@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import AsemanQml.Base 2.0
-import AsemanQml.MaterialIcons 2.0
+import Toolkit 1.0
+import TonQml.MaterialIcons 2.0
 import "../globals"
 
 Rectangle {

@@ -1,6 +1,6 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
+import Toolkit 1.0
+import Viewport 1.0
 import "../components"
 import "../globals"
 
@@ -13,7 +13,7 @@ TDrawer {
 
     mainButton {
         text: qsTr("Continue")
-        onClicked: Viewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
+        onClicked: TViewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
         enabled: selectedAddress.length > 0? true : false
     }
 
@@ -84,7 +84,7 @@ TDrawer {
 
                 TItemDelegate {
                     anchors.fill: parent
-                    onClicked: Viewport.viewport.append(send_component, {"address": item.address, "domain": domain.text}, "stack")
+                    onClicked: TViewport.viewport.append(send_component, {"address": item.address, "domain": domain.text}, "stack")
 
                     TColumn {
                         id: clmn

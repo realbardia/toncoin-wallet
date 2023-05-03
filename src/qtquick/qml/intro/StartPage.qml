@@ -1,7 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -12,12 +12,12 @@ SimplePageTemplate {
 
     mainButton {
         text: qsTr("Create my wallet")
-        onClicked: Viewport.viewport.append(congratulation_component, {}, "stack")
+        onClicked: TViewport.viewport.append(congratulation_component, {}, "stack")
     }
 
     secondaryButton {
         text: qsTr("Import existing wallet")
-        onClicked: Viewport.viewport.append(import_component, {}, "stack")
+        onClicked: TViewport.viewport.append(import_component, {}, "stack")
     }
 
     Component {

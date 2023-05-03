@@ -1,8 +1,7 @@
 import QtQuick 2.15
-import AsemanQml.Base 2.0
-import AsemanQml.Viewport 2.0
-import AsemanQml.MaterialIcons 2.0
-import TonToolkit 1.0
+import Toolkit 1.0
+import Viewport 1.0
+import TonQml 1.0
 import "../transfer" as Transfer
 import "../settings" as Settings
 import "../connect" as Connect
@@ -290,7 +289,7 @@ TPage {
                 text: qsTr("Receive")
                 icon.text: MaterialIcons.mdi_arrow_bottom_left
                 icon.font.pixelSize: 12 * Devices.fontDensity
-                onClicked: Viewport.viewport.append(receive_component, {}, "tdrawer")
+                onClicked: TViewport.viewport.append(receive_component, {}, "drawer")
             }
 
             TButton {
@@ -302,7 +301,7 @@ TPage {
                 text: qsTr("Send")
                 icon.text: MaterialIcons.mdi_arrow_top_right
                 icon.font.pixelSize: 12 * Devices.fontDensity
-                onClicked: Viewport.viewport.append(send_component, {}, "tdrawer")
+                onClicked: TViewport.viewport.append(send_component, {}, "drawer")
             }
         }
 
@@ -370,7 +369,7 @@ TPage {
                 icon.text: MaterialIcons.mdi_settings_outline
                 icon.font.pixelSize: 15 * Devices.fontDensity
                 highlightColor: "#fff"
-                onClicked: Viewport.viewport.append(settings_component, {}, "activity")
+                onClicked: TViewport.viewport.append(settings_component, {}, "activity")
             }
         }
     }

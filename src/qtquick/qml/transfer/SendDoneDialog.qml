@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import TonToolkit 1.0
+import TonQml 1.0
 import "../components"
 import "../globals"
 

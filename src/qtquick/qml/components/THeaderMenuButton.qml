@@ -1,6 +1,6 @@
 import QtQuick 2.0
-import AsemanQml.Controls 2.0
 import "../globals"
+import "private"
 
 HeaderMenuButton {
     buttonColor: Colors.foreground
