@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -71,7 +70,7 @@ TDrawer {
 
         leftPadding: 46
 
-        TgStickerItem {
+        StickerItem {
             anchors.verticalCenter: parent.verticalCenter
             anchors.verticalCenterOffset: -3
             anchors.left: parent.left
@@ -108,7 +107,7 @@ TDrawer {
                 text: qsTr("Send all")
             }
 
-            TgStickerItem {
+            StickerItem {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: -2
                 width: 22

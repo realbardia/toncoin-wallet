@@ -14,7 +14,7 @@
 #include "toolkit/tontoolkitbackhandler.h"
 #include "toolkit/tontoolkitapplicationsingleton.h"
 #include "toolkit/tontoolkitquickview.h"
-#include "toolkit/tgstickeritem.h"
+#include "toolkit/tontoolkitstickeritem.h"
 #include "toolkit/qmlwidgetmenu.h"
 #include "toolkit/tontoolkitlistobject.h"
 #include "toolkit/materialicons.h"
@@ -30,7 +30,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<TonToolkitApplicationItem>("Toolkit", 1,0, "TonToolkitApplicationBase");
     qmlRegisterType<TonToolkitTranslationManager>("Toolkit", 1, 0, "TranslationManager");
 
-    qmlRegisterType<TON::QML::TgStickerItem>("TonQml", 1, 0, "TgStickerItem");
+    qmlRegisterType<TonToolkitStickerItem>("Toolkit", 1, 0, "StickerItem");
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
     qmlRegisterType(QUrl("qrc:/components/private/TScrollViewMobile.qml"), "Toolkit", 1, 0, "TScrollView");

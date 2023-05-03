@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -15,7 +14,7 @@ TPage {
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -50
 
-        TgStickerItem {
+        StickerItem {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 120
             height: width

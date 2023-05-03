@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -35,7 +34,7 @@ TDrawer {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 0
 
-            TgStickerItem {
+            StickerItem {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 34
                 height: width
@@ -124,7 +123,7 @@ TDrawer {
                     width: 14
                     height: width
                     active: connectionRow.visible
-                    sourceComponent: TgStickerItem {
+                    sourceComponent: StickerItem {
                         anchors.fill: parent
                         autoPlay: true
                         source: "qrc:/ton/common/stickers/Material Busy Accented.tgs"

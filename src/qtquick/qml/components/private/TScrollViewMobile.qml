@@ -1,8 +1,7 @@
 import QtQuick 2.0
 import Toolkit 1.0
-import TonQml.Controls 2.0
 import QtQuick.Controls 1.3
-import "../globals"
+import "../../globals"
 
 Item {
     id: dis

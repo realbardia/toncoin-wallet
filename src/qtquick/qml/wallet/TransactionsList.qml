@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../transfer" as Transfer
 import "../components"
 import "../globals"
@@ -45,7 +44,7 @@ TListView {
                     spacing: 2
                     anchors.left: parent.left
 
-                    TgStickerItem {
+                    StickerItem {
                         anchors.verticalCenter: parent.verticalCenter
                         width: 18
                         height: width

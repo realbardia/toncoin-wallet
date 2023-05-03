@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -163,7 +162,7 @@ TPage {
                 color: Colors.background
             }
 
-            TgStickerItem {
+            StickerItem {
                 id: stickerItem
                 transformOrigin: Item.Top
                 anchors.top: parent.top

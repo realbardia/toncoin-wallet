@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import TonQml 1.0
+import Toolkit 1.0
 import "../components"
 import "../globals"
 
@@ -22,7 +22,7 @@ TDrawer {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
 
-        TgStickerItem {
+        StickerItem {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 120
             height: width

@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Viewport 1.0
 import Toolkit 1.0
-import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -31,7 +30,7 @@ TPage {
         anchors.bottomMargin: 4
         spacing: 10
 
-        TgStickerItem {
+        StickerItem {
             id: sticker
             anchors.horizontalCenter: parent.horizontalCenter
             width: 120

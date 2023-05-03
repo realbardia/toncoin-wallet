@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../components"
 import "../globals"
 
@@ -155,7 +154,7 @@ TDrawer {
                             anchors.right: parent.right
                             spacing: 2
 
-                            TgStickerItem {
+                            StickerItem {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.verticalCenterOffset: -1
                                 width: 18
@@ -201,7 +200,7 @@ TDrawer {
                             anchors.right: parent.right
                             spacing: 2
 
-                            TgStickerItem {
+                            StickerItem {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.verticalCenterOffset: -1
                                 width: 18

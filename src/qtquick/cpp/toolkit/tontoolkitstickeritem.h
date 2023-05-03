@@ -1,14 +1,11 @@
-#ifndef TGSTICKERITEM_H
-#define TGSTICKERITEM_H
+#ifndef TONTOOLKITSTICKERITEM_H
+#define TONTOOLKITSTICKERITEM_H
 
 #include <QQuickItem>
 
 #include "lottiequick/lib/lottieanimation.h"
 
-namespace TON::QML
-{
-
-class TgStickerItem : public QQuickItem
+class TonToolkitStickerItem : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
@@ -16,8 +13,8 @@ class TgStickerItem : public QQuickItem
     Q_PROPERTY(bool autoPlay READ autoPlay WRITE setAutoPlay NOTIFY autoPlayChanged)
 
 public:
-    TgStickerItem(QQuickItem *parent = nullptr);
-    virtual ~TgStickerItem();
+    TonToolkitStickerItem(QQuickItem *parent = nullptr);
+    virtual ~TonToolkitStickerItem();
 
     QUrl source() const;
     void setSource(const QUrl &newSource);
@@ -42,6 +39,4 @@ private:
     QUrl mSource;
 };
 
-}
-
-#endif // TGSTICKERITEM_H
+#endif // TONTOOLKITSTICKERITEM_H

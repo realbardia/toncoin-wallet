@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import Toolkit 1.0
 import Viewport 1.0
-import TonQml 1.0
 import "../transfer" as Transfer
 import "../settings" as Settings
 import "../connect" as Connect
@@ -115,7 +114,7 @@ TPage {
             width: 120
             height: width
             active: loadingTimer.counter == 0
-            sourceComponent: TgStickerItem {
+            sourceComponent: StickerItem {
                 anchors.fill: parent
                 autoPlay: true
                 source: "qrc:/ton/common/stickers/Loading.tgs"
@@ -198,7 +197,7 @@ TPage {
                 width: 12
                 height: width
                 active: connectionRow.visible
-                sourceComponent: TgStickerItem {
+                sourceComponent: StickerItem {
                     anchors.fill: parent
                     autoPlay: true
                     source: "qrc:/ton/common/stickers/Material Busy.tgs"
@@ -238,7 +237,7 @@ TPage {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
 
-                    TgStickerItem {
+                    StickerItem {
                         anchors.verticalCenter: parent.verticalCenter
                         width: 34
                         height: width
@@ -330,7 +329,7 @@ TPage {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
 
-                    TgStickerItem {
+                    StickerItem {
                         anchors.verticalCenter: parent.verticalCenter
                         width: 18
                         height: width

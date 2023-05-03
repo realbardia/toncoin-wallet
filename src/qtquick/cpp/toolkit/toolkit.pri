@@ -23,12 +23,12 @@ HEADERS += \
     $$PWD/tontoolkitquickview.h \
     $$PWD/tontoolkitquickviewwrapper.h \
     $$PWD/tontoolkitsettings.h \
+    $$PWD/tontoolkitstickeritem.h \
     $$PWD/tontoolkittools.h \
     $$PWD/tontoolkittoolsitem.h \
     $$PWD/tontoolkittranslationmanager.h \
     $$PWD/qmlwidgetmenu.h \
-    $$PWD/qmlwidgetmenuitem.h \
-    $$PWD/tgstickeritem.h
+    $$PWD/qmlwidgetmenuitem.h
 
 SOURCES += \
     $$PWD/materialicons.cpp \
@@ -46,12 +46,12 @@ SOURCES += \
     $$PWD/tontoolkitquickview.cpp \
     $$PWD/tontoolkitquickviewwrapper.cpp \
     $$PWD/tontoolkitsettings.cpp \
+    $$PWD/tontoolkitstickeritem.cpp \
     $$PWD/tontoolkittools.cpp \
     $$PWD/tontoolkittoolsitem.cpp \
     $$PWD/tontoolkittranslationmanager.cpp \
     $$PWD/qmlwidgetmenu.cpp \
-    $$PWD/qmlwidgetmenuitem.cpp \
-    $$PWD/tgstickeritem.cpp
+    $$PWD/qmlwidgetmenuitem.cpp
 
 android {
     HEADERS += \
