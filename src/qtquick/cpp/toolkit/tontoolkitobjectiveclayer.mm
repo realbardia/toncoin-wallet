@@ -5,10 +5,6 @@
 #import <SafariServices/SafariServices.h>
 #import <Foundation/Foundation.h>
 
-#ifndef DISABLE_IOS_CONTACTS_SUPPORT
-#import <Contacts/Contacts.h>
-#endif
-
 #include <QSet>
 #include <QUrl>
 #include <QDesktopServices>
@@ -77,38 +73,7 @@ bool TonToolkitObjectiveCLayer::saveToCameraRoll(const QString &filePath)
 
 void TonToolkitObjectiveCLayer::getContactList(std::function<void(const QVariantList &res)> asyncCallback)
 {
-#ifndef DISABLE_IOS_CONTACTS_SUPPORT
-    CNContactStore *store = [[CNContactStore alloc] init];
-    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable) {
-        QMap<QString, QVariantList> sorted;
-        if (granted)
-        {
-            NSArray *keys = @[CNContactNamePrefixKey, CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactEmailAddressesKey];
-
-            NSString *containerId = store.defaultContainerIdentifier;
-            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-            NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:nil];
-
-            for (CNContact *contact in cnContacts)
-            {
-                QString name = QString(QString::fromNSString(contact.givenName) + " " + QString::fromNSString(contact.familyName)).trimmed();
-                for (CNLabeledValue *label in contact.phoneNumbers)
-                {
-                    NSString *phone = [label.value stringValue];
-                    if ([phone length] > 0)
-                        sorted[name] << QVariantMap({{"name", name}, {"phone", QString::fromNSString(phone)}});
-                }
-            }
-        }
-
-        QVariantList result;
-        for (const auto &vals: sorted)
-            result << vals;
-        asyncCallback(result);
-    }];
-#else
     asyncCallback(QVariantList());
-#endif
 }
 
 void TonToolkitObjectiveCLayer::sharePaper(const QString &text)
@@ -129,30 +94,7 @@ QString TonToolkitObjectiveCLayer::deviceId()
 
 bool TonToolkitObjectiveCLayer::openUrlInSafari(const QString &str)
 {
-    auto url = QUrl(str).toNSURL();
-
-    if ([SFSafariViewController class]) {
-
-        QEventLoop loop;
-
-        UIViewController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
-        SFSafariViewController *viewController = [[SFSafariViewController alloc] initWithURL:url];
-        [controller presentViewController:viewController animated:YES completion: nil];
-
-        auto t = new QTimer;
-        t->connect(t, &QTimer::timeout, [&](){
-            if (viewController.beingDismissed)
-                loop.exit();
-        });
-        t->start(100);
-
-        loop.exec();
-
-        delete t;
-        return true;
-    } else {
-        return false;
-    }
+    return false;
 }
 
 void TonToolkitObjectiveCLayer::triggerVibrateFeedback()

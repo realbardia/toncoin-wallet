@@ -54,16 +54,19 @@ SOURCES += \
     $$PWD/qmlwidgetmenuitem.cpp
 
 android {
+    QT += androidextras
     HEADERS += \
         $$PWD/tontoolkitjavalayer.h
     SOURCES += \
         $$PWD/tontoolkitjavalayer.cpp
 }
 ios {
+    include(private/quickios/quickios.pri)
     HEADERS += \
         $$PWD/tontoolkitobjectiveclayer.h
     SOURCES += \
         $$PWD/tontoolkitobjectiveclayer.mm
+    LIBS += -lobjc
 }
 macx {
     HEADERS += \
