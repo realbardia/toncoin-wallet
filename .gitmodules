@@ -1,6 +1,3 @@
-[submodule "src/thirdparty/qtaseman"]
-	path = src/thirdparty/qtaseman
-	url = https://github.com/Aseman-Land/QtAseman
 [submodule "src/thirdparty/lottiequick/lottiequick"]
 	path = src/thirdparty/lottiequick/lottiequick
 	url = https://github.com/dseight/lottiequick
