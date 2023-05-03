@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import Toolkit 1.0
-import Viewport 1.0
+import Toolkit.Core 1.0
+import Toolkit.Viewport 1.0
 import ".."
 import "../private"
 import "../../globals"

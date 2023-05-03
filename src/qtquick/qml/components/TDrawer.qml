@@ -1,6 +1,6 @@
 import QtQuick 2.0
-import Toolkit 1.0
-import Viewport 1.0
+import Toolkit.Core 1.0
+import Toolkit.Viewport 1.0
 import "../globals"
 
 TPage {

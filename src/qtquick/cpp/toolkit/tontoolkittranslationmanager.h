@@ -79,6 +79,4 @@ private:
     Private *p;
 };
 
-typedef TonToolkitTranslationManager QTonToolkitTranslationManager;
-
 #endif // TONTOOLKITTRANSLATIONMANAGER_H

@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import Toolkit 1.0
+import Toolkit.Core 1.0
 import "components"
 import "globals"
 

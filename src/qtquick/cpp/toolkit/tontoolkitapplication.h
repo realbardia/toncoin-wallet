@@ -215,6 +215,4 @@ private:
     TonToolkitApplicationPrivate *p;
 };
 
-typedef TonToolkitApplication QTonToolkitApplication;
-
 #endif // TONTOOLKITAPPLICATION_H

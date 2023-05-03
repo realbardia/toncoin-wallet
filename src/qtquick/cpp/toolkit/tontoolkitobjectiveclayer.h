@@ -34,6 +34,4 @@ private:
     qreal mKeyboardHeight = 0;
 };
 
-typedef TonToolkitObjectiveCLayer QTonToolkitObjectiveCLayer;
-
 #endif // TONTOOLKITOBJECTIVECLAYER_H

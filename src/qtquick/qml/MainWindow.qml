@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
-import Toolkit 1.0
+import Toolkit.Core 1.0
 import "intro" as Intro
 import "wallet" as Wallet
 import "components"

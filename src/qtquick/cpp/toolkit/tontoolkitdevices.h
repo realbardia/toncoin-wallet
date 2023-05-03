@@ -303,6 +303,4 @@ private:
     TonToolkitDevicesPrivate *p;
 };
 
-typedef TonToolkitDevices QTonToolkitDevices;
-
 #endif // TONTOOLKITDEVICES_H

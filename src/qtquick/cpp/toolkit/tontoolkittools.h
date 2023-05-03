@@ -159,6 +159,4 @@ private:
     TonToolkitToolsPrivate *p;
 };
 
-typedef TonToolkitTools QTonToolkitTools;
-
 #endif // TONTOOLKITTOOLS_H

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Viewport 1.0
+import Toolkit.Viewport 1.0
 import "viewporttypes"
 import "private"
 

@@ -23,45 +23,45 @@
 
 void TonQtQuick::registerToolkit()
 {
-    qmlRegisterType<TonToolkitMapObject>("Toolkit", 1, 0, "MapObject");
-    qmlRegisterType<TonToolkitListObject>("Toolkit", 1, 0, "ListObject");
-    qmlRegisterType<TonToolkitQuickObject>("Toolkit", 1, 0, "TonToolkitObject");
-    qmlRegisterType<TonToolkitSettings>("Toolkit", 1, 0, "Settings");
-    qmlRegisterType<TonToolkitApplicationItem>("Toolkit", 1,0, "TonToolkitApplicationBase");
-    qmlRegisterType<TonToolkitTranslationManager>("Toolkit", 1, 0, "TranslationManager");
+    qmlRegisterType<TonToolkitMapObject>("Toolkit.Core", 1, 0, "MapObject");
+    qmlRegisterType<TonToolkitListObject>("Toolkit.Core", 1, 0, "ListObject");
+    qmlRegisterType<TonToolkitQuickObject>("Toolkit.Core", 1, 0, "TonToolkitObject");
+    qmlRegisterType<TonToolkitSettings>("Toolkit.Core", 1, 0, "Settings");
+    qmlRegisterType<TonToolkitApplicationItem>("Toolkit.Core", 1,0, "TonToolkitApplicationBase");
+    qmlRegisterType<TonToolkitTranslationManager>("Toolkit.Core", 1, 0, "TranslationManager");
 
-    qmlRegisterType<TonToolkitStickerItem>("Toolkit", 1, 0, "StickerItem");
+    qmlRegisterType<TonToolkitStickerItem>("Toolkit.Core", 1, 0, "StickerItem");
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
-    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewMobile.qml"), "Toolkit", 1, 0, "TScrollView");
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewMobile.qml"), "Toolkit.Core", 1, 0, "TScrollView");
 #elif defined(Q_OS_MACOS)
-    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "Toolkit", 1, 0, "TScrollView");
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "Toolkit.Core", 1, 0, "TScrollView");
 #else
-    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "Toolkit", 1, 0, "TScrollView");
-//    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "Toolkit", 1, 0, "TScrollView");
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "Toolkit.Core", 1, 0, "TScrollView");
+//    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "Toolkit.Core", 1, 0, "TScrollView");
 #endif
 
-    qmlRegisterType<QmlWidgetMenu>("Toolkit", 1, 0, "QmlWidgetMenu");
-    qmlRegisterType<QmlWidgetMenuItem>("Toolkit", 1, 0, "QmlWidgetMenuItem");
+    qmlRegisterType<QmlWidgetMenu>("Toolkit.Core", 1, 0, "QmlWidgetMenu");
+    qmlRegisterType<QmlWidgetMenuItem>("Toolkit.Core", 1, 0, "QmlWidgetMenuItem");
 
-    qmlRegisterSingletonType<TonToolkitQuickView>("Toolkit", 1, 0, "View", [](QQmlEngine *engine, QJSEngine *){ return new TonToolkitQuickView(engine); });
-    qmlRegisterSingletonInstance<TonToolkitDevicesItem>("Toolkit", 1, 0, "Devices", new TonToolkitDevicesItem);
-    qmlRegisterSingletonInstance<TonToolkitToolsItem>("Toolkit", 1, 0, "Tools", new TonToolkitToolsItem);
-    qmlRegisterSingletonInstance<MaterialIcons>("Toolkit", 1, 0, "MaterialIcons", new MaterialIcons);
-    qmlRegisterSingletonInstance<TonToolkitToolsItem>("Toolkit", 1, 0, "Tools", new TonToolkitToolsItem);
-    qmlRegisterSingletonInstance<TonToolkitBackHandler>("Toolkit", 1, 0, "BackHandler", new TonToolkitBackHandler);
-    qmlRegisterSingletonType<TonToolkitApplicationSingleton>("Toolkit", 1, 0, "TonToolkitApp", [](QQmlEngine *engine, QJSEngine *){ return new TonToolkitApplicationSingleton(engine); });
+    qmlRegisterSingletonType<TonToolkitQuickView>("Toolkit.Core", 1, 0, "View", [](QQmlEngine *engine, QJSEngine *){ return new TonToolkitQuickView(engine); });
+    qmlRegisterSingletonInstance<TonToolkitDevicesItem>("Toolkit.Core", 1, 0, "Devices", new TonToolkitDevicesItem);
+    qmlRegisterSingletonInstance<TonToolkitToolsItem>("Toolkit.Core", 1, 0, "Tools", new TonToolkitToolsItem);
+    qmlRegisterSingletonInstance<MaterialIcons>("Toolkit.Core", 1, 0, "MaterialIcons", new MaterialIcons);
+    qmlRegisterSingletonInstance<TonToolkitToolsItem>("Toolkit.Core", 1, 0, "Tools", new TonToolkitToolsItem);
+    qmlRegisterSingletonInstance<TonToolkitBackHandler>("Toolkit.Core", 1, 0, "BackHandler", new TonToolkitBackHandler);
+    qmlRegisterSingletonType<TonToolkitApplicationSingleton>("Toolkit.Core", 1, 0, "TonToolkitApp", [](QQmlEngine *engine, QJSEngine *){ return new TonToolkitApplicationSingleton(engine); });
 #ifdef Q_OS_ANDROID
-    qmlRegisterSingletonInstance<TonToolkitJavaLayer>("Toolkit", 1, 0, "JavaLayer", new TonToolkitJavaLayer);
+    qmlRegisterSingletonInstance<TonToolkitJavaLayer>("Toolkit.Core", 1, 0, "JavaLayer", new TonToolkitJavaLayer);
 #endif
 }
 
 void TonQtQuick::registerViewport()
 {
-    qmlRegisterType<TonToolkitAbstractViewportType>("Viewport", 1, 0, "AbstractViewportTypeCore");
-    qmlRegisterType<TonToolkitViewport>("Viewport", 1, 0, "ViewportCore");
-    qmlRegisterType<TonToolkitViewportItem>("Viewport", 1, 0, "ViewportItem");
-    qmlRegisterType<TonToolkitViewportController>("Viewport", 1, 0, "ViewportControllerCore");
-    qmlRegisterType<TonToolkitViewportControllerRoute>("Viewport", 1, 0, "ViewportControllerRoute");
-    qmlRegisterUncreatableType<TonToolkitViewportType>("Viewport", 1, 0, "ViewportType", "");
+    qmlRegisterType<TonToolkitAbstractViewportType>("Toolkit.Viewport", 1, 0, "AbstractViewportTypeCore");
+    qmlRegisterType<TonToolkitViewport>("Toolkit.Viewport", 1, 0, "ViewportCore");
+    qmlRegisterType<TonToolkitViewportItem>("Toolkit.Viewport", 1, 0, "ViewportItem");
+    qmlRegisterType<TonToolkitViewportController>("Toolkit.Viewport", 1, 0, "ViewportControllerCore");
+    qmlRegisterType<TonToolkitViewportControllerRoute>("Toolkit.Viewport", 1, 0, "ViewportControllerRoute");
+    qmlRegisterUncreatableType<TonToolkitViewportType>("Toolkit.Viewport", 1, 0, "ViewportType", "");
 }
