@@ -9,8 +9,8 @@ Settings {
 
     property int theme: 0
 
-    property real width: 440
-    property real height: 720
+    property real width: 380
+    property real height: 680
 
     property string privateKey
     property string publicKey

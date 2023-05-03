@@ -1,5 +1,6 @@
-LIBS += -lrlottie
-INCLUDEPATH +=  $$PWD
+INCLUDEPATH += \
+    $$PWD \
+    $$PWD/lottiequick/lib/
 
 HEADERS += \
     $$PWD/lottiequick/lib/lottieanimation.h \
@@ -8,5 +9,7 @@ HEADERS += \
     $$PWD/lottiequick/lib/qtcompat.h
 
 SOURCES += \
-    $$PWD/lottiequick/lib/lottieanimation.cpp \
-    $$PWD/lottiequick/lib/lottierenderthread.cpp
+    $$PWD/lottiequick/lib/lottierenderthread.cpp \
+    $$PWD/lottiequickanimation.cpp
+
+include(rlottie.pri)

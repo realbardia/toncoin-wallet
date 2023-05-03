@@ -49,7 +49,7 @@ TControlElement {
         topPadding: 8
         clip: true
 
-        onFocusChanged: checkMenu()
+        onFocusChanged: if (focus) checkMenu()
         onTextChanged: checkMenu()
 
         Keys.onTabPressed: dis.tabPressed()
