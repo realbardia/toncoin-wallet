@@ -19,132 +19,140 @@ TPage {
         Component.onCompleted: startDate = new Date
     }
 
-    TScrollView {
-        anchors.fill: parent
-
-        TGridView {
-            id: gridv
-            cellWidth: width / Math.floor(width/150)
-            cellHeight: 40
-            model: 24
-            header: Item {
-                width: gridv.width
-                height: headerScene.height
-                onHeightChanged: gridv.positionViewAtBeginning()
-            }
-
-            footer: Item {
-                width: gridv.width
-                height: 180
-
-                TButton {
-                    anchors.centerIn: parent
-                    anchors.verticalCenterOffset: -15
-                    width: 160
-                    visible: doneVisible
-                    text: qsTr("Done")
-                    onClicked: {
-                        let msecs = (new Date).getTime() - prv.startDate.getTime();
-                        prv.retryCount++;
-                        if (msecs < 30000)
-                            warnDialog.open();
-                        else
-                            TViewport.viewport.append(test_time_component, {}, "stack")
-                    }
-                }
-            }
-
-            delegate: Item {
-                width: gridv.cellWidth
-                height: gridv.cellHeight
-
-                TRow {
-                    anchors.centerIn: parent
-
-                    TLabel {
-                        opacity: 0.4
-                        text: (model.index+1)  + "."
-                    }
-                    TLabel {
-                        text: qsTr("Word %1").arg(model.index+1)
-                    }
-                }
-            }
-        }
-    }
-
     Item {
-        id: headerBackground
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: Math.max(headerScene.height + mapListener.result.y - bodyLabel.height - 40, Devices.standardTitleBarHeight)
+        id: recoveryScene
+        anchors.fill: parent
+        anchors.topMargin: Devices.statusBarHeight
+        clip: true
 
-        property real ratio: Math.min(1, (height - Devices.standardTitleBarHeight) / (headerScene.height - Devices.standardTitleBarHeight - bodyLabel.height - 40))
+        TScrollView {
+            anchors.fill: parent
 
-        PointMapListener {
-            id: mapListener
-            source: gridv.headerItem
-            dest: recovertPage
+            TGridView {
+                id: gridv
+                cellWidth: width / Math.floor(width/150)
+                cellHeight: 40
+                model: 24
+                header: Item {
+                    width: gridv.width
+                    height: headerScene.height
+                    onHeightChanged: gridv.positionViewAtBeginning()
+                }
+
+                footer: Item {
+                    width: gridv.width
+                    height: 180
+
+                    TButton {
+                        anchors.centerIn: parent
+                        anchors.verticalCenterOffset: -15
+                        width: 160
+                        visible: doneVisible
+                        text: qsTr("Done")
+                        onClicked: {
+                            let msecs = (new Date).getTime() - prv.startDate.getTime();
+                            prv.retryCount++;
+                            if (msecs < 30000)
+                                warnDialog.open();
+                            else
+                                TViewport.viewport.append(test_time_component, {}, "stack")
+                        }
+                    }
+                }
+
+                delegate: Item {
+                    width: gridv.cellWidth
+                    height: gridv.cellHeight
+
+                    TRow {
+                        anchors.centerIn: parent
+
+                        TLabel {
+                            opacity: 0.4
+                            text: (model.index+1)  + "."
+                        }
+                        TLabel {
+                            text: qsTr("Word %1").arg(model.index+1)
+                        }
+                    }
+                }
+            }
         }
 
         Item {
-            id: headerScene
+            id: headerBackground
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.margins: 50
-            height: stickerItem.height + bodyLabel.height + headerLabel.height + 100
+            anchors.top: parent.top
+            height: Math.max(headerScene.height + mapListener.result.y - bodyLabel.height - 40, Devices.standardTitleBarHeight)
 
-            TLabel {
-                id: bodyLabel
+            property real ratio: Math.min(1, (height - Devices.standardTitleBarHeight) / (headerScene.height - Devices.standardTitleBarHeight - bodyLabel.height - 40))
+
+            PointMapListener {
+                id: mapListener
+                source: gridv.headerItem
+                dest: recoveryScene
+            }
+
+            Item {
+                id: headerScene
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 30 - mapListener.result.y
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                font.weight: Font.Light
-                text: qsTr("Write down these 24 words in this exact order and keep them in a secret place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.")
+                anchors.margins: 50
+                height: stickerItem.height + bodyLabel.height + headerLabel.height + 100
+
+                TLabel {
+                    id: bodyLabel
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 30 - mapListener.result.y
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    font.weight: Font.Light
+                    text: qsTr("Write down these 24 words in this exact order and keep them in a secret place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.")
+                }
+
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    height: Math.max(headerLabel.y + headerLabel.height, Devices.standardTitleBarHeight)
+                    color: Colors.background
+                }
+
+                StickerItem {
+                    id: stickerItem
+                    transformOrigin: Item.Top
+                    anchors.top: parent.top
+                    anchors.topMargin: 30
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 100
+                    height: width
+                    autoPlay: true
+                    source: "qrc:/ton/common/stickers/Recovery Phrase.tgs"
+                    scale: headerBackground.ratio
+                    opacity: headerBackground.ratio
+                }
+
+                THeaderLabel {
+                    id: headerLabel
+                    y: ((1 - headerBackground.ratio) * (Devices.standardTitleBarHeight - height)/2) + (stickerItem.height + 14 + stickerItem.y) * (headerBackground.ratio)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Your Recovery Phrase")
+                    transformOrigin: Item.Left
+                    scale: 0.6 + headerBackground.ratio * 0.4
+                }
             }
 
             Rectangle {
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.top: parent.top
-                height: Math.max(headerLabel.y + headerLabel.height, Devices.standardTitleBarHeight)
-                color: Colors.background
+                anchors.bottom: parent.bottom
+                height: 1
+                color: Colors.foreground
+                opacity: 0.1 * (1 - headerBackground.ratio)
             }
-
-            StickerItem {
-                id: stickerItem
-                transformOrigin: Item.Top
-                anchors.top: parent.top
-                anchors.topMargin: 30
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: 100
-                height: width
-                autoPlay: true
-                source: "qrc:/ton/common/stickers/Recovery Phrase.tgs"
-                scale: headerBackground.ratio
-                opacity: headerBackground.ratio
-            }
-
-            THeaderLabel {
-                id: headerLabel
-                y: ((1 - headerBackground.ratio) * (Devices.standardTitleBarHeight - height)/2) + (stickerItem.height + 14 + stickerItem.y) * (headerBackground.ratio)
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Your Recovery Phrase")
-                transformOrigin: Item.Left
-                scale: 0.6 + headerBackground.ratio * 0.4
-            }
-        }
-
-        Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            height: 1
-            color: Colors.foreground
-            opacity: 0.1 * (1 - headerBackground.ratio)
         }
     }
 

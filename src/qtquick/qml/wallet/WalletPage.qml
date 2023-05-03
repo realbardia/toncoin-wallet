@@ -18,8 +18,12 @@ TPage {
         }
     }
 
-    LockDialog {
+    Loader {
         anchors.fill: parent
-        visible: GlobalValues.locked
+        active: GlobalValues.locked
+        sourceComponent: LockDialog {
+            anchors.fill: parent
+        }
     }
+
 }

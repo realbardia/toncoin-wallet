@@ -1,10 +1,15 @@
 import QtQuick 2.15
+import Toolkit.Core 1.0
 
 MouseArea {
     id: marea
     pressAndHoldInterval: 300
 
+    property bool focusOnPress: true
+
     onPressedChanged: {
+        if (!focusOnPress)
+            return;
         focus = pressed;
         if (focus)
             forceActiveFocus();

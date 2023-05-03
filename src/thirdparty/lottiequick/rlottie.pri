@@ -54,7 +54,6 @@ HEADERS += \
     $$PWD/lottiequick/lib/rlottie/src/vector/freetype/v_ft_raster.h \
     $$PWD/lottiequick/lib/rlottie/src/vector/freetype/v_ft_stroker.h \
     $$PWD/lottiequick/lib/rlottie/src/vector/freetype/v_ft_types.h \
-    $$PWD/lottiequick/lib/rlottie/src/vector/pixman/pixman-arm-neon-asm.h \
     $$PWD/lottiequick/lib/rlottie/src/vector/stb/stb_image.h \
     $$PWD/lottiequick/lib/rlottie/src/vector/varenaalloc.h \
     $$PWD/lottiequick/lib/rlottie/src/vector/vbezier.h \
@@ -106,7 +105,6 @@ SOURCES += \
     $$PWD/lottiequick/lib/rlottie/src/vector/vdrawable.cpp \
     $$PWD/lottiequick/lib/rlottie/src/vector/vdrawhelper.cpp \
     $$PWD/lottiequick/lib/rlottie/src/vector/vdrawhelper_common.cpp \
-    $$PWD/lottiequick/lib/rlottie/src/vector/vdrawhelper_neon.cpp \
     $$PWD/lottiequick/lib/rlottie/src/vector/vdrawhelper_sse2.cpp \
     $$PWD/lottiequick/lib/rlottie/src/vector/velapsedtimer.cpp \
     $$PWD/lottiequick/lib/rlottie/src/vector/vimageloader.cpp \

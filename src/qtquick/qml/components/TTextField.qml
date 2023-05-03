@@ -260,19 +260,20 @@ TControlElement {
                 clip: true
 
                 highlightMoveDuration: 200
-                highlightRangeMode: ListView.StrictlyEnforceRange
+                highlightRangeMode: Devices.isMobile? ListView.NoHighlightRange : ListView.StrictlyEnforceRange
                 preferredHighlightBegin: 0
                 preferredHighlightEnd: height
                 highlight: Rectangle {
                     width: suggestionsList.width
                     height: Constants.itemsHeight
-                    opacity: 0.1
+                    opacity: Devices.isMobile? 0 : 0.1
                     color: Colors.foreground
                 }
 
                 delegate: TItemDelegate {
                     width: suggestionsList.width
                     height: Constants.itemsHeight
+                    focusOnPress: !Devices.isMobile
                     onClicked: select()
 
                     function select() {

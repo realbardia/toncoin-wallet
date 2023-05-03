@@ -110,7 +110,6 @@ TPage {
         id: success_component
         SuccessPage {
             id: spage
-            ViewportType.gestureWidth: 0
             anchors.fill: parent
         }
     }

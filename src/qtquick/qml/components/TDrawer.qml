@@ -7,7 +7,7 @@ TPage {
     id: dis
     height: contentHeight
 
-    readonly property real contentHeight: clmn.height + 2*clmn.y + mainButton.height + clmn.spacing
+    readonly property real contentHeight: clmn.height + 2*clmn.y + mainButton.height + clmn.spacing + Devices.navigationBarHeight
 
     default property alias sceneData: mainColumn.data
 
@@ -66,6 +66,7 @@ TPage {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: Devices.navigationBarHeight + clmn.y
         anchors.margins: clmn.y
         visible: text.length
     }

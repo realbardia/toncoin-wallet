@@ -178,9 +178,8 @@ TPage {
         }
     }
 
-    THeaderBackButton {
+    THeaderCloseButton {
         onClicked: page.ViewportType.open = false
-        buttonColor: "#fff"
         color: "#fff"
         opacity: 1
     }

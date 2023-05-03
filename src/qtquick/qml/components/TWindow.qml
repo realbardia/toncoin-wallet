@@ -20,7 +20,7 @@ Window {
 
     Connections {
         target: TonToolkitApp
-        onBackRequest: {
+        function onBackRequest() {
             if(timer_delayer.running)
                 return
 

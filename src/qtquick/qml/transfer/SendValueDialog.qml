@@ -65,7 +65,8 @@ TDrawer {
         font.pixelSize: 20 * Devices.fontDensity
         color: insufficientLabel.visible? Colors.red : Colors.foreground
         Component.onCompleted: {
-            focus = true;
+            if (Devices.isDesktop)
+                focus = true;
         }
 
         leftPadding: 46

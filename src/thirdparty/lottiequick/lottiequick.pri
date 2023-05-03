@@ -10,6 +10,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/lottiequick/lib/lottierenderthread.cpp \
-    $$PWD/lottiequickanimation.cpp
+    $$PWD/lottiequickanimation.cpp \
+    $$PWD/vdrawhelper_neon.cpp
 
 include(rlottie.pri)
