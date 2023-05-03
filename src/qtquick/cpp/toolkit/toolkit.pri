@@ -6,6 +6,7 @@ include (qtsingleapplication/qtsingleapplication.pri)
 INCLUDEPATH += $$PWD
 
 HEADERS += \
+    $$PWD/materialicons.h \
     $$PWD/tontoolkit_macros.h \
     $$PWD/tontoolkitabstractlistmodel.h \
     $$PWD/tontoolkitapplication.h \
@@ -30,6 +31,7 @@ HEADERS += \
     $$PWD/tgstickeritem.h
 
 SOURCES += \
+    $$PWD/materialicons.cpp \
     $$PWD/tontoolkitabstractlistmodel.cpp \
     $$PWD/tontoolkitapplication.cpp \
     $$PWD/tontoolkitapplicationitem.cpp \
@@ -69,4 +71,7 @@ macx {
     SOURCES += \
         $$PWD/tontoolkitmacmanager.mm
 }
+
+RESOURCES += \
+    $$PWD/toolkit.qrc
 

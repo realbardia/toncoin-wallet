@@ -81,12 +81,9 @@
         <file>components/viewporttypes/StackViewport.qml</file>
         <file>components/BackAction.qml</file>
         <file>components/FastDropShadow.qml</file>
-        <file>components/MaterialIcons.qml</file>
         <file>components/TApplication.qml</file>
         <file>components/TWindow.qml</file>
         <file>components/private/HeaderMenuButton.qml</file>
-        <file>components/private/materialdesignicons-webfont.ttf</file>
-        <file>components/private/MaterialIcons-Regular.ttf</file>
         <file>components/private/RoundedItem.qml</file>
         <file>components/private/Viewport.qml</file>
         <file>components/qmldir</file>

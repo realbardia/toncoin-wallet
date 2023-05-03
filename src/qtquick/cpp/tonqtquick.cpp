@@ -17,6 +17,7 @@
 #include "toolkit/tgstickeritem.h"
 #include "toolkit/qmlwidgetmenu.h"
 #include "toolkit/tontoolkitlistobject.h"
+#include "toolkit/materialicons.h"
 
 #include <QtQml>
 
@@ -46,6 +47,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterSingletonType<TonToolkitQuickView>("Toolkit", 1, 0, "View", [](QQmlEngine *engine, QJSEngine *){ return new TonToolkitQuickView(engine); });
     qmlRegisterSingletonInstance<TonToolkitDevicesItem>("Toolkit", 1, 0, "Devices", new TonToolkitDevicesItem);
     qmlRegisterSingletonInstance<TonToolkitToolsItem>("Toolkit", 1, 0, "Tools", new TonToolkitToolsItem);
+    qmlRegisterSingletonInstance<MaterialIcons>("Toolkit", 1, 0, "MaterialIcons", new MaterialIcons);
     qmlRegisterSingletonInstance<TonToolkitToolsItem>("Toolkit", 1, 0, "Tools", new TonToolkitToolsItem);
     qmlRegisterSingletonInstance<TonToolkitBackHandler>("Toolkit", 1, 0, "BackHandler", new TonToolkitBackHandler);
     qmlRegisterSingletonType<TonToolkitApplicationSingleton>("Toolkit", 1, 0, "TonToolkitApp", [](QQmlEngine *engine, QJSEngine *){ return new TonToolkitApplicationSingleton(engine); });
