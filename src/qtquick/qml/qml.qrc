@@ -90,5 +90,6 @@
         <file>components/private/MenuIcon.qml</file>
         <file>components/PointMapListener.qml</file>
         <file>components/viewporttypes/PopupViewport.qml</file>
+        <file>components/private/HScrollBar.qml</file>
     </qresource>
 </RCC>
