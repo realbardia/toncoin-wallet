@@ -53,7 +53,7 @@ TPage {
                         } else if (closeAtEnd) {
                             page.closeRequest()
                         } else {
-                            confirmItem = TViewport.viewport.append(doneComponent, {}, "stack");
+                            TViewport.viewport.append(doneComponent, {}, "stack");
                         }
                     } else {
                         var cmp = Qt.createComponent("PasscodePage.qml");

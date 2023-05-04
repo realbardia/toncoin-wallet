@@ -5,16 +5,18 @@
 #include <QDir>
 #include <QDebug>
 
+#define SCALE 2.0
+
 TonToolkitStickerItem::TonToolkitStickerItem(QQuickItem *parent)
     : QQuickItem(parent)
 {
     mLottieItem = new LottieQuick::LottieAnimation(this);
     mLottieItem->setProperty("loops", -1);
     mLottieItem->setTransformOrigin(QQuickItem::TopLeft);
-    mLottieItem->setScale(0.5);
+    mLottieItem->setScale(1/SCALE);
 
-    connect(this, &QQuickItem::widthChanged, this, [this](){ mLottieItem->setWidth(width()*2); });
-    connect(this, &QQuickItem::heightChanged, this, [this](){ mLottieItem->setHeight(height()*2); });
+    connect(this, &QQuickItem::widthChanged, this, [this](){ mLottieItem->setWidth(width()*SCALE); });
+    connect(this, &QQuickItem::heightChanged, this, [this](){ mLottieItem->setHeight(height()*SCALE); });
 
     connect(mLottieItem, &LottieQuick::LottieAnimation::loopsChanged, this, &TonToolkitStickerItem::loopsChanged);
     connect(mLottieItem, &LottieQuick::LottieAnimation::autoPlayChanged, this, &TonToolkitStickerItem::autoPlayChanged);
