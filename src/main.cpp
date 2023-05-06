@@ -3,9 +3,15 @@
 #include <QQmlApplicationEngine>
 
 #include "qtquick/cpp/tonqtquick.h"
+#include "core/wallet/tonwallet.h"
 
 int main(int argc, char *argv[])
 {
+    TON::Wallet::TonWallet t;
+    t.init("/home/bardia/Desktop/test", [](bool stt, const TON::Wallet::TonWallet::Error &err){
+        qDebug() << stt << err.message;
+    });
+
     qputenv("QT_ANDROID_ENABLE_WORKAROUND_TO_DISABLE_PREDICTIVE_TEXT", "1");
     qputenv("QT_LOGGING_RULES", "qt.qml.connections=false");
 

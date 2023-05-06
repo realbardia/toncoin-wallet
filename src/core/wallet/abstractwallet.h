@@ -13,8 +13,6 @@ public:
     AbstractWallet(QObject *parent = nullptr);
     virtual ~AbstractWallet();
 
-Q_SIGNALS:
-
 };
 
 }
