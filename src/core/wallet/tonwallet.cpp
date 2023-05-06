@@ -9,6 +9,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QRandomGenerator>
+#include <QSemaphore>
 
 #define GENERATE_ID QRandomGenerator::global()->generate64()
 
@@ -54,9 +55,10 @@ protected:
         {
             mMutex.lock();
             const auto requestsCount = mRequests.count();
+            const auto callbacksCount = mCallbacks.count();
             mMutex.unlock();
 
-            auto resp = client.receive(requestsCount? 0.001 : 0.2);
+            auto resp = client.receive(callbacksCount || requestsCount? 0.001 : 0.2);
             if (resp.id)
             {
                 auto resp_ptr = std::make_shared<tonlib::Client::Response>(std::move(resp));
