@@ -48,7 +48,7 @@ TPage {
                     width: gridv.width
                     height: 180
 
-                    TRow {
+                    TColumn {
                         anchors.centerIn: parent
                         anchors.verticalCenterOffset: -15
 
