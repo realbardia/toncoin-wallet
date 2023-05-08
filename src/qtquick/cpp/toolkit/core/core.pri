@@ -19,6 +19,7 @@ HEADERS += \
     $$PWD/tontoolkitlistmodel.h \
     $$PWD/tontoolkitlistobject.h \
     $$PWD/tontoolkitmapobject.h \
+    $$PWD/tontoolkitquicklistmodel.h \
     $$PWD/tontoolkitquickobject.h \
     $$PWD/tontoolkitquickview.h \
     $$PWD/tontoolkitquickviewwrapper.h \
@@ -42,6 +43,7 @@ SOURCES += \
     $$PWD/tontoolkitlistmodel.cpp \
     $$PWD/tontoolkitlistobject.cpp \
     $$PWD/tontoolkitmapobject.cpp \
+    $$PWD/tontoolkitquicklistmodel.cpp \
     $$PWD/tontoolkitquickobject.cpp \
     $$PWD/tontoolkitquickview.cpp \
     $$PWD/tontoolkitquickviewwrapper.cpp \

@@ -12,6 +12,7 @@
 #include "toolkit/core/tontoolkitdevicesitem.h"
 #include "toolkit/core/tontoolkittoolsitem.h"
 #include "toolkit/core/tontoolkitbackhandler.h"
+#include "toolkit/core/tontoolkitquicklistmodel.h"
 #include "toolkit/core/tontoolkitapplicationsingleton.h"
 #include "toolkit/core/tontoolkitquickview.h"
 #include "toolkit/core/tontoolkitstickeritem.h"
@@ -29,6 +30,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<TonToolkitSettings>("Toolkit.Core", 1, 0, "Settings");
     qmlRegisterType<TonToolkitApplicationItem>("Toolkit.Core", 1,0, "TonToolkitApplicationBase");
     qmlRegisterType<TonToolkitTranslationManager>("Toolkit.Core", 1, 0, "TranslationManager");
+    qmlRegisterType<TonToolkitQuickListModel>("Toolkit.Core", 1, 0, "ToolkitListModel");
 
     qmlRegisterType<TonToolkitStickerItem>("Toolkit.Core", 1, 0, "StickerItem");
 
