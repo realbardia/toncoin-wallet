@@ -70,7 +70,7 @@ TPage {
 
     TBusyIndicator {
         id: busy
-        anchors.centerIn: footerColumn
+        anchors.centerIn: customColumn
         width: 42
         height: width
         running: MainBackend.initializing

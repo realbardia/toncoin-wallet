@@ -27,8 +27,7 @@ TPage {
 
         mainButton {
             text: qsTr("Continue")
-            enabled: resultsMap.count == qmodel.count
-            visible: !qmodel.refreshing
+            enabled: resultsMap.count == qmodel.count && !qmodel.refreshing
             onClicked: {
                 if (qmodel.test(resultsMap.values)) {
                     TViewport.viewport.append(success_component, {}, "stack")
@@ -61,10 +60,11 @@ TPage {
         }
 
         TColumn {
+            width: 160
+            height: Constants.itemsHeight * qmodel.quizLength + (spacing * (qmodel.quizLength-1))
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 6
             z: 10
-            visible: !qmodel.refreshing
 
             Repeater {
                 id: repeater
@@ -80,7 +80,7 @@ TPage {
                     onTextChanged: {
                         resultsMap.remove(model.index);
                         if (text.length)
-                            resultsMap.insert(model.index, text);
+                            resultsMap.insert(model.index, text.toLowerCase());
                     }
                     onTabPressed: {
                         if (model.index+1 < repeater.count) {
