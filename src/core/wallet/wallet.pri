@@ -14,6 +14,18 @@ exists($$TON_SOURCE_PATH/crypto/common/bitstring.h) {
     error(Could not find TON source directory. Please set it using TON_SOURCE_PATH argument. You can clone it from https://github.com/ton-blockchain/ton git repository)
 }
 
+isEmpty(KEYS_DB_FILE_AES_PASS) {
+    KEYS_DB_FILE_AES_PASS = YWQ4NjdhYTJlOTcxODFmNmNi
+    warning(You use default password to encrypt and store keys. Its better to set your own and secure key using KEYS_DB_FILE_AES_PASS argument.)
+}
+isEmpty(KEYS_DB_SECRET_AES_SALT) {
+    KEYS_DB_SECRET_AES_SALT = GVhOGI4MGQ1ZTU4Nzc2MmFkZ
+    warning(You use default password to encrypt every single key. Its better to set your own and secure key using KEYS_DB_SECRET_AES_SALT argument.)
+}
+
+DEFINES += KEYS_DB_FILE_AES_PASS=\\\"$$KEYS_DB_FILE_AES_PASS\\\"
+DEFINES += KEYS_DB_SECRET_AES_SALT=\\\"$$KEYS_DB_SECRET_AES_SALT\\\"
+
 INCLUDEPATH += \
     $$TON_LIB_PATH/include/ \
     $$TON_LIB_PATH/include/crypto \

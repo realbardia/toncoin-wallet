@@ -302,7 +302,8 @@ void TonWallet::storeKeys()
     if (!f.open(QFile::WriteOnly))
         return;
 
-    QDataStream stream(&f);
+    QByteArray d;
+    QDataStream stream(&d, QIODevice::WriteOnly);
     stream << p->keys.size();
     for (auto& info : p->keys)
     {
@@ -310,11 +311,16 @@ void TonWallet::storeKeys()
         const auto password = p->passwords.value(publicKey);
         const auto secret = QByteArray::fromStdString(info->secret.as_slice().str());
 
+        TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
+
         stream << publicKey;
-        stream << secret;
+        stream << secret_crypto.encrypt(secret);
         stream << (bool)!password.isEmpty();
     }
 
+    TON::Tools::CryptoAES crypto(KEYS_DB_FILE_AES_PASS);
+
+    f.write( crypto.encrypt(d) );
     f.close();
 }
 
@@ -324,7 +330,12 @@ void TonWallet::loadKeys()
     if (!f.open(QFile::ReadOnly))
         return;
 
-    QDataStream stream(&f);
+    TON::Tools::CryptoAES crypto(KEYS_DB_FILE_AES_PASS);
+
+    QByteArray d = crypto.decrypt(f.readAll());
+    f.close();
+
+    QDataStream stream(&d, QIODevice::ReadOnly);
 
     int size;
     stream >> size;
@@ -339,14 +350,15 @@ void TonWallet::loadKeys()
         bool encrypted;
         stream >> encrypted;
 
+        const auto password = p->passwords.value(publicKey);
+        TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
+
         auto info = std::make_shared<Private::KeyInfo>();
         info->public_key = publicKey.toStdString();
-        info->secret = td::SecureString(secret.toStdString());
+        info->secret = td::SecureString( secret_crypto.decrypt(secret).toStdString() );
 
         p->keys[publicKey] = info;
     }
-
-    f.close();
 }
 
 QString TonWallet::password(const QString &publicKey) const

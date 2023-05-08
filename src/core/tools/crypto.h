@@ -1,8 +1,7 @@
 #ifndef NEOCRYPTO_H
 #define NEOCRYPTO_H
 
-#include <string>
-#include <memory>
+#include <QString>
 
 namespace TON::Tools
 {
@@ -10,13 +9,13 @@ namespace TON::Tools
 class CryptoAES
 {
 public:
-    CryptoAES(const std::string &key);
+    CryptoAES(const QString &key);
 
-    std::string encrypt(const std::string &data) const;
-    std::string decrypt(const std::string &data) const;
+    QByteArray encrypt(const QByteArray &data) const;
+    QByteArray decrypt(const QByteArray &data) const;
 
 private:
-    const std::string mKey;
+    const QString mKey;
 };
 
 }
