@@ -25,7 +25,6 @@ namespace TON::crypto::aes
 void handleErrors()
 {
     ERR_print_errors_fp(stderr);
-    abort();
 }
 
 int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, unsigned char *iv, unsigned char *ciphertext) {
