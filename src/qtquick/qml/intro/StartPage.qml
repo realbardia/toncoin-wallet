@@ -9,14 +9,24 @@ SimplePageTemplate {
     title: qsTr("TON Wallet")
     body: qsTr("TON Wallet allows you to make fast and secure blockchian-based payments without intermediaries.")
 
+    buttonBusy: MainBackend.keysManager.creatingNewWallet
     mainButton {
         text: qsTr("Create my wallet")
-        onClicked: TViewport.viewport.append(congratulation_component, {}, "stack")
+        onClicked: if (!buttonBusy) MainBackend.keysManager.createNewWallet()
     }
 
     secondaryButton {
         text: qsTr("Import existing wallet")
-        onClicked: TViewport.viewport.append(import_component, {}, "stack")
+        onClicked: if (!buttonBusy)  TViewport.viewport.append(import_component, {}, "stack")
+    }
+
+    Connections {
+        target: MainBackend.keysManager
+        function onWalletCreatedSuccessfully(publicKey) {
+             TViewport.viewport.append(congratulation_component, {"publicKey": publicKey}, "stack");
+        }
+        function onWalletCreationFailed() {
+        }
     }
 
     Component {

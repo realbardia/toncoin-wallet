@@ -117,17 +117,13 @@ TDrawer {
                 visible: pending
                 spacing: 4
 
-                Loader {
+                TBusyIndicator {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: -2
                     width: 14
                     height: width
-                    active: connectionRow.visible
-                    sourceComponent: StickerItem {
-                        anchors.fill: parent
-                        autoPlay: true
-                        source: "qrc:/ton/common/stickers/Material Busy Accented.tgs"
-                    }
+                    running: connectionRow.visible
+                    accented: false
                 }
 
                 TLabel {

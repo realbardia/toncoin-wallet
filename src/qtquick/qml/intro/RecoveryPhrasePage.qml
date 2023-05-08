@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
+import Wallet.Core 1.0
 import "../components"
 import "../globals"
 
@@ -9,6 +10,7 @@ TPage {
 
     property alias dialogOpened: warnDialog.opened
     property bool doneVisible: true
+    property alias publicKey: rmodel.publicKey
 
     QtObject {
         id: prv
@@ -32,7 +34,10 @@ TPage {
                 id: gridv
                 cellWidth: width / Math.floor(width/150)
                 cellHeight: 40
-                model: 24
+                model: RecoveryPhrasesModel {
+                    id: rmodel
+                    backend: MainBackend
+                }
                 header: Item {
                     width: gridv.width
                     height: headerScene.height
@@ -43,19 +48,31 @@ TPage {
                     width: gridv.width
                     height: 180
 
-                    TButton {
+                    TRow {
                         anchors.centerIn: parent
                         anchors.verticalCenterOffset: -15
-                        width: 160
-                        visible: doneVisible
-                        text: qsTr("Done")
-                        onClicked: {
-                            let msecs = (new Date).getTime() - prv.startDate.getTime();
-                            prv.retryCount++;
-                            if (msecs < 30000)
-                                warnDialog.open();
-                            else
-                                TViewport.viewport.append(test_time_component, {}, "stack")
+
+                        TBusyIndicator {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: 42
+                            running: rmodel.refreshing
+                            accented: true
+                            visible: running
+                        }
+
+                        TButton {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: 160
+                            visible: doneVisible && !rmodel.refreshing
+                            text: qsTr("Done")
+                            onClicked: {
+                                let msecs = (new Date).getTime() - prv.startDate.getTime();
+                                prv.retryCount++;
+                                if (msecs < 30000)
+                                    warnDialog.open();
+                                else
+                                    TViewport.viewport.append(test_time_component, {}, "stack")
+                            }
                         }
                     }
                 }
@@ -65,14 +82,17 @@ TPage {
                     height: gridv.cellHeight
 
                     TRow {
-                        anchors.centerIn: parent
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.leftMargin: 50
+                        anchors.verticalCenter: parent.verticalCenter
 
                         TLabel {
                             opacity: 0.4
                             text: (model.index+1)  + "."
                         }
                         TLabel {
-                            text: qsTr("Word %1").arg(model.index+1)
+                            text: model.text
                         }
                     }
                 }

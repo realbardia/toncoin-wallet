@@ -6,7 +6,7 @@ import "../globals"
 
 TPage {
     id: page
-    data: [headerColumn, body, customColumn, footerColumn, backButton]
+    data: [headerColumn, body, customColumn, busy, error, footerColumn, backButton]
 
     property alias sticker: sticker.source
     property alias stickerLoop: sticker.loops
@@ -16,6 +16,7 @@ TPage {
     property alias mainButton: mainBtn
     property alias secondaryButton: secondaryBtn
     property alias backable: backButton.visible
+    property alias buttonBusy: buttonBusy.running
 
     default property alias sceneData: customColumn.data
 
@@ -66,21 +67,62 @@ TPage {
         z: 10
     }
 
+    TBusyIndicator {
+        id: busy
+        anchors.centerIn: footerColumn
+        width: 42
+        height: width
+        running: MainBackend.initializing
+        accented: true
+    }
+
+    TLabel {
+        id: error
+        anchors.verticalCenter: footerColumn.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 50
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 9 * Devices.fontDensity
+        color: Colors.red
+        visible: !MainBackend.initializing && !MainBackend.initialized
+        text: qsTr("Error: Could not initialize wallet!") + "\n" + MainBackend.errorString
+    }
+
     TColumn {
         id: footerColumn
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.margins: 64
+        visible: !MainBackend.initializing && MainBackend.initialized
 
         TButton {
             id: mainBtn
             anchors.horizontalCenter: parent.horizontalCenter
-            width: 160
+            width: buttonBusy.running? height : 160
+            radius: buttonBusy.running? height/2 : Constants.controlsRoundness
+            textVisible: !buttonBusy.running
             opacity: text.length? 1 : 0
+
+            Behavior on width {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+            }
+            Behavior on height {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+            }
 
             MouseArea {
                 anchors.fill: parent
                 visible: mainBtn.text.length == 0
+            }
+
+            TBusyIndicator {
+                id: buttonBusy
+                anchors.centerIn: parent
+                width: 26
+                height: 26
+                accented: false
             }
         }
 

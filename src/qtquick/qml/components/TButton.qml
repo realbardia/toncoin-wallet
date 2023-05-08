@@ -28,6 +28,7 @@ TControlElement {
     property alias highlightColor: highlightArea.color
     property color color: "#fff"
     property alias radius: background.radius
+    property bool textVisible: true
 
     NumberAnimation {
         id: opacityAnim
@@ -84,6 +85,7 @@ TControlElement {
         anchors.centerIn: parent
         scale: marea.pressed? 0.97 : 1
         spacing: 2
+        visible: textVisible
 
         Behavior on scale {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }

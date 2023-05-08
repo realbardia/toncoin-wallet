@@ -54,12 +54,12 @@ LIBS += -L$$TON_LIB_PATH/lib/ \
 LIBS += -lssl -lcrypto
 
 SOURCES += \
-    $$PWD/abstractwallet.cpp \
-    $$PWD/abstractwalletinitializer.cpp \
-    $$PWD/tonwallet.cpp
+    $$PWD/abstractwalletbackend.cpp \
+    $$PWD/backendmanager.cpp \
+    $$PWD/libtonbackend.cpp
 
 HEADERS += \
-    $$PWD/abstractwallet.h \
-    $$PWD/abstractwalletinitializer.h \
-    $$PWD/tonwallet.h
+    $$PWD/abstractwalletbackend.h \
+    $$PWD/backendmanager.h \
+    $$PWD/libtonbackend.h
  

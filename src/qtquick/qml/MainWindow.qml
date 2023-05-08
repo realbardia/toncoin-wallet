@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import Toolkit.Core 1.0
+import Wallet.Core 1.0
 import "intro" as Intro
 import "wallet" as Wallet
 import "components"
@@ -38,7 +39,7 @@ TWindow {
         Loader {
             id: introLoader
             anchors.fill: parent
-            active: AppSettings.privateKey.length == 0
+            active: AppSettings.loggedInPublicKey.length == 0
             sourceComponent: Intro.IntroPage {
                 anchors.fill: parent
                 Component.onCompleted: Devices.setupWindowColor(Colors.headerColor)
@@ -48,7 +49,7 @@ TWindow {
         Loader {
             id: walletLoader
             anchors.fill: parent
-            active: AppSettings.privateKey.length
+            active: AppSettings.loggedInPublicKey.length
             sourceComponent: Wallet.WalletPage {
                 anchors.fill: parent
                 Component.onCompleted: Devices.setupWindowColor(color)

@@ -12,6 +12,7 @@ Settings {
     property real width: 380
     property real height: 680
 
+    property string loggedInPublicKey
     property string privateKey
     property string publicKey
 

@@ -20,10 +20,22 @@
 #include "toolkit/core/tontoolkitlistobject.h"
 #include "toolkit/core/materialicons.h"
 
+#include "wallets/ton/keysmanager.h"
+#include "wallets/ton/recoveryphrasesmodel.h"
+#include "wallets/ton/tonqmlglobal.h"
+#include "wallets/ton/walletbackend.h"
+#include "wallets/ton/walletitem.h"
+
 #include <QtQml>
 
 void TonQtQuick::registerToolkit()
 {
+    qmlRegisterType<KeysManager>("Wallet.Core", 1, 0, "KeysManager");
+    qmlRegisterType<RecoveryPhrasesModel>("Wallet.Core", 1, 0, "RecoveryPhrasesModel");
+    qmlRegisterType<WalletBackend>("Wallet.Core", 1, 0, "Backend");
+    qmlRegisterType<WalletItem>("Wallet.Core", 1, 0, "WalletItem");
+    qmlRegisterSingletonInstance("Wallet.Core", 1,0, "TonQmlGlobal", new TonQmlGlobal);
+
     qmlRegisterType<TonToolkitMapObject>("Toolkit.Core", 1, 0, "MapObject");
     qmlRegisterType<TonToolkitListObject>("Toolkit.Core", 1, 0, "ListObject");
     qmlRegisterType<TonToolkitQuickObject>("Toolkit.Core", 1, 0, "TonToolkitObject");

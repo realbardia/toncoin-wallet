@@ -91,5 +91,7 @@
         <file>components/PointMapListener.qml</file>
         <file>components/viewporttypes/PopupViewport.qml</file>
         <file>components/private/HScrollBar.qml</file>
+        <file>globals/MainBackend.qml</file>
+        <file>components/TBusyIndicator.qml</file>
     </qresource>
 </RCC>

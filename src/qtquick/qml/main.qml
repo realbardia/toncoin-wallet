@@ -24,6 +24,7 @@ TApplication {
         if (Devices.isIOS) Devices.fontScale = 1.15;
 
         Fonts.init();
+        MainBackend.start();
         GlobalValues.mwin = mWin;
     }
 

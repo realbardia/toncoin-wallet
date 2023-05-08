@@ -1,9 +1,11 @@
-#include "tonwallet.h"
+#include "libtonbackend.h"
 #include "core/tools/crypto.h"
 
 #include <tonlib/Client.h>
 #include <td/utils/base64.h>
 #include <td/utils/optional.h>
+
+#include <optional>
 
 #include <QDir>
 #include <QDebug>
@@ -30,7 +32,7 @@
 using tonlib_api::make_object;
 using namespace TON::Wallet;
 
-class TonWallet::Engine: public QThread
+class LibTonBackend::Engine: public QThread
 {
 public:
     typedef std::function<void(tonlib::Client::Response)> ResposeCallback;
@@ -100,12 +102,14 @@ private:
 };
 
 
-class TonWallet::Private
+class LibTonBackend::Private
 {
 public:
     struct KeyInfo {
         std::string public_key;
         td::SecureString secret;
+        std::optional<std::string> password;
+        bool encrypted;
     };
 
     tonlib_api::object_ptr<tonlib_api::inputKeyRegular> getInputKey(const QString &publicKey)
@@ -120,13 +124,12 @@ public:
         key->secret_ = k->secret.copy();
 
         td::SecureString password;
-        if (passwords.contains(publicKey))
-            password = td::SecureString(passwords.value(publicKey).toStdString());
+        if (k->password.has_value())
+            password = td::SecureString(k->password.value());
 
         return make_object<tonlib_api::inputKeyRegular>(std::move(key), std::move(password));
     }
 
-    QHash<QString, QString> passwords;
     QHash<QString, std::shared_ptr<KeyInfo>> keys;
 
     td::int32 walletVersion = 2;
@@ -135,8 +138,8 @@ public:
     td::int32 workchainId = 0;
 };
 
-TonWallet::TonWallet(QObject *parent)
-    : Abstracts::AbstractWallet(parent)
+LibTonBackend::LibTonBackend(QObject *parent)
+    : AbstractWalletBackend(parent)
 {
     p = new Private;
     SET_VERBOSITY_LEVEL(0);
@@ -145,7 +148,7 @@ TonWallet::TonWallet(QObject *parent)
     mEngine->start();
 }
 
-TonWallet::~TonWallet()
+LibTonBackend::~LibTonBackend()
 {
     mEngine->doTerminate();
     mEngine->quit();
@@ -155,7 +158,7 @@ TonWallet::~TonWallet()
     delete p;
 }
 
-void TonWallet::init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback)
+void LibTonBackend::init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback)
 {
     mKeysDir = keysDir;
 
@@ -179,7 +182,7 @@ void TonWallet::init(const QString &keysDir, const std::function<void(bool done,
     });
 }
 
-void TonWallet::createNewKey(const std::function<void (const QString &, const Error &)> &callback)
+void LibTonBackend::createNewKey(const std::function<void (const QString &, const Error &)> &callback)
 {
     std::string entropy;
     while (entropy.size() < 20)
@@ -197,6 +200,7 @@ void TonWallet::createNewKey(const std::function<void (const QString &, const Er
             auto info = std::make_shared<Private::KeyInfo>();
             info->public_key = key->public_key_;
             info->secret = std::move(key->secret_);
+            info->encrypted = false;
 
             p->keys[publicKey] = info;
             storeKeys();
@@ -206,7 +210,7 @@ void TonWallet::createNewKey(const std::function<void (const QString &, const Er
     });
 }
 
-void TonWallet::exportKey(const QString &publicKey, const std::function<void (const QStringList &, const Error &)> &callback)
+void LibTonBackend::exportKey(const QString &publicKey, const std::function<void (const QStringList &, const Error &)> &callback)
 {
     auto input = p->getInputKey(publicKey);
     if (!input)
@@ -229,7 +233,7 @@ void TonWallet::exportKey(const QString &publicKey, const std::function<void (co
     });
 }
 
-void TonWallet::getAddress(const QString &publicKey, const std::function<void (const QString &, const Error &)> &callback)
+void LibTonBackend::getAddress(const QString &publicKey, const std::function<void (const QString &, const Error &)> &callback)
 {
     tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;
     switch (p->walletVersion)
@@ -263,7 +267,7 @@ void TonWallet::getAddress(const QString &publicKey, const std::function<void (c
 
 }
 
-void TonWallet::changeLocalPassword(const QString &publicKey, const QString &newPassword, const std::function<void (bool, const Error &)> &callback)
+void LibTonBackend::changeLocalPassword(const QString &publicKey, const QString &newPassword, const std::function<void (bool, const Error &)> &callback)
 {
     auto input = p->getInputKey(publicKey);
     if (!input)
@@ -281,8 +285,9 @@ void TonWallet::changeLocalPassword(const QString &publicKey, const QString &new
             auto info = std::make_shared<Private::KeyInfo>();
             info->public_key = key->public_key_;
             info->secret = std::move(key->secret_);
+            info->password = newPassword.toStdString();
+            info->encrypted = !newPassword.isEmpty();
 
-            p->passwords[publicKey] = newPassword;
             p->keys[publicKey] = info;
             storeKeys();
 
@@ -291,12 +296,12 @@ void TonWallet::changeLocalPassword(const QString &publicKey, const QString &new
     });
 }
 
-QStringList TonWallet::keys() const
+QStringList LibTonBackend::keys() const
 {
     return p->keys.keys();
 }
 
-void TonWallet::storeKeys()
+void LibTonBackend::storeKeys()
 {
     QFile f(KEYS_DB_PATH);
     if (!f.open(QFile::WriteOnly))
@@ -308,7 +313,7 @@ void TonWallet::storeKeys()
     for (auto& info : p->keys)
     {
         const auto publicKey = QString::fromStdString(info->public_key);
-        const auto password = p->passwords.value(publicKey);
+        const auto password = QString::fromStdString(info->password.value_or(std::string()));
         const auto secret = QByteArray::fromStdString(info->secret.as_slice().str());
 
         TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
@@ -324,7 +329,7 @@ void TonWallet::storeKeys()
     f.close();
 }
 
-void TonWallet::loadKeys()
+void LibTonBackend::loadKeys()
 {
     QFile f(KEYS_DB_PATH);
     if (!f.open(QFile::ReadOnly))
@@ -350,24 +355,31 @@ void TonWallet::loadKeys()
         bool encrypted;
         stream >> encrypted;
 
-        const auto password = p->passwords.value(publicKey);
-        TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
+        const auto password = p->keys.value(publicKey)? p->keys.value(publicKey)->password : std::optional<std::string>();
+        TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + QString::fromStdString(password.value_or(std::string())) + KEYS_DB_SECRET_AES_SALT);
 
         auto info = std::make_shared<Private::KeyInfo>();
         info->public_key = publicKey.toStdString();
         info->secret = td::SecureString( secret_crypto.decrypt(secret).toStdString() );
+        info->password = password;
+        info->encrypted = encrypted;
 
         p->keys[publicKey] = info;
     }
 }
 
-QString TonWallet::password(const QString &publicKey) const
+void LibTonBackend::setPassword(const QString &publicKey, const QString &newPassword)
 {
-    return p->passwords.value(publicKey);
+    auto key = p->keys[publicKey];
+    key->encrypted = !newPassword.isEmpty();
+    if (key->encrypted)
+        key->password = newPassword.toStdString();
+    else
+        key->password.reset();
+    loadKeys();
 }
 
-void TonWallet::setPassword(const QString &publicKey, const QString &newPassword)
+bool LibTonBackend::hasPassword(const QString &publicKey)
 {
-    p->passwords[publicKey] = newPassword;
-    loadKeys();
+    return p->keys.value(publicKey)->encrypted;
 }
