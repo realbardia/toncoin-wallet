@@ -84,10 +84,12 @@ TPage {
                     TRow {
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        anchors.leftMargin: 50
+                        anchors.leftMargin: 30
                         anchors.verticalCenter: parent.verticalCenter
 
                         TLabel {
+                            width: 32
+                            horizontalAlignment: Text.AlignRight
                             opacity: 0.4
                             text: (model.index+1)  + "."
                         }
