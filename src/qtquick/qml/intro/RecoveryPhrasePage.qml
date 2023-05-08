@@ -214,6 +214,7 @@ TPage {
         TestTimePage {
             id: tpage
             anchors.fill: parent
+            publicKey: recovertPage.publicKey
         }
     }
 }

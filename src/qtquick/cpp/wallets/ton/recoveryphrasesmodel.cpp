@@ -17,7 +17,9 @@ QVariant RecoveryPhrasesModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case RoleText:
-        return mPhrases.at(row).text;
+        return modelData().at(row).text;
+    case RoleItemIndex:
+        return modelData().at(row).index;
     }
 
     return QVariant();
@@ -26,13 +28,14 @@ QVariant RecoveryPhrasesModel::data(const QModelIndex &index, int role) const
 QHash<qint32, QByteArray> RecoveryPhrasesModel::roleNames() const
 {
     return {
-        {RoleText, "text"}
+        {RoleText, "text"},
+        {RoleItemIndex, "itemIndex"},
     };
 }
 
 int RecoveryPhrasesModel::count() const
 {
-    return mPhrases.count();
+    return modelData().count();
 }
 
 void RecoveryPhrasesModel::reload()
@@ -48,14 +51,19 @@ void RecoveryPhrasesModel::reload()
             setError(error.code, error.message);
 
         beginResetModel();
+
+        int count = 1;
         for (const auto &text: keys)
         {
             Phrase key = {
                 .text = text,
+                .index = count,
             };
 
             mPhrases << key;
+            count++;
         }
+        reloadData();
         endResetModel();
 
         setRefreshing(false);
@@ -67,6 +75,7 @@ void RecoveryPhrasesModel::reset()
 {
     beginResetModel();
     mPhrases.clear();
+    clearData();
     endResetModel();
     setRefreshing(false);
 }

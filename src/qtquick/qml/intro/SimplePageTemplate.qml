@@ -17,6 +17,7 @@ TPage {
     property alias secondaryButton: secondaryBtn
     property alias backable: backButton.visible
     property alias buttonBusy: buttonBusy.running
+    property alias busy: busy
 
     default property alias sceneData: customColumn.data
 
