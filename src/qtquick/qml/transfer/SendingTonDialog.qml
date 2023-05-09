@@ -62,8 +62,11 @@ TDrawer {
     Component {
         id: done_component
         SendDoneDialog {
+            ViewportType.gestureWidth: 0
+            ViewportType.blockBack: true
             width: parent.width
             closable: true
+            backable: false
             amount: dis.amount
             address: dis.address
             onCloseRequest: dis.closeRequest()
