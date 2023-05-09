@@ -38,7 +38,7 @@ QVariant KeysManager::data(const QModelIndex &index, int role) const
     {
         auto backend = mBackend->backendObject();
         if (backend)
-            return backend->hasPassword( mKeys.at(row).publicKey );
+            return backend->hasPassword( QByteArray::fromBase64(mKeys.at(row).publicKey.toLatin1()) );
         else
         {
             qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
@@ -84,7 +84,7 @@ void KeysManager::reload()
         for (const auto &publicKey: backend->keys())
         {
             Key key = {
-                .publicKey = publicKey,
+                .publicKey = QString::fromLatin1(publicKey.toBase64()),
             };
 
             mKeys << key;
@@ -112,7 +112,7 @@ bool KeysManager::createNewWallet()
     mError = 0;
     mErrorString.clear();
 
-    backend->createNewKey([this](const QString &publicKey, const AbstractWalletBackend::Error &error){
+    backend->createNewKey([this](const QByteArray &publicKey, const AbstractWalletBackend::Error &error){
         if (publicKey.isEmpty())
         {
             mError = error.code;
@@ -125,13 +125,13 @@ bool KeysManager::createNewWallet()
 
         beginInsertRows(QModelIndex(), count(), count()+1);
         Key key = {
-            .publicKey = publicKey,
+            .publicKey = QString::fromLatin1(publicKey.toBase64()),
         };
 
         mKeys << key;
         endInsertRows();
         Q_EMIT countChanged();
-        Q_EMIT walletCreatedSuccessfully(publicKey);
+        Q_EMIT walletCreatedSuccessfully(key.publicKey);
         setCreatingNewWallet(false);
     });
 
@@ -158,7 +158,7 @@ bool KeysManager::importWallet(const QStringList &words)
     mError = 0;
     mErrorString.clear();
 
-    backend->importKeys(words, [this](const QString &publicKey, const AbstractWalletBackend::Error &error){
+    backend->importKeys(words, [this](const QByteArray &publicKey, const AbstractWalletBackend::Error &error){
         if (publicKey.isEmpty())
         {
             mError = error.code;
@@ -171,13 +171,13 @@ bool KeysManager::importWallet(const QStringList &words)
 
         beginInsertRows(QModelIndex(), count(), count()+1);
         Key key = {
-            .publicKey = publicKey,
+            .publicKey = QString::fromLatin1(publicKey.toBase64()),
         };
 
         mKeys << key;
         endInsertRows();
         Q_EMIT countChanged();
-        Q_EMIT walletImportedSuccessfully(publicKey);
+        Q_EMIT walletImportedSuccessfully(key.publicKey);
         setImportingWallet(false);
     });
 

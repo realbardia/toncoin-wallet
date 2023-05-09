@@ -22,7 +22,8 @@ TPage {
         backend: MainBackend
         onPasswordChangedSuccessfully: {
             spage.busy.running = false;
-            TViewport.viewport.append(doneComponent, {"publicKey": publicKey}, "stack");
+            GlobalValues.unlocked = true;
+            TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
         }
         onPasswordChangeFailed: {
             spage.busy.running = false;

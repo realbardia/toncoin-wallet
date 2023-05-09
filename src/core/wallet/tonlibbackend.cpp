@@ -112,7 +112,7 @@ public:
         bool encrypted;
     };
 
-    tonlib_api::object_ptr<tonlib_api::inputKeyRegular> getInputKey(const QString &publicKey)
+    tonlib_api::object_ptr<tonlib_api::inputKeyRegular> getInputKey(const QByteArray &publicKey)
     {
         if (!keys.contains(publicKey))
             return nullptr;
@@ -130,7 +130,7 @@ public:
         return make_object<tonlib_api::inputKeyRegular>(std::move(key), std::move(password));
     }
 
-    QHash<QString, std::shared_ptr<KeyInfo>> keys;
+    QHash<QByteArray, std::shared_ptr<KeyInfo>> keys;
 
     td::int32 walletVersion = 2;
     td::int32 walletRevision = 0;
@@ -182,7 +182,7 @@ void TonLibBackend::init(const QString &keysDir, const std::function<void(bool d
     });
 }
 
-void TonLibBackend::createNewKey(const std::function<void (const QString &, const Error &)> &callback)
+void TonLibBackend::createNewKey(const std::function<void (const QByteArray &, const Error &)> &callback)
 {
     std::string entropy;
     while (entropy.size() < 20)
@@ -191,11 +191,11 @@ void TonLibBackend::createNewKey(const std::function<void (const QString &, cons
     auto createKey_fnc = make_object<tonlib_api::createNewKey>(td::SecureString(), td::SecureString(), td::SecureString(entropy));
     mEngine->append(std::move(createKey_fnc), [callback, this](tonlib::Client::Response resp){
         if (resp.object->get_id() == tonlib_api::error::ID)
-            callback(QString(), ERR(resp));
+            callback(QByteArray(), ERR(resp));
         else
         {
             auto key = ton::move_tl_object_as<tonlib_api::key>(resp.object);
-            const auto publicKey = QString::fromStdString(key->public_key_);
+            const auto publicKey = QByteArray::fromStdString(key->public_key_);
 
             auto info = std::make_shared<Private::KeyInfo>();
             info->public_key = key->public_key_;
@@ -210,7 +210,27 @@ void TonLibBackend::createNewKey(const std::function<void (const QString &, cons
     });
 }
 
-void TonLibBackend::exportKey(const QString &publicKey, const std::function<void (const QStringList &, const Error &)> &callback)
+void TonLibBackend::deleteKey(const QByteArray &publicKey, const std::function<void (bool, const Error &)> &callback)
+{
+    if (!p->keys.contains(publicKey))
+        return;
+
+    const auto &k = p->keys.value(publicKey);
+    auto key = make_object<tonlib_api::key>(k->public_key, td::SecureString(k->secret.as_slice()));
+    auto deleteKey_fnc = make_object<tonlib_api::deleteKey>(std::move(key));
+    mEngine->append(std::move(deleteKey_fnc), [callback, publicKey, this](tonlib::Client::Response resp){
+        if (resp.object->get_id() == tonlib_api::error::ID)
+            callback(false, ERR(resp));
+        else
+        {
+            p->keys.remove(publicKey);
+            storeKeys();
+            callback(true, Error());
+        }
+    });
+}
+
+void TonLibBackend::exportKey(const QByteArray &publicKey, const std::function<void (const QStringList &, const Error &)> &callback)
 {
     auto input = p->getInputKey(publicKey);
     if (!input)
@@ -233,7 +253,7 @@ void TonLibBackend::exportKey(const QString &publicKey, const std::function<void
     });
 }
 
-void TonLibBackend::importKeys(const QStringList &words, const std::function<void (const QString &, const Error &)> &callback)
+void TonLibBackend::importKeys(const QStringList &words, const std::function<void (const QByteArray &, const Error &)> &callback)
 {
     std::vector<td::SecureString> word_list;
     for (const auto &w: words)
@@ -244,11 +264,11 @@ void TonLibBackend::importKeys(const QStringList &words, const std::function<voi
     auto importKey_fnc = make_object<tonlib_api::importKey>(td::SecureString(""), td::SecureString(""), std::move(key));
     mEngine->append(std::move(importKey_fnc), [callback, this](tonlib::Client::Response resp){
         if (resp.object->get_id() == tonlib_api::error::ID)
-            callback(QString(), ERR(resp));
+            callback(QByteArray(), ERR(resp));
         else
         {
             auto key = ton::move_tl_object_as<tonlib_api::key>(resp.object);
-            const auto publicKey = QString::fromStdString(key->public_key_);
+            const auto publicKey = QByteArray::fromStdString(key->public_key_);
 
             auto info = std::make_shared<Private::KeyInfo>();
             info->public_key = key->public_key_;
@@ -263,7 +283,7 @@ void TonLibBackend::importKeys(const QStringList &words, const std::function<voi
     });
 }
 
-void TonLibBackend::getAddress(const QString &publicKey, const std::function<void (const QString &, const Error &)> &callback)
+void TonLibBackend::getAddress(const QByteArray &publicKey, const std::function<void (const QString &, const Error &)> &callback)
 {
     tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;
     switch (p->walletVersion)
@@ -297,20 +317,20 @@ void TonLibBackend::getAddress(const QString &publicKey, const std::function<voi
 
 }
 
-void TonLibBackend::changeLocalPassword(const QString &publicKey, const QString &newPassword, const std::function<void (bool, const Error &)> &callback)
+void TonLibBackend::changeLocalPassword(const QByteArray &publicKey, const QString &newPassword, const std::function<void (const QByteArray &, const Error &)> &callback)
 {
     auto input = p->getInputKey(publicKey);
     if (!input)
         return;
 
     auto getAddress_fnc = make_object<tonlib_api::changeLocalPassword>(std::move(input), td::SecureString(newPassword.toStdString()));
-    mEngine->append(std::move(getAddress_fnc), [callback, this, newPassword](tonlib::Client::Response resp){
+    mEngine->append(std::move(getAddress_fnc), [callback, this, newPassword, old_publicKey = publicKey](tonlib::Client::Response resp){
         if (resp.object->get_id() == tonlib_api::error::ID)
-            callback(false, ERR(resp));
+            callback(QByteArray(), ERR(resp));
         else
         {
             auto key = ton::move_tl_object_as<tonlib_api::key>(resp.object);
-            const auto publicKey = QString::fromStdString(key->public_key_);
+            const auto publicKey = QByteArray::fromStdString(key->public_key_);
 
             auto info = std::make_shared<Private::KeyInfo>();
             info->public_key = key->public_key_;
@@ -320,13 +340,14 @@ void TonLibBackend::changeLocalPassword(const QString &publicKey, const QString 
 
             p->keys[publicKey] = info;
             storeKeys();
+            deleteKey(old_publicKey, [](bool,const Error &){});
 
-            callback(true, Error());
+            callback(publicKey, Error());
         }
     });
 }
 
-QStringList TonLibBackend::keys() const
+QList<QByteArray> TonLibBackend::keys() const
 {
     return p->keys.keys();
 }
@@ -342,7 +363,7 @@ void TonLibBackend::storeKeys()
     stream << p->keys.size();
     for (auto& info : p->keys)
     {
-        const auto publicKey = QString::fromStdString(info->public_key);
+        const auto publicKey = QByteArray::fromStdString(info->public_key);
         const auto password = QString::fromStdString(info->password.value_or(std::string()));
         const auto secret = QByteArray::fromStdString(info->secret.as_slice().str());
 
@@ -350,7 +371,7 @@ void TonLibBackend::storeKeys()
 
         stream << publicKey;
         stream << secret_crypto.encrypt(secret);
-        stream << (bool)!password.isEmpty();
+        stream << info->encrypted;
     }
 
     TON::Tools::CryptoAES crypto(KEYS_DB_FILE_AES_PASS);
@@ -376,7 +397,7 @@ void TonLibBackend::loadKeys()
     stream >> size;
     for (int i=0; i<size; i++)
     {
-        QString publicKey;
+        QByteArray publicKey;
         stream >> publicKey;
 
         QByteArray secret;
@@ -387,10 +408,11 @@ void TonLibBackend::loadKeys()
 
         const auto password = p->keys.value(publicKey)? p->keys.value(publicKey)->password : std::optional<std::string>();
         TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + QString::fromStdString(password.value_or(std::string())) + KEYS_DB_SECRET_AES_SALT);
+        const auto dec = secret_crypto.decrypt(secret);
 
         auto info = std::make_shared<Private::KeyInfo>();
         info->public_key = publicKey.toStdString();
-        info->secret = td::SecureString( secret_crypto.decrypt(secret).toStdString() );
+        info->secret = td::SecureString( (dec.size()? dec : secret).toStdString() );
         info->password = password;
         info->encrypted = encrypted;
 
@@ -398,7 +420,7 @@ void TonLibBackend::loadKeys()
     }
 }
 
-void TonLibBackend::setPassword(const QString &publicKey, const QString &newPassword)
+void TonLibBackend::setPassword(const QByteArray &publicKey, const QString &newPassword)
 {
     auto key = p->keys[publicKey];
     key->encrypted = !newPassword.isEmpty();
@@ -409,7 +431,20 @@ void TonLibBackend::setPassword(const QString &publicKey, const QString &newPass
     loadKeys();
 }
 
-bool TonLibBackend::hasPassword(const QString &publicKey)
+bool TonLibBackend::hasPassword(const QByteArray &publicKey)
 {
-    return p->keys.value(publicKey)->encrypted;
+    return p->keys.contains(publicKey) && p->keys.value(publicKey)->encrypted;
+}
+
+bool TonLibBackend::testPassword(const QByteArray &publicKey, const QString &password)
+{
+    if (!p->keys.contains(publicKey))
+        return false;
+
+    const auto &k = p->keys.value(publicKey);
+    const auto secret = QByteArray::fromStdString(k->secret.as_slice().str());
+
+    TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
+    const auto dec = secret_crypto.decrypt(secret);
+    return !dec.isEmpty();
 }

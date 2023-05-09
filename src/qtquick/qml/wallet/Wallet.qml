@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
+import Wallet.Core 1.0
 import "../transfer" as Transfer
 import "../settings" as Settings
 import "../connect" as Connect
@@ -16,6 +17,13 @@ TPage {
 
     property string balance: "56.2322"
     property string balanceUSD: "89.6"
+
+    property alias publicKey: wallet.publicKey
+
+    WalletItem {
+        id: wallet
+        backend: MainBackend
+    }
 
     ListModel {
         id: testModel

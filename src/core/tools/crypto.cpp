@@ -22,11 +22,6 @@ using namespace std;
 namespace TON::crypto::aes
 {
 
-void handleErrors()
-{
-    ERR_print_errors_fp(stderr);
-}
-
 int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, unsigned char *iv, unsigned char *ciphertext) {
     EVP_CIPHER_CTX *ctx;
 
@@ -36,7 +31,7 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, uns
 
     /* Create and initialise the context */
     if(!(ctx = EVP_CIPHER_CTX_new()))
-        handleErrors();
+        throw false;
 
     /*
      * Initialise the encryption operation. IMPORTANT - ensure you use a key
@@ -46,14 +41,20 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, uns
      * is 128 bits
      */
     if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv))
-        handleErrors();
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        throw false;
+    }
 
     /*
      * Provide the message to be encrypted, and obtain the encrypted output.
      * EVP_EncryptUpdate can be called multiple times if necessary
      */
     if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
-        handleErrors();
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        throw false;
+    }
     ciphertext_len = len;
 
     /*
@@ -61,7 +62,10 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key, uns
      * this stage.
      */
     if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len))
-        handleErrors();
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        throw false;
+    }
     ciphertext_len += len;
 
     /* Clean up */
@@ -81,7 +85,7 @@ int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, u
 
     /* Create and initialise the context */
     if(!(ctx = EVP_CIPHER_CTX_new()))
-        handleErrors();
+        throw false;
 
     /*
      * Initialise the decryption operation. IMPORTANT - ensure you use a key
@@ -91,14 +95,20 @@ int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, u
      * is 128 bits
      */
     if(1 != EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv))
-        handleErrors();
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        throw false;
+    }
 
     /*
      * Provide the message to be decrypted, and obtain the plaintext output.
      * EVP_DecryptUpdate can be called multiple times if necessary.
      */
     if(1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len))
-        handleErrors();
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        throw false;
+    }
     plaintext_len = len;
 
     /*
@@ -106,7 +116,7 @@ int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key, u
      * this stage.
      */
     if(1 != EVP_DecryptFinal_ex(ctx, plaintext + len, &len))
-        handleErrors();
+        plaintext_len = 0;
     plaintext_len += len;
 
     /* Clean up */
@@ -156,18 +166,23 @@ string myEncrypt(string plainText, string pass)
     const auto keyStr = hashStr.substr(0, 16);
     const auto iv = hashStr.substr(16, 16);
 
-    // here we initiate the encryption process
-    int cipherSize = encrypt(
-        (unsigned char *) plainText.c_str(),
-        plainText.size(),
-        (unsigned char *) keyStr.c_str(),
-        (unsigned char *) iv.c_str(),
-        cipher
-    );
+    string res;
+    try {
+        // here we initiate the encryption process
+        int cipherSize = encrypt(
+            (unsigned char *) plainText.c_str(),
+            plainText.size(),
+            (unsigned char *) keyStr.c_str(),
+            (unsigned char *) iv.c_str(),
+            cipher
+        );
 
-    string res((char *) cipher, cipherSize);
+        res = string((char *) cipher, cipherSize);
+    } catch(...) {
+    }
 
     free(cipher);
+    free(hash);
     return res;
 }
 
@@ -188,15 +203,19 @@ string myDecrypt(string cipher, string pass)
     const auto keyStr = hashStr.substr(0, 16);
     const auto iv = hashStr.substr(16, 16);
 
-    auto len = decrypt(
-        (unsigned char *) cipher.c_str(),
-        cipher.size(),
-        (unsigned char *) keyStr.c_str(),
-        (unsigned char *) iv.c_str(),
-        plainTextBytes
-    );
+    string plainText;
+    try {
+        auto len = decrypt(
+            (unsigned char *) cipher.c_str(),
+            cipher.size(),
+            (unsigned char *) keyStr.c_str(),
+            (unsigned char *) iv.c_str(),
+            plainTextBytes
+        );
 
-    string plainText((char *) plainTextBytes, len);
+        plainText = string((char *) plainTextBytes, len);
+    } catch(...) {
+    }
 
     free(hash);
     free(plainTextBytes);

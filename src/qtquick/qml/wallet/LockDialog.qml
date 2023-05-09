@@ -1,11 +1,19 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
+import Wallet.Core 1.0
 import "../components"
 import "../globals"
 
 TPage {
     color: "#000"
+
+    property alias publicKey: wallet.publicKey
+
+    WalletItem {
+        id: wallet
+        backend: MainBackend
+    }
 
     TColumn {
         anchors.left: parent.left
@@ -40,8 +48,8 @@ TPage {
                 if (text.length != digitsCount)
                     return;
 
-                if (text == "1234")
-                    GlobalValues.locked = false;
+                if (wallet.unlock(text))
+                    GlobalValues.unlocked = true;
                 else {
                     vibrate();
                     text = "";

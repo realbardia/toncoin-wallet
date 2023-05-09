@@ -58,7 +58,7 @@ void RecoveryPhrasesModel::reload()
     }
 
     const auto pkey = publicKey();
-    backend->exportKey(pkey, [this, pkey](const QStringList &keys, const AbstractWalletBackend::Error &error){
+    backend->exportKey(QByteArray::fromBase64(pkey.toLatin1()), [this, pkey](const QStringList &keys, const AbstractWalletBackend::Error &error){
         if (pkey != publicKey())
             return;
         if (error.code)

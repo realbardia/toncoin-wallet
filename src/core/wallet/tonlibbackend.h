@@ -19,17 +19,19 @@ public:
 
     void init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback) override;
 
-    void createNewKey(const std::function<void(const QString &publicKey, const Error &error)> &callback) override;
-    void exportKey(const QString &publicKey, const std::function<void(const QStringList &keys, const Error &error)> &callback) override;
-    void importKeys(const QStringList &words, const std::function<void(const QString &publicKey, const Error &error)> &callback) override;
-    void getAddress(const QString &publicKey, const std::function<void(const QString &publicKey, const Error &error)> &callback) override;
+    void createNewKey(const std::function<void(const QByteArray &publicKey, const Error &error)> &callback) override;
+    void deleteKey(const QByteArray &publicKey, const std::function<void(bool done, const Error &error)> &callback) override;
+    void exportKey(const QByteArray &publicKey, const std::function<void(const QStringList &keys, const Error &error)> &callback) override;
+    void importKeys(const QStringList &words, const std::function<void(const QByteArray &publicKey, const Error &error)> &callback) override;
+    void getAddress(const QByteArray &publicKey, const std::function<void(const QString &address, const Error &error)> &callback) override;
 
-    void changeLocalPassword(const QString &publicKey, const QString &password, const std::function<void(bool done, const Error &error)> &callback) override;
+    void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) override;
 
-    QStringList keys() const override;
+    QList<QByteArray> keys() const override;
 
-    void setPassword(const QString &publicKey, const QString &newPassword) override;
-    bool hasPassword(const QString &publicKey) override;
+    void setPassword(const QByteArray &publicKey, const QString &newPassword) override;
+    bool hasPassword(const QByteArray &publicKey) override;
+    bool testPassword(const QByteArray &publicKey, const QString &password) override;
 
 protected:
     void storeKeys();

@@ -52,6 +52,7 @@ TWindow {
             active: AppSettings.loggedInPublicKey.length
             sourceComponent: Wallet.WalletPage {
                 anchors.fill: parent
+                publicKey: AppSettings.loggedInPublicKey
                 Component.onCompleted: Devices.setupWindowColor(color)
             }
         }
