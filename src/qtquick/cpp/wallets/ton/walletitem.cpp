@@ -1,6 +1,8 @@
 #include "walletitem.h"
 #include "core/wallet/backendmanager.h"
 
+#include <QtQml>
+
 using namespace TON::Wallet;
 
 WalletItem::WalletItem(QObject *parent)
@@ -27,26 +29,39 @@ void WalletItem::setPublicKey(const QString &newPublicKey)
     Q_EMIT publicKeyChanged();
 }
 
-void WalletItem::changePassword(const QString &password)
+bool WalletItem::changePassword(const QString &password)
 {
-    auto backend = mWalletBackend->backendObject();
+    if (!mBackend)
+    {
+        qmlWarning(this) << "backend property is null. Please set backend property first.";
+        return false;
+    }
+    auto backend = mBackend->backendObject();
+    if (!backend)
+    {
+        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
+        return false;
+    }
+
     backend->changeLocalPassword(mPublicKey, password, [this](bool done, const AbstractWalletBackend::Error &error){
         if (done)
             Q_EMIT passwordChangedSuccessfully();
         else
             Q_EMIT passwordChangeFailed(error.code, error.message);
     });
+
+    return true;
 }
 
-WalletBackend *WalletItem::keysManager() const
+WalletBackend *WalletItem::backend() const
 {
-    return mWalletBackend;
+    return mBackend;
 }
 
-void WalletItem::setWalletBackend(WalletBackend *newWalletBackend)
+void WalletItem::setBackend(WalletBackend *newBackend)
 {
-    if (mWalletBackend == newWalletBackend)
+    if (mBackend == newBackend)
         return;
-    mWalletBackend = newWalletBackend;
-    Q_EMIT keysManagerChanged();
+    mBackend = newBackend;
+    Q_EMIT backendChanged();
 }

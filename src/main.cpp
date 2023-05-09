@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "qtquick/cpp/tonqtquick.h"
 
@@ -33,6 +34,7 @@ int main(int argc, char *argv[])
     else
     {
         QQmlApplicationEngine engine;
+        engine.rootContext()->setContextProperty("testMode", qEnvironmentVariable("TON_TEST_MODE") == QStringLiteral("1"));
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
             &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -233,6 +233,36 @@ void TonLibBackend::exportKey(const QString &publicKey, const std::function<void
     });
 }
 
+void TonLibBackend::importKeys(const QStringList &words, const std::function<void (const QString &, const Error &)> &callback)
+{
+    std::vector<td::SecureString> word_list;
+    for (const auto &w: words)
+        word_list.push_back( td::SecureString(w.toStdString()) );
+
+    auto key = make_object<tonlib_api::exportedKey>(std::move(word_list));
+
+    auto importKey_fnc = make_object<tonlib_api::importKey>(td::SecureString(""), td::SecureString(""), std::move(key));
+    mEngine->append(std::move(importKey_fnc), [callback, this](tonlib::Client::Response resp){
+        if (resp.object->get_id() == tonlib_api::error::ID)
+            callback(QString(), ERR(resp));
+        else
+        {
+            auto key = ton::move_tl_object_as<tonlib_api::key>(resp.object);
+            const auto publicKey = QString::fromStdString(key->public_key_);
+
+            auto info = std::make_shared<Private::KeyInfo>();
+            info->public_key = key->public_key_;
+            info->secret = std::move(key->secret_);
+            info->encrypted = false;
+
+            p->keys[publicKey] = info;
+            storeKeys();
+
+            callback(publicKey, Error());
+        }
+    });
+}
+
 void TonLibBackend::getAddress(const QString &publicKey, const std::function<void (const QString &, const Error &)> &callback)
 {
     tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;

@@ -29,6 +29,7 @@ TControlElement {
         opacity: 0
         clip: true
         maximumLength: 4
+        inputMethodHints: Qt.ImhDigitsOnly
         validator: RegularExpressionValidator {
             regularExpression: /\d+/
         }

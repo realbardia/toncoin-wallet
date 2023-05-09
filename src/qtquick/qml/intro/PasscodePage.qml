@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Viewport 1.0
 import Toolkit.Core 1.0
+import Wallet.Core 1.0
 import "../components"
 import "../globals"
 
@@ -9,11 +10,24 @@ TPage {
 
     property alias backable: spage.backable
     property alias digitsCount: passField.digitsCount
+    property alias publicKey: wallet.publicKey
     property bool closeAtEnd
 
     property string confirmMode
 
     signal closeRequest()
+
+    WalletItem {
+        id: wallet
+        backend: MainBackend
+        onPasswordChangedSuccessfully: {
+            spage.busy.running = false;
+            TViewport.viewport.append(doneComponent, {"publicKey": publicKey}, "stack");
+        }
+        onPasswordChangeFailed: {
+            spage.busy.running = false;
+        }
+    }
 
     SimplePageTemplate {
         id: spage
@@ -39,6 +53,7 @@ TPage {
         Item {
             width: 160
             height: spage.height * 0.4 - 120
+            visible: !spage.busy.running
 
             TPasswordField {
                 id: passField
@@ -53,11 +68,18 @@ TPage {
                         } else if (closeAtEnd) {
                             page.closeRequest()
                         } else {
-                            TViewport.viewport.append(doneComponent, {}, "stack");
+                            spage.busy.running = true;
+                            wallet.changePassword(passField.text)
                         }
                     } else {
                         var cmp = Qt.createComponent("PasscodePage.qml");
-                        confirmItem = TViewport.viewport.append(cmp, {"confirmMode": passField.text, "digitsCount": digitsCount, "closeAtEnd": closeAtEnd}, "stack");
+                        var properties = {
+                            "confirmMode": passField.text,
+                            "digitsCount": digitsCount,
+                            "closeAtEnd": closeAtEnd,
+                            "publicKey": publicKey
+                        };
+                        confirmItem = TViewport.viewport.append(cmp, properties, "stack");
                         confirmItem.closeRequest.connect(page.closeRequest)
                     }
                 }
@@ -108,6 +130,7 @@ TPage {
         DonePage {
             anchors.fill: parent
             backable: true
+            publicKey: page.publicKey
         }
     }
 }

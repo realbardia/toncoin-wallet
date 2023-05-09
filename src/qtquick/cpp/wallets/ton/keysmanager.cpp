@@ -1,5 +1,7 @@
 #include "keysmanager.h"
 
+#include <QtQml>
+
 using namespace TON::Wallet;
 
 KeysManager::KeysManager(QObject *parent)
@@ -21,6 +23,12 @@ int KeysManager::rowCount(const QModelIndex &parent) const
 
 QVariant KeysManager::data(const QModelIndex &index, int role) const
 {
+    if (!mBackend)
+    {
+        qmlWarning(this) << "backend property is null. Please set backend property first.";
+        return QVariant();
+    }
+
     const auto row = index.row();
     switch (role)
     {
@@ -32,7 +40,10 @@ QVariant KeysManager::data(const QModelIndex &index, int role) const
         if (backend)
             return backend->hasPassword( mKeys.at(row).publicKey );
         else
+        {
+            qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
             return false;
+        }
     }
         break;
     }
@@ -86,12 +97,21 @@ void KeysManager::reload()
 bool KeysManager::createNewWallet()
 {
     if (!mBackend)
+    {
+        qmlWarning(this) << "backend property is null. Please set backend property first.";
         return false;
+    }
+
+    auto backend = mBackend->backendObject();
+    if (!backend)
+    {
+        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
+        return false;
+    }
 
     mError = 0;
     mErrorString.clear();
 
-    auto backend = mBackend->backendObject();
     backend->createNewKey([this](const QString &publicKey, const AbstractWalletBackend::Error &error){
         if (publicKey.isEmpty())
         {
@@ -99,6 +119,7 @@ bool KeysManager::createNewWallet()
             mErrorString = error.message;
             Q_EMIT errorChanged();
             Q_EMIT walletCreationFailed();
+            setCreatingNewWallet(false);
             return;
         }
 
@@ -119,6 +140,53 @@ bool KeysManager::createNewWallet()
     return true;
 }
 
+bool KeysManager::importWallet(const QStringList &words)
+{
+    if (!mBackend)
+    {
+        qmlWarning(this) << "backend property is null. Please set backend property first.";
+        return false;
+    }
+
+    auto backend = mBackend->backendObject();
+    if (!backend)
+    {
+        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
+        return false;
+    }
+
+    mError = 0;
+    mErrorString.clear();
+
+    backend->importKeys(words, [this](const QString &publicKey, const AbstractWalletBackend::Error &error){
+        if (publicKey.isEmpty())
+        {
+            mError = error.code;
+            mErrorString = error.message;
+            Q_EMIT errorChanged();
+            Q_EMIT walletImportFailed();
+            setImportingWallet(false);
+            return;
+        }
+
+        beginInsertRows(QModelIndex(), count(), count()+1);
+        Key key = {
+            .publicKey = publicKey,
+        };
+
+        mKeys << key;
+        endInsertRows();
+        Q_EMIT countChanged();
+        Q_EMIT walletImportedSuccessfully(publicKey);
+        setImportingWallet(false);
+    });
+
+    setImportingWallet(true);
+    Q_EMIT errorChanged();
+
+    return true;
+}
+
 bool KeysManager::creatingNewWallet() const
 {
     return mCreatingNewWallet;
@@ -129,7 +197,20 @@ void KeysManager::setCreatingNewWallet(bool newCreatingNewWallet)
     if (mCreatingNewWallet == newCreatingNewWallet)
         return;
     mCreatingNewWallet = newCreatingNewWallet;
-    emit creatingNewWalletChanged();
+    Q_EMIT creatingNewWalletChanged();
+}
+
+bool KeysManager::importingWallet() const
+{
+    return mImportingWallet;
+}
+
+void KeysManager::setImportingWallet(bool newImportingWallet)
+{
+    if (mImportingWallet == newImportingWallet)
+        return;
+    mImportingWallet = newImportingWallet;
+    Q_EMIT importingWalletChanged();
 }
 
 QString KeysManager::errorString() const

@@ -27,9 +27,9 @@ TPage {
 
         mainButton {
             text: qsTr("Continue")
-            enabled: resultsMap.count == qmodel.count && !qmodel.refreshing
+            enabled: (resultsMap.count == qmodel.count && !qmodel.refreshing) || testMode
             onClicked: {
-                if (qmodel.test(resultsMap.values)) {
+                if (qmodel.test(resultsMap.values) || testMode) {
                     TViewport.viewport.append(success_component, {}, "stack")
                 } else {
                     errorDialog.open();
@@ -78,9 +78,10 @@ TPage {
                 CustomTextField {
                     label: model.itemIndex + ":"
                     onTextChanged: {
-                        resultsMap.remove(model.index);
+                        var uniqueIdx = GlobalMethods.justifyNumber(model.index, 10);
+                        resultsMap.remove(uniqueIdx);
                         if (text.length)
-                            resultsMap.insert(model.index, text.toLowerCase());
+                            resultsMap.insert(uniqueIdx, text.toLowerCase());
                     }
                     onTabPressed: {
                         if (model.index+1 < repeater.count) {
@@ -132,6 +133,7 @@ TPage {
         SuccessPage {
             id: spage
             anchors.fill: parent
+            publicKey: dis.publicKey
         }
     }
 }

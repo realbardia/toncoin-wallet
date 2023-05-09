@@ -11,7 +11,8 @@ class KeysManager : public TonToolkitAbstractListModel
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(WalletBackend *backend READ backend WRITE setBackend NOTIFY backendChanged)
-    Q_PROPERTY(bool creatingNewWallet READ creatingNewWallet WRITE setCreatingNewWallet NOTIFY creatingNewWalletChanged)
+    Q_PROPERTY(bool creatingNewWallet READ creatingNewWallet NOTIFY creatingNewWalletChanged)
+    Q_PROPERTY(bool importingWallet READ importingWallet NOTIFY importingWalletChanged)
     Q_PROPERTY(qint32 error READ error NOTIFY errorChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorChanged)
 
@@ -35,6 +36,7 @@ public:
     void setBackend(WalletBackend *newBackend);
 
     bool creatingNewWallet() const;
+    bool importingWallet() const;
 
     qint32 error() const;
     QString errorString() const;
@@ -42,17 +44,24 @@ public:
 public Q_SLOTS:
     void reload();
     bool createNewWallet();
+    bool importWallet(const QStringList &words);
 
 Q_SIGNALS:
     void countChanged();
     void backendChanged();
+    void errorChanged();
+
     void creatingNewWalletChanged();
     void walletCreatedSuccessfully(const QString &publicKey);
     void walletCreationFailed();
-    void errorChanged();
+
+    void importingWalletChanged();
+    void walletImportedSuccessfully(const QString &publicKey);
+    void walletImportFailed();
 
 protected:
     void setCreatingNewWallet(bool newCreatingNewWallet);
+    void setImportingWallet(bool newImportingWallet);
 
 private:
     qint32 mError = 0;
@@ -63,6 +72,7 @@ private:
     };
 
     bool mCreatingNewWallet = false;
+    bool mImportingWallet = false;
 
     QList<Key> mKeys;
     QPointer<WalletBackend> mBackend;

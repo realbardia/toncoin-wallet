@@ -1,5 +1,7 @@
 #include "recoveryphrasesmodel.h"
 
+#include <QtQml>
+
 using namespace TON::Wallet;
 
 RecoveryPhrasesModel::RecoveryPhrasesModel(QObject *parent)
@@ -42,7 +44,19 @@ void RecoveryPhrasesModel::reload()
 {
     setRefreshing(true);
 
+    if (!AbstractWalletModel::backend())
+    {
+        qmlWarning(this) << "backend property is null. Please set backend property first.";
+        return;
+    }
+
     auto backend = AbstractWalletModel::backend()->backendObject();
+    if (!backend)
+    {
+        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
+        return;
+    }
+
     const auto pkey = publicKey();
     backend->exportKey(pkey, [this, pkey](const QStringList &keys, const AbstractWalletBackend::Error &error){
         if (pkey != publicKey())

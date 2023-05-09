@@ -10,7 +10,7 @@ class WalletItem : public TonToolkitQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QString publicKey READ publicKey WRITE setPublicKey NOTIFY publicKeyChanged)
-    Q_PROPERTY(WalletBackend *keysManager READ keysManager WRITE setWalletBackend NOTIFY keysManagerChanged)
+    Q_PROPERTY(WalletBackend *backend READ backend WRITE setBackend NOTIFY backendChanged)
 
 public:
     WalletItem(QObject *parent = nullptr);
@@ -19,22 +19,22 @@ public:
     QString publicKey() const;
     void setPublicKey(const QString &newPublicKey);
 
-    WalletBackend *keysManager() const;
-    void setWalletBackend(WalletBackend *newWalletBackend);
+    WalletBackend *backend() const;
+    void setBackend(WalletBackend *newBackend);
 
 public Q_SLOTS:
-    void changePassword(const QString &password);
+    bool changePassword(const QString &password);
 
 Q_SIGNALS:
     void publicKeyChanged();
-    void keysManagerChanged();
+    void backendChanged();
 
     void passwordChangedSuccessfully();
     void passwordChangeFailed(qint32 code, const QString &error);
 
 private:
     QString mPublicKey;
-    QPointer<WalletBackend> mWalletBackend;
+    QPointer<WalletBackend> mBackend;
 };
 
 #endif // WALLETITEM_H

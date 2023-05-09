@@ -11,6 +11,8 @@ SimplePageTemplate {
     body: qsTr("Now set up a passcode to secure transactions.")
     backable: true
 
+    property string publicKey
+
     onCloseRequest: page.ViewportType.open = false
 
     mainButton {
@@ -38,6 +40,7 @@ SimplePageTemplate {
         PasscodePage {
             id: ppage
             anchors.fill: parent
+            publicKey: page.publicKey
         }
     }
 }

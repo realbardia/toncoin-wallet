@@ -93,5 +93,6 @@
         <file>components/private/HScrollBar.qml</file>
         <file>globals/MainBackend.qml</file>
         <file>components/TBusyIndicator.qml</file>
+        <file>globals/GlobalMethods.qml</file>
     </qresource>
 </RCC>

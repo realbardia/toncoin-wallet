@@ -9,6 +9,19 @@ TPage {
 
     property alias dialogOpened: warnDialog.opened
 
+    Connections {
+        target: MainBackend.keysManager
+
+        function onWalletImportedSuccessfully(publicKey) {
+            TViewport.viewport.append(wallet_success_component, {"publicKey": publicKey}, "stack")
+        }
+
+        function onWalletImportFailed() {
+            console.debug(MainBackend.keysManager.error, MainBackend.keysManager.errorString)
+            warnDialog.open();
+        }
+    }
+
     MapObject {
         id: wordsMap
     }
@@ -53,18 +66,26 @@ TPage {
                         continueBtn.forceActiveFocus();
                     }
 
-                    TButton {
-                        id: continueBtn
+                    TColumn {
                         anchors.centerIn: parent
                         anchors.verticalCenterOffset: -15
-                        width: 200
-                        text: qsTr("Continue")
-                        enabled: wordsMap.count == listv.count
-                        onClicked: {
-                            if (!wordsMap.contains(0) || wordsMap.value(0).length == 0)
-                                warnDialog.open()
-                            else
-                                TViewport.viewport.append(wallet_success_component, {}, "stack")
+
+                        TBusyIndicator {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: 42
+                            running: MainBackend.keysManager.importingWallet
+                            accented: true
+                            visible: running
+                        }
+
+                        TButton {
+                            id: continueBtn
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            visible: !MainBackend.keysManager.importingWallet
+                            width: 200
+                            text: qsTr("Continue")
+                            enabled: wordsMap.count == listv.count
+                            onClicked: MainBackend.keysManager.importWallet(wordsMap.values)
                         }
                     }
                 }
@@ -90,9 +111,9 @@ TPage {
                         anchors.centerIn: parent
                         leftPadding: 24
                         onTextChanged: {
-                            wordsMap.remove(model.index);
+                            wordsMap.remove(uniqueIdx);
                             if (text.length)
-                                wordsMap.insert(model.index, text);
+                                wordsMap.insert(uniqueIdx, text);
                         }
                         onTabPressed: {
                             if (model.index < listv.count-1)
@@ -100,7 +121,9 @@ TPage {
                             else
                                 listv.footerItem.focus = true;
                         }
-                        Component.onCompleted: if (wordsMap.contains(model.index)) text = wordsMap.value(model.index);
+                        Component.onCompleted: if (wordsMap.contains(uniqueIdx)) text = wordsMap.value(uniqueIdx);
+
+                        readonly property string uniqueIdx: GlobalMethods.justifyNumber(model.index, 10)
 
                         TLabel {
                             id: label
@@ -108,7 +131,7 @@ TPage {
                             anchors.rightMargin: -20
                             anchors.verticalCenter: parent.verticalCenter
                             opacity: 0.4
-                            text: model.index + ":"
+                            text: (model.index+1) + ":"
                         }
                     }
                 }

@@ -11,10 +11,12 @@ SimplePageTemplate {
     body: qsTr("You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.")
     backable: true
 
+    property string publicKey
+
     onCloseRequest: dis.ViewportType.open = false
 
     mainButton {
         text: qsTr("View my wallet")
-        onClicked: AppSettings.privateKey = "1a8a1190-441b-49dd-815c-ef9ef0295846"
+        onClicked: AppSettings.loggedInPublicKey = publicKey
     }
 }
