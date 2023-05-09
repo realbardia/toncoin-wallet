@@ -420,7 +420,7 @@ void TonLibBackend::loadKeys()
     }
 }
 
-void TonLibBackend::setPassword(const QByteArray &publicKey, const QString &newPassword)
+void TonLibBackend::unlockUsingPassword(const QByteArray &publicKey, const QString &newPassword)
 {
     auto key = p->keys[publicKey];
     key->encrypted = !newPassword.isEmpty();

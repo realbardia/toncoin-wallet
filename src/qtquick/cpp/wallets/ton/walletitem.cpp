@@ -77,7 +77,7 @@ bool WalletItem::unlock(const QString &password)
         return false;
 
     auto backend = mBackend->backendObject();
-    backend->setPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password);
+    backend->unlockUsingPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password);
     return true;
 }
 

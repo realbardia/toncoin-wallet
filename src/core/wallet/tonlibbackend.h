@@ -29,7 +29,7 @@ public:
 
     QList<QByteArray> keys() const override;
 
-    void setPassword(const QByteArray &publicKey, const QString &newPassword) override;
+    void unlockUsingPassword(const QByteArray &publicKey, const QString &password) override;
     bool hasPassword(const QByteArray &publicKey) override;
     bool testPassword(const QByteArray &publicKey, const QString &password) override;
 
