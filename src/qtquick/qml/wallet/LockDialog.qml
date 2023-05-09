@@ -69,6 +69,7 @@ TPage {
         flat: true
         height: 60
         width: height
+        visible: AppSettings.touchId
         icon.text: MaterialIcons.mdi_fingerprint
         icon.font.pixelSize: 20 * Devices.fontDensity
         highlightColor: "#fff"

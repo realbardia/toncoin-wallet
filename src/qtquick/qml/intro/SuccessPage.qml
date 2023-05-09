@@ -29,6 +29,7 @@ SimplePageTemplate {
         anchors.horizontalCenter: parent.horizontalCenter
         width: 160
         text: qsTr("Enable Touch ID")
+        onCheckedChanged: AppSettings.touchId = checked
         onTabPressed: {
             mainButton.focus = true;
             mainButton.forceActiveFocus();
