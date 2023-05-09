@@ -5,7 +5,7 @@ import Wallet.Core 1.0
 Backend {
     id: dis
     source: "/home/bardia/Desktop/test"
-    backend: TonQmlGlobal.LibTon
+    backend: TonQmlGlobal.TonLib
 
     property alias keysManager: keysManager
 

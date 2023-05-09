@@ -1,4 +1,4 @@
-#include "libtonbackend.h"
+#include "tonlibbackend.h"
 #include "core/tools/crypto.h"
 
 #include <tonlib/Client.h>
@@ -32,7 +32,7 @@
 using tonlib_api::make_object;
 using namespace TON::Wallet;
 
-class LibTonBackend::Engine: public QThread
+class TonLibBackend::Engine: public QThread
 {
 public:
     typedef std::function<void(tonlib::Client::Response)> ResposeCallback;
@@ -102,7 +102,7 @@ private:
 };
 
 
-class LibTonBackend::Private
+class TonLibBackend::Private
 {
 public:
     struct KeyInfo {
@@ -138,7 +138,7 @@ public:
     td::int32 workchainId = 0;
 };
 
-LibTonBackend::LibTonBackend(QObject *parent)
+TonLibBackend::TonLibBackend(QObject *parent)
     : AbstractWalletBackend(parent)
 {
     p = new Private;
@@ -148,7 +148,7 @@ LibTonBackend::LibTonBackend(QObject *parent)
     mEngine->start();
 }
 
-LibTonBackend::~LibTonBackend()
+TonLibBackend::~TonLibBackend()
 {
     mEngine->doTerminate();
     mEngine->quit();
@@ -158,7 +158,7 @@ LibTonBackend::~LibTonBackend()
     delete p;
 }
 
-void LibTonBackend::init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback)
+void TonLibBackend::init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback)
 {
     mKeysDir = keysDir;
 
@@ -182,7 +182,7 @@ void LibTonBackend::init(const QString &keysDir, const std::function<void(bool d
     });
 }
 
-void LibTonBackend::createNewKey(const std::function<void (const QString &, const Error &)> &callback)
+void TonLibBackend::createNewKey(const std::function<void (const QString &, const Error &)> &callback)
 {
     std::string entropy;
     while (entropy.size() < 20)
@@ -210,7 +210,7 @@ void LibTonBackend::createNewKey(const std::function<void (const QString &, cons
     });
 }
 
-void LibTonBackend::exportKey(const QString &publicKey, const std::function<void (const QStringList &, const Error &)> &callback)
+void TonLibBackend::exportKey(const QString &publicKey, const std::function<void (const QStringList &, const Error &)> &callback)
 {
     auto input = p->getInputKey(publicKey);
     if (!input)
@@ -233,7 +233,7 @@ void LibTonBackend::exportKey(const QString &publicKey, const std::function<void
     });
 }
 
-void LibTonBackend::getAddress(const QString &publicKey, const std::function<void (const QString &, const Error &)> &callback)
+void TonLibBackend::getAddress(const QString &publicKey, const std::function<void (const QString &, const Error &)> &callback)
 {
     tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;
     switch (p->walletVersion)
@@ -267,7 +267,7 @@ void LibTonBackend::getAddress(const QString &publicKey, const std::function<voi
 
 }
 
-void LibTonBackend::changeLocalPassword(const QString &publicKey, const QString &newPassword, const std::function<void (bool, const Error &)> &callback)
+void TonLibBackend::changeLocalPassword(const QString &publicKey, const QString &newPassword, const std::function<void (bool, const Error &)> &callback)
 {
     auto input = p->getInputKey(publicKey);
     if (!input)
@@ -296,12 +296,12 @@ void LibTonBackend::changeLocalPassword(const QString &publicKey, const QString 
     });
 }
 
-QStringList LibTonBackend::keys() const
+QStringList TonLibBackend::keys() const
 {
     return p->keys.keys();
 }
 
-void LibTonBackend::storeKeys()
+void TonLibBackend::storeKeys()
 {
     QFile f(KEYS_DB_PATH);
     if (!f.open(QFile::WriteOnly))
@@ -329,7 +329,7 @@ void LibTonBackend::storeKeys()
     f.close();
 }
 
-void LibTonBackend::loadKeys()
+void TonLibBackend::loadKeys()
 {
     QFile f(KEYS_DB_PATH);
     if (!f.open(QFile::ReadOnly))
@@ -368,7 +368,7 @@ void LibTonBackend::loadKeys()
     }
 }
 
-void LibTonBackend::setPassword(const QString &publicKey, const QString &newPassword)
+void TonLibBackend::setPassword(const QString &publicKey, const QString &newPassword)
 {
     auto key = p->keys[publicKey];
     key->encrypted = !newPassword.isEmpty();
@@ -379,7 +379,7 @@ void LibTonBackend::setPassword(const QString &publicKey, const QString &newPass
     loadKeys();
 }
 
-bool LibTonBackend::hasPassword(const QString &publicKey)
+bool TonLibBackend::hasPassword(const QString &publicKey)
 {
     return p->keys.value(publicKey)->encrypted;
 }

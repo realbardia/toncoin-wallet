@@ -56,10 +56,10 @@ LIBS += -lssl -lcrypto
 SOURCES += \
     $$PWD/abstractwalletbackend.cpp \
     $$PWD/backendmanager.cpp \
-    $$PWD/libtonbackend.cpp
+    $$PWD/tonlibbackend.cpp
 
 HEADERS += \
     $$PWD/abstractwalletbackend.h \
     $$PWD/backendmanager.h \
-    $$PWD/libtonbackend.h
+    $$PWD/tonlibbackend.h
  

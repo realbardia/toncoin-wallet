@@ -1,5 +1,5 @@
-#ifndef LIBTONBACKEND_H
-#define LIBTONBACKEND_H
+#ifndef TONLIBBACKEND_H
+#define TONLIBBACKEND_H
 
 #include "abstractwalletbackend.h"
 
@@ -8,14 +8,14 @@
 namespace TON::Wallet
 {
 
-class LibTonBackend: public AbstractWalletBackend
+class TonLibBackend: public AbstractWalletBackend
 {
     class Engine;
     class Private;
 
 public:
-    LibTonBackend(QObject *parent = nullptr);
-    virtual ~LibTonBackend();
+    TonLibBackend(QObject *parent = nullptr);
+    virtual ~TonLibBackend();
 
     void init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback) override;
 
@@ -43,4 +43,4 @@ private:
 
 }
 
-#endif // LIBTONBACKEND_H
+#endif // TONLIBBACKEND_H

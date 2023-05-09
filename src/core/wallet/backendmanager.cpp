@@ -1,5 +1,5 @@
 #include "backendmanager.h"
-#include "libtonbackend.h"
+#include "tonlibbackend.h"
 
 #include <QUuid>
 #include <QDataStream>
@@ -13,8 +13,8 @@ QSharedPointer<AbstractWalletBackend> BackendManager::createFreeBackend(BackendT
 {
     switch (static_cast<int>(type))
     {
-    case LibTon:
-        return QSharedPointer<AbstractWalletBackend>(new LibTonBackend());
+    case TonLib:
+        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend());
     }
 
     return nullptr;
