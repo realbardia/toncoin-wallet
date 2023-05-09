@@ -16,8 +16,10 @@ TPage {
         id: viewport
         anchors.fill: parent
         mainItem: Loader {
+            id: walletLoader
             anchors.fill: parent
-            active: !lockScreen.active
+            active: GlobalValues.unlocked
+            asynchronous: true
             sourceComponent: Wallet {
                 publicKey: dis.publicKey
                 anchors.fill: parent
@@ -28,7 +30,7 @@ TPage {
     Loader {
         id: lockScreen
         anchors.fill: parent
-        active: !GlobalValues.unlocked
+        active: !walletLoader.item
         sourceComponent: LockDialog {
             anchors.fill: parent
             publicKey: dis.publicKey
