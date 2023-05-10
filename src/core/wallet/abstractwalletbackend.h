@@ -18,7 +18,7 @@ public:
     AbstractWalletBackend(QObject *parent = nullptr);
     virtual ~AbstractWalletBackend();
 
-    virtual void init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback) = 0;
+    virtual void init(const QString &keysDir, const QByteArray &configs, const std::function<void(bool done, const Error &error)> &callback) = 0;
 
     virtual void createNewKey(const std::function<void(const QByteArray &publicKey, const Error &error)> &callback) = 0;
     virtual void deleteKey(const QByteArray &publicKey, const std::function<void(bool done, const Error &error)> &callback) = 0;

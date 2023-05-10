@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/ton/wallet">
+        <file>configs/global.config.json</file>
+    </qresource>
+</RCC>

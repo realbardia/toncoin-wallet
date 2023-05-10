@@ -132,16 +132,18 @@ public:
 
     QHash<QByteArray, std::shared_ptr<KeyInfo>> keys;
 
-    td::int32 walletVersion = 2;
+    td::int32 walletVersion = 0;
     td::int32 walletRevision = 0;
     td::uint32 walletId = 0;
     td::int32 workchainId = 0;
 };
 
-TonLibBackend::TonLibBackend(QObject *parent)
+TonLibBackend::TonLibBackend(int version, int revision, QObject *parent)
     : AbstractWalletBackend(parent)
 {
     p = new Private;
+    p->walletVersion = version;
+    p->walletRevision = revision;
     SET_VERBOSITY_LEVEL(0);
 
     mEngine = new Engine(this);
@@ -158,25 +160,28 @@ TonLibBackend::~TonLibBackend()
     delete p;
 }
 
-void TonLibBackend::init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback)
+void TonLibBackend::init(const QString &keysDir, const QByteArray &configs, const std::function<void(bool done, const Error &error)> &callback)
 {
     mKeysDir = keysDir;
 
     QDir().mkpath(mKeysDir);
     loadKeys();
 
-    tonlib_api::object_ptr<tonlib_api::KeyStoreType> ks_type = make_object<tonlib_api::keyStoreTypeDirectory>(mKeysDir.toStdString());
+    auto ks_type = make_object<tonlib_api::keyStoreTypeDirectory>(mKeysDir.toStdString());
+    auto config = make_object<tonlib_api::config>(configs.toStdString(), std::string(), false, false);
 
-    auto init_fnc = make_object<tonlib_api::init>(make_object<tonlib_api::options>(nullptr, std::move(ks_type)));
+    auto init_fnc = make_object<tonlib_api::init>(make_object<tonlib_api::options>(std::move(config), std::move(ks_type)));
 
-    mEngine->append(std::move(init_fnc), [callback](tonlib::Client::Response resp){
+    mEngine->append(std::move(init_fnc), [callback, this](tonlib::Client::Response resp){
         if (resp.object->get_id() == tonlib_api::error::ID)
             callback(false, ERR(resp));
         else
         {
             auto info = ton::move_tl_object_as<tonlib_api::options_info>(resp.object);
             if (info->config_info_)
-                qDebug() << info->config_info_->default_wallet_id_;
+            {
+                p->walletId = info->config_info_->default_wallet_id_;
+            }
             callback(true, Error());
         }
     });
@@ -288,16 +293,16 @@ void TonLibBackend::getAddress(const QByteArray &publicKey, const std::function<
     tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;
     switch (p->walletVersion)
     {
-    case 4:
-        state = make_object<tonlib_api::wallet_highload_v1_initialAccountState>(publicKey.toStdString(), p->walletId);
-        break;
-    case 5:
-        state = make_object<tonlib_api::wallet_highload_v2_initialAccountState>(publicKey.toStdString(), p->walletId);
-        break;
-    case 6:
+    case 0:
         state = make_object<tonlib_api::dns_initialAccountState>(publicKey.toStdString(), p->walletId);
         break;
-    default:
+    case 1:
+        state = make_object<tonlib_api::wallet_highload_v1_initialAccountState>(publicKey.toStdString(), p->walletId);
+        break;
+    case 2:
+        state = make_object<tonlib_api::wallet_highload_v2_initialAccountState>(publicKey.toStdString(), p->walletId);
+        break;
+    case 3:
         state = make_object<tonlib_api::wallet_v3_initialAccountState>(publicKey.toStdString(), p->walletId);
         break;
     }
@@ -333,16 +338,17 @@ void TonLibBackend::changeLocalPassword(const QByteArray &publicKey, const QStri
             const auto publicKey = QByteArray::fromStdString(key->public_key_);
 
             auto info = std::make_shared<Private::KeyInfo>();
-            info->public_key = key->public_key_;
+            info->public_key = old_publicKey.toStdString();
             info->secret = std::move(key->secret_);
             info->password = newPassword.toStdString();
             info->encrypted = !newPassword.isEmpty();
 
-            p->keys[publicKey] = info;
-            storeKeys();
-            deleteKey(old_publicKey, [](bool,const Error &){});
+            deleteKey(old_publicKey, [info = std::move(info), old_publicKey, this, callback](bool,const Error &){
+                p->keys[old_publicKey] = info;
+                storeKeys();
+                callback(old_publicKey, Error());
+            });
 
-            callback(publicKey, Error());
         }
     });
 }

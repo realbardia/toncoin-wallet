@@ -63,3 +63,6 @@ HEADERS += \
     $$PWD/backendmanager.h \
     $$PWD/tonlibbackend.h
  
+
+RESOURCES += \
+    $$PWD/wallet.qrc

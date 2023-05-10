@@ -14,10 +14,10 @@ class TonLibBackend: public AbstractWalletBackend
     class Private;
 
 public:
-    TonLibBackend(QObject *parent = nullptr);
+    TonLibBackend(int version, int revision, QObject *parent = nullptr);
     virtual ~TonLibBackend();
 
-    void init(const QString &keysDir, const std::function<void(bool done, const Error &error)> &callback) override;
+    void init(const QString &keysDir, const QByteArray &configs, const std::function<void(bool done, const Error &error)> &callback) override;
 
     void createNewKey(const std::function<void(const QByteArray &publicKey, const Error &error)> &callback) override;
     void deleteKey(const QByteArray &publicKey, const std::function<void(bool done, const Error &error)> &callback) override;

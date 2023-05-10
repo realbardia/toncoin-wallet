@@ -96,15 +96,23 @@ void WalletItem::reload()
         return;
     }
 
-    if (mPublicKey.count())
-        setHasPassword( backend->hasPassword(QByteArray::fromBase64(mPublicKey.toLatin1())) );
-    else
-        setHasPassword(false);
+    if (mPublicKey.isEmpty())
+        return;
+
+    const auto pkey = QByteArray::fromBase64(mPublicKey.toLatin1());
+
+    setLoading(true);
+    setHasPassword( backend->hasPassword(pkey) );
+    backend->getAddress(pkey, [this](const QString &address, const AbstractWalletBackend::Error &error){
+        setLoading(false);
+        setAddress(address);
+    });
 }
 
 void WalletItem::reset()
 {
     setHasPassword(false);
+    setAddress(QString());
 }
 
 QString WalletItem::address() const

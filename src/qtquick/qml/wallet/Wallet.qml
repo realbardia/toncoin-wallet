@@ -23,6 +23,7 @@ TPage {
     WalletItem {
         id: wallet
         backend: MainBackend
+        onAddressChanged: console.debug(address)
     }
 
     ListModel {

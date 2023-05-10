@@ -4,6 +4,7 @@
 #include <QUuid>
 #include <QDataStream>
 #include <QCryptographicHash>
+#include <QFile>
 
 using namespace TON::Wallet;
 
@@ -13,8 +14,21 @@ QSharedPointer<AbstractWalletBackend> BackendManager::createFreeBackend(BackendT
 {
     switch (static_cast<int>(type))
     {
-    case TonLib:
-        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend());
+    case TonLib_V1_R1:
+        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend(1,1));
+        break;
+    case TonLib_V2_R1:
+        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend(2,1));
+        break;
+    case TonLib_V3_R1:
+        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend(3,1));
+        break;
+    case TonLib_V3_R2:
+        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend(3,2));
+        break;
+    case TonLib_V4_R2:
+        return QSharedPointer<AbstractWalletBackend>(new TonLibBackend(4,2));
+        break;
     }
 
     return nullptr;
@@ -48,12 +62,29 @@ QSharedPointer<AbstractWalletBackend> BackendManager::createBackend(BackendType 
         mBackends.remove(hash);
     });
 
+    QByteArray data;
+    switch (static_cast<int>(type))
+    {
+    case TonLib_V1_R1:
+    case TonLib_V2_R1:
+    case TonLib_V3_R1:
+    case TonLib_V3_R2:
+    case TonLib_V4_R2:
+    {
+        QFile f(":/ton/wallet/configs/global.config.json");
+        f.open(QFile::ReadOnly);
+        data = f.readAll();
+        f.close();
+    }
+        break;
+    }
+
     auto &u = mBackends[hash];
     u.backend = backend;
     u.callbacks << callback;
     u.hash = createHash(type, sourcePath);
 
-    backend->init(sourcePath, [hash](bool done, const AbstractWalletBackend::Error &error){
+    backend->init(sourcePath, data, [hash](bool done, const AbstractWalletBackend::Error &error){
         const auto &u = mBackends[hash];
         for (const auto &callback: u.callbacks)
             callback(done, error);
