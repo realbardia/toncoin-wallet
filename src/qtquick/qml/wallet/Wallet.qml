@@ -404,6 +404,7 @@ TPage {
         Transfer.ReceiveDialog {
             width: page.width
             closable: true
+            address: wallet.address
             onCloseRequest: ViewportType.open = false
         }
     }

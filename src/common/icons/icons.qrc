@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/ton/common/icons">
         <file>icon.png</file>
+        <file>gem.png</file>
     </qresource>
 </RCC>

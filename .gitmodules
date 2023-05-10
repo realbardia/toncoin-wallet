@@ -1,3 +1,9 @@
 [submodule "src/thirdparty/lottiequick/lottiequick"]
 	path = src/thirdparty/lottiequick/lottiequick
 	url = https://github.com/dseight/lottiequick
+[submodule "src/thirdparty/qrcode/lib_qr"]
+	path = src/thirdparty/qrcode/lib_qr
+	url = https://github.com/desktop-app/lib_qr
+[submodule "src/thirdparty/qrcode/qr-code-generator"]
+	path = src/thirdparty/qrcode/qr-code-generator
+	url = https://github.com/nayuki/QR-Code-generator.git

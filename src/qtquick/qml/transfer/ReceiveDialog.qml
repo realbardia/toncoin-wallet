@@ -1,10 +1,14 @@
 import QtQuick 2.15
+import Toolkit.Core 1.0
 import "../components"
 import "../globals"
 
 TDrawer {
+    id: dis
     title: qsTr("Receive TON")
     height: contentHeight + area.height
+
+    property string address
 
     mainButton {
         text: qsTr("Share Wallet Address")
@@ -28,13 +32,23 @@ TDrawer {
             text: qsTr("Share this address with other TON wallet owners to receive TON from them.")
         }
 
-        Image {
+        Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 50
             height: width
-            source: "qrc:/ton/common/images/qr-test.png"
-            mipmap: true
+            radius: Constants.roundness
+            color: "#fff"
+
+            QrCreator {
+                anchors.centerIn: parent
+                width: (parent.width - 40) * 2
+                height: (parent.height - 40) * 2
+                scale: 0.5
+                pixels: 20
+                text: dis.address
+                centerImage: "qrc:/ton/common/icons/gem.png"
+            }
         }
 
         TItemDelegate {
@@ -50,7 +64,10 @@ TDrawer {
                 width: parent.width - 10
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: AppSettings.privateKey
+                text: {
+                    var mid = Math.floor(dis.address.length/2);
+                    return dis.address.slice(0, mid) + "\n" + dis.address.slice(mid);
+                }
             }
         }
     }

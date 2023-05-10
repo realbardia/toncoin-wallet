@@ -19,6 +19,7 @@
 #include "toolkit/core/qmlwidgetmenu.h"
 #include "toolkit/core/tontoolkitlistobject.h"
 #include "toolkit/core/materialicons.h"
+#include "toolkit/core/tontoolkitqrcreator.h"
 
 #include "wallets/ton/keysmanager.h"
 #include "wallets/ton/recoveryphrasesmodel.h"
@@ -45,6 +46,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<TonToolkitApplicationItem>("Toolkit.Core", 1,0, "TonToolkitApplicationBase");
     qmlRegisterType<TonToolkitTranslationManager>("Toolkit.Core", 1, 0, "TranslationManager");
     qmlRegisterType<TonToolkitQuickListModel>("Toolkit.Core", 1, 0, "ToolkitListModel");
+    qmlRegisterType<TonToolkitQrCreator>("Toolkit.Core", 1, 0, "QrCreator");
 
     qmlRegisterType<TonToolkitStickerItem>("Toolkit.Core", 1, 0, "StickerItem");
 
