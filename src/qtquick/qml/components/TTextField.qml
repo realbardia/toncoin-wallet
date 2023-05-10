@@ -22,6 +22,9 @@ TControlElement {
     property real topPadding
     property real bottomPadding
 
+    property variant suggestionsMenu
+    property variant suggestions: new Array
+
     onFocusChanged: {
         if (focus) {
             input.focus = true;
@@ -78,7 +81,8 @@ TControlElement {
         function checkMenu() {
             if (singalBlocker)
                 return;
-            if (focus && suggestions.length && text.length) {
+            if (focus && suggestions.total && text.length) {
+                suggestions.keyword = text
                 if (suggestionsMenu)
                     return;
 
@@ -98,9 +102,6 @@ TControlElement {
                 suggestionsMenu.destroy();
         }
     }
-
-    property variant suggestionsMenu
-    property variant suggestions: new Array
 
     Behavior on scale {
         NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
@@ -244,18 +245,7 @@ TControlElement {
             ListView {
                 id: suggestionsList
                 anchors.fill: parent
-                model: {
-                    var res = new Array;
-                    suggestions.forEach(function(f){
-                        if (f.toLowerCase().indexOf(dis.text.toLowerCase()) == 0)
-                            res[res.length] = f;
-                    });
-                    suggestions.forEach(function(f){
-                        if (f.toLowerCase().indexOf(dis.text.toLowerCase()) > 0)
-                            res[res.length] = f;
-                    });
-                    return res;
-                }
+                model: suggestions
 
                 clip: true
 
@@ -288,7 +278,7 @@ TControlElement {
                         anchors.margins: 10 * Devices.density
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        text: modelData
+                        text: model.text
                     }
                 }
             }

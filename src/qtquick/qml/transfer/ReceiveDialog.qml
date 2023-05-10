@@ -12,6 +12,12 @@ TDrawer {
 
     mainButton {
         text: qsTr("Share Wallet Address")
+        onClicked: {
+            if (Devices.isDesktop)
+                addressBtn.clicked(null);
+            else
+                Devices.share(qsTr("My TON wallet address:"), dis.address);
+        }
     }
 
     TColumn {
@@ -32,31 +38,41 @@ TDrawer {
             text: qsTr("Share this address with other TON wallet owners to receive TON from them.")
         }
 
-        Rectangle {
+        TItemDelegate {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 50
             height: width
             radius: Constants.roundness
-            color: "#fff"
+            onClicked: addressBtn.clicked(null)
 
-            QrCreator {
-                anchors.centerIn: parent
-                width: (parent.width - 40) * 2
-                height: (parent.height - 40) * 2
-                scale: 0.5
-                pixels: 20
-                text: dis.address
-                centerImage: "qrc:/ton/common/icons/gem.png"
+            Item {
+                anchors.fill: parent
+                anchors.margins: 20
+
+                QrCreator {
+                    anchors.centerIn: parent
+                    width: parent.width * 2
+                    height: parent.height * 2
+                    scale: 0.5
+                    pixels: 20
+                    text: dis.address
+                    centerImage: "qrc:/ton/common/icons/gem.png"
+                }
             }
         }
 
         TItemDelegate {
+            id: addressBtn
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: 50
             radius: Constants.controlsRoundness
             height: addressLabel.contentHeight + addressLabel.y*2
+            onClicked: {
+                Devices.setClipboard(dis.address);
+                GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
+            }
 
             TLabel {
                 id: addressLabel

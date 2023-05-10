@@ -4,6 +4,7 @@
 #include <tonlib/Client.h>
 #include <td/utils/base64.h>
 #include <td/utils/optional.h>
+#include <tonlib/tonlib/keys/bip39.h>
 
 #include <optional>
 
@@ -356,6 +357,11 @@ void TonLibBackend::changeLocalPassword(const QByteArray &publicKey, const QStri
 QList<QByteArray> TonLibBackend::keys() const
 {
     return p->keys.keys();
+}
+
+QStringList TonLibBackend::words() const
+{
+    return QString::fromStdString(tonlib::bip39_english().str()).split('\n', Qt::SkipEmptyParts);
 }
 
 void TonLibBackend::storeKeys()

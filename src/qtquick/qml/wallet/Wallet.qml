@@ -23,7 +23,6 @@ TPage {
     WalletItem {
         id: wallet
         backend: MainBackend
-        onAddressChanged: console.debug(address)
     }
 
     ListModel {
@@ -241,7 +240,11 @@ TPage {
                         anchors.horizontalCenter: parent.horizontalCenter
                         highlightColor: "#fff"
                         color: "#fff"
-                        address: AppSettings.privateKey
+                        address: wallet.address
+                        onClicked: {
+                            Devices.setClipboard(address);
+                            GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
+                        }
                     }
 
                     TRow {

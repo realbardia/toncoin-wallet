@@ -42,8 +42,6 @@ int RecoveryPhrasesModel::count() const
 
 void RecoveryPhrasesModel::reload()
 {
-    setRefreshing(true);
-
     if (!AbstractWalletModel::backend())
     {
         qmlWarning(this) << "backend property is null. Please set backend property first.";
@@ -57,6 +55,7 @@ void RecoveryPhrasesModel::reload()
         return;
     }
 
+    setRefreshing(true);
     const auto pkey = publicKey();
     backend->exportKey(QByteArray::fromBase64(pkey.toLatin1()), [this, pkey](const QStringList &keys, const AbstractWalletBackend::Error &error){
         if (pkey != publicKey())
@@ -66,6 +65,7 @@ void RecoveryPhrasesModel::reload()
 
         beginResetModel();
 
+        mPhrases.clear();
         int count = 1;
         for (const auto &text: keys)
         {

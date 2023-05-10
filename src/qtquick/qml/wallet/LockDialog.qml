@@ -9,6 +9,7 @@ TPage {
     color: "#000"
 
     property alias publicKey: wallet.publicKey
+    property alias busy: busyIndicator.running
 
     WalletItem {
         id: wallet
@@ -40,10 +41,20 @@ TPage {
             color: "#fff"
         }
 
+        TBusyIndicator {
+            id: busyIndicator
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: 42
+            height: width
+            accented: false
+            visible: busyIndicator.running
+        }
+
         TPasswordField {
             width: 160
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#fff"
+            visible: !busyIndicator.running
             onTextChanged: {
                 if (text.length != digitsCount)
                     return;

@@ -189,6 +189,7 @@ TPage {
         Intro.RecoveryPhrasePage {
             anchors.fill: parent
             doneVisible: false
+            publicKey: AppSettings.loggedInPublicKey
         }
     }
 

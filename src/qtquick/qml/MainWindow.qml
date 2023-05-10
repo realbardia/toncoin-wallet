@@ -57,4 +57,16 @@ TWindow {
             }
         }
     }
+
+    Connections {
+        target: GlobalSignals
+        function onSnackRequest(icon, title, description, color) {
+            snackBar.open(icon, title, description, color);
+        }
+    }
+
+    TSnackBar {
+        id: snackBar
+        anchors.fill: parent
+    }
 }

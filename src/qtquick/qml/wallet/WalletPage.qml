@@ -12,14 +12,32 @@ TPage {
     property alias viewport: viewport
     property string publicKey
 
+    Connections {
+        target: GlobalValues
+        function onUnlockedChanged() {
+            unlockTimer.stop();
+            if (GlobalValues.unlocked)
+                unlockTimer.start();
+            else
+                walletLoader.active = false;
+        }
+    }
+
+    Timer {
+        id: unlockTimer
+        interval: 500
+        repeat: false
+        onTriggered: walletLoader.active = true
+    }
+
     TViewport {
         id: viewport
         anchors.fill: parent
         mainItem: Loader {
             id: walletLoader
             anchors.fill: parent
-            active: GlobalValues.unlocked
             asynchronous: true
+            active: false
             sourceComponent: Wallet {
                 publicKey: dis.publicKey
                 anchors.fill: parent
@@ -34,6 +52,7 @@ TPage {
         sourceComponent: LockDialog {
             anchors.fill: parent
             publicKey: dis.publicKey
+            busy: GlobalValues.unlocked
         }
     }
 }

@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
+import Wallet.Core 1.0
 import "../components"
 import "../globals"
 
@@ -17,9 +18,14 @@ TPage {
         }
 
         function onWalletImportFailed() {
-            console.debug(MainBackend.keysManager.error, MainBackend.keysManager.errorString)
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Import Failed"), MainBackend.keysManager.errorString, Colors.foreground)
             warnDialog.open();
         }
+    }
+
+    RecoveryWordsModel {
+        id: wordsModel
+        backend: MainBackend
     }
 
     MapObject {
@@ -91,8 +97,10 @@ TPage {
                 }
 
                 delegate: MouseArea {
+                    id: marea
                     width: listv.width
                     height: Constants.itemsHeight
+                    z: textField.suggestionsMenu? 100 : 0
                     onClicked: Devices.hideKeyboard()
 
                     property alias text: textField.text
@@ -110,6 +118,7 @@ TPage {
                         width: 200
                         anchors.centerIn: parent
                         leftPadding: 24
+                        suggestions: wordsModel
                         onTextChanged: {
                             wordsMap.remove(uniqueIdx);
                             if (text.length)

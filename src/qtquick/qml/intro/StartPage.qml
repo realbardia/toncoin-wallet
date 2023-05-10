@@ -25,7 +25,8 @@ SimplePageTemplate {
         function onWalletCreatedSuccessfully(publicKey) {
              TViewport.viewport.append(congratulation_component, {"publicKey": publicKey}, "stack");
         }
-        function onWalletCreationFailed() {
+        function onWalletCreationFailed(error) {
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to create wallet"), MainBackend.keysManager.errorString, Colors.foreground)
         }
     }
 

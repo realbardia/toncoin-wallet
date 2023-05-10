@@ -26,6 +26,7 @@ TPage {
             TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
         }
         onPasswordChangeFailed: {
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to change password"), error, Colors.foreground)
             spage.busy.running = false;
         }
     }

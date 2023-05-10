@@ -28,6 +28,7 @@ public:
     void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) override;
 
     QList<QByteArray> keys() const override;
+    QStringList words() const override;
 
     void unlockUsingPassword(const QByteArray &publicKey, const QString &password) override;
     bool hasPassword(const QByteArray &publicKey) override;

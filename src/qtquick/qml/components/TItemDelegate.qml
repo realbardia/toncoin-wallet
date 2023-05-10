@@ -78,13 +78,6 @@ TControlElement {
         }
     }
 
-    OpacityMask {
-        id: opacMask
-        anchors.fill: parent
-        maskSource: background
-        source: highlightScene
-    }
-
     Item {
         id: scene
         anchors.fill: parent
@@ -93,5 +86,12 @@ TControlElement {
         Behavior on scale {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
         }
+    }
+
+    OpacityMask {
+        id: opacMask
+        anchors.fill: parent
+        maskSource: background
+        source: highlightScene
     }
 }

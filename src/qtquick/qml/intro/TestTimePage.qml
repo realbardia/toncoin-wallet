@@ -14,6 +14,11 @@ TPage {
         id: resultsMap
     }
 
+    RecoveryWordsModel {
+        id: wordsModel
+        backend: MainBackend
+    }
+
     SimplePageTemplate {
         id: simplePage
         anchors.fill: parent
@@ -42,23 +47,6 @@ TPage {
             }
         }
 
-        component CustomTextField: TTextField {
-            width: 160
-            leftPadding: 24
-            suggestions: qmodel.words
-            z: suggestionsMenu? 100 : 0
-
-            property alias label: label.text
-
-            TLabel {
-                id: label
-                anchors.right: parent.left
-                anchors.rightMargin: -20
-                anchors.verticalCenter: parent.verticalCenter
-                opacity: 0.4
-            }
-        }
-
         TColumn {
             width: 160
             height: Constants.itemsHeight * qmodel.quizLength + (spacing * (qmodel.quizLength-1))
@@ -75,8 +63,12 @@ TPage {
                     onCountChanged: resultsMap.clear()
                 }
 
-                CustomTextField {
-                    label: model.itemIndex + ":"
+                TTextField {
+                    width: 160
+                    leftPadding: 24
+                    suggestions: wordsModel
+                    z: suggestionsMenu? 100 : 0
+
                     onTextChanged: {
                         var uniqueIdx = GlobalMethods.justifyNumber(model.index, 10);
                         resultsMap.remove(uniqueIdx);
@@ -98,6 +90,15 @@ TPage {
                             focus = true;
                             forceActiveFocus();
                         }
+                    }
+
+                    TLabel {
+                        id: label
+                        anchors.right: parent.left
+                        anchors.rightMargin: -20
+                        anchors.verticalCenter: parent.verticalCenter
+                        opacity: 0.4
+                        text: model.itemIndex + ":"
                     }
                 }
             }

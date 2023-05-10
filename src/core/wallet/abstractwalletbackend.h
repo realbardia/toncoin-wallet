@@ -29,6 +29,7 @@ public:
     virtual void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) = 0;
 
     virtual QList<QByteArray> keys() const = 0;
+    virtual QStringList words() const = 0;
 
     virtual void unlockUsingPassword(const QByteArray &publicKey, const QString &password) = 0;
     virtual bool hasPassword(const QByteArray &publicKey) = 0;

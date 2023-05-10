@@ -94,5 +94,6 @@
         <file>globals/MainBackend.qml</file>
         <file>components/TBusyIndicator.qml</file>
         <file>globals/GlobalMethods.qml</file>
+        <file>components/TSnackBar.qml</file>
     </qresource>
 </RCC>
