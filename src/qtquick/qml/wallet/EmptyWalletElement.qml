@@ -5,7 +5,9 @@ import "../components"
 import "../globals"
 
 TPage {
-    id: page
+    id: dis
+
+    property string address
 
     TColumn {
         id: headerColumn
@@ -48,6 +50,10 @@ TPage {
             anchors.right: parent.right
             radius: Constants.controlsRoundness
             height: addressLabel.contentHeight + addressLabel.y*2
+            onClicked: {
+                Devices.setClipboard(address);
+                GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
+            }
 
             TLabel {
                 id: addressLabel
@@ -55,7 +61,10 @@ TPage {
                 width: parent.width - 10
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: AppSettings.privateKey
+                text: {
+                    var mid = Math.floor(dis.address.length/2);
+                    return dis.address.slice(0, mid) + "\n" + dis.address.slice(mid);
+                }
             }
         }
     }

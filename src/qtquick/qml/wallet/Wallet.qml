@@ -141,6 +141,7 @@ TPage {
                 sourceComponent: EmptyWalletElement {
                     anchors.fill: parent
                     anchors.margins: 20
+                    address: wallet.address
                 }
             }
         }
