@@ -83,7 +83,7 @@ bool WalletItem::unlock(const QString &password)
 
 void WalletItem::reload()
 {
-    if (!mBackend)
+    if (!mBackend || !mBackend->initialized())
     {
         reset();
         return;
@@ -170,6 +170,7 @@ void WalletItem::setBackend(WalletBackend *newBackend)
     if (mBackend)
     {
         connect(mBackend, &WalletBackend::backendChanged, this, &WalletItem::reload);
+        connect(mBackend, &WalletBackend::initializedChanged, this, &WalletItem::reload);
     }
 
     reload();

@@ -23,7 +23,9 @@ public:
     void deleteKey(const QByteArray &publicKey, const std::function<void(bool done, const Error &error)> &callback) override;
     void exportKey(const QByteArray &publicKey, const std::function<void(const QStringList &keys, const Error &error)> &callback) override;
     void importKeys(const QStringList &words, const std::function<void(const QByteArray &publicKey, const Error &error)> &callback) override;
+
     void getAddress(const QByteArray &publicKey, const std::function<void(const QString &address, const Error &error)> &callback) override;
+    void getAccountState(const QString &address, const std::function<void(const AccountState &state, const Error &error)> &callback) override;
 
     void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) override;
 

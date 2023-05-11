@@ -146,6 +146,7 @@ TonLibBackend::TonLibBackend(int version, int revision, QObject *parent)
     p->walletVersion = version;
     p->walletRevision = revision;
     SET_VERBOSITY_LEVEL(0);
+//    SET_VERBOSITY_LEVEL(3);
 
     mEngine = new Engine(this);
     mEngine->start();
@@ -321,6 +322,28 @@ void TonLibBackend::getAddress(const QByteArray &publicKey, const std::function<
         }
     });
 
+}
+
+void TonLibBackend::getAccountState(const QString &address, const std::function<void (const AccountState &, const Error &)> &callback)
+{
+    auto accountAddress = make_object<tonlib_api::accountAddress>(address.toStdString());
+    auto getAccountState_fnc = make_object<tonlib_api::getAccountState>( std::move(accountAddress) );
+    mEngine->append(std::move(getAccountState_fnc), [callback](tonlib::Client::Response resp){
+        if (resp.object->get_id() == tonlib_api::error::ID)
+            callback(AccountState(), ERR(resp));
+        else
+        {
+            auto state = ton::move_tl_object_as<tonlib_api::fullAccountState>(resp.object);
+            AccountState s;
+            s.address = QString::fromStdString(state->address_->account_address_);
+            s.balance = state->balance_ * (state->balance_ > 0);
+            s.datetime = QDateTime::fromSecsSinceEpoch(state->sync_utime_);
+            s.lastTransaction.id = state->last_transaction_id_->lt_;
+            s.lastTransaction.hash = QString::fromStdString(state->last_transaction_id_->hash_);
+
+            callback(s, Error());
+        }
+    });
 }
 
 void TonLibBackend::changeLocalPassword(const QByteArray &publicKey, const QString &newPassword, const std::function<void (const QByteArray &, const Error &)> &callback)

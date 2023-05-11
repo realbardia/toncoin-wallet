@@ -1,6 +1,7 @@
 #ifndef ABSTRACTWALLETBACKEND_H
 #define ABSTRACTWALLETBACKEND_H
 
+#include <QDateTime>
 #include <QObject>
 
 namespace TON::Wallet
@@ -15,6 +16,18 @@ public:
         QString message;
     };
 
+    struct TransactionId {
+        qint64 id = 0;
+        QString hash;
+    };
+
+    struct AccountState {
+        QString address;
+        qreal balance = 0;
+        QDateTime datetime;
+        TransactionId lastTransaction;
+    };
+
     AbstractWalletBackend(QObject *parent = nullptr);
     virtual ~AbstractWalletBackend();
 
@@ -24,7 +37,9 @@ public:
     virtual void deleteKey(const QByteArray &publicKey, const std::function<void(bool done, const Error &error)> &callback) = 0;
     virtual void exportKey(const QByteArray &publicKey, const std::function<void(const QStringList &keys, const Error &error)> &callback) = 0;
     virtual void importKeys(const QStringList &words, const std::function<void(const QByteArray &publicKey, const Error &error)> &callback) = 0;
+
     virtual void getAddress(const QByteArray &publicKey, const std::function<void(const QString &address, const Error &error)> &callback) = 0;
+    virtual void getAccountState(const QString &address, const std::function<void(const AccountState &state, const Error &error)> &callback) = 0;
 
     virtual void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) = 0;
 

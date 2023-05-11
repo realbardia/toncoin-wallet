@@ -8,7 +8,8 @@ HEADERS += \
     $$PWD/recoverywordsmodel.h \
     $$PWD/tonqmlglobal.h \
     $$PWD/walletbackend.h \
-    $$PWD/walletitem.h
+    $$PWD/walletitem.h \
+    $$PWD/walletstate.h
 
 SOURCES += \
     $$PWD/abstractwalletmodel.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     $$PWD/recoverywordsmodel.cpp \
     $$PWD/tonqmlglobal.cpp \
     $$PWD/walletbackend.cpp \
-    $$PWD/walletitem.cpp
+    $$PWD/walletitem.cpp \
+    $$PWD/walletstate.cpp

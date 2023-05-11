@@ -15,14 +15,21 @@ TPage {
     readonly property real headerHeight: 240
     readonly property real headerRatio: Math.max(0, (headerHeight + mapListener.result.y)/headerHeight)
 
-    property string balance: "56.2322"
+    property alias balance: walletState.balance
     property string balanceUSD: "89.6"
 
     property alias publicKey: wallet.publicKey
+    readonly property bool loading: wallet.loading || walletState.loading
 
     WalletItem {
         id: wallet
         backend: MainBackend
+    }
+    WalletState {
+        id: walletState
+        backend: MainBackend
+        address: wallet.address
+        onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
 
     ListModel {
@@ -127,7 +134,7 @@ TPage {
                 anchors.centerIn: parent
                 width: 120
                 height: width
-                active: loadingTimer.counter == 0
+                active: page.loading && walletState.lastTransactionId == 0
                 sourceComponent: StickerItem {
                     anchors.fill: parent
                     autoPlay: true
@@ -137,33 +144,13 @@ TPage {
 
             Loader {
                 anchors.fill: parent
-                active: loadingTimer.counter < 4 && loadingTimer.counter != 0
+                active: !page.loading && walletState.lastTransactionId == 0
                 sourceComponent: EmptyWalletElement {
                     anchors.fill: parent
                     anchors.margins: 20
                     address: wallet.address
                 }
             }
-        }
-
-        Timer {
-            id: loadingTimer
-            interval: 1500
-            repeat: true
-            running: true
-            onTriggered: {
-                counter++
-                switch (counter) {
-                case 1:
-                    break;
-                case 4:
-                    listv.model = testModel;
-                    break;
-                }
-
-            }
-
-            property int counter
         }
 
         Item {
@@ -197,7 +184,7 @@ TPage {
             TRow {
                 id: connectionRow
                 anchors.horizontalCenter: parent.horizontalCenter
-                opacity: loadingTimer.counter < 4? 1 : 0
+                opacity: page.loading? 1 : 0
                 y: (opacity - 1) * height + 8
                 visible: opacity > 0
                 spacing: 4
@@ -270,10 +257,13 @@ TPage {
                                 color: "#fff"
                                 font.weight: Font.Medium
                                 text: {
-                                    var idx = balance.indexOf(".");
+                                    var b = balance;
+                                    if (b.length == 0)
+                                        b = "0.00000";
+                                    var idx = b.indexOf(".");
                                     if (idx < 0)
-                                        return balance;
-                                    return balance.slice(0, idx);
+                                        return b;
+                                    return b.slice(0, idx);
                                 }
                             }
 
@@ -284,10 +274,13 @@ TPage {
                                 color: "#fff"
                                 visible: text.length
                                 text: {
-                                    var idx = balance.indexOf(".");
+                                    var b = balance;
+                                    if (b.length == 0)
+                                        b = "0.00000";
+                                    var idx = b.indexOf(".");
                                     if (idx < 0)
                                         return "";
-                                    return balance.slice(idx);
+                                    return b.slice(idx);
                                 }
                             }
                         }

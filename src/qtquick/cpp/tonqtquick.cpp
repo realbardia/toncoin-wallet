@@ -28,6 +28,7 @@
 #include "wallets/ton/walletbackend.h"
 #include "wallets/ton/walletitem.h"
 #include "wallets/ton/recoverywordsmodel.h"
+#include "wallets/ton/walletstate.h"
 
 #include <QtQml>
 
@@ -38,6 +39,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<PhrasesQuizModel>("Wallet.Core", 1, 0, "PhrasesQuizModel");
     qmlRegisterType<WalletBackend>("Wallet.Core", 1, 0, "Backend");
     qmlRegisterType<WalletItem>("Wallet.Core", 1, 0, "WalletItem");
+    qmlRegisterType<WalletState>("Wallet.Core", 1, 0, "WalletState");
     qmlRegisterType<RecoveryWordsModel>("Wallet.Core", 1, 0, "RecoveryWordsModel");
     qmlRegisterSingletonInstance("Wallet.Core", 1,0, "TonQmlGlobal", new TonQmlGlobal);
 
