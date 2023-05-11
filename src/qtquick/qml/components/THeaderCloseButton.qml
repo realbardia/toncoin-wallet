@@ -11,6 +11,7 @@ THeaderMenuButton {
 
     TMaterialIcon {
         anchors.centerIn: parent
+        anchors.verticalCenterOffset: 2
         text: MaterialIcons.mdi_close
         font.pixelSize: 18 * Devices.fontDensity
         color: btn.color

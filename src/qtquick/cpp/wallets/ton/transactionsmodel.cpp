@@ -35,17 +35,19 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
     case RoleValue:
     {
         auto amount = QString::number(t.value);
-        auto dotIdx = amount.indexOf('.');
-        if (dotIdx < 0)
-        {
-            dotIdx = amount.count();
-            amount += '.';
-        }
-        amount = amount.left(dotIdx) + '.' + amount.mid(dotIdx+1).leftJustified(5, '0');
+//        auto dotIdx = amount.indexOf('.');
+//        if (dotIdx < 0)
+//        {
+//            dotIdx = amount.count();
+//            amount += '.';
+//        }
+//        amount = amount.left(dotIdx) + '.' + amount.mid(dotIdx+1).leftJustified(5, '0');
         return amount;
     }
     case RoleDatetime:
         return t.datetime;
+    case RoleSection:
+        return t.datetime.toString("MMMM dd");
     case RoleFee:
         return t.fee;
     case RoleStorageFee:
@@ -70,6 +72,7 @@ QHash<qint32, QByteArray> TransactionsModel::roleNames() const
         {RoleDestination, "destination"},
         {RoleValue, "value"},
         {RoleDatetime, "datetime"},
+        {RoleSection, "section"},
         {RoleFee, "fee"},
         {RoleStorageFee, "storageFee"},
         {RoleOtherFee, "otherFee"},

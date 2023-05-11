@@ -108,7 +108,7 @@ TPage {
                     }
                     header: Item {
                         width: listv.width
-                        height: headerHeight + Constants.roundness
+                        height: headerHeight
                     }
                 }
             }

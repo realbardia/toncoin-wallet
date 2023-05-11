@@ -8,7 +8,7 @@ import "../globals"
 TListView {
     id: listv
 
-    section.property: "date"
+    section.property: "section"
     section.delegate: Item {
         width: listv.width
         height: 36
@@ -16,8 +16,8 @@ TListView {
         TLabel {
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: 16
-            anchors.rightMargin: 16
+            anchors.leftMargin: 20
+            anchors.rightMargin: 20
             anchors.bottom: parent.bottom
             font.bold: true
             text: section
@@ -37,7 +37,7 @@ TListView {
                 y: 10
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.margins: y
+                anchors.margins: y*2
                 spacing: 4
 
                 TRow {
@@ -148,8 +148,8 @@ TListView {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: 18
-                opacity: 0.6
-                text: Tools.dateToString(model.datetime, "yyyy/MM/dd hh:mm:ss")
+                opacity: 0.5
+                text: Tools.dateToString(model.datetime, "hh:mm")
             }
         }
 

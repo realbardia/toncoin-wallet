@@ -21,6 +21,7 @@ public:
         RoleDestination,
         RoleValue,
         RoleDatetime,
+        RoleSection,
         RoleFee,
         RoleStorageFee,
         RoleOtherFee,
