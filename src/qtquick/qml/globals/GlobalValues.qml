@@ -7,4 +7,7 @@ import Toolkit.Core 1.0
 QtObject {
     property bool unlocked: false
     property Window mwin
+
+    property string balance: "0.00000"
+    property string address
 }

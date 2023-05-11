@@ -121,7 +121,7 @@ TDrawer {
             TLabel {
                 id: balance
                 anchors.verticalCenter: parent.verticalCenter
-                text: "12.3456"
+                text: GlobalValues.balance
             }
         }
     }

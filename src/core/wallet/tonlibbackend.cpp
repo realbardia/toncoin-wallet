@@ -336,7 +336,7 @@ void TonLibBackend::getAccountState(const QString &address, const std::function<
             auto state = ton::move_tl_object_as<tonlib_api::fullAccountState>(resp.object);
             AccountState s;
             s.address = QString::fromStdString(state->address_->account_address_);
-            s.balance = state->balance_ * (state->balance_ > 0);
+            s.balance = state->balance_ * (state->balance_ > 0) / 1000000000;
             s.datetime = QDateTime::fromSecsSinceEpoch(state->sync_utime_);
             s.lastTransaction.id = state->last_transaction_id_->lt_;
             s.lastTransaction.hash = QString::fromStdString(state->last_transaction_id_->hash_);

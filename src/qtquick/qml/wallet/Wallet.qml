@@ -15,7 +15,6 @@ TPage {
     readonly property real headerHeight: 240
     readonly property real headerRatio: Math.max(0, (headerHeight + mapListener.result.y)/headerHeight)
 
-    property alias balance: walletState.balance
     property string balanceUSD: "89.6"
 
     property alias publicKey: wallet.publicKey
@@ -24,11 +23,13 @@ TPage {
     WalletItem {
         id: wallet
         backend: MainBackend
+        onAddressChanged: GlobalValues.address = address;
     }
     WalletState {
         id: walletState
         backend: MainBackend
         address: wallet.address
+        onBalanceChanged: GlobalValues.balance = (balance.length? balance : "0.00000");
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
 
@@ -257,9 +258,7 @@ TPage {
                                 color: "#fff"
                                 font.weight: Font.Medium
                                 text: {
-                                    var b = balance;
-                                    if (b.length == 0)
-                                        b = "0.00000";
+                                    var b = GlobalValues.balance;
                                     var idx = b.indexOf(".");
                                     if (idx < 0)
                                         return b;
@@ -274,9 +273,7 @@ TPage {
                                 color: "#fff"
                                 visible: text.length
                                 text: {
-                                    var b = balance;
-                                    if (b.length == 0)
-                                        b = "0.00000";
+                                    var b = GlobalValues.balance;
                                     var idx = b.indexOf(".");
                                     if (idx < 0)
                                         return "";
@@ -349,7 +346,7 @@ TPage {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.verticalCenterOffset: 2
                             font.pixelSize: 9 * Devices.fontDensity
-                            text: balance
+                            text: GlobalValues.balance
                             color: "#fff"
                         }
                     }
