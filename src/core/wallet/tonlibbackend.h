@@ -27,6 +27,8 @@ public:
     void getAddress(const QByteArray &publicKey, const std::function<void(const QString &address, const Error &error)> &callback) override;
     void getAccountState(const QString &address, const std::function<void(const AccountState &state, const Error &error)> &callback) override;
 
+    void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) override;
+
     void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) override;
 
     QList<QByteArray> keys() const override;

@@ -48,7 +48,6 @@ protected:
     void setError(qint32 code, const QString &message);
     void setRefreshing(bool newRefreshing);
 
-private:
     void tryReload();
 
 private:

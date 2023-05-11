@@ -18,7 +18,7 @@ TPage {
     property string balanceUSD: "89.6"
 
     property alias publicKey: wallet.publicKey
-    readonly property bool loading: wallet.loading || walletState.loading
+    readonly property bool loading: wallet.loading || walletState.loading || tmodel.refreshing
 
     WalletItem {
         id: wallet
@@ -31,76 +31,6 @@ TPage {
         address: wallet.address
         onBalanceChanged: GlobalValues.balance = (balance.length? balance : "0.00000");
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
-    }
-
-    ListModel {
-        id: testModel
-        ListElement {
-            amount: "1.091"
-            send: false
-            address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
-            domain: "aseman.io"
-            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
-            fee: "0.000012345"
-            comment: "Testing peyments, D."
-            time: "12:55"
-            date: "September 5"
-        }
-        ListElement {
-            amount: "10"
-            send: true
-            address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
-            domain: "aseman.io"
-            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
-            fee: "0.000012345"
-            comment: "Testing peyments, D."
-            time: "12:55"
-            date: "September 5"
-        }
-        ListElement {
-            amount: "2"
-            send: false
-            address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
-            domain: "aseman.io"
-            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
-            fee: "0.000012345"
-            comment: "Testing peyments, D."
-            time: "12:55"
-            date: "September 4"
-        }
-        ListElement {
-            amount: "1.091"
-            send: false
-            address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
-            domain: "aseman.io"
-            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
-            fee: "0.000012345"
-            comment: "Testing peyments, D."
-            time: "12:55"
-            date: "September 2"
-        }
-        ListElement {
-            amount: "10"
-            send: true
-            address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
-            domain: "aseman.io"
-            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
-            fee: "0.000012345"
-            comment: "Testing peyments, D."
-            time: "12:55"
-            date: "September 2"
-        }
-        ListElement {
-            amount: "2"
-            send: false
-            address: "58d6a9d1-ea4c-4619-93a0-8fdbbe9b964d"
-            domain: "aseman.io"
-            transaction: "47b730f7-21e0-4bac-b3a3-88b0bcca25ab"
-            fee: "0.000012345"
-            comment: "Testing peyments, D."
-            time: "12:55"
-            date: "September 1"
-        }
     }
 
     PointMapListener {
@@ -169,9 +99,16 @@ TPage {
                 TransactionsList {
                     id: listv
                     anchors.fill: parent
+                    model: TransactionsModel {
+                        id: tmodel
+                        backend: MainBackend
+                        publicKey: page.publicKey
+                        offsetTransactionHash: walletState.lastTransactionHash
+                        offsetTransactionId: walletState.lastTransactionId
+                    }
                     header: Item {
                         width: listv.width
-                        height: headerHeight
+                        height: headerHeight + Constants.roundness
                     }
                 }
             }

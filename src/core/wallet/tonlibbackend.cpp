@@ -21,6 +21,7 @@
 
 #define KEYS_DB_PATH QString(mKeysDir + QStringLiteral("/key_db"))
 #define GENERATE_ID QRandomGenerator::global()->generate64()
+#define BALANCE_RATIO (1/1000000000.0)
 
 #define ERR(OBJ) \
     [](const ton::tl_object_ptr<tonlib_api::error> &err){ \
@@ -336,13 +337,102 @@ void TonLibBackend::getAccountState(const QString &address, const std::function<
             auto state = ton::move_tl_object_as<tonlib_api::fullAccountState>(resp.object);
             AccountState s;
             s.address = QString::fromStdString(state->address_->account_address_);
-            s.balance = state->balance_ * (state->balance_ > 0) / 1000000000;
+            s.balance = state->balance_ * (state->balance_ > 0) * BALANCE_RATIO;
             s.datetime = QDateTime::fromSecsSinceEpoch(state->sync_utime_);
             s.lastTransaction.id = state->last_transaction_id_->lt_;
-            s.lastTransaction.hash = QString::fromStdString(state->last_transaction_id_->hash_);
+            s.lastTransaction.hash = QByteArray::fromStdString(state->last_transaction_id_->hash_);
 
             callback(s, Error());
         }
+    });
+}
+
+void TonLibBackend::getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void (const QList<Transaction> &, const Error &)> &callback)
+{
+    getAddress(publicKey, [this, publicKey, from, count, callback] (const QString &address, const Error &err) {
+        auto input = p->getInputKey(publicKey);
+        if (err.code || !input)
+        {
+            callback(QList<Transaction>(), err);
+            return;
+        }
+
+        auto accountAddress = make_object<tonlib_api::accountAddress>(address.toStdString());
+        auto fromObject = from.id? make_object<tonlib_api::internal_transactionId>((std::int64_t)from.id, from.hash.toStdString()) : nullptr;
+
+        auto getTransactions_fnc = make_object<tonlib_api::raw_getTransactionsV2>(
+                        std::move(input),
+                        std::move(accountAddress),
+                        std::move(fromObject),
+                        (std::int32_t)count,
+                        true
+                    );
+
+        mEngine->append(std::move(getTransactions_fnc), [callback, address](tonlib::Client::Response resp){
+            if (resp.object->get_id() == tonlib_api::error::ID)
+                callback(QList<Transaction>(), ERR(resp));
+            else
+            {
+                auto transactions = ton::move_tl_object_as<tonlib_api::raw_transactions>(resp.object);
+                QList<Transaction> res;
+                for (const auto &t_: transactions->transactions_)
+                {
+                    Transaction t;
+                    t.id.id = t_->transaction_id_->lt_;
+                    t.id.hash = QByteArray::fromStdString(t_->transaction_id_->hash_);
+                    t.datetime = QDateTime::fromSecsSinceEpoch(t_->utime_);
+
+                    t.value += t_->in_msg_->value_;
+                    for (auto& ot : t_->out_msgs_)
+                        t.value -= ot->value_;
+
+                    t.fee = t_->fee_ * BALANCE_RATIO;
+                    t.storage_fee = t_->storage_fee_ * BALANCE_RATIO;
+                    t.other_fee = t_->other_fee_ * BALANCE_RATIO;
+                    t.value = t.value * BALANCE_RATIO;
+
+                    if (!t_->in_msg_->source_->account_address_.empty())
+                        t.source = QString::fromStdString(t_->in_msg_->source_->account_address_);
+                    if (!t_->in_msg_->destination_->account_address_.empty())
+                        t.destination = QString::fromStdString(t_->in_msg_->destination_->account_address_);
+
+                    t.sent = (t.source == address);
+
+                    switch (t_->in_msg_->msg_data_->get_id())
+                    {
+                    case tonlib_api::msg_dataRaw::ID:
+                    {
+                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataRaw>(std::move(t_->in_msg_->msg_data_));
+                        t.message = QString::fromStdString(obj->body_);
+                    }
+                        break;
+                    case tonlib_api::msg_dataText::ID:
+                    {
+                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataText>(std::move(t_->in_msg_->msg_data_));
+                        t.message = QString::fromStdString(obj->text_);
+                    }
+                        break;
+                    case tonlib_api::msg_dataDecryptedText::ID:
+                    {
+                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataDecryptedText>(std::move(t_->in_msg_->msg_data_));
+                        t.message = QString::fromStdString(obj->text_);
+                    }
+                        break;
+                    case tonlib_api::msg_dataEncryptedText::ID:
+                    {
+                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataEncryptedText>(std::move(t_->in_msg_->msg_data_));
+                        t.message = QString::fromStdString(obj->text_);
+                    }
+                        break;
+                    }
+
+                    res << t;
+                }
+
+
+                callback(res, Error());
+            }
+        });
     });
 }
 
@@ -402,7 +492,7 @@ void TonLibBackend::storeKeys()
         const auto password = QString::fromStdString(info->password.value_or(std::string()));
         const auto secret = QByteArray::fromStdString(info->secret.as_slice().str());
 
-        TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
+        TON::Tools::CryptoAES secret_crypto(password.size()? KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT : "");
 
         stream << publicKey;
         stream << secret_crypto.encrypt(secret);
@@ -441,8 +531,8 @@ void TonLibBackend::loadKeys()
         bool encrypted;
         stream >> encrypted;
 
-        const auto password = p->keys.value(publicKey)? p->keys.value(publicKey)->password : std::optional<std::string>();
-        TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + QString::fromStdString(password.value_or(std::string())) + KEYS_DB_SECRET_AES_SALT);
+        const auto password = p->keys.value(publicKey)? p->keys.value(publicKey)->password.value_or(std::string()) : std::string();
+        TON::Tools::CryptoAES secret_crypto(password.size()? KEYS_DB_SECRET_AES_SALT + QString::fromStdString(password) + KEYS_DB_SECRET_AES_SALT : "");
         const auto dec = secret_crypto.decrypt(secret);
 
         auto info = std::make_shared<Private::KeyInfo>();

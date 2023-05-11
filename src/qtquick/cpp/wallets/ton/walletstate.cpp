@@ -42,7 +42,7 @@ void WalletState::reload()
         mRetryCount = 0;
 
     setLoading(true);
-    backend->getAccountState(mAddress, [this](const AbstractWalletBackend::AccountState &state, const AbstractWalletBackend::Error &error){
+    backend->getAccountState(mAddress, [this, backend](const AbstractWalletBackend::AccountState &state, const AbstractWalletBackend::Error &error){
         mRetryTimer->stop();
         if (error.code)
         {
@@ -69,7 +69,8 @@ void WalletState::reload()
         }
         balance = balance.left(dotIdx) + '.' + balance.mid(dotIdx+1).leftJustified(5, '0');
 
-        setLastTransactionId(state.lastTransaction.id);
+        setLastTransactionId(QString::number(state.lastTransaction.id));
+        setLastTransactionHash(QString::fromLatin1(state.lastTransaction.hash.toBase64()));
         setBalance(balance);
     });
 }
@@ -79,6 +80,19 @@ void WalletState::reset()
     mError = 0;
     mErrorString.clear();
     Q_EMIT errorChanged();
+}
+
+QString WalletState::lastTransactionHash() const
+{
+    return mLastTransactionHash;
+}
+
+void WalletState::setLastTransactionHash(const QString &newLastTransactionHash)
+{
+    if (mLastTransactionHash == newLastTransactionHash)
+        return;
+    mLastTransactionHash = newLastTransactionHash;
+    Q_EMIT lastTransactionHashChanged();
 }
 
 int WalletState::maximumRetries() const
@@ -91,15 +105,15 @@ void WalletState::setMaximumRetries(int newMaximumRetries)
     if (mMaximumRetries == newMaximumRetries)
         return;
     mMaximumRetries = newMaximumRetries;
-    emit maximumRetriesChanged();
+    Q_EMIT maximumRetriesChanged();
 }
 
-qint32 WalletState::lastTransactionId() const
+QString WalletState::lastTransactionId() const
 {
     return mLastTransactionId;
 }
 
-void WalletState::setLastTransactionId(qint32 newLastTransactionId)
+void WalletState::setLastTransactionId(const QString &newLastTransactionId)
 {
     if (mLastTransactionId == newLastTransactionId)
         return;

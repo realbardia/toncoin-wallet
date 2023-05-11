@@ -46,7 +46,7 @@ int RecoveryWordsModel::count() const
 
 int RecoveryWordsModel::total() const
 {
-
+    return mTotal;
 }
 
 void RecoveryWordsModel::reload()

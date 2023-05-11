@@ -30,7 +30,7 @@ TListView {
 
         TItemDelegate {
             anchors.fill: parent
-            onClicked: TViewport.viewport.append(transaction_component, {"amount": model.amount, "send": model.send, "fee": model.fee, "comment": model.comment, "transaction": model.transaction, "domain": model.domain, "address": model.address}, "drawer")
+            onClicked: TViewport.viewport.append(transaction_component, {"amount": model.value, "sent": model.sent, "fee": model.fee, "comment": model.message, "transaction": model.transaction, "domain": model.domain, "address": model.sent? model.destination : model.source}, "drawer")
 
             TColumn {
                 id: clmn
@@ -61,12 +61,12 @@ TListView {
                             anchors.verticalCenterOffset: 2
                             font.pixelSize: 11 * Devices.fontDensity
                             font.weight: Font.Medium
-                            color: model.send? Colors.red : Colors.green
+                            color: model.sent? Colors.red : Colors.green
                             text: {
-                                var idx = model.amount.indexOf(".");
+                                var idx = model.value.indexOf(".");
                                 if (idx < 0)
-                                    return model.amount;
-                                return model.amount.slice(0, idx);
+                                    return model.value;
+                                return model.value.slice(0, idx);
                             }
                         }
 
@@ -74,13 +74,13 @@ TListView {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.verticalCenterOffset: 3
                             font.pixelSize: 8 * Devices.fontDensity
-                            color: model.send? Colors.red : Colors.green
+                            color: model.sent? Colors.red : Colors.green
                             visible: text.length
                             text: {
-                                var idx = model.amount.indexOf(".");
+                                var idx = model.value.indexOf(".");
                                 if (idx < 0)
                                     return "";
-                                return model.amount.slice(idx);
+                                return model.value.slice(idx);
                             }
                         }
                     }
@@ -90,7 +90,7 @@ TListView {
                         anchors.verticalCenterOffset: 3
                         font.pixelSize: 8 * Devices.fontDensity
                         opacity: 0.6
-                        text: model.send? qsTr("to") : qsTr("from")
+                        text: model.sent? qsTr("to") : qsTr("from")
                     }
                 }
 
@@ -98,9 +98,13 @@ TListView {
                     anchors.left: parent.left
                     anchors.leftMargin: -6
                     height: 20
-                    address: model.address
+                    address: model.sent? model.destination : model.source
                     font.pixelSize: 8 * Devices.fontDensity
                     elideCount: 6
+                    onClicked: {
+                        Devices.setClipboard(address);
+                        GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
+                    }
                 }
 
                 TLabel {
@@ -110,7 +114,7 @@ TListView {
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     opacity: 0.6
                     font.pixelSize: 8 * Devices.fontDensity
-                    text: qsTr("-%1 storage fee").arg(model.fee)
+                    text: qsTr("%1 storage fee").arg(-1 * model.storageFee)
                 }
 
                 Item {
@@ -134,7 +138,7 @@ TListView {
                         x: y
                         width: parent.width - 2*x
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        text: model.comment
+                        text: model.message
                         opacity: 0.8
                     }
                 }
@@ -145,7 +149,7 @@ TListView {
                 anchors.right: parent.right
                 anchors.margins: 18
                 opacity: 0.6
-                text: model.time
+                text: Tools.dateToString(model.datetime, "yyyy/MM/dd hh:mm:ss")
             }
         }
 

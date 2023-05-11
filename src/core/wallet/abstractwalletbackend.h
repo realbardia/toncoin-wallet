@@ -18,7 +18,7 @@ public:
 
     struct TransactionId {
         qint64 id = 0;
-        QString hash;
+        QByteArray hash;
     };
 
     struct AccountState {
@@ -26,6 +26,19 @@ public:
         qreal balance = 0;
         QDateTime datetime;
         TransactionId lastTransaction;
+    };
+
+    struct Transaction {
+        TransactionId id;
+        QString source;
+        QString destination;
+        qreal value = 0;
+        QDateTime datetime;
+        qreal fee = 0;
+        qreal storage_fee = 0;
+        qreal other_fee = 0;
+        QString message;
+        bool sent = false;
     };
 
     AbstractWalletBackend(QObject *parent = nullptr);
@@ -40,6 +53,8 @@ public:
 
     virtual void getAddress(const QByteArray &publicKey, const std::function<void(const QString &address, const Error &error)> &callback) = 0;
     virtual void getAccountState(const QString &address, const std::function<void(const AccountState &state, const Error &error)> &callback) = 0;
+
+    virtual void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) = 0;
 
     virtual void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) = 0;
 

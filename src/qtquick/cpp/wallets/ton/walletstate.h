@@ -16,7 +16,8 @@ class WalletState : public TonToolkitQuickObject
     Q_PROPERTY(QString balance READ balance NOTIFY balanceChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorChanged)
     Q_PROPERTY(qint32 error READ error NOTIFY errorChanged)
-    Q_PROPERTY(qint32 lastTransactionId READ lastTransactionId NOTIFY lastTransactionIdChanged)
+    Q_PROPERTY(QString lastTransactionId READ lastTransactionId NOTIFY lastTransactionIdChanged)
+    Q_PROPERTY(QString lastTransactionHash READ lastTransactionHash NOTIFY lastTransactionHashChanged)
     Q_PROPERTY(int maximumRetries READ maximumRetries WRITE setMaximumRetries NOTIFY maximumRetriesChanged)
 
 public:
@@ -32,7 +33,8 @@ public:
     bool loading() const;
 
     QString balance() const;
-    qint32 lastTransactionId() const;
+    QString lastTransactionId() const;
+    QString lastTransactionHash() const;
 
     QString errorString() const;
     qint32 error() const;
@@ -50,6 +52,7 @@ Q_SIGNALS:
     void loadingChanged();
     void balanceChanged();
     void lastTransactionIdChanged();
+    void lastTransactionHashChanged();
     void errorChanged();
 
     void maximumRetriesChanged();
@@ -57,7 +60,8 @@ Q_SIGNALS:
 protected:
     void setLoading(bool newLoading);
     void setBalance(const QString &newBalance);
-    void setLastTransactionId(qint32 newLastTransactionId);
+    void setLastTransactionId(const QString &newLastTransactionId);
+    void setLastTransactionHash(const QString &newLastTransactionHash);
 
     void reset();
 
@@ -68,7 +72,8 @@ private:
 
     QString mErrorString;
     qint32 mError = 0;
-    qint32 mLastTransactionId = 0;
+    QString mLastTransactionId = 0;
+    QString mLastTransactionHash;
 
     QTimer *mRetryTimer;
     int mRetryCount = 0;
