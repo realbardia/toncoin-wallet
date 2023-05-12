@@ -1,2 +1,2 @@
 
-include (ton/ton.pri) 
+include (core/core.pri)

@@ -121,7 +121,7 @@ TDrawer {
             TLabel {
                 id: balance
                 anchors.verticalCenter: parent.verticalCenter
-                text: GlobalValues.balance
+                text: AppSettings.balance
             }
         }
     }

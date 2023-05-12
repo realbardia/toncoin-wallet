@@ -95,5 +95,6 @@
         <file>components/TBusyIndicator.qml</file>
         <file>globals/GlobalMethods.qml</file>
         <file>components/TSnackBar.qml</file>
+        <file>settings/CurrenciesModel.qml</file>
     </qresource>
 </RCC>

@@ -22,7 +22,7 @@ TPage {
         backend: MainBackend
         onPasswordChangedSuccessfully: {
             spage.busy.running = false;
-            GlobalValues.unlocked = true;
+            GlobalValues.passCode = passField.text;
             TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
         }
         onPasswordChangeFailed: {

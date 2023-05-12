@@ -104,12 +104,14 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Primary Currency")
+                            onClicked: currencyMenu.open()
 
                             TLabel {
+                                id: currencyItem
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: Colors.accent
-                                text: "USD"
+                                text: AppSettings.currency.toUpperCase()
                             }
                         }
                         SettingItem {
@@ -178,10 +180,51 @@ TPage {
         }
     }
 
+    PointMapListener {
+        id: currencyMap
+        source: currencyItem
+        dest: page
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: Colors.foreground
+        opacity: currencyMenu.opacity * 0.4
+        visible: opacity > 0
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: currencyMenu.close()
+        }
+    }
+
     THeaderCloseButton {
         onClicked: page.ViewportType.open = false
         color: "#fff"
         opacity: 1
+    }
+
+    TMenu {
+        id: currencyMenu
+        y: currencyMap.result.y + currencyItem.height
+        x: currencyMap.result.x + currencyItem.width - width
+        width: 160
+        textRole: "name"
+        model: CurrenciesModel { id: cmodel }
+        transformOrigin: Item.TopRight
+        opacity: opened? 1 : 0
+        scale: 0.8 + opacity*0.2
+        visible: opacity > 0
+        shadow: false
+
+        Behavior on opacity {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
+        }
+
+        onItemClicked: {
+            AppSettings.currency = cmodel.get(index).key.toLowerCase();
+            AppSettings.currencyPrice = 0;
+        }
     }
 
     Component {

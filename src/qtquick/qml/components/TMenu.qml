@@ -6,23 +6,30 @@ import "../globals"
 Item {
     id: menuItem
     height: Math.min(listv.count * Constants.itemsHeight, 200)
-    visible: false
+    visible: opened
 
     property alias model: listv.model
     property alias currentIndex: listv.currentIndex
     property alias count: listv.count
+    property alias shadow: shadow.visible
+    property string textRole
+    property alias opened: openedAction.active
 
     signal itemClicked(int index)
 
     function open() {
-        visible = true;
+        opened = true;
     }
     function close() {
-        visible = false;
+        opened = false;
     }
 
     Component.onCompleted: {
         BackHandler.pushHandler(menuItem, menuItem.destroy);
+    }
+
+    BackAction {
+        id: openedAction
     }
 
     Connections {
@@ -33,6 +40,7 @@ Item {
     }
 
     FastDropShadow {
+        id: shadow
         anchors.fill: parent
         anchors.margins: 1
         radius: 5
@@ -47,29 +55,34 @@ Item {
         color: Colors.background
     }
 
-    ListView {
-        id: listv
+    TScrollView {
         anchors.fill: parent
-        clip: true
-        delegate: TItemDelegate {
-            width: listv.width
-            height: Constants.itemsHeight
-            onClicked: select()
-            radius: menuBack.radius
 
-            function select() {
-                itemClicked(model.index);
-                menuItem.close();
-            }
+        ListView {
+            id: listv
+            clip: true
+            delegate: TItemDelegate {
+                width: listv.width
+                height: Constants.itemsHeight
+                onClicked: select()
+                radius: menuBack.radius
 
-            TLabel {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.margins: 10 * Devices.density
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: modelData
+                function select() {
+                    itemClicked(model.index);
+                    menuItem.close();
+                }
+
+                TLabel {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.margins: 10 * Devices.density
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    maximumLineCount: 1
+                    elide: Text.ElideRight
+                    text: textRole.length? model[textRole] : modelData
+                }
             }
         }
     }

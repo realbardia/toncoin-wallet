@@ -16,5 +16,11 @@ Settings {
     property string privateKey
     property string publicKey
 
+    property string currency: "usd"
+
+    property real currencyPrice: 0
+    property string balance: "0.00000"
+    property string address
+
     property bool touchId
 }

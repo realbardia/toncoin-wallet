@@ -59,9 +59,9 @@ TPage {
                 if (text.length != digitsCount)
                     return;
 
-                if (wallet.unlock(text))
-                    GlobalValues.unlocked = true;
-                else {
+                if (wallet.unlock(text)) {
+                    GlobalValues.passCode = text;
+                } else {
                     vibrate();
                     text = "";
                 }

@@ -5,9 +5,6 @@ import QtQuick.Window 2.15
 import Toolkit.Core 1.0
 
 QtObject {
-    property bool unlocked: false
+    property string passCode
     property Window mwin
-
-    property string balance: "0.00000"
-    property string address
 }

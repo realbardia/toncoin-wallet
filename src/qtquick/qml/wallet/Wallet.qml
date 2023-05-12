@@ -15,22 +15,30 @@ TPage {
     readonly property real headerHeight: 240
     readonly property real headerRatio: Math.max(0, (headerHeight + mapListener.result.y)/headerHeight)
 
-    property string balanceUSD: "89.6"
-
     property alias publicKey: wallet.publicKey
-    readonly property bool loading: wallet.loading || walletState.loading || tmodel.refreshing
+    readonly property bool loading: wallet.loading || walletState.loading || (tmodel.refreshing && tmodel.count)
 
     WalletItem {
         id: wallet
         backend: MainBackend
-        onAddressChanged: GlobalValues.address = address;
+        onAddressChanged: AppSettings.address = address;
     }
+
     WalletState {
         id: walletState
         backend: MainBackend
         address: wallet.address
-        onBalanceChanged: GlobalValues.balance = (balance.length? balance : "0.00000");
+        onBalanceChanged: AppSettings.balance = (balance.length? balance : "0.00000");
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
+    }
+
+    CurrencyPrice {
+        id: currenyPrice
+        token: "the-open-network"
+        currency: AppSettings.currency
+        onPriceChanged: {
+            AppSettings.currencyPrice = price
+        }
     }
 
     PointMapListener {
@@ -62,10 +70,11 @@ TPage {
             }
 
             Loader {
+                id: walletLoading
                 anchors.centerIn: parent
                 width: 120
                 height: width
-                active: page.loading && walletState.lastTransactionId == 0
+                active: (page.loading || wallet.loading || walletState.loading || tmodel.refreshing) && tmodel.count == 0
                 sourceComponent: StickerItem {
                     anchors.fill: parent
                     autoPlay: true
@@ -75,11 +84,11 @@ TPage {
 
             Loader {
                 anchors.fill: parent
-                active: !page.loading && walletState.lastTransactionId == 0
+                active: tmodel.count == 0 && !walletLoading.active
                 sourceComponent: EmptyWalletElement {
                     anchors.fill: parent
                     anchors.margins: 20
-                    address: wallet.address
+                    address: AppSettings.address
                 }
             }
         }
@@ -101,6 +110,8 @@ TPage {
                     anchors.fill: parent
                     model: TransactionsModel {
                         id: tmodel
+                        cachePath: TonToolkitApp.homePath + "/transactions"
+                        password: GlobalValues.passCode
                         backend: MainBackend
                         publicKey: page.publicKey
                         offsetTransactionHash: walletState.lastTransactionHash
@@ -166,7 +177,7 @@ TPage {
                         anchors.horizontalCenter: parent.horizontalCenter
                         highlightColor: "#fff"
                         color: "#fff"
-                        address: wallet.address
+                        address: AppSettings.address
                         onClicked: {
                             Devices.setClipboard(address);
                             GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
@@ -195,7 +206,7 @@ TPage {
                                 color: "#fff"
                                 font.weight: Font.Medium
                                 text: {
-                                    var b = GlobalValues.balance;
+                                    var b = AppSettings.balance;
                                     var idx = b.indexOf(".");
                                     if (idx < 0)
                                         return b;
@@ -210,7 +221,7 @@ TPage {
                                 color: "#fff"
                                 visible: text.length
                                 text: {
-                                    var b = GlobalValues.balance;
+                                    var b = AppSettings.balance;
                                     var idx = b.indexOf(".");
                                     if (idx < 0)
                                         return "";
@@ -218,6 +229,17 @@ TPage {
                                 }
                             }
                         }
+                    }
+
+                    TLabel {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        maximumLineCount: 1
+                        elide: Text.ElideRight
+                        color: "#fff"
+                        text: currenyPrice.refreshing? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
+                        font.pixelSize: 7 * Devices.fontDensity
+                        opacity: 0.6
                     }
                 }
 
@@ -283,7 +305,7 @@ TPage {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.verticalCenterOffset: 2
                             font.pixelSize: 9 * Devices.fontDensity
-                            text: GlobalValues.balance
+                            text: AppSettings.balance
                             color: "#fff"
                         }
                     }
@@ -294,7 +316,7 @@ TPage {
                         maximumLineCount: 1
                         elide: Text.ElideRight
                         color: "#fff"
-                        text: "≈ $" + balanceUSD
+                        text: currenyPrice.refreshing? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
                         font.pixelSize: 7 * Devices.fontDensity
                         opacity: 0.6
                     }
@@ -335,7 +357,7 @@ TPage {
         Transfer.ReceiveDialog {
             width: page.width
             closable: true
-            address: wallet.address
+            address: AppSettings.address
             onCloseRequest: ViewportType.open = false
         }
     }

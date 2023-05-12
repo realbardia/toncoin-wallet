@@ -14,9 +14,9 @@ TPage {
 
     Connections {
         target: GlobalValues
-        function onUnlockedChanged() {
+        function onPassCodeChanged() {
             unlockTimer.stop();
-            if (GlobalValues.unlocked)
+            if (GlobalValues.passCode.length)
                 unlockTimer.start();
             else
                 walletLoader.active = false;
@@ -52,7 +52,7 @@ TPage {
         sourceComponent: LockDialog {
             anchors.fill: parent
             publicKey: dis.publicKey
-            busy: GlobalValues.unlocked
+            busy: GlobalValues.passCode.length
         }
     }
 }
