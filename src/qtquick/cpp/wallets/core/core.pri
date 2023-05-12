@@ -5,6 +5,7 @@ HEADERS += \
     $$PWD/currencyprice.h \
     $$PWD/keysmanager.h \
     $$PWD/phrasesquizmodel.h \
+    $$PWD/recentaddressesmodel.h \
     $$PWD/recoveryphrasesmodel.h \
     $$PWD/recoverywordsmodel.h \
     $$PWD/tonqmlglobal.h \
@@ -18,6 +19,7 @@ SOURCES += \
     $$PWD/currencyprice.cpp \
     $$PWD/keysmanager.cpp \
     $$PWD/phrasesquizmodel.cpp \
+    $$PWD/recentaddressesmodel.cpp \
     $$PWD/recoveryphrasesmodel.cpp \
     $$PWD/recoverywordsmodel.cpp \
     $$PWD/tonqmlglobal.cpp \

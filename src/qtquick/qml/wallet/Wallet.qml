@@ -108,6 +108,7 @@ TPage {
                 TransactionsList {
                     id: listv
                     anchors.fill: parent
+                    onMoreRequest: tmodel.more()
                     model: TransactionsModel {
                         id: tmodel
                         cachePath: TonToolkitApp.homePath + "/transactions"
@@ -237,7 +238,7 @@ TPage {
                         maximumLineCount: 1
                         elide: Text.ElideRight
                         color: "#fff"
-                        text: currenyPrice.refreshing? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
+                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
                         font.pixelSize: 7 * Devices.fontDensity
                         opacity: 0.6
                     }
@@ -316,7 +317,7 @@ TPage {
                         maximumLineCount: 1
                         elide: Text.ElideRight
                         color: "#fff"
-                        text: currenyPrice.refreshing? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
+                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
                         font.pixelSize: 7 * Devices.fontDensity
                         opacity: 0.6
                     }

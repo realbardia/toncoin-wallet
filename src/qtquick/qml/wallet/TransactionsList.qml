@@ -8,6 +8,8 @@ import "../globals"
 TListView {
     id: listv
 
+    signal moreRequest()
+
     section.property: "section"
     section.delegate: Item {
         width: listv.width
@@ -27,6 +29,8 @@ TListView {
     delegate: Item {
         width: listv.width
         height: clmn.height + clmn.y*2.5
+
+        Component.onCompleted: if (model.index && model.index == listv.count-1) listv.moreRequest()
 
         TItemDelegate {
             anchors.fill: parent

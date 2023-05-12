@@ -57,6 +57,7 @@ public:
 
 public Q_SLOTS:
     void refresh();
+    void more();
 
 Q_SIGNALS:
     void offsetTransactionIdChanged();

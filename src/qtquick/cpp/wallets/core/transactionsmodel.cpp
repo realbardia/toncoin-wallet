@@ -133,12 +133,8 @@ void TransactionsModel::reload()
         beginResetModel();
 
         mTransactions.clear();
-        int count = 1;
         for (const auto &t: list)
-        {
             mTransactions << t;
-            count++;
-        }
         endResetModel();
 
         store();
@@ -286,6 +282,45 @@ void TransactionsModel::refresh()
 {
     mRefreshTimer->stop();
     mRefreshTimer->start();
+}
+
+void TransactionsModel::more()
+{
+    if (refreshing() || mTransactions.isEmpty())
+        return;
+
+    if (!AbstractWalletModel::backend())
+    {
+        qmlWarning(this) << "backend property is null. Please set backend property first.";
+        return;
+    }
+
+    auto backend = AbstractWalletModel::backend()->backendObject();
+    if (!backend)
+    {
+        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
+        return;
+    }
+
+    setRefreshing(true);
+    const auto pkey = publicKey();
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.first().id, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+        if (pkey != publicKey())
+            return;
+        if (error.code)
+            setError(error.code, error.message);
+
+        beginInsertRows(QModelIndex(), mTransactions.count(), mTransactions.count() + list.count());
+
+        for (const auto &t: list)
+            mTransactions << t;
+
+        endInsertRows();
+
+        store();
+        setRefreshing(false);
+        Q_EMIT countChanged();
+    });
 }
 
 QString TransactionsModel::offsetTransactionHash() const
