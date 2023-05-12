@@ -90,6 +90,15 @@ protected:
             }
         }
 
+        auto close_fnc = make_object<tonlib_api::close>();
+        tonlib::Client::Request req;
+        req.id = GENERATE_ID;
+        req.function = std::move(close_fnc);
+
+        client.send(std::move(req));
+
+        auto resp = client.receive(100);
+
         mRequests.clear();
     }
 
