@@ -28,6 +28,8 @@ TApplication {
         GlobalValues.mwin = mWin;
     }
 
+    onMessageReceived: if (msg.slice(0,6) == "ton://") GlobalValues.tempLinkToOpen = msg
+
     onApplicationStateChanged: {
         switch (applicationState) {
         case 4:

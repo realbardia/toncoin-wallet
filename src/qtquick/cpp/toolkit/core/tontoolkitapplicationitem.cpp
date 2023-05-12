@@ -84,6 +84,9 @@ TonToolkitApplicationItem::TonToolkitApplicationItem() :
         });
     }
 #endif
+
+    if (TonToolkitApplicationItemPrivate::peer)
+        connect(TonToolkitApplicationItemPrivate::peer, &QtLocalPeer::messageReceived, this, &TonToolkitApplicationItem::messageReceived);
 }
 
 bool TonToolkitApplicationItem::tontoolkit_app_init()

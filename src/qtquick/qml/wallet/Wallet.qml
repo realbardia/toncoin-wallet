@@ -32,6 +32,31 @@ TPage {
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
 
+    Component.onCompleted: {
+        if (GlobalValues.tempLinkToOpen.length) {
+            sendTon(GlobalValues.tempLinkToOpen);
+            GlobalValues.tempLinkToOpen = "";
+        }
+    }
+
+    Connections {
+        target: GlobalValues
+        function onTempLinkToOpenChanged() {
+            if (GlobalValues.tempLinkToOpen.length == 0)
+                return;
+
+            sendTon(GlobalValues.tempLinkToOpen);
+            GlobalValues.tempLinkToOpen = "";
+        }
+    }
+
+    function sendTon(address) {
+        TViewport.viewport.append(send_value_component, {"address": address}, "drawer");
+        GlobalValues.mwin.show();
+        GlobalValues.mwin.requestActivate();
+        GlobalValues.mwin.alert(0);
+    }
+
     CurrencyPrice {
         id: currenyPrice
         token: "the-open-network"
@@ -367,6 +392,15 @@ TPage {
         id: send_component
         Transfer.SendCustomDialog {
             width: page.width
+            closable: true
+            onCloseRequest: ViewportType.open = false
+        }
+    }
+
+    Component {
+        id: send_value_component
+        Transfer.SendValueDialog {
+            width: parent.width
             closable: true
             onCloseRequest: ViewportType.open = false
         }

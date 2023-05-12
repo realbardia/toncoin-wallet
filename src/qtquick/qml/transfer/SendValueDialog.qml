@@ -7,6 +7,7 @@ import "../globals"
 TDrawer {
     id: dis
     title: qsTr("Send TON")
+    height: contentHeight + 300
 
     mainButton {
         text: qsTr("Continue")

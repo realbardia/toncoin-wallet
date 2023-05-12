@@ -7,4 +7,6 @@ import Toolkit.Core 1.0
 QtObject {
     property string passCode
     property Window mwin
+
+    property string tempLinkToOpen: linkToOpen
 }

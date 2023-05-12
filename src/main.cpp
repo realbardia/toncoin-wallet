@@ -4,6 +4,7 @@
 #include <QQmlContext>
 
 #include "qtquick/cpp/tonqtquick.h"
+#include "qtquick/cpp/toolkit/core/tontoolkitapplicationitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +24,16 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/ton/common/icons/icon.png"));
 
+    TonToolkitApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
+    if (TonToolkitApplicationItem::isRunning())
+    {
+        if (app.arguments().count() == 2 && app.arguments().at(1).left(6) == QStringLiteral("ton://"))
+            TonToolkitApplicationItem::sendMessage(app.arguments().at(1));
+        else
+            qDebug() << "is running";
+        return 0;
+    }
+
     TonQtQuick::registerToolkit();
     TonQtQuick::registerViewport();
 
@@ -34,7 +45,13 @@ int main(int argc, char *argv[])
     else
     {
         QQmlApplicationEngine engine;
+
         engine.rootContext()->setContextProperty("testMode", qEnvironmentVariable("TON_TEST_MODE") == QStringLiteral("1"));
+        if (app.arguments().count() == 2 && app.arguments().at(1).left(6) == QStringLiteral("ton://"))
+            engine.rootContext()->setContextProperty("linkToOpen", app.arguments().at(1));
+        else
+            engine.rootContext()->setContextProperty("linkToOpen", QString());
+
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
             &app, [url](QObject *obj, const QUrl &objUrl) {
