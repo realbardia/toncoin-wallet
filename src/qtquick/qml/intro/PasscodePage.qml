@@ -24,7 +24,10 @@ TPage {
             spage.busy.running = false;
             GlobalValues.passCode = passField.text;
             AppSettings.passCodeLength = passField.text.length;
-            TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
+            if (closeAtEnd)
+                page.closeRequest();
+            else
+                TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
         }
         onPasswordChangeFailed: {
             GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to change password"), error, Colors.foreground)
@@ -68,8 +71,6 @@ TPage {
                     if (confirmMode.length) {
                         if (confirmMode != text) {
                             vibrate();
-                        } else if (closeAtEnd) {
-                            page.closeRequest()
                         } else {
                             spage.busy.running = true;
                             wallet.changePassword(passField.text)

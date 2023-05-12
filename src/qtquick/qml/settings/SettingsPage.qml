@@ -94,12 +94,14 @@ TPage {
 
                         SettingItem {
                             title: qsTr("Active Address")
+                            onClicked: walletMenu.open()
 
                             TLabel {
+                                id: walletItem
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: Colors.accent
-                                text: "v4R2"
+                                text: AppSettings.walletVersion
                             }
                         }
                         SettingItem {
@@ -117,6 +119,7 @@ TPage {
                         SettingItem {
                             title: qsTr("List of tokens")
                             spacer: false
+                            visible: false
                         }
                     }
 
@@ -185,16 +188,30 @@ TPage {
         source: currencyItem
         dest: page
     }
+    PointMapListener {
+        id: walletMap
+        source: walletItem
+        dest: page
+    }
 
     Rectangle {
         anchors.fill: parent
         color: Colors.foreground
-        opacity: currencyMenu.opacity * 0.4
+        opacity: {
+            if (currencyMenu.visible)
+                return currencyMenu.opacity * 0.4;
+            if (walletMenu.visible)
+                return walletMenu.opacity * 0.4;
+            return 0
+        }
         visible: opacity > 0
 
         MouseArea {
             anchors.fill: parent
-            onClicked: currencyMenu.close()
+            onClicked: {
+                walletMenu.close();
+                currencyMenu.close();
+            }
         }
     }
 
@@ -227,6 +244,27 @@ TPage {
         }
     }
 
+    TMenu {
+        id: walletMenu
+        y: walletMap.result.y + walletItem.height
+        x: walletMap.result.x + walletItem.width - width
+        width: 160
+        model: ["v3R2", "v4R2"]
+        transformOrigin: Item.TopRight
+        opacity: opened? 1 : 0
+        scale: 0.8 + opacity*0.2
+        visible: opacity > 0
+        shadow: false
+
+        Behavior on opacity {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
+        }
+
+        onItemClicked: {
+            AppSettings.walletVersion = walletMenu.model[index];
+        }
+    }
+
     Component {
         id: recoverPhrase_component
         Intro.RecoveryPhrasePage {
@@ -244,6 +282,7 @@ TPage {
             mainItem: Intro.PasscodePage {
                 anchors.fill: parent
                 closeAtEnd: true
+                publicKey: AppSettings.loggedInPublicKey
                 onCloseRequest: viewport.ViewportType.open = false
             }
         }
