@@ -64,9 +64,9 @@ TPage {
             return;
 
         if (urlParser.amount.length == 0)
-            sendDialog = TViewport.viewport.append(send_value_component, {"address": address}, "drawer");
+            sendDialog = TViewport.viewport.append(send_value_component, {"address": urlParser.address}, "drawer");
         else
-            sendDialog = TViewport.viewport.append(send_confirm_component, {"address": address, "amount": urlParser.amount, "message": urlParser.comment}, "drawer");
+            sendDialog = TViewport.viewport.append(send_confirm_component, {"address": urlParser.address, "amount": urlParser.amount, "message": urlParser.comment}, "drawer");
 
         GlobalValues.mwin.show();
         GlobalValues.mwin.requestActivate();
