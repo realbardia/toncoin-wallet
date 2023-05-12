@@ -23,6 +23,8 @@ TPage {
         }
     }
 
+    Component.onCompleted: if (GlobalValues.passCode.length) walletLoader.active = true
+
     Timer {
         id: unlockTimer
         interval: 500

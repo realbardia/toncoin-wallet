@@ -22,5 +22,6 @@ Settings {
     property string balance: "0.00000"
     property string address
 
+    property int passCodeLength
     property bool touchId
 }

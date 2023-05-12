@@ -55,6 +55,7 @@ TPage {
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#fff"
             visible: !busyIndicator.running
+            digitsCount: AppSettings.passCodeLength
             onTextChanged: {
                 if (text.length != digitsCount)
                     return;

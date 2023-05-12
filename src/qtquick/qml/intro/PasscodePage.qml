@@ -23,6 +23,7 @@ TPage {
         onPasswordChangedSuccessfully: {
             spage.busy.running = false;
             GlobalValues.passCode = passField.text;
+            AppSettings.passCodeLength = passField.text.length;
             TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
         }
         onPasswordChangeFailed: {
