@@ -55,6 +55,10 @@ TDrawer {
             anchors.margins: 50
             radius: Constants.controlsRoundness
             height: addressLabel.contentHeight + addressLabel.y*2
+            onClicked: {
+                Devices.setClipboard(address);
+                GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
+            }
 
             TLabel {
                 id: addressLabel

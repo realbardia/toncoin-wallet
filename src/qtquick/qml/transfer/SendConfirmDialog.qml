@@ -8,6 +8,7 @@ TDrawer {
     id: dis
     title: qsTr("Send TON")
     backable: true
+    height: contentHeight + 300
 
     mainButton {
         text: qsTr("Continue and send")
@@ -17,6 +18,7 @@ TDrawer {
     property string address
     property string domain
     property string amount
+    property alias message: comment.text
 
     Rectangle {
         anchors.left: parent.left

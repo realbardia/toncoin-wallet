@@ -31,6 +31,7 @@
 #include "wallets/core/walletstate.h"
 #include "wallets/core/transactionsmodel.h"
 #include "wallets/core/currencyprice.h"
+#include "wallets/core/walleturlparser.h"
 
 #include <QtQml>
 
@@ -45,6 +46,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<RecoveryWordsModel>("Wallet.Core", 1, 0, "RecoveryWordsModel");
     qmlRegisterType<TransactionsModel>("Wallet.Core", 1, 0, "TransactionsModel");
     qmlRegisterType<CurrencyPrice>("Wallet.Core", 1, 0, "CurrencyPrice");
+    qmlRegisterType<WalletUrlParser>("Wallet.Core", 1, 0, "WalletUrlParser");
     qmlRegisterSingletonInstance("Wallet.Core", 1,0, "TonQmlGlobal", new TonQmlGlobal);
 
     qmlRegisterType<TonToolkitMapObject>("Toolkit.Core", 1, 0, "MapObject");

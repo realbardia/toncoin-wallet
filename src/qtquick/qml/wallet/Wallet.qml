@@ -32,6 +32,10 @@ TPage {
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
 
+    WalletUrlParser {
+        id: urlParser
+    }
+
     Component.onCompleted: {
         if (GlobalValues.tempLinkToOpen.length) {
             sendTon(GlobalValues.tempLinkToOpen);
@@ -50,8 +54,20 @@ TPage {
         }
     }
 
+    property Item sendDialog
     function sendTon(address) {
-        TViewport.viewport.append(send_value_component, {"address": address}, "drawer");
+        if (sendDialog)
+            return;
+
+        urlParser.url = address;
+        if (urlParser.address.length == 0)
+            return;
+
+        if (urlParser.amount.length == 0)
+            sendDialog = TViewport.viewport.append(send_value_component, {"address": address}, "drawer");
+        else
+            sendDialog = TViewport.viewport.append(send_confirm_component, {"address": address, "amount": urlParser.amount, "message": urlParser.comment}, "drawer");
+
         GlobalValues.mwin.show();
         GlobalValues.mwin.requestActivate();
         GlobalValues.mwin.alert(0);
@@ -393,6 +409,7 @@ TPage {
         Transfer.SendCustomDialog {
             width: page.width
             closable: true
+            transactionsModel: tmodel
             onCloseRequest: ViewportType.open = false
         }
     }
@@ -402,6 +419,17 @@ TPage {
         Transfer.SendValueDialog {
             width: parent.width
             closable: true
+            backable: false
+            onCloseRequest: ViewportType.open = false
+        }
+    }
+
+    Component {
+        id: send_confirm_component
+        Transfer.SendConfirmDialog {
+            width: parent.width
+            closable: true
+            backable: false
             onCloseRequest: ViewportType.open = false
         }
     }

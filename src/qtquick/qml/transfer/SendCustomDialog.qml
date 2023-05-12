@@ -7,9 +7,32 @@ import "../globals"
 TDrawer {
     id: dis
     title: qsTr("Send TON")
-    height: contentHeight + scrollArea.height
+    height: contentHeight + Math.max(300, scrollArea.height)
 
     property string selectedAddress
+    property variant transactionsModel
+
+    onTransactionsModelChanged: {
+        if (!transactionsModel)
+            return;
+
+        var items = new Array;
+        for (var i=0; i<transactionsModel.count; i++) {
+            var t = transactionsModel.get(i);
+            var address = t.sent? t.destination : t.source;
+            if (items.indexOf(address) >= 0)
+                continue;
+
+            var m = {
+                "address": address,
+                "domain": "",
+                "datetime": t.datetime,
+            };
+
+            items[items.length] = m;
+            recentsModel.data = items;
+        }
+    }
 
     mainButton {
         text: qsTr("Continue")
@@ -24,7 +47,7 @@ TDrawer {
 
         TListView {
             id: recentsList
-            model: 2
+            model: ToolkitListModel { id: recentsModel }
 
             Component.onCompleted: Tools.jsDelayCall(10, recentsList.positionViewAtBeginning)
 
@@ -80,11 +103,9 @@ TDrawer {
                 width: recentsList.width
                 height: clmn.height + 20
 
-                property string address: "5efb8db1-f64f-4a90-a748-e5e9217067db"
-
                 TItemDelegate {
                     anchors.fill: parent
-                    onClicked: TViewport.viewport.append(send_component, {"address": item.address, "domain": domain.text}, "stack")
+                    onClicked: TViewport.viewport.append(send_component, {"address": model.address, "domain": model.domain}, "stack")
 
                     TColumn {
                         id: clmn
@@ -98,7 +119,7 @@ TDrawer {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            text: item.address.slice(0,4) + "..." + item.address.slice(item.address.length-4)
+                            text: model.address.slice(0,4) + "..." + model.address.slice(model.address.length-4)
                         }
 
                         TLabel {
@@ -107,7 +128,7 @@ TDrawer {
                             anchors.right: parent.right
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             font.pixelSize: 8 * Devices.fontDensity
-                            text: "September 6"
+                            text: model.domain.length? model.domain : Tools.dateToString(model.datetime, "MMMM dd")
                             opacity: 0.5
                         }
                     }
