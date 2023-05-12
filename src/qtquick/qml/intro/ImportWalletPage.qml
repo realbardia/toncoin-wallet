@@ -124,7 +124,8 @@ TPage {
                             if (text.length)
                                 wordsMap.insert(uniqueIdx, text);
                         }
-                        onTabPressed: {
+                        onTabPressed: accepted()
+                        onAccepted: {
                             if (model.index < listv.count-1)
                                 listv.currentIndex = model.index+1;
                             else

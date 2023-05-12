@@ -9,8 +9,11 @@ TControlElement {
     width: label.width + 20
     height: 42
 
-    onFocusChanged: {
-        if (focus) {
+    onFocusChanged: doHighlight(focus)
+    onPressed: doHighlight(pressed)
+
+    function doHighlight(state) {
+        if (state) {
             highlightArea.pinX = pressed? marea.mouseX : width/2;
             highlightArea.pinY = pressed? marea.mouseY : height/2;
             highlightArea.opacity = 0.15;

@@ -25,11 +25,18 @@ TControlElement {
     property variant suggestionsMenu
     property variant suggestions: new Array
 
+    signal accepted()
+
     onFocusChanged: {
         if (focus) {
             input.focus = true;
             input.forceActiveFocus();
         }
+    }
+
+    function closeMenu() {
+        if (suggestionsMenu)
+            suggestionsMenu.destroy();
     }
 
     TextInput {
@@ -52,7 +59,12 @@ TControlElement {
         topPadding: 8
         clip: true
 
-        onFocusChanged: if (focus) checkMenu()
+        onFocusChanged: {
+            if (focus)
+                checkMenu()
+            else
+                closeMenu()
+        }
         onTextChanged: checkMenu()
 
         Keys.onTabPressed: dis.tabPressed()
@@ -79,7 +91,7 @@ TControlElement {
         }
 
         function checkMenu() {
-            if (singalBlocker)
+            if (signalBlocker)
                 return;
             if (focus && suggestions.total && text.length) {
                 suggestions.keyword = text
@@ -88,11 +100,11 @@ TControlElement {
 
                 suggestionsMenu = suggestionsMenu_component.createObject(dis);
             } else if (suggestionsMenu) {
-                suggestionsMenu.destroy();
+                closeMenu();
             }
         }
 
-        property bool singalBlocker
+        property bool signalBlocker
     }
 
     Connections {
@@ -263,12 +275,13 @@ TControlElement {
                 delegate: TItemDelegate {
                     width: suggestionsList.width
                     height: Constants.itemsHeight
-                    focusOnPress: !Devices.isMobile
+                    focusOnPress: false // !Devices.isMobile
                     onClicked: select()
 
                     function select() {
                         suggestionsMenuItem.destroy();
                         input.text = modelData;
+                        dis.accepted();
                     }
 
                     TLabel {

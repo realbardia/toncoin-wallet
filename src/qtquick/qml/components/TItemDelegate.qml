@@ -11,10 +11,13 @@ TControlElement {
     pressAndHoldInterval: 300
     data: [opacityAnim, ratioAnim, background, highlightScene, opacMask, scene]
 
-    onFocusChanged: {
+    onFocusChanged: doHighlight(focus)
+    onPressed: doHighlight(pressed)
+
+    function doHighlight(state){
         if (blockTimer.running)
             return;
-        if (focus) {
+        if (state) {
             highlightArea.pinX = pressed? marea.mouseX : width/2;
             highlightArea.pinY = pressed? marea.mouseY : height/2;
             highlightArea.opacity = 0.1;
