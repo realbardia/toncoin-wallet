@@ -18,6 +18,11 @@ TPage {
     property alias publicKey: walletItem.publicKey
     readonly property bool loading: walletItem.loading || walletState.running || (tmodel.refreshing && tmodel.count)
 
+    readonly property string balanceStr: {
+        var num = (AppSettings.currencyPrice * AppSettings.balance);
+        return GlobalMethods.fixNum(num, 4) + AppSettings.currency.toUpperCase()
+    }
+
     WalletItem {
         id: walletItem
         backend: MainBackend
@@ -277,7 +282,7 @@ TPage {
                         maximumLineCount: 1
                         elide: Text.ElideRight
                         color: "#fff"
-                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
+                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + balanceStr
                         font.pixelSize: 7 * Devices.fontDensity
                         opacity: 0.6
                     }
@@ -356,7 +361,7 @@ TPage {
                         maximumLineCount: 1
                         elide: Text.ElideRight
                         color: "#fff"
-                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + (AppSettings.currencyPrice * AppSettings.balance) + AppSettings.currency.toUpperCase()
+                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + balanceStr
                         font.pixelSize: 7 * Devices.fontDensity
                         opacity: 0.6
                     }

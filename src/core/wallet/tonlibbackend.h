@@ -29,7 +29,7 @@ public:
 
     void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) override;
     void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(const Fee &fee, const Error &error)> &callback) override;
-    void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(const Transaction &transaction, const Error &error)> &callback) override;
+    void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(bool done, const Error &error)> &callback) override;
 
     void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) override;
 
@@ -43,6 +43,8 @@ public:
 protected:
     void storeKeys();
     void loadKeys();
+
+    void prepareTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(qint64 preparedId, const Error &error)> &callback);
 
 private:
     QString mKeysDir;

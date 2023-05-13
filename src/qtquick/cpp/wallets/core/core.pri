@@ -11,6 +11,7 @@ HEADERS += \
     $$PWD/recoverywordsmodel.h \
     $$PWD/tonqmlglobal.h \
     $$PWD/transactionsmodel.h \
+    $$PWD/transferrequest.h \
     $$PWD/walletbackend.h \
     $$PWD/walletitem.h \
     $$PWD/walletstate.h \
@@ -27,6 +28,7 @@ SOURCES += \
     $$PWD/recoverywordsmodel.cpp \
     $$PWD/tonqmlglobal.cpp \
     $$PWD/transactionsmodel.cpp \
+    $$PWD/transferrequest.cpp \
     $$PWD/walletbackend.cpp \
     $$PWD/walletitem.cpp \
     $$PWD/walletstate.cpp \
