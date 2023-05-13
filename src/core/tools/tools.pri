@@ -1,5 +1,4 @@
-LIBS += -lz
- 
+LIBS += -lz 
 
 HEADERS += \
     $$PWD/crypto.h \
