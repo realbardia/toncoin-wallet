@@ -9,7 +9,7 @@ TApplication {
     applicationDisplayName: qsTr("TON Wallet")
     applicationVersion: "1.0.0"
     statusBarStyle: {
-        if (mWin.currentViewport.currentType == "popup" || AppSettings.privateKey.length)
+        if (mWin.currentViewport.currentType == "popup" || AppSettings.loggedInPublicKey.length)
             return TonToolkitApp.StatusBarStyleLight;
         else
         if (Colors.darkMode)
