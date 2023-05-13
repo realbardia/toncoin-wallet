@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QRegularExpression>
 
 #define CRYPTO_FILE_STORE_SALT "b43a24bb-9382-4b0c-957e-565b8a48d609"
 
@@ -41,7 +42,7 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
         return t.destination;
     case RoleValue:
     {
-        auto amount = QString::number(t.value);
+        auto amount = QString::number(t.value, 'f', 9).remove(QRegularExpression("(?:\\.)0+$")).remove(QRegularExpression("(?:\\.)0+$"));
 //        auto dotIdx = amount.indexOf('.');
 //        if (dotIdx < 0)
 //        {
@@ -153,11 +154,11 @@ void TransactionsModel::store()
         obj["hash"] = QString::fromLatin1(t.id.hash.toBase64());
         obj["source"] = t.source;
         obj["destination"] = t.destination;
-        obj["value"] = QString::number(t.value);
+        obj["value"] = QString::number(t.value, 'f', 9).remove(QRegularExpression("(?:\\.)0+$")).remove(QRegularExpression("0+$"));
         obj["datetime"] = QString::number(t.datetime.toSecsSinceEpoch());
-        obj["fee"] = QString::number(t.fee);
-        obj["storage_fee"] = QString::number(t.storage_fee);
-        obj["other_fee"] = QString::number(t.other_fee);
+        obj["fee"] = QString::number(t.fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        obj["storage_fee"] = QString::number(t.storage_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        obj["other_fee"] = QString::number(t.other_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
         obj["message"] = t.message;
         obj["sent"] = t.sent;
 

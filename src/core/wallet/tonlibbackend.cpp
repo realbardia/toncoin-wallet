@@ -470,10 +470,10 @@ void TonLibBackend::estimateTransfer(const QByteArray &publicKey, const QString 
                     {
                         auto res = ton::move_tl_object_as<tonlib_api::query_fees>(resp.object);
                         Fee f;
-                        f.gas_fee = res->source_fees_->gas_fee_;
-                        f.fwd_fee = res->source_fees_->fwd_fee_;
-                        f.in_fwd_fee = res->source_fees_->in_fwd_fee_;
-                        f.storage_fee = res->source_fees_->storage_fee_;
+                        f.gas_fee = res->source_fees_->gas_fee_ * BALANCE_RATIO;
+                        f.fwd_fee = res->source_fees_->fwd_fee_ * BALANCE_RATIO;
+                        f.in_fwd_fee = res->source_fees_->in_fwd_fee_ * BALANCE_RATIO;
+                        f.storage_fee = res->source_fees_->storage_fee_ * BALANCE_RATIO;
 
                         callback(f, Error());
                     }

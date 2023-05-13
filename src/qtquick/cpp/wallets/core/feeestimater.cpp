@@ -24,10 +24,17 @@ bool FeeEstimater::estimate()
     const auto pkey = QByteArray::fromBase64(wallet()->publicKey().toLatin1());
     backend->estimateTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, [this](const AbstractWalletBackend::Fee &fee, const AbstractWalletBackend::Error &err){
         endAction();
-        mGasFee = fee.gas_fee;
-        mStorageFee = fee.storage_fee;
-        mInFwdFee = fee.in_fwd_fee;
-        mFwdFee = fee.fwd_fee;
+        if (err.code)
+        {
+            setError(err.code, err.message);
+            return;
+        }
+
+        mGasFee = QString::number(fee.gas_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$")).trimmed();
+        mStorageFee = QString::number(fee.storage_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        mInFwdFee = QString::number(fee.in_fwd_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        mFwdFee = QString::number(fee.fwd_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        mFee = QString::number(fee.gas_fee + fee.storage_fee + fee.in_fwd_fee + fee.fwd_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
         Q_EMIT feeChanged();
     });
 
@@ -37,6 +44,11 @@ bool FeeEstimater::estimate()
 QString FeeEstimater::fwdFee() const
 {
     return mFwdFee;
+}
+
+QString FeeEstimater::fee() const
+{
+    return mFee;
 }
 
 QString FeeEstimater::gasFee() const

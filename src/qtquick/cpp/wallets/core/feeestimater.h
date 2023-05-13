@@ -14,6 +14,7 @@ class FeeEstimater : public AbstractActionItem
     Q_PROPERTY(QString storageFee READ storageFee NOTIFY feeChanged)
     Q_PROPERTY(QString gasFee READ gasFee NOTIFY feeChanged)
     Q_PROPERTY(QString fwdFee READ fwdFee NOTIFY feeChanged)
+    Q_PROPERTY(QString fee READ fee NOTIFY feeChanged)
 
 public:
     FeeEstimater(QObject *parent = nullptr);
@@ -35,6 +36,7 @@ public:
     QString storageFee() const;
     QString gasFee() const;
     QString fwdFee() const;
+    QString fee() const;
 
 public Q_SLOTS:
     bool estimate();
@@ -58,6 +60,7 @@ private:
     QString mStorageFee;
     QString mGasFee;
     QString mFwdFee;
+    QString mFee;
 };
 
 #endif // FEEESTIMATER_H

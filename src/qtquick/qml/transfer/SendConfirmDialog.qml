@@ -13,12 +13,13 @@ TDrawer {
 
     mainButton {
         text: qsTr("Continue and send")
+        enabled: !estimater.running
         onClicked: TViewport.viewport.append(sending_component, {}, "stack")
     }
 
     property alias address: estimater.destinationAddress
     property string domain
-    property string amount//: estimater.amount
+    property alias amount: estimater.amount
     property alias message: comment.text
 
     WalletItem {
@@ -34,9 +35,7 @@ TDrawer {
             backend: MainBackend
             publicKey: AppSettings.loggedInPublicKey
         }
-        amount: "0.000001"
         force: false
-        onRunningChanged: console.debug(running)
         Component.onCompleted: {
             estimate();
         }
@@ -53,8 +52,17 @@ TDrawer {
         opacity: 0.1
     }
 
+    TBusyIndicator {
+        anchors.centerIn: parent
+        width: 42
+        height: width
+        running: estimater.running
+        accented: true
+    }
+
     TScrollView {
         anchors.fill: parent
+        visible: !estimater.running
 
         TFlickable {
             id: flick
@@ -236,7 +244,7 @@ TDrawer {
 
                             TLabel {
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: "≈ 0.007"
+                                text: "≈ " + estimater.fee
                             }
                         }
                     }
