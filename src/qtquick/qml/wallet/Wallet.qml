@@ -417,7 +417,7 @@ TPage {
     Component {
         id: send_value_component
         Transfer.SendValueDialog {
-            width: parent.width
+            width: page.width
             closable: true
             backable: false
             onCloseRequest: ViewportType.open = false
@@ -427,7 +427,7 @@ TPage {
     Component {
         id: send_confirm_component
         Transfer.SendConfirmDialog {
-            width: parent.width
+            width: page.width
             closable: true
             backable: false
             onCloseRequest: ViewportType.open = false

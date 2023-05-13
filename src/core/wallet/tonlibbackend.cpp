@@ -43,32 +43,29 @@ public:
     virtual ~Engine() {}
 
     void append(tonlib_api::object_ptr<tonlib_api::Function> func, const ResposeCallback &responseCallback) {
-        auto req = std::make_shared<tonlib::Client::Request>();
-        req->id = GENERATE_ID;
-        req->function = std::move(func);
+        tonlib::Client::Request req;
+        req.id = GENERATE_ID;
+        req.function = std::move(func);
 
         mMutex.lock();
-        mCallbacks[req->id] = responseCallback;
-        mRequests << req;
+        mCallbacks[req.id] = responseCallback;
         mMutex.unlock();
+
+        mClient.send(std::move(req));
     }
 
     void doTerminate() {
         mTerimnated = true;
+
+        auto close_fnc = make_object<tonlib_api::close>();
+        append(std::move(close_fnc), [](tonlib::Client::Response){});
     }
 
 protected:
     void run() override {
-        tonlib::Client client;
-
         while (!mTerimnated)
         {
-            mMutex.lock();
-            const auto requestsCount = mRequests.count();
-            const auto callbacksCount = mCallbacks.count();
-            mMutex.unlock();
-
-            auto resp = client.receive(callbacksCount || requestsCount? 0.001 : 0.2);
+            auto resp = mClient.receive(INT_MAX);
             if (resp.id)
             {
                 mMutex.lock();
@@ -80,32 +77,13 @@ protected:
                     callback(std::move(*resp_ptr));
                 }, Qt::QueuedConnection);
             }
-
-            if (requestsCount)
-            {
-                mMutex.lock();
-                auto req = mRequests.takeFirst();
-                client.send(std::move(*req));
-                mMutex.unlock();
-            }
         }
-
-        auto close_fnc = make_object<tonlib_api::close>();
-        tonlib::Client::Request req;
-        req.id = GENERATE_ID;
-        req.function = std::move(close_fnc);
-
-        client.send(std::move(req));
-
-        auto resp = client.receive(100);
-
-        mRequests.clear();
     }
 
 private:
+    tonlib::Client mClient;
     QObject *mParent;
 
-    QQueue<std::shared_ptr<tonlib::Client::Request>> mRequests;
     QHash<quint64, ResposeCallback> mCallbacks;
 
     QMutex mMutex;
@@ -391,14 +369,16 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
                     t.id.hash = QByteArray::fromStdString(t_->transaction_id_->hash_);
                     t.datetime = QDateTime::fromSecsSinceEpoch(t_->utime_);
 
-                    t.value += t_->in_msg_->value_;
+                    qint64 value = t_->in_msg_->value_;
                     for (auto& ot : t_->out_msgs_)
-                        t.value -= ot->value_;
+                        value -= ot->value_;
+                    if (value == 0)
+                        continue;
 
                     t.fee = t_->fee_ * BALANCE_RATIO;
                     t.storage_fee = t_->storage_fee_ * BALANCE_RATIO;
                     t.other_fee = t_->other_fee_ * BALANCE_RATIO;
-                    t.value = t.value * BALANCE_RATIO;
+                    t.value = value * BALANCE_RATIO;
 
                     if (!t_->in_msg_->source_->account_address_.empty())
                         t.source = QString::fromStdString(t_->in_msg_->source_->account_address_);
@@ -412,7 +392,7 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
                     case tonlib_api::msg_dataRaw::ID:
                     {
                         auto obj = ton::move_tl_object_as<tonlib_api::msg_dataRaw>(std::move(t_->in_msg_->msg_data_));
-                        t.message = QString::fromStdString(obj->body_);
+                        t.raw_message = QByteArray::fromStdString(obj->body_);
                     }
                         break;
                     case tonlib_api::msg_dataText::ID:
@@ -443,6 +423,16 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
             }
         });
     });
+}
+
+void TonLibBackend::estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, const std::function<void (const Fee &, const Error &)> &callback)
+{
+
+}
+
+void TonLibBackend::doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, const std::function<void (const Transaction &, const Error &)> &callback)
+{
+
 }
 
 void TonLibBackend::changeLocalPassword(const QByteArray &publicKey, const QString &newPassword, const std::function<void (const QByteArray &, const Error &)> &callback)
