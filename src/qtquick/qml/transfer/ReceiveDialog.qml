@@ -56,7 +56,7 @@ TDrawer {
                     height: parent.height * 2
                     scale: 0.5
                     pixels: 20
-                    text: dis.address
+                    text: "ton://transfer/" + dis.address
                     centerImage: "qrc:/ton/common/icons/gem.png"
                 }
             }

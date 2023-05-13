@@ -7,6 +7,10 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#ifdef QZXING_AVAILABLE
+#include "QZXing.h"
+#endif
+
 #include "qtquick/cpp/tonqtquick.h"
 #include "qtquick/cpp/toolkit/core/tontoolkitapplicationitem.h"
 
@@ -61,6 +65,16 @@ int main(int argc, char *argv[])
             engine.rootContext()->setContextProperty("linkToOpen", app.arguments().at(1));
         else
             engine.rootContext()->setContextProperty("linkToOpen", QString());
+
+        auto qzxing = false;
+
+    #ifdef QZXING_AVAILABLE
+        QZXing::registerQMLTypes();
+        QZXing::registerQMLImageProvider(engine);
+        qzxing = true;
+    #endif
+
+        engine.rootContext()->setContextProperty("qzxing", qzxing);
 
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

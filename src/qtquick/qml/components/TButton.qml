@@ -1,5 +1,4 @@
 import QtQuick 2.15
-import QtGraphicalEffects 1.15
 import Toolkit.Core 1.0
 import "../components"
 import "../globals"

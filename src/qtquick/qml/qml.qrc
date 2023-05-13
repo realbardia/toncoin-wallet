@@ -96,5 +96,12 @@
         <file>globals/GlobalMethods.qml</file>
         <file>components/TSnackBar.qml</file>
         <file>settings/CurrenciesModel.qml</file>
+        <file>components/private/qt5/OpacityMask.qml</file>
+        <file>components/private/qt5/ZXingCamera.qml</file>
+        <file>components/private/qt6/OpacityMask.qml</file>
+        <file>components/private/qt6/ZXingCamera.qml</file>
+        <file>wallet/QRScanner.qml</file>
+        <file>components/private/qt6/FastBlur.qml</file>
+        <file>components/private/qt5/FastBlur.qml</file>
     </qresource>
 </RCC>

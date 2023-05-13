@@ -73,6 +73,17 @@ void TonQtQuick::registerToolkit()
 //    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "Toolkit.Core", 1, 0, "TScrollView");
 #endif
 
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    qmlRegisterType(QUrl("qrc:/components/private/qt5/ZXingCamera.qml"), "Toolkit.Core", 1, 0, "ZXingCamera");
+    qmlRegisterType(QUrl("qrc:/components/private/qt5/OpacityMask.qml"), "Toolkit.Core", 1, 0, "OpacityMask");
+    qmlRegisterType(QUrl("qrc:/components/private/qt5/FastBlur.qml"), "Toolkit.Core", 1, 0, "FastBlur");
+#else
+    qmlRegisterType(QUrl("qrc:/components/private/qt6/ZXingCamera.qml"), "Toolkit.Core", 1, 0, "ZXingCamera");
+    qmlRegisterType(QUrl("qrc:/components/private/qt6/OpacityMask.qml"), "Toolkit.Core", 1, 0, "OpacityMask");
+    qmlRegisterType(QUrl("qrc:/components/private/qt6/FastBlur.qml"), "Toolkit.Core", 1, 0, "FastBlur");
+#endif
+
     qmlRegisterType<QmlWidgetMenu>("Toolkit.Core", 1, 0, "QmlWidgetMenu");
     qmlRegisterType<QmlWidgetMenuItem>("Toolkit.Core", 1, 0, "QmlWidgetMenuItem");
 

@@ -376,6 +376,19 @@ TPage {
                 }
 
                 TButton {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.margins: 6 * Devices.density
+                    flat: true
+                    width: height
+                    icon.text: MaterialIcons.mdi_qrcode_scan
+                    icon.font.pixelSize: 13 * Devices.fontDensity
+                    highlightColor: "#fff"
+                    visible: qzxing
+                    onClicked: TViewport.viewport.append(qrscanner_component, {}, "popup")
+                }
+
+                TButton {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.margins: 6 * Devices.density
@@ -393,6 +406,16 @@ TPage {
     Component {
         id: settings_component
         Settings.SettingsPage {
+        }
+    }
+
+    Component {
+        id: qrscanner_component
+        QRScanner {
+            onTagFound: {
+                GlobalValues.tempLinkToOpen = tag;
+                ViewportType.open = false
+            }
         }
     }
 

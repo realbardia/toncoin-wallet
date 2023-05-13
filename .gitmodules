@@ -7,3 +7,6 @@
 [submodule "src/thirdparty/qrcode/qr-code-generator"]
 	path = src/thirdparty/qrcode/qr-code-generator
 	url = https://github.com/nayuki/QR-Code-generator.git
+[submodule "src/thirdparty/qzxing"]
+	path = src/thirdparty/qzxing
+	url = https://github.com/ftylitak/qzxing.git
