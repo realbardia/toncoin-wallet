@@ -237,62 +237,10 @@ TPage {
                         }
                     }
 
-                    TRow {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 0
-
-                        StickerItem {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 34
-                            height: width
-                            autoPlay: true
-                            source: "qrc:/ton/common/stickers/Main.tgs"
-                        }
-
-                        TRow {
-                            spacing: 2
-
-                            TLabel {
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.verticalCenterOffset: 4
-                                font.pixelSize: 16 * Devices.fontDensity
-                                color: "#fff"
-                                font.weight: Font.Medium
-                                text: {
-                                    var b = AppSettings.balance;
-                                    var idx = b.indexOf(".");
-                                    if (idx < 0)
-                                        return b;
-                                    return b.slice(0, idx);
-                                }
-                            }
-
-                            TLabel {
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.verticalCenterOffset: 6
-                                font.pixelSize: 12 * Devices.fontDensity
-                                color: "#fff"
-                                visible: text.length
-                                text: {
-                                    var b = AppSettings.balance;
-                                    var idx = b.indexOf(".");
-                                    if (idx < 0)
-                                        return "";
-                                    return b.slice(idx);
-                                }
-                            }
-                        }
-                    }
-
-                    TLabel {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        maximumLineCount: 1
-                        elide: Text.ElideRight
-                        color: "#fff"
-                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + balanceStr
-                        font.pixelSize: 7 * Devices.fontDensity
-                        opacity: 0.6
+                    Item {
+                        id: balanceArea
+                        width: headerArea.width
+                        height: balanceColumn.height
                     }
                 }
 
@@ -331,49 +279,85 @@ TPage {
                 }
             }
 
-            Item {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: Devices.standardTitleBarHeight
+            PointMapListener {
+                id: balanceMapLinstener
+                source: balanceArea
+                dest: headerArea
+            }
 
-                TColumn {
-                    anchors.centerIn: parent
+            TColumn {
+                id: balanceColumn
+                y: Math.max(-5, balanceMapLinstener.result.y + balanceArea.height/2 - height/2)
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 0
+
+                TRow {
+                    anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
-                    opacity: 1 - Math.min(1, headerRatio)
+                    transformOrigin: Item.Bottom
+                    scale: Math.min(1, Math.max(0.7, 0.2 + headerRatio*0.8))
+
+                    StickerItem {
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 34
+                        height: width
+                        autoPlay: true
+                        source: "qrc:/ton/common/stickers/Main.tgs"
+                    }
 
                     TRow {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 0
+                        spacing: 2
 
-                        StickerItem {
+                        TLabel {
                             anchors.verticalCenter: parent.verticalCenter
-                            width: 18
-                            height: width
-                            autoPlay: true
-                            source: "qrc:/ton/common/stickers/Main.tgs"
-                            loops: 0
+                            anchors.verticalCenterOffset: 4
+                            font.pixelSize: 16 * Devices.fontDensity
+                            color: "#fff"
+                            font.weight: Font.Medium
+                            text: {
+                                var b = AppSettings.balance;
+                                var idx = b.indexOf(".");
+                                if (idx < 0)
+                                    return b;
+                                return b.slice(0, idx);
+                            }
                         }
 
                         TLabel {
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.verticalCenterOffset: 2
-                            font.pixelSize: 9 * Devices.fontDensity
-                            text: AppSettings.balance
+                            anchors.verticalCenterOffset: 6
+                            font.pixelSize: 12 * Devices.fontDensity
                             color: "#fff"
+                            visible: text.length
+                            text: {
+                                var b = AppSettings.balance;
+                                var idx = b.indexOf(".");
+                                if (idx < 0)
+                                    return "";
+                                return b.slice(idx);
+                            }
                         }
                     }
-
-                    TLabel {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        maximumLineCount: 1
-                        elide: Text.ElideRight
-                        color: "#fff"
-                        text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + balanceStr
-                        font.pixelSize: 7 * Devices.fontDensity
-                        opacity: 0.6
-                    }
                 }
+
+                TLabel {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    maximumLineCount: 1
+                    elide: Text.ElideRight
+                    color: "#fff"
+                    text: currenyPrice.refreshing && AppSettings.currencyPrice == 0? qsTr("Loading...") : "≈ " + balanceStr
+                    font.pixelSize: 7 * Devices.fontDensity
+                    opacity: 0.6
+                    transformOrigin: Item.Top
+                    scale: Math.min(1, Math.max(0.9, 0.7 + headerRatio*0.3))
+                }
+            }
+
+            Item {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: Devices.standardTitleBarHeight
 
                 TButton {
                     anchors.left: parent.left
