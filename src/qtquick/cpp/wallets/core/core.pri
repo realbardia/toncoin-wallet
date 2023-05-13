@@ -1,8 +1,10 @@
  
 
 HEADERS += \
+    $$PWD/abstractactionitem.h \
     $$PWD/abstractwalletmodel.h \
     $$PWD/currencyprice.h \
+    $$PWD/feeestimater.h \
     $$PWD/keysmanager.h \
     $$PWD/phrasesquizmodel.h \
     $$PWD/recoveryphrasesmodel.h \
@@ -15,8 +17,10 @@ HEADERS += \
     $$PWD/walleturlparser.h
 
 SOURCES += \
+    $$PWD/abstractactionitem.cpp \
     $$PWD/abstractwalletmodel.cpp \
     $$PWD/currencyprice.cpp \
+    $$PWD/feeestimater.cpp \
     $$PWD/keysmanager.cpp \
     $$PWD/phrasesquizmodel.cpp \
     $$PWD/recoveryphrasesmodel.cpp \

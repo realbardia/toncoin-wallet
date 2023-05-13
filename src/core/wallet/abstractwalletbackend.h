@@ -63,8 +63,8 @@ public:
     virtual void getAccountState(const QString &address, const std::function<void(const AccountState &state, const Error &error)> &callback) = 0;
 
     virtual void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) = 0;
-    virtual void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, const std::function<void(const Fee &fee, const Error &error)> &callback) = 0;
-    virtual void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, const std::function<void(const Transaction &transaction, const Error &error)> &callback) = 0;
+    virtual void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(const Fee &fee, const Error &error)> &callback) = 0;
+    virtual void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(const Transaction &transaction, const Error &error)> &callback) = 0;
 
     virtual void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) = 0;
 

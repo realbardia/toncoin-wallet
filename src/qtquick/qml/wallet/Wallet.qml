@@ -15,19 +15,18 @@ TPage {
     readonly property real headerHeight: 240
     readonly property real headerRatio: Math.max(0, (headerHeight + mapListener.result.y)/headerHeight)
 
-    property alias publicKey: wallet.publicKey
-    readonly property bool loading: wallet.loading || walletState.loading || (tmodel.refreshing && tmodel.count)
+    property alias publicKey: walletItem.publicKey
+    readonly property bool loading: walletItem.loading || walletState.running || (tmodel.refreshing && tmodel.count)
 
     WalletItem {
-        id: wallet
+        id: walletItem
         backend: MainBackend
         onAddressChanged: AppSettings.address = address;
     }
 
     WalletState {
         id: walletState
-        backend: MainBackend
-        address: wallet.address
+        wallet: walletItem
         onBalanceChanged: AppSettings.balance = (balance.length? balance : "0.00000");
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
@@ -115,7 +114,7 @@ TPage {
                 anchors.centerIn: parent
                 width: 120
                 height: width
-                active: (page.loading || wallet.loading || walletState.loading || tmodel.refreshing) && tmodel.count == 0
+                active: (page.loading || walletItem.loading || walletState.running || tmodel.refreshing) && tmodel.count == 0
                 sourceComponent: StickerItem {
                     anchors.fill: parent
                     autoPlay: true

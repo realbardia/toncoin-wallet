@@ -6,13 +6,41 @@
 using namespace TON::Wallet;
 
 WalletState::WalletState(QObject *parent)
-    : TonToolkitQuickObject(parent)
+    : AbstractActionItem(parent)
 {
     mRetryTimer = new QTimer(this);
     mRetryTimer->setInterval(5000);
     mRetryTimer->setSingleShot(true);
 
     connect(mRetryTimer, &QTimer::timeout, this, &WalletState::reload);
+
+    auto doConnect = [this](){
+        auto w = wallet();
+        if (mOldWallet)
+            mOldWallet->disconnect(this);
+
+        mOldWallet = w;
+        if (w)
+        {
+            connect(w, &WalletItem::addressChanged, this, [w, this](){
+                setAddress(w->address());
+                reload();
+            });
+            connect(w, &WalletItem::backendChanged, this, [this](){
+                reload();
+            });
+
+            setAddress(w->address());
+            reload();
+        }
+        else
+        {
+            setAddress(QString());
+        }
+    };
+
+    connect(this, &WalletState::walletChanged, this, doConnect);
+    doConnect();
 }
 
 WalletState::~WalletState()
@@ -21,27 +49,20 @@ WalletState::~WalletState()
 
 void WalletState::reload()
 {
-    if (!mBackend || !mBackend->initialized())
-    {
-        reset();
+    if (mAddress.isEmpty())
         return;
-    }
 
-    auto backend = mBackend->backendObject();
+    auto backend = beginAction();
     if (!backend)
     {
         reset();
         return;
     }
 
-    if (mAddress.isEmpty())
-        return;
-
     const auto emitedByTimer = (sender() == mRetryTimer);
     if (!emitedByTimer)
         mRetryCount = 0;
 
-    setLoading(true);
     backend->getAccountState(mAddress, [this, backend](const AbstractWalletBackend::AccountState &state, const AbstractWalletBackend::Error &error){
         mRetryTimer->stop();
         if (error.code)
@@ -52,13 +73,13 @@ void WalletState::reload()
                 mRetryCount++;
                 return;
             }
-            mError = error.code;
-            mErrorString = error.message;
             Q_EMIT errorChanged();
+            setError(error.code, error.message);
+            endAction();
             return;
         }
 
-        setLoading(false);
+        endAction();
 
         auto balance = QString::number(state.balance);
         auto dotIdx = balance.indexOf('.');
@@ -77,9 +98,7 @@ void WalletState::reload()
 
 void WalletState::reset()
 {
-    mError = 0;
-    mErrorString.clear();
-    Q_EMIT errorChanged();
+    setError(0, QString());
 }
 
 QString WalletState::lastTransactionHash() const
@@ -121,16 +140,6 @@ void WalletState::setLastTransactionId(const QString &newLastTransactionId)
     Q_EMIT lastTransactionIdChanged();
 }
 
-qint32 WalletState::error() const
-{
-    return mError;
-}
-
-QString WalletState::errorString() const
-{
-    return mErrorString;
-}
-
 QString WalletState::balance() const
 {
     return mBalance;
@@ -144,52 +153,10 @@ void WalletState::setBalance(const QString &newBalance)
     Q_EMIT balanceChanged();
 }
 
-QString WalletState::address() const
-{
-    return mAddress;
-}
-
 void WalletState::setAddress(const QString &newAddress)
 {
     if (mAddress == newAddress)
         return;
     mAddress = newAddress;
     reload();
-    Q_EMIT addressChanged();
-}
-
-bool WalletState::loading() const
-{
-    return mLoading;
-}
-
-void WalletState::setLoading(bool newLoading)
-{
-    if (mLoading == newLoading)
-        return;
-    mLoading = newLoading;
-    Q_EMIT loadingChanged();
-}
-
-WalletBackend *WalletState::backend() const
-{
-    return mBackend;
-}
-
-void WalletState::setBackend(WalletBackend *newBackend)
-{
-    if (mBackend == newBackend)
-        return;
-    if (mBackend)
-        mBackend->disconnect(this);
-
-    mBackend = newBackend;
-    if (mBackend)
-    {
-        connect(mBackend, &WalletBackend::backendChanged, this, &WalletState::reload);
-        connect(mBackend, &WalletBackend::initializedChanged, this, &WalletState::reload);
-    }
-
-    reload();
-    Q_EMIT backendChanged();
 }

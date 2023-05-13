@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
+import Wallet.Core 1.0
 import "../components"
 import "../globals"
 
@@ -15,10 +16,31 @@ TDrawer {
         onClicked: TViewport.viewport.append(sending_component, {}, "stack")
     }
 
-    property string address
+    property alias address: estimater.destinationAddress
     property string domain
-    property string amount
+    property string amount//: estimater.amount
     property alias message: comment.text
+
+    WalletItem {
+        id: wallet
+        backend: MainBackend
+        publicKey: AppSettings.loggedInPublicKey
+    }
+
+    FeeEstimater {
+        id: estimater
+        message: dis.message
+        wallet: WalletItem {
+            backend: MainBackend
+            publicKey: AppSettings.loggedInPublicKey
+        }
+        amount: "0.000001"
+        force: false
+        onRunningChanged: console.debug(running)
+        Component.onCompleted: {
+            estimate();
+        }
+    }
 
     Rectangle {
         anchors.left: parent.left
