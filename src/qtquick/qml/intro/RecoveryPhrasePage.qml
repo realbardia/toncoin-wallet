@@ -10,7 +10,12 @@ TPage {
 
     property alias dialogOpened: warnDialog.opened
     property bool doneVisible: true
-    property alias publicKey: rmodel.publicKey
+    property alias publicKey: walletItem.publicKey
+
+    WalletItem {
+        id: walletItem
+        backend: MainBackend
+    }
 
     QtObject {
         id: prv
@@ -36,7 +41,7 @@ TPage {
                 cellHeight: 40
                 model: RecoveryPhrasesModel {
                     id: rmodel
-                    backend: MainBackend
+                    wallet: walletItem
                 }
                 header: Item {
                     width: gridv.width

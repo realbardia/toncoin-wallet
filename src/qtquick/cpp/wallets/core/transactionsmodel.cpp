@@ -105,27 +105,20 @@ void TransactionsModel::reload()
     restore();
     if (mOffsetTransactionHash.isEmpty() || mOffsetTransactionId.isEmpty())
         return;
-    if (!AbstractWalletModel::backend())
-    {
-        qmlWarning(this) << "backend property is null. Please set backend property first.";
-        return;
-    }
 
-    auto backend = AbstractWalletModel::backend()->backendObject();
+    auto backend = beginAction();
     if (!backend)
-    {
-        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
         return;
-    }
 
     AbstractWalletBackend::TransactionId transaction;
     transaction.id = mOffsetTransactionId.toLongLong();
     transaction.hash = QByteArray::fromBase64(mOffsetTransactionHash.toLatin1());
 
     setRefreshing(true);
-    const auto pkey = publicKey();
+    const auto pkey = wallet()->publicKey();
     backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), transaction, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
-        if (pkey != publicKey())
+        auto w = wallet();
+        if (!w || pkey != w->publicKey())
             return;
         if (error.code)
             setError(error.code, error.message);
@@ -289,23 +282,15 @@ void TransactionsModel::more()
     if (refreshing() || mTransactions.isEmpty())
         return;
 
-    if (!AbstractWalletModel::backend())
-    {
-        qmlWarning(this) << "backend property is null. Please set backend property first.";
-        return;
-    }
-
-    auto backend = AbstractWalletModel::backend()->backendObject();
+    auto backend = beginAction();
     if (!backend)
-    {
-        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
         return;
-    }
 
     setRefreshing(true);
-    const auto pkey = publicKey();
+    const auto pkey = wallet()->publicKey();
     backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.first().id, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
-        if (pkey != publicKey())
+        auto w = wallet();
+        if (!w || pkey != w->publicKey())
             return;
         if (error.code)
             setError(error.code, error.message);

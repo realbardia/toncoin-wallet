@@ -1,9 +1,10 @@
 #include "abstractwalletmodel.h"
 
+#include <QtQml>
+
 AbstractWalletModel::AbstractWalletModel(QObject *parent)
     : TonToolkitAbstractListModel(parent)
 {
-
 }
 
 AbstractWalletModel::~AbstractWalletModel()
@@ -11,45 +12,44 @@ AbstractWalletModel::~AbstractWalletModel()
 
 }
 
-WalletBackend *AbstractWalletModel::backend() const
+WalletItem *AbstractWalletModel::wallet() const
 {
-    return mBackend;
+    return mWallet;
 }
 
-void AbstractWalletModel::setBackend(WalletBackend *newBackend)
+void AbstractWalletModel::setWallet(WalletItem *newWallet)
 {
-    if (mBackend == newBackend)
+    if (mWallet == newWallet)
         return;
-    if (mBackend)
-        mBackend->disconnect(this);
-    mBackend = newBackend;
-    if (mBackend)
+
+    if (mWallet)
+        mWallet->disconnect(this);
+    if (mWallet && mWallet == mDefaultWallet)
+        delete mWallet;
+
+    mWallet = newWallet;
+    if (mWallet)
     {
-        connect(mBackend, &WalletBackend::initializedChanged, this, &AbstractWalletModel::tryReload);
+        connect(mWallet, &WalletItem::addressChanged, this, [this](){
+            reload();
+        });
+        connect(mWallet, &WalletItem::backendChanged, this, [this](){
+            reload();
+        });
+        connect(mWallet, &WalletItem::publicKeyChanged, this, [this](){
+            reload();
+        });
+
+        reload();
     }
-    tryReload();
-    Q_EMIT backendChanged();
-}
 
-QString AbstractWalletModel::publicKey() const
-{
-    return mPublicKey;
-}
-
-void AbstractWalletModel::setPublicKey(const QString &newPublicKey)
-{
-    if (mPublicKey == newPublicKey)
-        return;
-    mPublicKey = newPublicKey;
-    tryReload();
-    Q_EMIT publicKeyChanged();
+    Q_EMIT walletChanged();
 }
 
 void AbstractWalletModel::tryReload()
 {
     reset();
-    if (!mPublicKey.isEmpty() && mBackend && mBackend->initialized())
-        reload();
+    reload();
 
     Q_EMIT countChanged();
 }
@@ -57,6 +57,37 @@ void AbstractWalletModel::tryReload()
 bool AbstractWalletModel::refreshing() const
 {
     return mRefreshing;
+}
+
+QSharedPointer<TON::Wallet::AbstractWalletBackend> AbstractWalletModel::beginAction()
+{
+    if (!mWallet)
+    {
+        qmlWarning(this) << "wallet property is null. Please set backend property first.";
+        return nullptr;
+    }
+
+    if (!mWallet->backend())
+        return nullptr;
+
+    auto qmlBackend = mWallet->backend();
+    if (!qmlBackend->initialized())
+        return nullptr;
+
+    auto backend = qmlBackend->backendObject();
+    if (!backend)
+        return nullptr;
+
+    if (mRefreshing)
+        return nullptr;
+
+    setRefreshing(true);
+    return backend;
+}
+
+void AbstractWalletModel::endAction()
+{
+    setRefreshing(false);
 }
 
 void AbstractWalletModel::setRefreshing(bool newRefreshing)

@@ -42,23 +42,18 @@ int RecoveryPhrasesModel::count() const
 
 void RecoveryPhrasesModel::reload()
 {
-    if (!AbstractWalletModel::backend())
-    {
-        qmlWarning(this) << "backend property is null. Please set backend property first.";
-        return;
-    }
-
-    auto backend = AbstractWalletModel::backend()->backendObject();
+    auto backend = beginAction();
     if (!backend)
-    {
-        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
         return;
-    }
+
+    const auto pkey = wallet()->publicKey();
+    if (pkey.isEmpty())
+        return;
 
     setRefreshing(true);
-    const auto pkey = publicKey();
     backend->exportKey(QByteArray::fromBase64(pkey.toLatin1()), [this, pkey](const QStringList &keys, const AbstractWalletBackend::Error &error){
-        if (pkey != publicKey())
+        auto w = wallet();
+        if (!w || pkey != w->publicKey())
             return;
         if (error.code)
             setError(error.code, error.message);
@@ -80,7 +75,7 @@ void RecoveryPhrasesModel::reload()
         reloadData();
         endResetModel();
 
-        setRefreshing(false);
+        endAction();
         Q_EMIT countChanged();
     });
 }

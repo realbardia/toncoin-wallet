@@ -12,8 +12,6 @@ RecoveryWordsModel::RecoveryWordsModel(QObject *parent)
     mReloadTimer->setSingleShot(true);
 
     connect(mReloadTimer, &QTimer::timeout, this, &RecoveryWordsModel::reload);
-
-    setPublicKey("FAKE");
 }
 
 RecoveryWordsModel::~RecoveryWordsModel()
@@ -51,20 +49,10 @@ int RecoveryWordsModel::total() const
 
 void RecoveryWordsModel::reload()
 {
-    if (!AbstractWalletModel::backend())
-    {
-        qmlWarning(this) << "backend property is null. Please set backend property first.";
-        return;
-    }
-
-    auto backend = AbstractWalletModel::backend()->backendObject();
+    auto backend = beginAction();
     if (!backend)
-    {
-        qmlWarning(this) << "There is no available backend you selected. Please select another backend.";
         return;
-    }
 
-    setRefreshing(true);
     beginResetModel();
 
     mPhrases.clear();
@@ -101,7 +89,7 @@ void RecoveryWordsModel::reload()
     }
     endResetModel();
 
-    setRefreshing(false);
+    endAction();
     Q_EMIT countChanged();
     Q_EMIT totalChanged();
 }

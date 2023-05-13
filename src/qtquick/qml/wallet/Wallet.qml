@@ -153,8 +153,7 @@ TPage {
                         id: tmodel
                         cachePath: TonToolkitApp.homePath + "/transactions"
                         password: GlobalValues.passCode
-                        backend: MainBackend
-                        publicKey: page.publicKey
+                        wallet: walletItem
                         offsetTransactionHash: walletState.lastTransactionHash
                         offsetTransactionId: walletState.lastTransactionId
                     }

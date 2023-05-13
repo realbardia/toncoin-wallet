@@ -8,15 +8,20 @@ import "../globals"
 TPage {
     id: dis
 
-    property alias publicKey: qmodel.publicKey
+    property alias publicKey: walletItem.publicKey
 
     MapObject {
         id: resultsMap
     }
 
+    WalletItem {
+        id: walletItem
+        backend: MainBackend
+    }
+
     RecoveryWordsModel {
         id: wordsModel
-        backend: MainBackend
+        wallet: walletItem
     }
 
     SimplePageTemplate {
@@ -59,7 +64,7 @@ TPage {
                 model: PhrasesQuizModel {
                     id: qmodel
                     quizLength: 3
-                    backend: MainBackend
+                    wallet: walletItem
                     onCountChanged: resultsMap.clear()
                 }
 
@@ -75,7 +80,7 @@ TPage {
                         if (text.length)
                             resultsMap.insert(uniqueIdx, text.toLowerCase());
                     }
-                    onTabPressed: {
+                    onAccepted: {
                         if (model.index+1 < repeater.count) {
                             var next = repeater.itemAt(model.index+1);
                             next.focus = true;

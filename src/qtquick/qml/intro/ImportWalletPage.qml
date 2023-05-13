@@ -23,9 +23,14 @@ TPage {
         }
     }
 
+    WalletItem {
+        id: walletItem
+        backend: MainBackend
+    }
+
     RecoveryWordsModel {
         id: wordsModel
-        backend: MainBackend
+        wallet: walletItem
     }
 
     MapObject {
