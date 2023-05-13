@@ -34,12 +34,14 @@ public:
         QString destination;
         qreal value = 0;
         QDateTime datetime;
+        QByteArray body_hash;
         qreal fee = 0;
         qreal storage_fee = 0;
         qreal other_fee = 0;
         QString message;
         QByteArray raw_message;
         bool sent = false;
+        bool initializeWallet = false;
     };
 
     struct Fee {
@@ -64,7 +66,7 @@ public:
 
     virtual void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) = 0;
     virtual void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(const Fee &fee, const Error &error)> &callback) = 0;
-    virtual void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(bool done, const Error &error)> &callback) = 0;
+    virtual void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, const std::function<void(const QByteArray &bodyHash, const Error &error)> &callback) = 0;
 
     virtual void changeLocalPassword(const QByteArray &publicKey, const QString &password, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) = 0;
 

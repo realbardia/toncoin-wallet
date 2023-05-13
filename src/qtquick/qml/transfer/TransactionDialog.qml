@@ -16,13 +16,14 @@ TDrawer {
 
     property bool pending
     property bool canceled
-    property string amount: "5.1234"
-    property string fee: "0.00003434"
-    property bool send
+    property string amount
+    property string fee
+    property bool sent
     property string comment
     property string address
     property string domain
     property string transaction
+    property bool initializeWallet
 
     TColumn {
         id: area
@@ -49,7 +50,7 @@ TDrawer {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 4
                     font.pixelSize: 16 * Devices.fontDensity
-                    color: send? Colors.red : Colors.green
+                    color: sent? Colors.red : Colors.green
                     font.weight: Font.Medium
                     text: {
                         var idx = amount.indexOf(".");
@@ -63,7 +64,7 @@ TDrawer {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 6
                     font.pixelSize: 12 * Devices.fontDensity
-                    color: send? Colors.red : Colors.green
+                    color: sent? Colors.red : Colors.green
                     visible: text.length
                     text: {
                         var idx = amount.indexOf(".");
@@ -87,7 +88,7 @@ TDrawer {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 8 * Devices.fontDensity
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTr("%1 transaction fee").arg(fee)
+                text: initializeWallet? qsTr("Wallet initialized") : qsTr("%1 transaction fee").arg(fee)
             }
 
             TLabel {

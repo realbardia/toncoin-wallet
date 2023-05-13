@@ -16,11 +16,12 @@ TDrawer {
         if (!transactionsModel)
             return;
 
+        var added = new Array;
         var items = new Array;
         for (var i=0; i<transactionsModel.count; i++) {
             var t = transactionsModel.get(i);
             var address = t.sent? t.destination : t.source;
-            if (items.indexOf(address) >= 0)
+            if (added.indexOf(address) >= 0)
                 continue;
 
             var m = {
@@ -29,6 +30,7 @@ TDrawer {
                 "datetime": t.datetime,
             };
 
+            added[added.length] = address;
             items[items.length] = m;
             recentsModel.data = items;
         }

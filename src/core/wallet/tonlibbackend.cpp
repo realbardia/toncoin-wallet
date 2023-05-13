@@ -336,96 +336,121 @@ void TonLibBackend::getAccountState(const QString &address, const std::function<
 
 void TonLibBackend::getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void (const QList<Transaction> &, const Error &)> &callback)
 {
-    getAddress(publicKey, [this, publicKey, from, count, callback] (const QString &address, const Error &err) {
-        auto input = p->getInputKey(publicKey);
-        if (err.code || !input)
-        {
-            callback(QList<Transaction>(), err);
-            return;
-        }
-
-        auto accountAddress = make_object<tonlib_api::accountAddress>(address.toStdString());
-        auto fromObject = from.id? make_object<tonlib_api::internal_transactionId>((std::int64_t)from.id, from.hash.toStdString()) : nullptr;
-
-        auto getTransactions_fnc = make_object<tonlib_api::raw_getTransactionsV2>(
-                        std::move(input),
-                        std::move(accountAddress),
-                        std::move(fromObject),
-                        (std::int32_t)count,
-                        true
-                    );
-
-        mEngine->append(std::move(getTransactions_fnc), [callback, address](tonlib::Client::Response resp){
-            if (resp.object->get_id() == tonlib_api::error::ID)
-                callback(QList<Transaction>(), ERR(resp));
-            else
+    getAddress(publicKey, [this, publicKey, from, count, callback] (const QString &address, const Error &err) {        
+        auto doRequest = [this, publicKey, count, callback](const TransactionId &from, const QString &address, const Error &err){
+            auto input = p->getInputKey(publicKey);
+            if (err.code || !input)
             {
-                auto transactions = ton::move_tl_object_as<tonlib_api::raw_transactions>(resp.object);
-                QList<Transaction> res;
-                for (const auto &t_: transactions->transactions_)
-                {
-                    Transaction t;
-                    t.id.id = t_->transaction_id_->lt_;
-                    t.id.hash = QByteArray::fromStdString(t_->transaction_id_->hash_);
-                    t.datetime = QDateTime::fromSecsSinceEpoch(t_->utime_);
-
-                    qint64 value = t_->in_msg_->value_;
-                    for (auto& ot : t_->out_msgs_)
-                        value -= ot->value_;
-                    if (value == 0)
-                        continue;
-
-                    t.fee = t_->fee_ * BALANCE_RATIO;
-                    t.storage_fee = t_->storage_fee_ * BALANCE_RATIO;
-                    t.other_fee = t_->other_fee_ * BALANCE_RATIO;
-                    t.value = value * BALANCE_RATIO;
-
-                    if (!t_->in_msg_->source_->account_address_.empty())
-                        t.source = QString::fromStdString(t_->in_msg_->source_->account_address_);
-                    if (!t_->in_msg_->destination_->account_address_.empty())
-                        t.destination = QString::fromStdString(t_->in_msg_->destination_->account_address_);
-
-                    t.sent = (t.source == address);
-
-                    switch (t_->in_msg_->msg_data_->get_id())
-                    {
-                    case tonlib_api::msg_dataRaw::ID:
-                    {
-                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataRaw>(std::move(t_->in_msg_->msg_data_));
-                        t.raw_message = QByteArray::fromStdString(obj->body_);
-                    }
-                        break;
-                    case tonlib_api::msg_dataText::ID:
-                    {
-                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataText>(std::move(t_->in_msg_->msg_data_));
-                        t.message = QString::fromStdString(obj->text_);
-                    }
-                        break;
-                    case tonlib_api::msg_dataDecryptedText::ID:
-                    {
-                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataDecryptedText>(std::move(t_->in_msg_->msg_data_));
-                        t.message = QString::fromStdString(obj->text_);
-                    }
-                        break;
-                    case tonlib_api::msg_dataEncryptedText::ID:
-                    {
-                        auto obj = ton::move_tl_object_as<tonlib_api::msg_dataEncryptedText>(std::move(t_->in_msg_->msg_data_));
-                        t.message = QString::fromStdString(obj->text_);
-                    }
-                        break;
-                    }
-
-                    res << t;
-                }
-
-
-                callback(res, Error());
+                callback(QList<Transaction>(), err);
+                return;
             }
-        });
+
+            auto accountAddress = make_object<tonlib_api::accountAddress>(address.toStdString());
+            auto fromObject = make_object<tonlib_api::internal_transactionId>((std::int64_t)from.id, from.hash.toStdString());
+
+            auto getTransactions_fnc = make_object<tonlib_api::raw_getTransactionsV2>(
+                            std::move(input),
+                            std::move(accountAddress),
+                            std::move(fromObject),
+                            (std::int32_t)count,
+                            true
+                        );
+
+            mEngine->append(std::move(getTransactions_fnc), [callback, address](tonlib::Client::Response resp){
+                if (resp.object->get_id() == tonlib_api::error::ID)
+                    callback(QList<Transaction>(), ERR(resp));
+                else
+                {
+                    auto transactions = ton::move_tl_object_as<tonlib_api::raw_transactions>(resp.object);
+                    QList<Transaction> res;
+                    for (const auto &t_: transactions->transactions_)
+                    {
+                        Transaction t;
+                        t.id.id = t_->transaction_id_->lt_;
+                        t.id.hash = QByteArray::fromStdString(t_->transaction_id_->hash_);
+                        t.datetime = QDateTime::fromSecsSinceEpoch(t_->utime_);
+                        t.body_hash = QByteArray::fromStdString(t_->in_msg_->body_hash_);
+
+                        qint64 value = t_->in_msg_->value_;
+                        for (auto& ot : t_->out_msgs_)
+                            value -= ot->value_;
+
+                        t.fee = t_->fee_ * BALANCE_RATIO;
+                        t.storage_fee = t_->storage_fee_ * BALANCE_RATIO;
+                        t.other_fee = t_->other_fee_ * BALANCE_RATIO;
+                        t.value = value * BALANCE_RATIO;
+
+                        auto to_message = [&t](const tonlib_api::object_ptr<tonlib_api::raw_message> &msg){
+                            t.source = QString::fromStdString(msg->source_->account_address_);
+                            t.destination = QString::fromStdString(msg->destination_->account_address_);
+
+                            switch (msg->msg_data_->get_id())
+                            {
+                            case tonlib_api::msg_dataRaw::ID:
+                            {
+                                auto obj = ton::move_tl_object_as<tonlib_api::msg_dataRaw>(std::move(msg->msg_data_));
+                                t.raw_message = QByteArray::fromStdString(obj->body_);
+                            }
+                                break;
+                            case tonlib_api::msg_dataText::ID:
+                            {
+                                auto obj = ton::move_tl_object_as<tonlib_api::msg_dataText>(std::move(msg->msg_data_));
+                                t.message = QString::fromStdString(obj->text_);
+                            }
+                                break;
+                            case tonlib_api::msg_dataDecryptedText::ID:
+                            {
+                                auto obj = ton::move_tl_object_as<tonlib_api::msg_dataDecryptedText>(std::move(msg->msg_data_));
+                                t.message = QString::fromStdString(obj->text_);
+                            }
+                                break;
+                            case tonlib_api::msg_dataEncryptedText::ID:
+                            {
+                                auto obj = ton::move_tl_object_as<tonlib_api::msg_dataEncryptedText>(std::move(msg->msg_data_));
+                                t.message = QString::fromStdString(obj->text_);
+                            }
+                                break;
+                            }
+                        };
+
+                        if (t_->out_msgs_.size())
+                        {
+                            const auto &begin = *(t_->out_msgs_.begin());
+                            to_message(begin);
+                        }
+                        else
+                            to_message(t_->in_msg_);
+
+                        t.sent = (t.source == address);
+
+                        if (value == 0 && !t.sent && t.source.length() == 0)
+                        {
+                            t.initializeWallet = true;
+                            t.sent = true;
+                            t.value = t.fee;
+                        }
+
+                        res << t;
+                    }
+
+
+                    callback(res, Error());
+                }
+            });
+        };
+
+        if (from.id == 0)
+        {
+            getAccountState(address, [doRequest, address](const AccountState &state, const Error &err){
+                doRequest(state.lastTransaction, address, err);
+            });
+        }
+        else
+            doRequest(from, address, err);
     });
 }
 
-void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, const std::function<void (qint64, const Error &)> &callback)
+void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, const std::function<void (const PreparedTransferItem &item, const Error &)> &callback)
 {
     getAddress(publicKey, [this, publicKey, dest, value, message, encryption, force, callback] (const QString &from, const Error &err) {
         auto input = p->getInputKey(publicKey);
@@ -433,7 +458,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
             return;
         if (err.code)
         {
-            callback(0, err);
+            callback(PreparedTransferItem(), err);
             return;
         }
 
@@ -441,9 +466,9 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
         tonlib_api::object_ptr<tonlib_api::msg_Data> data;
         if (encryption)
-          data = make_object<tonlib_api::msg_dataDecryptedText>(message.toStdString());
+            data = make_object<tonlib_api::msg_dataDecryptedText>(message.toStdString());
         else
-          data = make_object<tonlib_api::msg_dataText>(message.toStdString());
+            data = make_object<tonlib_api::msg_dataText>(message.toStdString());
 
         auto dest_address = make_object<tonlib_api::accountAddress>(dest.toStdString());
         auto from_address = make_object<tonlib_api::accountAddress>(from.toStdString());
@@ -458,11 +483,16 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
         auto query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), nullptr);
         mEngine->append(std::move(query_fnc), [callback](tonlib::Client::Response resp){
             if (resp.object->get_id() == tonlib_api::error::ID)
-                callback(0, ERR(resp));
+                callback(PreparedTransferItem(), ERR(resp));
             else
             {
                 auto info = ton::move_tl_object_as<tonlib_api::query_info>(resp.object);
-                callback(info->id_, Error());
+
+                PreparedTransferItem p;
+                p.id = info->id_;
+                p.body_hash = QByteArray::fromStdString(info->body_hash_);
+
+                callback(p, Error());
             }
         });
     });
@@ -470,14 +500,14 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
 void TonLibBackend::estimateTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, const std::function<void (const Fee &, const Error &)> &callback)
 {
-    prepareTransfer(publicKey, dest, value, message, encryption, force, [this, callback](qint64 preparedId, const Error &err){
+    prepareTransfer(publicKey, dest, value, message, encryption, force, [this, callback](const PreparedTransferItem &item, const Error &err){
         if (err.code)
         {
             callback(Fee(), err);
             return;
         }
 
-        auto estimate_fnc = make_object<tonlib_api::query_estimateFees>(preparedId, true);
+        auto estimate_fnc = make_object<tonlib_api::query_estimateFees>(item.id, true);
         mEngine->append(std::move(estimate_fnc), [callback](tonlib::Client::Response resp){
             if (resp.object->get_id() == tonlib_api::error::ID)
                 callback(Fee(), ERR(resp));
@@ -496,21 +526,21 @@ void TonLibBackend::estimateTransfer(const QByteArray &publicKey, const QString 
     });
 }
 
-void TonLibBackend::doTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, const std::function<void (bool, const Error &)> &callback)
+void TonLibBackend::doTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, const std::function<void (const QByteArray &bodyHash, const Error &)> &callback)
 {
-    prepareTransfer(publicKey, dest, value, message, encryption, force, [this, callback](qint64 preparedId, const Error &err){
+    prepareTransfer(publicKey, dest, value, message, encryption, force, [this, callback](const PreparedTransferItem &item, const Error &err){
         if (err.code)
         {
-            callback(false, err);
+            callback(QByteArray(), err);
             return;
         }
 
-        auto query_fnc = make_object<tonlib_api::query_send>(preparedId);
-        mEngine->append(std::move(query_fnc), [callback](tonlib::Client::Response resp){
+        auto query_fnc = make_object<tonlib_api::query_send>(item.id);
+        mEngine->append(std::move(query_fnc), [callback, item](tonlib::Client::Response resp){
             if (resp.object->get_id() == tonlib_api::error::ID)
-                callback(false, ERR(resp));
+                callback(QByteArray(), ERR(resp));
             else
-                callback(true, Error());
+                callback(item.body_hash, Error());
         });
     });
 }

@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Viewport 1.0
 import Toolkit.Core 1.0
+import Wallet.Core 1.0
 import "../components"
 import "../globals"
 
@@ -14,15 +15,31 @@ TDrawer {
         onClicked: dis.closeRequest()
     }
 
-    property string amount
-    property string address
+    property alias amount: transferReq.amount
+    property alias address: transferReq.destinationAddress
+    property alias message: transferReq.message
+    property FeeEstimater feeEstimater
 
-    Timer {
-        id: testTimer
-        interval: 2000
-        running: true
-        repeat: false
-        onTriggered: TViewport.viewport.append(done_component, {}, "stack")
+    TransferRequest {
+        id: transferReq
+        wallet: WalletItem {
+            backend: MainBackend
+            publicKey: AppSettings.loggedInPublicKey
+        }
+        force: false
+        Component.onCompleted: {
+            transfer();
+        }
+
+        onTransferFinishedSucessfully: {
+            TViewport.viewport.append(done_component, {}, "stack");
+            GlobalSignals.pendingTransactionSubmited(transferReq, feeEstimater)
+            GlobalSignals.reloadTransactionsRequest();
+        }
+        onTransferFailed: {
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to transfer"), errorString, Colors.foreground)
+            dis.ViewportType.open = false;
+        }
     }
 
     TColumn {

@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QRegularExpression>
+#include <QUuid>
 
 #define CRYPTO_FILE_STORE_SALT "b43a24bb-9382-4b0c-957e-565b8a48d609"
 
@@ -20,6 +21,18 @@ TransactionsModel::TransactionsModel(QObject *parent) :
     mRefreshTimer->setSingleShot(true);
 
     connect(mRefreshTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
+
+    mPendingTimer = new QTimer(this);
+    mPendingTimer->setInterval(10000);
+    mPendingTimer->setSingleShot(true);
+
+    connect(mPendingTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
+
+    mReloadTimer = new QTimer(this);
+    mReloadTimer->setInterval(60000);
+    mReloadTimer->setSingleShot(true);
+
+    connect(mReloadTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
 }
 
 TransactionsModel::~TransactionsModel()
@@ -30,6 +43,9 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
 {
     const auto row = index.row();
     const auto t = mTransactions.at(row);
+
+    static QRegularExpression rx1("0+$");
+    static QRegularExpression rx2("(?:\\.)0*$");
     switch (role)
     {
     case RoleId:
@@ -41,31 +57,25 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
     case RoleDestination:
         return t.destination;
     case RoleValue:
-    {
-        auto amount = QString::number(t.value, 'f', 9).remove(QRegularExpression("(?:\\.)0+$")).remove(QRegularExpression("(?:\\.)0+$"));
-//        auto dotIdx = amount.indexOf('.');
-//        if (dotIdx < 0)
-//        {
-//            dotIdx = amount.count();
-//            amount += '.';
-//        }
-//        amount = amount.left(dotIdx) + '.' + amount.mid(dotIdx+1).leftJustified(5, '0');
-        return amount;
-    }
+        return QString::number(t.value, 'f', 9).remove(rx1).remove(rx2);
     case RoleDatetime:
         return t.datetime;
     case RoleSection:
         return t.datetime.toString("MMMM dd");
     case RoleFee:
-        return t.fee;
+        return QString::number(t.fee, 'f', 9).remove(rx1).remove(rx2);
     case RoleStorageFee:
-        return t.storage_fee;
+        return QString::number(t.storage_fee, 'f', 9).remove(rx1).remove(rx2);
     case RoleOtherFee:
-        return t.other_fee;
+        return QString::number(t.other_fee, 'f', 9).remove(rx1).remove(rx2);
     case RoleMessage:
         return t.message;
     case RoleSent:
         return t.sent;
+    case RolePending:
+        return t.pending;
+    case RoleInitializeWallet:
+        return t.initializeWallet;
     }
 
     return QVariant();
@@ -86,6 +96,8 @@ QHash<qint32, QByteArray> TransactionsModel::roleNames() const
         {RoleOtherFee, "otherFee"},
         {RoleMessage, "message"},
         {RoleSent, "sent"},
+        {RolePending, "pending"},
+        {RoleInitializeWallet, "initializeWallet"},
     };
 }
 
@@ -103,21 +115,16 @@ void TransactionsModel::reset()
 
 void TransactionsModel::reload()
 {
+    mReloadTimer->stop();
     restore();
-    if (mOffsetTransactionHash.isEmpty() || mOffsetTransactionId.isEmpty())
-        return;
 
     auto backend = beginAction();
     if (!backend)
         return;
 
-    AbstractWalletBackend::TransactionId transaction;
-    transaction.id = mOffsetTransactionId.toLongLong();
-    transaction.hash = QByteArray::fromBase64(mOffsetTransactionHash.toLatin1());
-
     setRefreshing(true);
     const auto pkey = wallet()->publicKey();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), transaction, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), AbstractWalletBackend::TransactionId(), 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
         auto w = wallet();
         if (!w || pkey != w->publicKey())
             return;
@@ -127,13 +134,25 @@ void TransactionsModel::reload()
         beginResetModel();
 
         mTransactions.clear();
+        QSet<QByteArray> hashes;
         for (const auto &t: list)
+        {
+            hashes.insert(t.body_hash);
             mTransactions << t;
+        }
+        for (const auto &t: mPendingTransactions)
+        {
+            if (hashes.contains(t.body_hash))
+                continue;
+
+            mTransactions.prepend(t);
+        }
         endResetModel();
 
         store();
         setRefreshing(false);
         Q_EMIT countChanged();
+        mReloadTimer->start();
     });
 }
 
@@ -146,20 +165,24 @@ void TransactionsModel::store()
     if (!f.open(QFile::WriteOnly))
         return;
 
+    static QRegularExpression rx("0+$");
     QJsonArray array;
     for (const auto &t: mTransactions)
     {
         QJsonObject obj;
+        obj["pending"] = t.pending;
         obj["id"] = QString::number(t.id.id);
         obj["hash"] = QString::fromLatin1(t.id.hash.toBase64());
         obj["source"] = t.source;
         obj["destination"] = t.destination;
-        obj["value"] = QString::number(t.value, 'f', 9).remove(QRegularExpression("(?:\\.)0+$")).remove(QRegularExpression("0+$"));
+        obj["value"] = QString::number(t.value, 'f', 9).remove(rx);
         obj["datetime"] = QString::number(t.datetime.toSecsSinceEpoch());
-        obj["fee"] = QString::number(t.fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
-        obj["storage_fee"] = QString::number(t.storage_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
-        obj["other_fee"] = QString::number(t.other_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        obj["fee"] = QString::number(t.fee, 'f', 9).remove(rx);
+        obj["storage_fee"] = QString::number(t.storage_fee, 'f', 9).remove(rx);
+        obj["other_fee"] = QString::number(t.other_fee, 'f', 9).remove(rx);
         obj["message"] = t.message;
+        obj["raw_message"] = QString::fromLatin1(t.raw_message.toBase64());
+        obj["body_hash"] = QString::fromLatin1(t.body_hash.toBase64());
         obj["sent"] = t.sent;
 
         array << obj;
@@ -207,10 +230,12 @@ void TransactionsModel::restore()
 
     beginResetModel();
     mTransactions.clear();
+    mPendingTransactions.clear();
     for (const auto &i: json.array())
     {
         const auto obj = i.toObject();
-        AbstractWalletBackend::Transaction t;
+        Transaction t;
+        t.pending = obj.value("pending").toBool();
         t.id.id = obj.value("id").toString().toLongLong();
         t.id.hash = QByteArray::fromBase64(obj.value("hash").toString().toLatin1());
         t.source = obj.value("source").toString();
@@ -221,13 +246,26 @@ void TransactionsModel::restore()
         t.storage_fee = obj.value("storage_fee").toString().toDouble();
         t.other_fee = obj.value("other_fee").toString().toDouble();
         t.message = obj.value("message").toString();
+        t.raw_message = QByteArray::fromBase64(obj.value("raw_message").toString().toLatin1());
+        t.body_hash = QByteArray::fromBase64(obj.value("body_hash").toString().toLatin1());
         t.sent = obj.value("sent").toBool();
 
         mTransactions << t;
+        if (t.pending)
+            mPendingTransactions << t;
+
+        startCheckingPending();
     }
     endResetModel();
     f.close();
     Q_EMIT countChanged();
+}
+
+void TransactionsModel::startCheckingPending()
+{
+    mPendingTimer->stop();
+    if (mPendingTransactions.count())
+        mPendingTimer->start();
 }
 
 QString TransactionsModel::password() const
@@ -242,6 +280,43 @@ void TransactionsModel::setPassword(const QString &newPassword)
     mPassword = newPassword;
     restore();
     Q_EMIT passwordChanged();
+}
+
+void TransactionsModel::addPending(TransferRequest *req, FeeEstimater *fee)
+{
+    const auto total_fee = fee? fee->fee().toDouble() : 0;
+    const auto storage_fee = fee? fee->storageFee().toDouble() : 0;
+    const auto other_fee = fee? fee->gasFee().toDouble() + fee->fwdFee().toDouble() + fee->inFwdFee().toDouble() : 0;
+
+    connect(req, &TransferRequest::transferFinishedSucessfully, this, [this, total_fee, storage_fee, other_fee, req](const QByteArray &bodyHash){
+        auto w = req->wallet();
+        if (!w)
+            return;
+
+        Transaction t;
+        t.id.id = QRandomGenerator::system()->generate64();
+        t.id.hash = QCryptographicHash::hash(QUuid::createUuid().toString().toLatin1(), QCryptographicHash::Md5);
+        t.pending = true;
+        t.destination = req->destinationAddress();
+        t.source = w->address();
+        t.datetime = QDateTime::currentDateTime();
+        t.message = req->message();
+        t.value = -1 * req->amount().toDouble();
+        t.fee = total_fee;
+        t.sent = true;
+        t.storage_fee = storage_fee;
+        t.other_fee = other_fee;
+        t.body_hash = bodyHash;
+
+        mPendingTransactions << t;
+
+        beginInsertRows(QModelIndex(), 0, 1);
+        mTransactions.prepend(t);
+        endInsertRows();
+
+        store();
+        startCheckingPending();
+    });
 }
 
 QString TransactionsModel::cachePath() const
@@ -280,6 +355,7 @@ void TransactionsModel::refresh()
 
 void TransactionsModel::more()
 {
+    return;
     if (refreshing() || mTransactions.isEmpty())
         return;
 
@@ -307,32 +383,4 @@ void TransactionsModel::more()
         setRefreshing(false);
         Q_EMIT countChanged();
     });
-}
-
-QString TransactionsModel::offsetTransactionHash() const
-{
-    return mOffsetTransactionHash;
-}
-
-void TransactionsModel::setOffsetTransactionHash(const QString &newOffsetTransactionHash)
-{
-    if (mOffsetTransactionHash == newOffsetTransactionHash)
-        return;
-    mOffsetTransactionHash = newOffsetTransactionHash;
-    refresh();
-    Q_EMIT offsetTransactionHashChanged();
-}
-
-QString TransactionsModel::offsetTransactionId() const
-{
-    return mOffsetTransactionId;
-}
-
-void TransactionsModel::setOffsetTransactionId(const QString &newOffsetTransactionId)
-{
-    if (mOffsetTransactionId == newOffsetTransactionId)
-        return;
-    mOffsetTransactionId = newOffsetTransactionId;
-    refresh();
-    Q_EMIT offsetTransactionIdChanged();
 }

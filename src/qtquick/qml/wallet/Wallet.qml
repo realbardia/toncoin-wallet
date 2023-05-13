@@ -58,6 +58,16 @@ TPage {
         }
     }
 
+    Connections {
+        target: GlobalSignals
+        function onReloadTransactionsRequest() {
+            tmodel.refresh();
+        }
+        function onPendingTransactionSubmited(req, fee) {
+            tmodel.addPending(req, fee);
+        }
+    }
+
     property Item sendDialog
     function sendTon(address) {
         if (sendDialog)
@@ -159,8 +169,6 @@ TPage {
                         cachePath: TonToolkitApp.homePath + "/transactions"
                         password: GlobalValues.passCode
                         wallet: walletItem
-                        offsetTransactionHash: walletState.lastTransactionHash
-                        offsetTransactionId: walletState.lastTransactionId
                     }
                     header: Item {
                         width: listv.width

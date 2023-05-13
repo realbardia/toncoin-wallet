@@ -41,35 +41,41 @@ TPage {
             color: "#fff"
         }
 
-        TBusyIndicator {
-            id: busyIndicator
+        Item {
             anchors.horizontalCenter: parent.horizontalCenter
-            width: 42
-            height: width
-            accented: false
-            visible: busyIndicator.running
-        }
+            width: 200
+            height: 50
 
-        TPasswordField {
-            width: 160
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: "#fff"
-            visible: !busyIndicator.running
-            digitsCount: AppSettings.passCodeLength
-            onTextChanged: {
-                if (text.length != digitsCount)
-                    return;
-
-                if (wallet.unlock(text)) {
-                    GlobalValues.passCode = text;
-                } else {
-                    vibrate();
-                    text = "";
-                }
+            TBusyIndicator {
+                id: busyIndicator
+                anchors.centerIn: parent
+                width: 42
+                height: width
+                accented: false
+                visible: busyIndicator.running
             }
-            Component.onCompleted: {
-                focus = true;
-                forceActiveFocus();
+
+            TPasswordField {
+                width: 160
+                anchors.centerIn: parent
+                color: "#fff"
+                visible: !busyIndicator.running
+                digitsCount: AppSettings.passCodeLength
+                onTextChanged: {
+                    if (text.length != digitsCount)
+                        return;
+
+                    if (wallet.unlock(text)) {
+                        GlobalValues.passCode = text;
+                    } else {
+                        vibrate();
+                        text = "";
+                    }
+                }
+                Component.onCompleted: {
+                    focus = true;
+                    forceActiveFocus();
+                }
             }
         }
     }

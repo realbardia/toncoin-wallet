@@ -22,12 +22,6 @@ TDrawer {
     property alias amount: estimater.amount
     property alias message: comment.text
 
-    WalletItem {
-        id: wallet
-        backend: MainBackend
-        publicKey: AppSettings.loggedInPublicKey
-    }
-
     FeeEstimater {
         id: estimater
         message: dis.message
@@ -263,6 +257,8 @@ TDrawer {
             backable: false
             amount: dis.amount
             address: dis.address
+            message: comment.text
+            feeEstimater: estimater
             onCloseRequest: dis.closeRequest()
         }
     }

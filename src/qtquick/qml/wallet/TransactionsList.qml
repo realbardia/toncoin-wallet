@@ -27,6 +27,7 @@ TListView {
     }
 
     delegate: Item {
+        id: titem
         width: listv.width
         height: clmn.height + clmn.y*2.5
 
@@ -34,7 +35,21 @@ TListView {
 
         TItemDelegate {
             anchors.fill: parent
-            onClicked: TViewport.viewport.append(transaction_component, {"amount": model.value, "sent": model.sent, "fee": model.fee, "comment": model.message, "transaction": model.hash, "domain": model.domain, "address": model.sent? model.destination : model.source}, "drawer")
+            onClicked: {
+                var m = {
+                    "amount": model.value,
+                    "sent": model.sent,
+                    "fee": model.fee,
+                    "comment": model.message,
+                    "transaction": model.hash,
+                    "domain": model.domain,
+                    "address": model.sent? model.destination : model.source,
+                    "initializeWallet": model.initializeWallet,
+                    "pending": model.pending
+                };
+
+                TViewport.viewport.append(transaction_component, m, "drawer");
+            }
 
             TColumn {
                 id: clmn
@@ -67,10 +82,11 @@ TListView {
                             font.weight: Font.Medium
                             color: model.sent? Colors.red : Colors.green
                             text: {
-                                var idx = model.value.indexOf(".");
+                                var value = model.value;
+                                var idx = value.indexOf(".");
                                 if (idx < 0)
-                                    return model.value;
-                                return model.value.slice(0, idx);
+                                    return value;
+                                return value.slice(0, idx);
                             }
                         }
 
@@ -81,10 +97,11 @@ TListView {
                             color: model.sent? Colors.red : Colors.green
                             visible: text.length
                             text: {
-                                var idx = model.value.indexOf(".");
+                                var value = model.value;
+                                var idx = value.indexOf(".");
                                 if (idx < 0)
                                     return "";
-                                return model.value.slice(idx);
+                                return value.slice(idx);
                             }
                         }
                     }
@@ -99,6 +116,7 @@ TListView {
                 }
 
                 TWalletAddress {
+                    id: addressItem
                     anchors.left: parent.left
                     anchors.leftMargin: -6
                     height: 20
@@ -118,7 +136,7 @@ TListView {
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     opacity: 0.6
                     font.pixelSize: 8 * Devices.fontDensity
-                    text: qsTr("%1 storage fee").arg(-1 * model.storageFee)
+                    text: model.initializeWallet? qsTr("Wallet initialized") : qsTr("%1 fee").arg(model.fee)
                 }
 
                 Item {
@@ -148,12 +166,24 @@ TListView {
                 }
             }
 
-            TLabel {
+            TColumn {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: 18
-                opacity: 0.5
-                text: Tools.dateToString(model.datetime, "hh:mm")
+                spacing: 0
+
+                TLabel {
+                    anchors.right: parent.right
+                    opacity: 0.5
+                    text: Tools.dateToString(model.datetime, "hh:mm")
+                }
+                TLabel {
+                    anchors.right: parent.right
+                    visible: model.pending
+                    font.pixelSize: 8 * Devices.fontDensity
+                    color: Colors.accent
+                    text: qsTr("Pending")
+                }
             }
         }
 

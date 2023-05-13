@@ -155,7 +155,7 @@ string myEncrypt(string plainText, string pass)
     char *hash = (char *) malloc(sizeof(char) * 65);
 
     // Allocate memory for cipher bytes (chars) array with 1024 elements
-    unsigned char *cipher = (unsigned char *) malloc(sizeof(unsigned char) * 2048);
+    unsigned char *cipher = (unsigned char *) malloc(sizeof(unsigned char) * (plainText.size() + 256));
 
     // Here we hash the plain text password
     hashPassword((const char *)pass.c_str(), hash);
@@ -189,7 +189,7 @@ string myEncrypt(string plainText, string pass)
 string myDecrypt(string cipher, string pass)
 {
     // Converting string to unsigned character (bytes) array
-    unsigned char *plainTextBytes = (unsigned char *) malloc(sizeof(unsigned char) * 2048);
+    unsigned char *plainTextBytes = (unsigned char *) malloc(sizeof(unsigned char) * (cipher.size() + 256));
 
     // Allocate memory for hash bytes (chars) array with 65 elements
     char *hash = (char *) malloc(sizeof(char) * 65);
