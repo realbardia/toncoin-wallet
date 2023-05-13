@@ -47,7 +47,6 @@
 
 #include "qtsingleapplication.h"
 #include "qtlocalpeer.h"
-#include <QWidget>
 
 
 /*!
@@ -158,7 +157,7 @@ void QtSingleApplication::sysInit(const QString &appId)
 */
 
 QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled)
-    : QApplication(argc, argv, GUIenabled)
+    : QGuiApplication(argc, argv, GUIenabled)
 {
     sysInit();
 }
@@ -171,7 +170,7 @@ QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled
 */
 
 QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char **argv)
-    : QApplication(argc, argv)
+    : QGuiApplication(argc, argv)
 {
     sysInit(appId);
 }
@@ -273,64 +272,6 @@ bool QtSingleApplication::sendMessage(const QString &message, int timeout)
 QString QtSingleApplication::id() const
 {
     return peer->applicationId();
-}
-
-
-/*!
-  Sets the activation window of this application to \a aw. The
-  activation window is the widget that will be activated by
-  activateWindow(). This is typically the application's main window.
-
-  If \a activateOnMessage is true (the default), the window will be
-  activated automatically every time a message is received, just prior
-  to the messageReceived() signal being emitted.
-
-  \sa activateWindow(), messageReceived()
-*/
-
-void QtSingleApplication::setActivationWindow(QWidget* aw, bool activateOnMessage)
-{
-    actWin = aw;
-    if (activateOnMessage)
-        connect(peer, &QtLocalPeer::messageReceived, this, &QtSingleApplication::activateWindow);
-    else
-        disconnect(peer, &QtLocalPeer::messageReceived, this, &QtSingleApplication::activateWindow);
-}
-
-
-/*!
-    Returns the applications activation window if one has been set by
-    calling setActivationWindow(), otherwise returns 0.
-
-    \sa setActivationWindow()
-*/
-QWidget* QtSingleApplication::activationWindow() const
-{
-    return actWin;
-}
-
-
-/*!
-  De-minimizes, raises, and activates this application's activation window.
-  This function does nothing if no activation window has been set.
-
-  This is a convenience function to show the user that this
-  application instance has been activated when he has tried to start
-  another instance.
-
-  This function should typically be called in response to the
-  messageReceived() signal. By default, that will happen
-  automatically, if an activation window has been set.
-
-  \sa setActivationWindow(), messageReceived(), initialize()
-*/
-void QtSingleApplication::activateWindow()
-{
-    if (actWin) {
-        actWin->setWindowState(actWin->windowState() & ~Qt::WindowMinimized);
-        actWin->raise();
-        actWin->activateWindow();
-    }
 }
 
 

@@ -5,8 +5,10 @@
 #include <QQmlEngine>
 #include <QMimeDatabase>
 #include <QTimer>
-#include <QFileDialog>
 #include <QStandardPaths>
+#if defined(QT_WIDGETS_LIB)
+#include <QFileDialog>
+#endif
 
 #ifdef Q_OS_IOS
 #include "private/quickios/qiimagepicker.h"
@@ -70,7 +72,7 @@ bool TonToolkitDevicesItem::getOpenPictures()
 #else
 #if defined(QT_WIDGETS_LIB)
     path = QFileDialog::getOpenFileName(Q_NULLPTR, QStringLiteral(""), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).last());
-#else
+#elif defined(QT_WIDGETS_LIB)
     path = TonToolkitDesktopTools::getOpenFileName();
 #endif
 

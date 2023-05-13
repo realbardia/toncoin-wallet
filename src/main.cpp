@@ -1,4 +1,8 @@
+#if defined(QT_WIDGETS_LIB)
 #include <QApplication>
+#else
+#include <QGuiApplication>
+#endif
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -21,7 +25,11 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+#if defined(QT_WIDGETS_LIB)
     QApplication app(argc, argv);
+#else
+    QGuiApplication app(argc, argv);
+#endif
     app.setWindowIcon(QIcon(":/ton/common/icons/icon.png"));
 
     TonToolkitApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
@@ -37,12 +45,14 @@ int main(int argc, char *argv[])
     TonQtQuick::registerToolkit();
     TonQtQuick::registerViewport();
 
+#if defined(QT_WIDGETS_LIB)
     if (app.arguments().contains(QStringLiteral("--widgets")))
     {
         qDebug() << "Under construction!";
         return 0;
     }
     else
+#endif
     {
         QQmlApplicationEngine engine;
 

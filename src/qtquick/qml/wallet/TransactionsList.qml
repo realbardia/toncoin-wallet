@@ -34,7 +34,7 @@ TListView {
 
         TItemDelegate {
             anchors.fill: parent
-            onClicked: TViewport.viewport.append(transaction_component, {"amount": model.value, "sent": model.sent, "fee": model.fee, "comment": model.message, "transaction": model.transaction, "domain": model.domain, "address": model.sent? model.destination : model.source}, "drawer")
+            onClicked: TViewport.viewport.append(transaction_component, {"amount": model.value, "sent": model.sent, "fee": model.fee, "comment": model.message, "transaction": model.hash, "domain": model.domain, "address": model.sent? model.destination : model.source}, "drawer")
 
             TColumn {
                 id: clmn

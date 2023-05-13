@@ -272,6 +272,7 @@ TDrawer {
             highlight: true
             height: 36
             text: qsTr("View in explorer")
+            onClicked: Qt.openUrlExternally("https://tonscan.org/tx/" + dis.transaction)
         }
     }
 

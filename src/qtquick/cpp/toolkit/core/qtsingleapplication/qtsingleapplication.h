@@ -47,7 +47,7 @@
 #ifndef QtSingleApplication_H
 #define QtSingleApplication_H
 
-#include <QApplication>
+#include <QGuiApplication>
 
 class QtLocalPeer;
 
@@ -67,7 +67,7 @@ class QtLocalPeer;
 #  define QT_QTSINGLEAPPLICATION_EXPORT
 #endif
 
-class QT_QTSINGLEAPPLICATION_EXPORT QtSingleApplication : public QApplication
+class QT_QTSINGLEAPPLICATION_EXPORT QtSingleApplication : public QGuiApplication
 {
     Q_OBJECT
 
@@ -84,16 +84,12 @@ public:
     bool isRunning();
     QString id() const;
 
-    void setActivationWindow(QWidget* aw, bool activateOnMessage = true);
-    QWidget* activationWindow() const;
-
     // Obsolete:
     void initialize(bool dummy = true)
         { isRunning(); Q_UNUSED(dummy) }
 
 public Q_SLOTS:
     bool sendMessage(const QString &message, int timeout = 5000);
-    void activateWindow();
 
 
 Q_SIGNALS:
