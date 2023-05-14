@@ -15,8 +15,7 @@ Item {
     }
 
     Component.onCompleted: {
-        if (!Devices.isMacX)
-            camera = camera_component.createObject(dis)
+        camera = camera_component.createObject(dis)
     }
 
     VideoOutput {

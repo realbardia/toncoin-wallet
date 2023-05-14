@@ -167,7 +167,7 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Touch ID")
-                            enabled: Devices.hasBiometric
+                            visible: Devices.hasBiometric
                             onClicked: {
                                 if (AppSettings.touchId) {
                                     var item = TViewport.viewport.append(passCode_component, {}, "popup");

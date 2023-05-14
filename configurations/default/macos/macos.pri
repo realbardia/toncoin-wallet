@@ -4,4 +4,6 @@ macx {
 
     DISTFILES += \
         $$PWD/logo.icns
+
+    QMAKE_INFO_PLIST = $$PWD/Info.plist
 }

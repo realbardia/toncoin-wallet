@@ -23,7 +23,7 @@ TPage {
 
     Timer {
         interval: 300
-        running: AppSettings.touchId
+        running: AppSettings.touchId && Devices.hasBiometric
         repeat: false
         onTriggered: checkBiometric()
     }
@@ -76,7 +76,7 @@ TPage {
                 width: 160
                 anchors.centerIn: parent
                 color: "#fff"
-                visible: !busyIndicator.running && !AppSettings.touchId
+                visible: !busyIndicator.running && !(AppSettings.touchId && Devices.hasBiometric)
                 digitsCount: AppSettings.passCodeLength
                 onTextChanged: {
                     if (text.length != digitsCount)
@@ -90,7 +90,7 @@ TPage {
                     }
                 }
                 Component.onCompleted: {
-                    if (AppSettings.touchId)
+                    if (AppSettings.touchId && Devices.hasBiometric)
                         return;
                     focus = true;
                     forceActiveFocus();
