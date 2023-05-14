@@ -370,10 +370,24 @@ TPage {
                 }
             }
 
-            Item {
+            MouseArea {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: Devices.standardTitleBarHeight
+                onClicked: {
+                    transactionsListAnim.from = listv.contentY;
+                    listv.positionViewAtBeginning();
+                    transactionsListAnim.to = listv.contentY;
+                    transactionsListAnim.start();
+                }
+
+                NumberAnimation {
+                    id: transactionsListAnim
+                    easing.type: Easing.OutCubic
+                    duration: 300
+                    target: listv
+                    properties: "contentY"
+                }
 
                 TButton {
                     anchors.left: parent.left
