@@ -69,11 +69,10 @@ TPage {
 
     TButton {
         id: mainButton
-        anchors.left: parent.left
-        anchors.right: parent.right
+        width: parent.width - clmn.y*2
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: Devices.navigationBarHeight + clmn.y
-        anchors.margins: clmn.y
         visible: text.length
     }
 }

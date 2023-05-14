@@ -112,5 +112,6 @@
         <file>globals/translations/lang-fr.qm</file>
         <file>globals/translations/lang-ru.qm</file>
         <file>globals/translations/lang-de.qm</file>
+        <file>connect/ConnectTransferPage.qml</file>
     </qresource>
 </RCC>

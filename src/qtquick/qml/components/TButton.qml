@@ -30,6 +30,7 @@ TControlElement {
     property bool flat
     property bool highlight
     property alias highlightColor: highlightArea.color
+    property alias backgroundColor: background.color
     property color color: "#fff"
     property alias radius: background.radius
     property bool textVisible: true

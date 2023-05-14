@@ -92,7 +92,7 @@ TControlElement {
 
                 onFilledChanged: {
                     if (filled) {
-                        scale = 1.25
+                        scale = 1.3
                         scaleTimer.restart();
                     }
                 }
