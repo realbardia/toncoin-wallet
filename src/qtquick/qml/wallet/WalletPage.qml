@@ -19,7 +19,7 @@ TPage {
         var lastEvent = Tools.dateToSec(keySpy.lastEvent);
 
         var time = Math.max(30, Math.min(300, AppSettings.lockTimeout))
-        if (current - lastEvent < 60 && current >= lastEvent)
+        if (current - lastEvent < time && current >= lastEvent)
             return false;
 
         GlobalValues.passCode = "";
@@ -85,6 +85,7 @@ TPage {
         window: GlobalValues.mwin
         onMousePositionChanged: if (!checkLockScreen()) lastEvent = new Date
         onKeyChanged: if (!checkLockScreen()) lastEvent = new Date
+        onScreenTouched: if (!checkLockScreen()) lastEvent = new Date
 
         property variant lastEvent: new Date
     }

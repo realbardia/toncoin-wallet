@@ -191,6 +191,10 @@ bool TonToolkitKeyHandler::eventFilter(QObject *watched, QEvent *ev)
         setMousePosition(e->pos());
     }
         break;
+
+    case QEvent::TouchBegin: {
+        Q_EMIT screenTouched();
+    }
     }
 
     return QObject::eventFilter(watched, ev);

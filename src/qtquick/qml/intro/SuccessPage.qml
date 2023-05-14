@@ -45,7 +45,7 @@ SimplePageTemplate {
         visible: Devices.hasBiometric
         onClicked: {
             AppSettings.touchId = true;
-            if (Devices.biometricCheck())
+            if (GlobalMethods.biometricCheck())
                 wallet.changePassword(Constants.touchIdPass);
             else {
                 AppSettings.touchId = false;

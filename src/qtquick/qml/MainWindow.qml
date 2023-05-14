@@ -61,6 +61,14 @@ TWindow {
         }
     }
 
+    FastBlur {
+        anchors.fill: parent
+        source: visible? mainScene : null
+        cached: true
+        radius: 64
+        visible: TonToolkitApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isTouchDevice
+    }
+
     Connections {
         target: GlobalSignals
         function onSnackRequest(icon, title, description, color) {
