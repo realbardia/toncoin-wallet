@@ -35,6 +35,7 @@ Item {
     MouseArea {
         id: marea
         anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
         onClicked: hmb.clicked()
     }
 }

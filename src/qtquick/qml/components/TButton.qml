@@ -6,6 +6,7 @@ import "../globals"
 TControlElement {
     id: marea
     width: label.width + 20
+    hoverEnabled: true
     height: 42
 
     onFocusChanged: doHighlight(focus)
@@ -63,6 +64,16 @@ TControlElement {
         anchors.fill: parent
         clip: true
         visible: false
+
+        Rectangle {
+            anchors.fill: parent
+            radius: marea.radius
+            color: Colors.foreground
+            opacity: marea.containsMouse? (flat? 0.05 : 0.1) : 0
+            Behavior on opacity {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+            }
+        }
 
         Rectangle {
             id: highlightArea

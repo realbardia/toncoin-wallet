@@ -27,7 +27,6 @@ TPage {
     component SettingItem: TItemDelegate {
         height: 50
         width: parent.width
-        radius: Constants.controlsRoundness
 
         property alias title: titleLabel.text
         property alias spacer: spacerItem.visible
@@ -35,6 +34,7 @@ TPage {
         TLabel {
             id: titleLabel
             anchors.left: parent.left
+            anchors.leftMargin: 20
             anchors.verticalCenter: parent.verticalCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             maximumLineCount: 1
@@ -45,6 +45,8 @@ TPage {
             id: spacerItem
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.leftMargin: 20
+            anchors.rightMargin: 20
             anchors.bottom: parent.bottom
             height: 1
             color: Colors.foreground
@@ -91,11 +93,12 @@ TPage {
                     y: 20
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.margins: y
                     spacing: 8
 
                     TLabel {
-                        width: parent.width
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 20
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -115,6 +118,7 @@ TPage {
 
                             TSwitch {
                                 anchors.right: parent.right
+                                anchors.rightMargin: 20
                                 anchors.verticalCenter: parent.verticalCenter
                                 z: -1
                                 checked: AppSettings.darkMode
@@ -127,6 +131,7 @@ TPage {
                             TLabel {
                                 id: languageItem
                                 anchors.right: parent.right
+                                anchors.rightMargin: 20
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: Colors.accent
                                 text: {
@@ -145,7 +150,9 @@ TPage {
                     Item { width: 1; height: 10 }
 
                     TLabel {
-                        width: parent.width
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 20
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -166,6 +173,7 @@ TPage {
                             TLabel {
                                 id: walletItem
                                 anchors.right: parent.right
+                                anchors.rightMargin: 20
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: Colors.accent
                                 text: AppSettings.walletVersion
@@ -178,6 +186,7 @@ TPage {
                             TLabel {
                                 id: currencyItem
                                 anchors.right: parent.right
+                                anchors.rightMargin: 20
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: Colors.accent
                                 text: AppSettings.currency.toUpperCase()
@@ -193,7 +202,9 @@ TPage {
                     Item { width: 1; height: 10 }
 
                     TLabel {
-                        width: parent.width
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 20
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere

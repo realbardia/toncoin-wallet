@@ -37,6 +37,7 @@ TControlElement {
 
     MouseArea {
         anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
         onClicked: {
             input.focus = true;
             input.forceActiveFocus();

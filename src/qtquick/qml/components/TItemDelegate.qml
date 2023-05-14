@@ -5,6 +5,7 @@ import "../globals"
 
 TControlElement {
     id: marea
+    hoverEnabled: true
     height: Constants.itemsHeight
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     pressAndHoldInterval: 300
@@ -66,6 +67,16 @@ TControlElement {
         anchors.fill: parent
         clip: true
         visible: false
+
+        Rectangle {
+            anchors.fill: parent
+            radius: marea.radius
+            color: Colors.foreground
+            opacity: marea.containsMouse? 0.05 : 0
+            Behavior on opacity {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+            }
+        }
 
         Rectangle {
             id: highlightArea
