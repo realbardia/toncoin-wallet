@@ -6,6 +6,7 @@ import "../globals"
 TControlElement {
     id: marea
     width: label.width + 20
+    cursorShape: Qt.PointingHandCursor
     hoverEnabled: true
     height: 42
 
