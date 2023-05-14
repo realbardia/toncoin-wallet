@@ -101,7 +101,7 @@ bool TonToolkitObjectiveCLayer::openUrlInSafari(const QString &str)
 void TonToolkitObjectiveCLayer::triggerVibrateFeedback()
 {
     // Create an instance of the feedback generator
-    auto generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+    auto generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
 
     // Trigger the feedback
     [generator impactOccurred];
