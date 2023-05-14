@@ -12,6 +12,8 @@ TPage {
     id: page
     color: "#000"
 
+    property bool opened
+
     readonly property real headerHeight: 240
     readonly property real headerRatio: Math.max(0, (headerHeight + mapListener.result.y)/headerHeight)
 
@@ -42,6 +44,7 @@ TPage {
     }
 
     Component.onCompleted: {
+        opened = true;
         if (GlobalValues.tempLinkToOpen.length) {
             sendTon(GlobalValues.tempLinkToOpen);
             GlobalValues.tempLinkToOpen = "";
@@ -105,11 +108,33 @@ TPage {
         dest: walletScene
     }
 
+    Rectangle {
+        width: parent.width
+        color: Colors.background
+        anchors.top: walletScene.bottom
+        anchors.bottom: parent.bottom
+
+        Rectangle {
+            anchors.fill: parent
+            color: "#000"
+            opacity: opened? 0 : 1
+
+            Behavior on opacity {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 400 }
+            }
+        }
+    }
+
     Item {
         id: walletScene
-        anchors.fill: parent
-        anchors.topMargin: Devices.statusBarHeight
+        width: parent.width
+        height: parent.height - Devices.statusBarHeight
+        y: opened? Devices.statusBarHeight : -headerHeight
         clip: true
+
+        Behavior on y {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 400 }
+        }
 
         Rectangle {
             anchors.left: parent.left
@@ -413,6 +438,23 @@ TPage {
                     highlightColor: "#fff"
                     onClicked: TViewport.viewport.append(settings_component, {}, "activity")
                 }
+            }
+        }
+
+        Rectangle {
+            width: parent.width
+            height: opened? parent.height - headerHeight + Constants.roundness : parent.height + Constants.roundness
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -Constants.roundness
+            opacity: opened? 0 : 1
+            radius: Constants.roundness
+            color: "#000"
+
+            Behavior on height {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 400 }
+            }
+            Behavior on opacity {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 400 }
             }
         }
     }

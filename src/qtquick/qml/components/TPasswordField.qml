@@ -77,15 +77,36 @@ TControlElement {
             model: element.digitsCount
 
             Rectangle {
+                id: pointItem
                 width: 14
                 x: model.index * (element.width / element.digitsCount) + (element.width / element.digitsCount)/2 - width/2
                 anchors.verticalCenter: parent.verticalCenter
                 height: width
                 radius: width / 2
-                opacity: model.index < input.length? 1 : 0.4
-                color: model.index < input.length? element.color : "transparent"
+                opacity: filled? 1 : 0.4
+                color: filled? element.color : "transparent"
                 border.width: 1
                 border.color: element.color
+
+                property bool filled: model.index < input.length
+
+                onFilledChanged: {
+                    if (filled) {
+                        scale = 1.25
+                        scaleTimer.restart();
+                    }
+                }
+
+                Behavior on scale {
+                    NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
+                }
+
+                Timer {
+                    id: scaleTimer
+                    interval: 150
+                    repeat: false
+                    onTriggered: pointItem.scale = 1
+                }
             }
         }
     }
