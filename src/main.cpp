@@ -66,15 +66,19 @@ int main(int argc, char *argv[])
         else
             engine.rootContext()->setContextProperty("linkToOpen", QString());
 
-        auto qzxing = false;
-
-    #ifdef QZXING_AVAILABLE
+#ifdef QZXING_AVAILABLE
         QZXing::registerQMLTypes();
         QZXing::registerQMLImageProvider(engine);
-        qzxing = true;
-    #endif
+        engine.rootContext()->setContextProperty("qzxing", true);
+#else
+        engine.rootContext()->setContextProperty("qzxing", false);
+#endif
 
-        engine.rootContext()->setContextProperty("qzxing", qzxing);
+#ifdef TOUCH_ID_SECURE_KEY
+        engine.rootContext()->setContextProperty("touchIdSecureKey", TOUCH_ID_SECURE_KEY);
+#else
+        engine.rootContext()->setContextProperty("touchIdSecureKey", QString());
+#endif
 
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

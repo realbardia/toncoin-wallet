@@ -17,6 +17,8 @@ TPage {
 
         if (wallet.unlock(Constants.touchIdPass))
             GlobalValues.passCode = Constants.touchIdPass;
+        else
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed"), qsTr("Failed to unlock wallet. Secure key changed."), Colors.foreground)
     }
 
     Timer {
