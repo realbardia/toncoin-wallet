@@ -433,7 +433,6 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
                         res << t;
                     }
 
-
                     callback(res, Error());
                 }
             });
@@ -441,8 +440,11 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
 
         if (from.id == 0)
         {
-            getAccountState(address, [doRequest, address](const AccountState &state, const Error &err){
-                doRequest(state.lastTransaction, address, err);
+            getAccountState(address, [doRequest, address, callback](const AccountState &state, const Error &err){
+                if (err.code)
+                    callback(QList<Transaction>(), err);
+                else
+                    doRequest(state.lastTransaction, address, err);
             });
         }
         else

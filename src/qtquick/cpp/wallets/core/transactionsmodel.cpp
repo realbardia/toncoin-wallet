@@ -129,7 +129,11 @@ void TransactionsModel::reload()
         if (!w || pkey != w->publicKey())
             return;
         if (error.code)
+        {
             setError(error.code, error.message);
+            setRefreshing(false);
+            return;
+        }
 
         beginResetModel();
 
@@ -370,7 +374,11 @@ void TransactionsModel::more()
         if (!w || pkey != w->publicKey())
             return;
         if (error.code)
+        {
             setError(error.code, error.message);
+            setRefreshing(false);
+            return;
+        }
 
         beginInsertRows(QModelIndex(), mTransactions.count(), mTransactions.count() + list.count());
 
