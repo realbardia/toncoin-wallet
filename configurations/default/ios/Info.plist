@@ -91,5 +91,7 @@
         <array>
                 <string>UIInterfaceOrientationPortrait</string>
         </array>
+        <key>UIPrerenderedSnapshots</key>
+        <true/>
 </dict>
 </plist>

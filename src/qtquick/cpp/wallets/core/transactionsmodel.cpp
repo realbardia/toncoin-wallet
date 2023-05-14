@@ -135,24 +135,22 @@ void TransactionsModel::reload()
             return;
         }
 
-        beginResetModel();
-
-        mTransactions.clear();
+        QList<Transaction> transactions;
         QSet<QByteArray> hashes;
         for (const auto &t: list)
         {
             hashes.insert(t.body_hash);
-            mTransactions << t;
+            transactions << t;
         }
         for (const auto &t: mPendingTransactions)
         {
             if (hashes.contains(t.body_hash))
                 continue;
 
-            mTransactions.prepend(t);
+            transactions.prepend(t);
         }
-        endResetModel();
 
+        change(transactions);
         store();
         setRefreshing(false);
         Q_EMIT countChanged();
@@ -232,9 +230,8 @@ void TransactionsModel::restore()
     if (json.isEmpty())
         return;
 
-    beginResetModel();
-    mTransactions.clear();
     mPendingTransactions.clear();
+    QList<Transaction> transactions;
     for (const auto &i: json.array())
     {
         const auto obj = i.toObject();
@@ -254,13 +251,14 @@ void TransactionsModel::restore()
         t.body_hash = QByteArray::fromBase64(obj.value("body_hash").toString().toLatin1());
         t.sent = obj.value("sent").toBool();
 
-        mTransactions << t;
+        transactions << t;
         if (t.pending)
             mPendingTransactions << t;
 
         startCheckingPending();
     }
-    endResetModel();
+
+    change(transactions);
     f.close();
     Q_EMIT countChanged();
 }
@@ -270,6 +268,60 @@ void TransactionsModel::startCheckingPending()
     mPendingTimer->stop();
     if (mPendingTransactions.count())
         mPendingTimer->start();
+}
+
+void TransactionsModel::change(const QList<Transaction> &list)
+{
+    bool count_changed = (list.count()!=mTransactions.count());
+
+    for( int i=0 ; i<mTransactions.count() ; i++ )
+    {
+        const Transaction &trs = mTransactions.at(i);
+        if( list.contains(trs) )
+            continue;
+
+        beginRemoveRows(QModelIndex(), i, i);
+        mTransactions.removeAt(i);
+        i--;
+        endRemoveRows();
+    }
+
+    QList<Transaction> temp_list = list;
+    for( int i=0 ; i<temp_list.count() ; i++ )
+    {
+        const Transaction &trs = temp_list.at(i);
+        if( mTransactions.contains(trs) )
+            continue;
+
+        temp_list.removeAt(i);
+        i--;
+    }
+    while( mTransactions != temp_list )
+        for( int i=0 ; i<mTransactions.count() ; i++ )
+        {
+            const Transaction &trs = mTransactions.at(i);
+            int nw = temp_list.indexOf(trs);
+            if( i == nw )
+                continue;
+
+            beginMoveRows( QModelIndex(), i, i, QModelIndex(), nw>i?nw+1:nw );
+            mTransactions.move( i, nw );
+            endMoveRows();
+        }
+
+    for( int i=0 ; i<list.count() ; i++ )
+    {
+        const Transaction &trs = list.at(i);
+        if( mTransactions.contains(trs) )
+            continue;
+
+        beginInsertRows(QModelIndex(), i, i );
+        mTransactions.insert( i, trs );
+        endInsertRows();
+    }
+
+    if(count_changed)
+        Q_EMIT countChanged();
 }
 
 QString TransactionsModel::password() const
@@ -380,15 +432,22 @@ void TransactionsModel::more()
             return;
         }
 
-        beginInsertRows(QModelIndex(), mTransactions.count(), mTransactions.count() + list.count());
-
+        QList<Transaction> transactions;
         for (const auto &t: list)
-            mTransactions << t;
-
-        endInsertRows();
+            transactions << t;
+        change(transactions);
 
         store();
         setRefreshing(false);
         Q_EMIT countChanged();
     });
+}
+
+bool TransactionsModel::Transaction::operator==(const Transaction &b) const
+{
+    return id.id == b.id.id &&
+           id.hash == b.id.hash &&
+           source == b.source &&
+           destination == b.destination &&
+           body_hash == b.body_hash;
 }

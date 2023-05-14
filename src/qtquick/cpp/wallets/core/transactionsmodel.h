@@ -86,7 +86,12 @@ private:
         Transaction(const TON::Wallet::AbstractWalletBackend::Transaction &t): TON::Wallet::AbstractWalletBackend::Transaction(t) {}
 
         bool pending = false;
+
+        bool operator==(const Transaction &another) const;
     };
+
+
+    void change(const QList<Transaction> &list);
 
     QList<Transaction> mTransactions;
     QList<Transaction> mPendingTransactions;
