@@ -53,9 +53,10 @@ TDrawer {
 
             Component.onCompleted: Tools.jsDelayCall(10, recentsList.positionViewAtBeginning)
 
-            header: Item {
+            header: MouseArea {
                 width: recentsList.width
                 height: headerColumn.height
+                onClicked: Devices.hideKeyboard()
 
                 TColumn {
                     id: headerColumn

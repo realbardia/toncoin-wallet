@@ -160,7 +160,10 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Change passcode")
-                            onClicked: TViewport.viewport.append(passCode_component, {}, "popup")
+                            onClicked: {
+                                var item = TViewport.viewport.append(passCode_component, {}, "popup");
+                                item.success.connect(function(){ AppSettings.touchId = false; });
+                            }
                         }
                         SettingItem {
                             title: qsTr("Touch ID")
@@ -168,7 +171,7 @@ TPage {
                             onClicked: {
                                 if (AppSettings.touchId) {
                                     var item = TViewport.viewport.append(passCode_component, {}, "popup");
-                                    item.mainItem.success.connect(function(){ AppSettings.touchId = false; });
+                                    item.success.connect(function(){ AppSettings.touchId = false; });
                                 } else if (Devices.biometricCheck()) {
                                     wallet.changePassword(Constants.touchIdPass);
                                 }
@@ -290,7 +293,14 @@ TPage {
         Intro.RecoveryPhrasePage {
             anchors.fill: parent
             doneVisible: false
+            backable: false
             publicKey: AppSettings.loggedInPublicKey
+
+            SettingsLockDialog {
+                anchors.fill: parent
+                z: 100
+                onSuccess: visible = false
+            }
         }
     }
 
@@ -299,11 +309,26 @@ TPage {
         TViewport {
             id: viewport
             anchors.fill: parent
-            mainItem: Intro.PasscodePage {
+
+            signal success()
+
+            mainItem: Loader {
                 anchors.fill: parent
-                closeAtEnd: true
-                publicKey: AppSettings.loggedInPublicKey
-                onCloseRequest: viewport.ViewportType.open = false
+                active: !lockDialog.visible
+                sourceComponent: Intro.PasscodePage {
+                    anchors.fill: parent
+                    closeAtEnd: true
+                    publicKey: AppSettings.loggedInPublicKey
+                    onCloseRequest: viewport.ViewportType.open = false
+                    onSuccess: viewport.success()
+                }
+            }
+
+            SettingsLockDialog {
+                id: lockDialog
+                anchors.fill: parent
+                z: 100
+                onSuccess: visible = false
             }
         }
     }

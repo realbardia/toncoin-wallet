@@ -103,5 +103,6 @@
         <file>wallet/QRScanner.qml</file>
         <file>components/private/qt6/FastBlur.qml</file>
         <file>components/private/qt5/FastBlur.qml</file>
+        <file>settings/SettingsLockDialog.qml</file>
     </qresource>
 </RCC>

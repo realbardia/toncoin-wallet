@@ -3,7 +3,7 @@ import Toolkit.Core 1.0
 
 Item {
     id: container
-    width: 6*Devices.density
+    width: 8 * Devices.density
 
     property variant scrollArea
     property variant orientation: Qt.Vertical

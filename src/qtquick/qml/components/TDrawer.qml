@@ -18,6 +18,11 @@ TPage {
 
     signal closeRequest()
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: Devices.hideKeyboard()
+    }
+
     TColumn {
         id: clmn
         y: 20

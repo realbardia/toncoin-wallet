@@ -13,10 +13,10 @@ TPage {
         anchors.left: parent.left
         anchors.right: parent.right
         title: qsTr("QR Scanner")
+    }
 
-        THeaderCloseButton {
-            onClicked: dis.ViewportType.open = false
-        }
+    THeaderCloseButton {
+        onClicked: dis.ViewportType.open = false
     }
 
     ZXingCamera {

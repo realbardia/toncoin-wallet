@@ -79,6 +79,9 @@ TPage {
                             wallet.changePassword(passField.text)
                         }
                     } else {
+                        spage.focus = true;
+                        spage.forceActiveFocus();
+
                         var cmp = Qt.createComponent("PasscodePage.qml");
                         var properties = {
                             "confirmMode": passField.text,
@@ -101,9 +104,14 @@ TPage {
                     }
                 }
 
-                Component.onCompleted: {
-                    focus = true;
-                    forceActiveFocus();
+                Timer {
+                    running: true
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        passField.focus = true;
+                        passField.forceActiveFocus();
+                    }
                 }
             }
         }
@@ -115,8 +123,8 @@ TPage {
         width: spage.secondaryButton.width
         parent: spage.secondaryButton
         model: [qsTr("4-digit code"), qsTr("6-digit code")]
-        onVisibleChanged: {
-            if (!visible) {
+        onOpenedChanged: {
+            if (!opened) {
                 passField.focus = true;
                 passField.forceActiveFocus();
             }

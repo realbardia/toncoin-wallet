@@ -64,10 +64,11 @@ TDrawer {
             contentHeight: scene.height
             flickableDirection: Flickable.VerticalFlick
 
-            Item {
+            MouseArea {
                 id: scene
                 width: flick.width
                 height: Math.max(flick.height, clmn.height + 2*clmn.y)
+                onClicked: Devices.hideKeyboard()
 
                 TColumn {
                     id: clmn

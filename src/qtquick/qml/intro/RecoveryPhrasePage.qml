@@ -10,6 +10,7 @@ TPage {
 
     property alias dialogOpened: warnDialog.opened
     property bool doneVisible: true
+    property bool backable: true
     property alias publicKey: walletItem.publicKey
 
     WalletItem {
@@ -184,6 +185,11 @@ TPage {
     }
 
     THeaderBackButton {
+        visible: backable
+        onClicked: recovertPage.ViewportType.open = false
+    }
+    THeaderCloseButton {
+        visible: !backable
         onClicked: recovertPage.ViewportType.open = false
     }
 

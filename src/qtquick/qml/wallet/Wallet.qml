@@ -16,7 +16,8 @@ TPage {
     readonly property real headerRatio: Math.max(0, (headerHeight + mapListener.result.y)/headerHeight)
 
     property alias publicKey: walletItem.publicKey
-    readonly property bool loading: walletItem.loading || walletState.running || (tmodel.refreshing && tmodel.count)
+    readonly property bool connecting: walletItem.loading || walletState.running
+    readonly property bool loading: tmodel.refreshing && tmodel.count
 
     readonly property string balanceStr: {
         var num = (AppSettings.currencyPrice * AppSettings.balance);
@@ -136,7 +137,7 @@ TPage {
                     anchors.centerIn: parent
                     width: 120
                     height: width
-                    active: (page.loading || walletItem.loading || walletState.running || tmodel.refreshing) && tmodel.count == 0
+                    active: (page.connecting || tmodel.refreshing) && tmodel.count == 0
                     sourceComponent: StickerItem {
                         anchors.fill: parent
                         autoPlay: true
@@ -198,7 +199,7 @@ TPage {
             TRow {
                 id: connectionRow
                 anchors.horizontalCenter: parent.horizontalCenter
-                opacity: page.loading? 1 : 0
+                opacity: page.connecting || page.loading? 1 : 0
                 y: (opacity - 1) * height + 8
                 visible: opacity > 0
                 spacing: 4
@@ -220,7 +221,7 @@ TPage {
                     anchors.verticalCenter: parent.verticalCenter
                     font.pixelSize: 7 * Devices.fontDensity
                     color: "#fff"
-                    text: qsTr("Connecting...")
+                    text: page.connecting? qsTr("Connecting...") : qsTr("Loading...")
                 }
             }
 
