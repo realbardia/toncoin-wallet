@@ -1,10 +1,10 @@
 [Desktop Entry]
 Categories=Network;InstantMessaging;Chat;
-Comment=Programmers Social Network
-Exec=tricks
-GenericName=Tricks
-Icon=tricks
-Name=Tricks
+Comment=Ton Coin Wallet
+Exec=$$SHORTCUT
+GenericName=XTon
+Icon=xton
+Name=XTon
 StartupNotify=true
 Type=Application
 MimeType=application/x-xdg-protocol-tg;x-scheme-handler/tg;
