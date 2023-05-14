@@ -21,6 +21,4 @@ TonToolkitObject {
     readonly property color red: "#F44336"
     readonly property color green: "#4CAF50"
     readonly property color warnings: "#FFC107"
-
-    onHeaderColorChanged: Devices.setupWindowColor(headerColor);
 }

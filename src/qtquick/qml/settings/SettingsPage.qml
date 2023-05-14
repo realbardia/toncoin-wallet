@@ -122,6 +122,7 @@ TPage {
                                 anchors.verticalCenter: parent.verticalCenter
                                 z: -1
                                 checked: AppSettings.darkMode
+                                onClicked: AppSettings.darkMode = !AppSettings.darkMode
                             }
                         }
                         SettingItem {
@@ -246,6 +247,14 @@ TPage {
                                 anchors.verticalCenter: parent.verticalCenter
                                 z: -1
                                 checked: AppSettings.touchId
+                                onClicked: {
+                                    if (AppSettings.touchId) {
+                                        var item = TViewport.viewport.append(passCode_component, {}, "popup");
+                                        item.success.connect(function(){ AppSettings.touchId = false; });
+                                    } else if (Devices.biometricCheck()) {
+                                        wallet.changePassword(Constants.touchIdPass);
+                                    }
+                                }
                             }
                         }
                     }
