@@ -8,6 +8,7 @@ Settings {
     source: TonToolkitApp.homePath + "/settings.ini"
 
     property bool darkMode: false
+    property string language: "en"
 
     property real width: 380
     property real height: 680

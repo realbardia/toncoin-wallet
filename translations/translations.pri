@@ -1,0 +1,4 @@
+
+TRANSLATIONS += \
+    $$files($$PWD/*.ts)
+    

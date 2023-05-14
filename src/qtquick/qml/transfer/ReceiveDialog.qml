@@ -46,6 +46,11 @@ TDrawer {
             radius: Constants.roundness
             onClicked: addressBtn.clicked(null)
 
+            Rectangle {
+                anchors.fill: parent
+                radius: Constants.roundness
+            }
+
             Item {
                 anchors.fill: parent
                 anchors.margins: 20

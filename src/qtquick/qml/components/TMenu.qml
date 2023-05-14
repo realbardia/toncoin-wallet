@@ -68,8 +68,8 @@ Item {
                 radius: menuBack.radius
 
                 function select() {
-                    itemClicked(model.index);
                     menuItem.close();
+                    itemClicked(model.index);
                 }
 
                 TLabel {

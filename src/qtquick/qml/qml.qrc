@@ -104,5 +104,13 @@
         <file>components/private/qt6/FastBlur.qml</file>
         <file>components/private/qt5/FastBlur.qml</file>
         <file>settings/SettingsLockDialog.qml</file>
+        <file>globals/GTranslations.qml</file>
+        <file>globals/translations/lang-ar.qm</file>
+        <file>globals/translations/lang-en.qm</file>
+        <file>globals/translations/lang-es.qm</file>
+        <file>globals/translations/lang-fa.qm</file>
+        <file>globals/translations/lang-fr.qm</file>
+        <file>globals/translations/lang-ru.qm</file>
+        <file>globals/translations/lang-de.qm</file>
     </qresource>
 </RCC>

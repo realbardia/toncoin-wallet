@@ -25,6 +25,7 @@ TApplication {
 
         Fonts.init();
         MainBackend.start();
+        GTranslations.init();
         GlobalValues.mwin = mWin;
     }
 

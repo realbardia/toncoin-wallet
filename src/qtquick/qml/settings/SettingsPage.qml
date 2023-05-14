@@ -27,6 +27,7 @@ TPage {
     component SettingItem: TItemDelegate {
         height: 50
         width: parent.width
+        radius: Constants.controlsRoundness
 
         property alias title: titleLabel.text
         property alias spacer: spacerItem.visible
@@ -117,6 +118,26 @@ TPage {
                                 anchors.verticalCenter: parent.verticalCenter
                                 z: -1
                                 checked: AppSettings.darkMode
+                            }
+                        }
+                        SettingItem {
+                            title: qsTr("Language")
+                            onClicked: languageMenu.open()
+
+                            TLabel {
+                                id: languageItem
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                color: Colors.accent
+                                text: {
+                                    var res = "";
+                                    for (var i=0; i<GTranslations.model.count; i++)
+                                        if (GTranslations.model.get(i).key == AppSettings.language) {
+                                            res = GTranslations.model.get(i).title;
+                                            break;
+                                        }
+                                    return res;
+                                }
                             }
                         }
                     }
@@ -244,6 +265,11 @@ TPage {
         dest: page
     }
     PointMapListener {
+        id: languageMap
+        source: languageItem
+        dest: page
+    }
+    PointMapListener {
         id: walletMap
         source: walletItem
         dest: page
@@ -257,6 +283,8 @@ TPage {
                 return currencyMenu.opacity * 0.4;
             if (walletMenu.visible)
                 return walletMenu.opacity * 0.4;
+            if (languageMenu.visible)
+                return languageMenu.opacity * 0.4;
             return 0
         }
         visible: opacity > 0
@@ -266,6 +294,7 @@ TPage {
             onClicked: {
                 walletMenu.close();
                 currencyMenu.close();
+                languageMenu.close();
             }
         }
     }
@@ -274,6 +303,28 @@ TPage {
         onClicked: page.ViewportType.open = false
         color: "#fff"
         opacity: 1
+    }
+
+    TMenu {
+        id: languageMenu
+        y: languageMap.result.y + languageItem.height
+        x: languageMap.result.x + (languageMenu.LayoutMirroring.enabled? 0 : languageItem.width - width)
+        width: 160
+        textRole: "title"
+        model: GTranslations.model
+        transformOrigin: languageMenu.LayoutMirroring.enabled? Item.TopLeft : Item.TopRight
+        opacity: opened? 1 : 0
+        scale: 0.8 + opacity*0.2
+        visible: opacity > 0
+        shadow: false
+
+        Behavior on opacity {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
+        }
+
+        onItemClicked: {
+            AppSettings.language = GTranslations.model.get(index).key;
+        }
     }
 
     TMenu {
