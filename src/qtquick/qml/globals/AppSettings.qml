@@ -7,7 +7,7 @@ Settings {
     category: "General"
     source: TonToolkitApp.homePath + "/settings.ini"
 
-    property int theme: 0
+    property bool darkMode: false
 
     property real width: 380
     property real height: 680

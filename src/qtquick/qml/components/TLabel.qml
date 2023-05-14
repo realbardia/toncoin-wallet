@@ -6,4 +6,5 @@ Text {
     font.pixelSize: Fonts.globalFontSize
     lineHeight: 1.2
     lineHeightMode: Text.ProportionalHeight
+    color: Colors.foreground
 }

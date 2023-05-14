@@ -22,7 +22,7 @@ AbstractViewportType {
 
     Rectangle {
         anchors.fill: item.background
-        color: "#000"
+        color: Colors.foreground
         opacity: item.ratio * 0.3
     }
 

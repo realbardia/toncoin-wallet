@@ -99,6 +99,35 @@ TPage {
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         font.bold: true
+                        text: qsTr("Interface")
+                    }
+
+                    TColumn {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        spacing: 0
+
+                        SettingItem {
+                            title: qsTr("Dark mode")
+                            onClicked: AppSettings.darkMode = !AppSettings.darkMode
+
+                            TSwitch {
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                z: -1
+                                checked: AppSettings.darkMode
+                            }
+                        }
+                    }
+
+                    Item { width: 1; height: 10 }
+
+                    TLabel {
+                        width: parent.width
+                        color: Colors.accent
+                        font.pixelSize: 8 * Devices.fontDensity
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        font.bold: true
                         text: qsTr("General")
                     }
 
