@@ -16,6 +16,7 @@ TPage {
     property string confirmMode
 
     signal closeRequest()
+    signal success()
 
     WalletItem {
         id: wallet
@@ -24,10 +25,12 @@ TPage {
             spage.busy.running = false;
             GlobalValues.passCode = passField.text;
             AppSettings.passCodeLength = passField.text.length;
-            if (closeAtEnd)
+            if (closeAtEnd) {
+                page.success()
                 page.closeRequest();
-            else
+            } else {
                 TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
+            }
         }
         onPasswordChangeFailed: {
             GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to change password"), error, Colors.foreground)
@@ -85,6 +88,7 @@ TPage {
                         };
                         confirmItem = TViewport.viewport.append(cmp, properties, "stack");
                         confirmItem.closeRequest.connect(page.closeRequest)
+                        confirmItem.success.connect(page.success)
                     }
                 }
 

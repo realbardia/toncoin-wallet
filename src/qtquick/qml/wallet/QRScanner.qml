@@ -24,6 +24,8 @@ TPage {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        onTagFound: dis.tagFound(tag)
+        onTagFound: {
+            dis.tagFound(tag);
+        }
     }
 }

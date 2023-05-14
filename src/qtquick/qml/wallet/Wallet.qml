@@ -72,6 +72,8 @@ TPage {
     function sendTon(address) {
         if (sendDialog)
             return;
+        if (address.slice(0,15) != "ton://transfer/")
+            address = "ton://transfer/" + address;
 
         urlParser.url = address;
         if (urlParser.address.length == 0)
@@ -124,26 +126,32 @@ TPage {
                 color: Colors.background
             }
 
-            Loader {
-                id: walletLoading
-                anchors.centerIn: parent
-                width: 120
-                height: width
-                active: (page.loading || walletItem.loading || walletState.running || tmodel.refreshing) && tmodel.count == 0
-                sourceComponent: StickerItem {
-                    anchors.fill: parent
-                    autoPlay: true
-                    source: "qrc:/ton/common/stickers/Loading.tgs"
-                }
-            }
+            Item {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: walletScene.height - headerHeight - Devices.statusBarHeight
 
-            Loader {
-                anchors.fill: parent
-                active: tmodel.count == 0 && !walletLoading.active
-                sourceComponent: EmptyWalletElement {
+                Loader {
+                    id: walletLoading
+                    anchors.centerIn: parent
+                    width: 120
+                    height: width
+                    active: (page.loading || walletItem.loading || walletState.running || tmodel.refreshing) && tmodel.count == 0
+                    sourceComponent: StickerItem {
+                        anchors.fill: parent
+                        autoPlay: true
+                        source: "qrc:/ton/common/stickers/Loading.tgs"
+                    }
+                }
+
+                Loader {
                     anchors.fill: parent
-                    anchors.margins: 20
-                    address: AppSettings.address
+                    active: tmodel.count == 0 && !walletLoading.active
+                    sourceComponent: EmptyWalletElement {
+                        anchors.fill: parent
+                        anchors.margins: 20
+                        address: AppSettings.address
+                    }
                 }
             }
         }
@@ -173,6 +181,10 @@ TPage {
                     header: Item {
                         width: listv.width
                         height: headerHeight
+                    }
+                    footer: Item {
+                        width: listv.width
+                        height: Devices.navigationBarHeight
                     }
                 }
             }

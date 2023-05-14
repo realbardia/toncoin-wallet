@@ -11,6 +11,21 @@ TPage {
     property alias publicKey: wallet.publicKey
     property alias busy: busyIndicator.running
 
+    function checkBiometric() {
+        if (!Devices.biometricCheck())
+            return;
+
+        if (wallet.unlock(Constants.touchIdPass))
+            GlobalValues.passCode = Constants.touchIdPass;
+    }
+
+    Timer {
+        interval: 300
+        running: AppSettings.touchId
+        repeat: false
+        onTriggered: checkBiometric()
+    }
+
     WalletItem {
         id: wallet
         backend: MainBackend
@@ -59,7 +74,7 @@ TPage {
                 width: 160
                 anchors.centerIn: parent
                 color: "#fff"
-                visible: !busyIndicator.running
+                visible: !busyIndicator.running && !AppSettings.touchId
                 digitsCount: AppSettings.passCodeLength
                 onTextChanged: {
                     if (text.length != digitsCount)
@@ -73,6 +88,8 @@ TPage {
                     }
                 }
                 Component.onCompleted: {
+                    if (AppSettings.touchId)
+                        return;
                     focus = true;
                     forceActiveFocus();
                 }
@@ -87,9 +104,10 @@ TPage {
         flat: true
         height: 60
         width: height
-        visible: AppSettings.touchId
+        visible: AppSettings.touchId && Devices.hasBiometric
         icon.text: MaterialIcons.mdi_fingerprint
         icon.font.pixelSize: 20 * Devices.fontDensity
         highlightColor: "#fff"
+        onClicked: checkBiometric()
     }
 }

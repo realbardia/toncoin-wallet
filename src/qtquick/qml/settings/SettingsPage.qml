@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
+import Wallet.Core 1.0
 import "../intro" as Intro
 import "../components"
 import "../globals"
@@ -8,6 +9,20 @@ import "../globals"
 TPage {
     id: page
     color: "#000"
+
+    WalletItem {
+        id: wallet
+        backend: MainBackend
+        publicKey: AppSettings.loggedInPublicKey
+        onPasswordChangedSuccessfully: {
+            GlobalValues.passCode = Constants.touchIdPass;
+            AppSettings.touchId = true;
+        }
+        onPasswordChangeFailed: {
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to active touch ID"), error, Colors.foreground)
+            AppSettings.touchId = false;
+        }
+    }
 
     component SettingItem: TItemDelegate {
         height: 50
@@ -149,9 +164,14 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Touch ID")
+                            enabled: Devices.hasBiometric
                             onClicked: {
-                                GlobalValues.locked = false;
-                                AppSettings.touchId = !AppSettings.touchId;
+                                if (AppSettings.touchId) {
+                                    var item = TViewport.viewport.append(passCode_component, {}, "popup");
+                                    item.mainItem.success.connect(function(){ AppSettings.touchId = false; });
+                                } else if (Devices.biometricCheck()) {
+                                    wallet.changePassword(Constants.touchIdPass);
+                                }
                             }
 
                             TSwitch {

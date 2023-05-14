@@ -1168,6 +1168,28 @@ void TonToolkitDevices::triggerVibrateFeedback()
 #endif
 }
 
+bool TonToolkitDevices::hasBiometric()
+{
+#if defined(Q_OS_IOS)
+    return p->objc_layer->hasBiometric();
+#elif defined(Q_OS_MACOS)
+    return TonToolkitMacManager::hasBiometric();
+#else
+    return false;
+#endif
+}
+
+bool TonToolkitDevices::biometricCheck()
+{
+#if defined(Q_OS_IOS)
+    return p->objc_layer->biometricCheck();
+#elif defined(Q_OS_MACOS)
+    return TonToolkitMacManager::biometricCheck();
+#else
+    return false;
+#endif
+}
+
 QVariantList TonToolkitDevices::getContactList(std::function<void(const QVariantList &)> asyncCallback)
 {
     QVariantList res;

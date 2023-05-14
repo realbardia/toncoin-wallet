@@ -70,13 +70,17 @@ ios {
         $$PWD/tontoolkitobjectiveclayer.h
     SOURCES += \
         $$PWD/tontoolkitobjectiveclayer.mm
+
     LIBS += -lobjc
+    LIBS += -framework LocalAuthentication
 }
 macx {
     HEADERS += \
         $$PWD/tontoolkitmacmanager.h
     SOURCES += \
         $$PWD/tontoolkitmacmanager.mm
+
+    LIBS += -framework LocalAuthentication
 }
 
 RESOURCES += \

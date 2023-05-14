@@ -4,6 +4,7 @@
 #import <UIKit/UIKit.h>
 #import <SafariServices/SafariServices.h>
 #import <Foundation/Foundation.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 #include <QSet>
 #include <QUrl>
@@ -117,4 +118,44 @@ void TonToolkitObjectiveCLayer::setKeyboardHeight(const qreal &keyboardHeight)
         return;
     mKeyboardHeight = keyboardHeight;
     Q_EMIT keyboardHeightChanged();
+}
+
+bool TonToolkitObjectiveCLayer::hasBiometric()
+{
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error = nil;
+
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool TonToolkitObjectiveCLayer::biometricCheck()
+{
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error = nil;
+
+    if (![context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error])
+        return false;
+
+    auto res = new bool;
+    auto loop = new QEventLoop;
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+              localizedReason:@"Authenticating"
+                        reply:^(BOOL success, NSError *error) {
+        if (success) {
+            *res = true;
+        } else {
+            *res = false;
+        }
+        loop->exit();
+    }];
+
+    loop->exec();
+    auto r = *res;
+    delete loop;
+    delete res;
+    return r;
 }
