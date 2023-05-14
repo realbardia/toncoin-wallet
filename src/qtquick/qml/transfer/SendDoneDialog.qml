@@ -11,6 +11,8 @@ TDrawer {
     property string amount
     property alias address: addressLabel.text
 
+    Component.onCompleted: Devices.triggerVibrateFeedback()
+
     mainButton {
         text: qsTr("View My Wallet")
         onClicked: dis.closeRequest()

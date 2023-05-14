@@ -13,6 +13,7 @@ SimplePageTemplate {
 
     property string publicKey
 
+    Component.onCompleted: Devices.triggerVibrateFeedback()
     onCloseRequest: dis.ViewportType.open = false
 
     mainButton {

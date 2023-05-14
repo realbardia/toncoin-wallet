@@ -14,6 +14,7 @@ TPage {
         if (!Devices.biometricCheck())
             return;
 
+        Devices.triggerVibrateFeedback();
         page.success();
     }
 
@@ -65,6 +66,7 @@ TPage {
                         return;
 
                     if (GlobalValues.passCode == text) {
+                        Devices.triggerVibrateFeedback();
                         page.success()
                     } else {
                         vibrate();

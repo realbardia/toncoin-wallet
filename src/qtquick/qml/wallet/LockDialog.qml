@@ -15,10 +15,12 @@ TPage {
         if (!Devices.biometricCheck())
             return;
 
-        if (wallet.unlock(Constants.touchIdPass))
+        if (wallet.unlock(Constants.touchIdPass)) {
+            Devices.triggerVibrateFeedback();
             GlobalValues.passCode = Constants.touchIdPass;
-        else
-            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed"), qsTr("Failed to unlock wallet. Secure key changed."), Colors.foreground)
+        } else {
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed"), qsTr("Failed to unlock wallet. Secure key changed."), Colors.foreground);
+        }
     }
 
     Timer {
@@ -83,6 +85,7 @@ TPage {
                         return;
 
                     if (wallet.unlock(text)) {
+                        Devices.triggerVibrateFeedback();
                         GlobalValues.passCode = text;
                     } else {
                         vibrate();

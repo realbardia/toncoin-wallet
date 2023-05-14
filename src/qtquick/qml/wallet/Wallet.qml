@@ -410,6 +410,7 @@ TPage {
         id: qrscanner_component
         QRScanner {
             onTagFound: {
+                Devices.triggerVibrateFeedback();
                 GlobalValues.tempLinkToOpen = tag;
                 ViewportType.open = false
             }
