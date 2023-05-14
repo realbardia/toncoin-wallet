@@ -68,6 +68,7 @@ TDrawer {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("Wallet address or Domain")
                     }
@@ -75,6 +76,7 @@ TDrawer {
                     TTextArea {
                         width: parent.width
                         placeholderText: qsTr("Enter Wallet Address or Domain...")
+                        horizontalAlignment: Text.AlignLeft
                         height: Math.max(contentHeight+18, 50)
                         onTextChanged: selectedAddress = text
                     }
@@ -83,6 +85,7 @@ TDrawer {
                         width: parent.width
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         opacity: 0.4
                         text: qsTr("Paste the 24-letter wallet address of the recipient here or TON DNS, or ask them to send you a ton:// link.")
                     }
@@ -94,6 +97,7 @@ TDrawer {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("Recent")
                         visible: recentsList.count > 0
@@ -121,6 +125,7 @@ TDrawer {
                             id: address
                             anchors.left: parent.left
                             anchors.right: parent.right
+                            horizontalAlignment: Text.AlignLeft
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             text: model.address.slice(0,4) + "..." + model.address.slice(model.address.length-4)
                         }
@@ -129,6 +134,7 @@ TDrawer {
                             id: domain
                             anchors.left: parent.left
                             anchors.right: parent.right
+                            horizontalAlignment: Text.AlignLeft
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             font.pixelSize: 8 * Devices.fontDensity
                             text: model.domain.length? model.domain : Tools.dateToString(model.datetime, "MMMM dd")

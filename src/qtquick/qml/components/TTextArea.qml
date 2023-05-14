@@ -12,6 +12,7 @@ TControlElement {
     property alias color: input.color
     property alias text: input.text
     property alias contentHeight: input.contentHeight
+    property alias horizontalAlignment: input.horizontalAlignment
     property alias placeholderText: placeholder.text
 
     property real leftPadding
@@ -56,6 +57,7 @@ TControlElement {
             rightPadding: input.rightPadding
             bottomPadding: input.bottomPadding
             topPadding: input.topPadding
+            horizontalAlignment: input.horizontalAlignment
             color: input.color
             wrapMode: input.wrapMode
             opacity: 0.4

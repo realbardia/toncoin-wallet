@@ -98,6 +98,7 @@ TPage {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("Interface")
                     }
@@ -127,6 +128,7 @@ TPage {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("General")
                     }
@@ -174,6 +176,7 @@ TPage {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("Security")
                     }
@@ -276,11 +279,11 @@ TPage {
     TMenu {
         id: currencyMenu
         y: currencyMap.result.y + currencyItem.height
-        x: currencyMap.result.x + currencyItem.width - width
+        x: currencyMap.result.x + (currencyMenu.LayoutMirroring.enabled? 0 : currencyItem.width - width)
         width: 160
         textRole: "name"
         model: CurrenciesModel { id: cmodel }
-        transformOrigin: Item.TopRight
+        transformOrigin: currencyMenu.LayoutMirroring.enabled? Item.TopLeft : Item.TopRight
         opacity: opened? 1 : 0
         scale: 0.8 + opacity*0.2
         visible: opacity > 0
@@ -299,10 +302,10 @@ TPage {
     TMenu {
         id: walletMenu
         y: walletMap.result.y + walletItem.height
-        x: walletMap.result.x + walletItem.width - width
+        x: walletMap.result.x + (walletMenu.LayoutMirroring.enabled? 0 : walletItem.width - width)
         width: 160
         model: ["v3R1", "v3R2", "v4R2"]
-        transformOrigin: Item.TopRight
+        transformOrigin: walletMenu.LayoutMirroring.enabled? Item.TopLeft : Item.TopRight
         opacity: opened? 1 : 0
         scale: 0.8 + opacity*0.2
         visible: opacity > 0

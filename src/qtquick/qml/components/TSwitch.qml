@@ -116,7 +116,7 @@ TControlElement {
         Rectangle {
             height: 16
             anchors.verticalCenter: parent.verticalCenter
-            x: marea.checked? parent.width - width : 0
+            x: marea.checked? (marea.LayoutMirroring.enabled? 0 : parent.width - width) : (marea.LayoutMirroring.enabled? parent.width - width : 0)
             width: height
             radius: height / 2
             color: Colors.background

@@ -21,6 +21,7 @@ TListView {
             anchors.leftMargin: 20
             anchors.rightMargin: 20
             anchors.bottom: parent.bottom
+            horizontalAlignment: Text.AlignLeft
             font.bold: true
             text: section
         }
@@ -130,6 +131,7 @@ TListView {
                 }
 
                 TLabel {
+                    horizontalAlignment: Text.AlignLeft
                     anchors.right: parent.right
                     anchors.left: parent.left
                     anchors.leftMargin: 2
@@ -147,6 +149,7 @@ TListView {
                     visible: comment.text.length
 
                     Rectangle {
+                        anchors.left: parent.left
                         width: comment.contentWidth + 2*comment.x
                         height: parent.height
                         color: Colors.foreground
@@ -155,6 +158,7 @@ TListView {
                     }
 
                     TLabel {
+                        horizontalAlignment: Text.AlignLeft
                         id: comment
                         y: 8
                         x: y

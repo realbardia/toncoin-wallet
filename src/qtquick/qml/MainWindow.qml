@@ -20,6 +20,9 @@ TWindow {
     maximumHeight: 2000
     minimumHeight: 400
 
+//    LayoutMirroring.enabled: true
+//    LayoutMirroring.childrenInherit: true
+
     readonly property bool portrait: width<height
     readonly property TViewport currentViewport: {
         if (introLoader.item)

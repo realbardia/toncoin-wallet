@@ -35,6 +35,9 @@ TDrawer {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 0
 
+            LayoutMirroring.enabled: false
+            LayoutMirroring.childrenInherit: true
+
             StickerItem {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 34
@@ -168,6 +171,7 @@ TDrawer {
             color: Colors.accent
             font.pixelSize: 8 * Devices.fontDensity
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignLeft
             font.bold: true
             text: qsTr("Details")
         }
@@ -182,6 +186,7 @@ TDrawer {
                 anchors.right: domainLabel.left
                 anchors.verticalCenter: parent.verticalCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignLeft
                 maximumLineCount: 1
                 elide: Text.ElideRight
                 text: qsTr("Recipient")
@@ -214,6 +219,7 @@ TDrawer {
                 anchors.right: addressLabel.left
                 anchors.verticalCenter: parent.verticalCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignLeft
                 maximumLineCount: 1
                 elide: Text.ElideRight
                 text: qsTr("Recipient address")
@@ -246,6 +252,7 @@ TDrawer {
                 anchors.right: transactionLabel.left
                 anchors.verticalCenter: parent.verticalCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignLeft
                 maximumLineCount: 1
                 elide: Text.ElideRight
                 text: qsTr("Transaction")
@@ -269,6 +276,7 @@ TDrawer {
         }
 
         TButton {
+            anchors.left: parent.left
             flat: true
             highlight: true
             height: 36

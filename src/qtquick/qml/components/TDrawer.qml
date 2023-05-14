@@ -33,6 +33,7 @@ TPage {
 
         TLabel {
             id: titleLabel
+            horizontalAlignment: Text.AlignLeft
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: backable || closable? 36 : 0

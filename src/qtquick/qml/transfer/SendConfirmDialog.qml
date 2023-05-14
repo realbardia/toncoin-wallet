@@ -83,6 +83,7 @@ TDrawer {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("Comment (Optional)")
                     }
@@ -91,6 +92,7 @@ TDrawer {
                         id: comment
                         width: parent.width
                         height: Math.max(50, contentHeight + 20)
+                        horizontalAlignment: Text.AlignLeft
                         placeholderText: qsTr("Comment")
                     }
 
@@ -101,6 +103,7 @@ TDrawer {
                         TLabel {
                             width: parent.width
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            horizontalAlignment: Text.AlignLeft
                             font.pixelSize: 8 * Devices.fontDensity
                             opacity: 0.6
                             text: qsTr("The comment is visible to everyone. You must include the note when sending to an exchange.")
@@ -109,6 +112,7 @@ TDrawer {
                         TLabel {
                             width: parent.width
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            horizontalAlignment: Text.AlignLeft
                             font.pixelSize: 8 * Devices.fontDensity
                             color: comment.text.length > Constants.commentLimit? Colors.red : Colors.warnings
                             visible: comment.text.length + 32 > Constants.commentLimit
@@ -126,6 +130,7 @@ TDrawer {
                         color: Colors.accent
                         font.pixelSize: 8 * Devices.fontDensity
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
                         font.bold: true
                         text: qsTr("Details")
                     }
@@ -139,6 +144,7 @@ TDrawer {
                             anchors.right: addressLabel.left
                             anchors.verticalCenter: parent.verticalCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            horizontalAlignment: Text.AlignLeft
                             maximumLineCount: 1
                             elide: Text.ElideRight
                             text: qsTr("Recipient")
@@ -170,6 +176,7 @@ TDrawer {
                             anchors.right: amountRow.left
                             anchors.verticalCenter: parent.verticalCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            horizontalAlignment: Text.AlignLeft
                             maximumLineCount: 1
                             elide: Text.ElideRight
                             text: qsTr("Amount")
@@ -216,6 +223,7 @@ TDrawer {
                             anchors.right: feeRow.left
                             anchors.verticalCenter: parent.verticalCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            horizontalAlignment: Text.AlignLeft
                             maximumLineCount: 1
                             elide: Text.ElideRight
                             text: qsTr("Fee")

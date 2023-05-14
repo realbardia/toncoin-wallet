@@ -227,7 +227,7 @@ TPage {
                     y: ((1 - headerBackground.ratio) * (Devices.standardTitleBarHeight - height)/2) + (stickerItem.height + 14 + stickerItem.y) * (headerBackground.ratio)
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: qsTr("24 Secret Words")
-                    transformOrigin: Item.Left
+                    transformOrigin: headerLabel.LayoutMirroring.enabled? Item.Right : Item.Left
                     scale: 0.6 + headerBackground.ratio * 0.4
                 }
             }

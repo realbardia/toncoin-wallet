@@ -70,6 +70,9 @@ TDrawer {
                 focus = true;
         }
 
+        LayoutMirroring.enabled: false
+        LayoutMirroring.childrenInherit: true
+
         leftPadding: 46
 
         StickerItem {

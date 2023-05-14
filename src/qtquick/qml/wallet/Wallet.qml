@@ -304,6 +304,9 @@ TPage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 0
 
+                LayoutMirroring.enabled: false
+                LayoutMirroring.childrenInherit: true
+
                 TRow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
