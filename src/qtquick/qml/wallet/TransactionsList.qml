@@ -10,6 +10,16 @@ TListView {
 
     signal moreRequest()
 
+    add: Transition {
+        NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
+    }
+    addDisplaced: Transition {
+        NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
+    }
+    removeDisplaced: Transition {
+        NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
+    }
+
     section.property: "section"
     section.delegate: Item {
         width: listv.width

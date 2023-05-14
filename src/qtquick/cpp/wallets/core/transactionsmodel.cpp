@@ -272,6 +272,23 @@ void TransactionsModel::startCheckingPending()
 
 void TransactionsModel::change(const QList<Transaction> &list)
 {
+    if (mTransactions.isEmpty() && list.count())
+    {
+        beginResetModel();
+        mTransactions = list;
+        endResetModel();
+        Q_EMIT countChanged();
+        return;
+    }
+    if (mTransactions.count() && list.isEmpty())
+    {
+        beginResetModel();
+        mTransactions.clear();
+        endResetModel();
+        Q_EMIT countChanged();
+        return;
+    }
+
     bool count_changed = (list.count()!=mTransactions.count());
 
     for( int i=0 ; i<mTransactions.count() ; i++ )
