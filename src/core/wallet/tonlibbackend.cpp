@@ -678,6 +678,9 @@ bool TonLibBackend::testPassword(const QByteArray &publicKey, const QString &pas
         return false;
 
     const auto &k = p->keys.value(publicKey);
+    if (k->password.has_value() && k->password.value() == password.toStdString())
+        return true;
+
     const auto secret = QByteArray::fromStdString(k->secret.as_slice().str());
 
     TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);

@@ -220,6 +220,19 @@ TPage {
                         spacing: 0
 
                         SettingItem {
+                            title: qsTr("Auto lock")
+                            onClicked: autoLockMenu.open()
+
+                            TLabel {
+                                id: autoLockItem
+                                anchors.right: parent.right
+                                anchors.rightMargin: 20
+                                anchors.verticalCenter: parent.verticalCenter
+                                color: Colors.accent
+                                text: qsTr("After %1s").arg(AppSettings.lockTimeout)
+                            }
+                        }
+                        SettingItem {
                             title: qsTr("Show recovery phrase")
                             onClicked: TViewport.viewport.append(recoverPhrase_component, {}, "popup")
                         }
@@ -294,6 +307,11 @@ TPage {
         source: walletItem
         dest: page
     }
+    PointMapListener {
+        id: autoLockMap
+        source: autoLockItem
+        dest: page
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -305,6 +323,8 @@ TPage {
                 return walletMenu.opacity * 0.4;
             if (languageMenu.visible)
                 return languageMenu.opacity * 0.4;
+            if (autoLockMenu.visible)
+                return autoLockMenu.opacity * 0.4;
             return 0
         }
         visible: opacity > 0
@@ -315,6 +335,7 @@ TPage {
                 walletMenu.close();
                 currencyMenu.close();
                 languageMenu.close();
+                autoLockMenu.close();
             }
         }
     }
@@ -388,6 +409,27 @@ TPage {
 
         onItemClicked: {
             AppSettings.walletVersion = walletMenu.model[index];
+        }
+    }
+
+    TMenu {
+        id: autoLockMenu
+        y: autoLockMap.result.y + autoLockItem.height
+        x: autoLockMap.result.x + (autoLockMenu.LayoutMirroring.enabled? 0 : autoLockItem.width - width)
+        width: 160
+        model: ["30s", "60s", "120s", "300s"]
+        transformOrigin: autoLockMenu.LayoutMirroring.enabled? Item.TopLeft : Item.TopRight
+        opacity: opened? 1 : 0
+        scale: 0.8 + opacity*0.2
+        visible: opacity > 0
+        shadow: false
+
+        Behavior on opacity {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
+        }
+
+        onItemClicked: {
+            AppSettings.lockTimeout = Tools.stringRemove(autoLockMenu.model[index], "s", false);
         }
     }
 

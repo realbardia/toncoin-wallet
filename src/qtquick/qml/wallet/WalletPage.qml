@@ -12,18 +12,33 @@ TPage {
     property alias viewport: viewport
     property string publicKey
 
+    Component.onCompleted: if (GlobalValues.passCode.length) walletLoader.active = true
+
+    function checkLockScreen() {
+        var current = Tools.dateToSec(new Date);
+        var lastEvent = Tools.dateToSec(keySpy.lastEvent);
+
+        var time = Math.max(30, Math.min(300, AppSettings.lockTimeout))
+        if (current - lastEvent < 60 && current >= lastEvent)
+            return false;
+
+        GlobalValues.passCode = "";
+        walletLoader.active = false;
+        return true;
+    }
+
     Connections {
         target: GlobalValues
         function onPassCodeChanged() {
             unlockTimer.stop();
-            if (GlobalValues.passCode.length)
+            if (GlobalValues.passCode.length) {
+                keySpy.lastEvent = new Date;
                 unlockTimer.start();
-            else
+            } else {
                 walletLoader.active = false;
+            }
         }
     }
-
-    Component.onCompleted: if (GlobalValues.passCode.length) walletLoader.active = true
 
     Timer {
         id: unlockTimer
@@ -56,5 +71,21 @@ TPage {
             publicKey: dis.publicKey
             busy: GlobalValues.passCode.length
         }
+    }
+
+    Timer {
+        interval: 500
+        repeat: true
+        running: true
+        onTriggered: checkLockScreen()
+    }
+
+    KeyHandler {
+        id: keySpy
+        window: GlobalValues.mwin
+        onMousePositionChanged: if (!checkLockScreen()) lastEvent = new Date
+        onKeyChanged: if (!checkLockScreen()) lastEvent = new Date
+
+        property variant lastEvent: new Date
     }
 }

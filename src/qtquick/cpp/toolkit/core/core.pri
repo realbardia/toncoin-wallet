@@ -16,6 +16,7 @@ HEADERS += \
     $$PWD/tontoolkitdevices.h \
     $$PWD/tontoolkitdevicesitem.h \
     $$PWD/tontoolkitgui_global.h \
+    $$PWD/tontoolkitkeyhandler.h \
     $$PWD/tontoolkitlistmodel.h \
     $$PWD/tontoolkitlistobject.h \
     $$PWD/tontoolkitmapobject.h \
@@ -41,6 +42,7 @@ SOURCES += \
     $$PWD/tontoolkitbackhandler.cpp \
     $$PWD/tontoolkitdevices.cpp \
     $$PWD/tontoolkitdevicesitem.cpp \
+    $$PWD/tontoolkitkeyhandler.cpp \
     $$PWD/tontoolkitlistmodel.cpp \
     $$PWD/tontoolkitlistobject.cpp \
     $$PWD/tontoolkitmapobject.cpp \
