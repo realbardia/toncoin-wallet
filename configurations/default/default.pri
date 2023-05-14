@@ -1,4 +1,4 @@
-#TARGET = ton-wallet
+#TARGET = tonium
 
 DEFINES += CONFIG_DEFAULT
 

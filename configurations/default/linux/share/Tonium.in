@@ -2,9 +2,9 @@
 Categories=Network;InstantMessaging;Chat;
 Comment=Ton Coin Wallet
 Exec=$$SHORTCUT
-GenericName=XTon
-Icon=xton
-Name=XTon
+GenericName=Tonium
+Icon=tonium
+Name=Tonium
 StartupNotify=true
 Type=Application
 MimeType=application/x-xdg-protocol-tg;x-scheme-handler/tg;

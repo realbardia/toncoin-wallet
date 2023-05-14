@@ -5,8 +5,8 @@ import "globals"
 
 TApplication {
     id: app
-    applicationName: "TON Wallet"
-    applicationDisplayName: qsTr("TON Wallet")
+    applicationName: "Tonium"
+    applicationDisplayName: qsTr("Tonium Wallet")
     applicationVersion: "1.0.0"
     statusBarStyle: {
         if (mWin.currentViewport.currentType == "popup" || AppSettings.loggedInPublicKey.length)
