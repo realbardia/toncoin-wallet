@@ -103,6 +103,7 @@ int TransactionsModel::count() const
 void TransactionsModel::reset()
 {
     beginResetModel();
+    mInited = false;
     mTransactions.clear();
     setRefreshing(false);
 }
