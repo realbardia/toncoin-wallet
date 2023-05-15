@@ -112,7 +112,7 @@ bool KeysManager::createNewWallet()
     mError = 0;
     mErrorString.clear();
 
-    backend->createNewKey([this](const QByteArray &publicKey, const AbstractWalletBackend::Error &error){
+    backend->createNewKey(this, [this](const QByteArray &publicKey, const AbstractWalletBackend::Error &error){
         if (publicKey.isEmpty())
         {
             mError = error.code;
@@ -158,7 +158,7 @@ bool KeysManager::importWallet(const QStringList &words)
     mError = 0;
     mErrorString.clear();
 
-    backend->importKeys(words, [this](const QByteArray &publicKey, const AbstractWalletBackend::Error &error){
+    backend->importKeys(words, this, [this](const QByteArray &publicKey, const AbstractWalletBackend::Error &error){
         if (publicKey.isEmpty())
         {
             mError = error.code;

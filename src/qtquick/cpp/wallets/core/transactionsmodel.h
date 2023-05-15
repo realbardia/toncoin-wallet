@@ -72,11 +72,15 @@ protected:
 private:
     qint32 mLimit = 20;
 
+    QString mLastRequestId;
+
     QTimer *mPendingTimer;
     QTimer *mReloadTimer;
 
     QString mCachePath;
     QString mPassword;
+
+    bool mInited = false;
 
     struct Transaction: TON::Wallet::AbstractWalletBackend::Transaction
     {

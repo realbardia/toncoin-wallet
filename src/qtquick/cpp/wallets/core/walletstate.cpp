@@ -12,7 +12,16 @@ WalletState::WalletState(QObject *parent)
     mRetryTimer->setInterval(5000);
     mRetryTimer->setSingleShot(true);
 
-    connect(mRetryTimer, &QTimer::timeout, this, &WalletState::reload);
+    connect(mRetryTimer, &QTimer::timeout, this, [this](){
+        endAction();
+        reload();
+    });
+
+    mRefreshTimer = new QTimer(this);
+    mRefreshTimer->setInterval(100);
+    mRefreshTimer->setSingleShot(true);
+
+    connect(mRefreshTimer, &QTimer::timeout, this, &WalletState::doReload);
 
     auto doConnect = [this](){
         auto w = wallet();
@@ -49,6 +58,12 @@ WalletState::~WalletState()
 
 void WalletState::reload()
 {
+    mRefreshTimer->stop();
+    mRefreshTimer->start();
+}
+
+void WalletState::doReload()
+{
     if (mAddress.isEmpty())
         return;
 
@@ -63,7 +78,7 @@ void WalletState::reload()
     if (!emitedByTimer)
         mRetryCount = 0;
 
-    backend->getAccountState(mAddress, [this, backend](const AbstractWalletBackend::AccountState &state, const AbstractWalletBackend::Error &error){
+    backend->getAccountState(mAddress, this, [this, backend](const AbstractWalletBackend::AccountState &state, const AbstractWalletBackend::Error &error){
         mRetryTimer->stop();
         if (error.code)
         {

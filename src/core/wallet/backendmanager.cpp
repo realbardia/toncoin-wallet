@@ -68,7 +68,7 @@ QSharedPointer<AbstractWalletBackend> BackendManager::createBackend(BackendType 
     u.callbacks << callback;
     u.hash = createHash(type, sourcePath);
 
-    backend->init(sourcePath, data, [hash](bool done, const AbstractWalletBackend::Error &error){
+    backend->init(sourcePath, data, nullptr, [hash](bool done, const AbstractWalletBackend::Error &error){
         const auto &u = mBackends[hash];
         for (const auto &callback: u.callbacks)
             callback(done, error);

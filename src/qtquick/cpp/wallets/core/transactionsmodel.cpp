@@ -23,10 +23,10 @@ TransactionsModel::TransactionsModel(QObject *parent) :
     connect(mPendingTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
 
     mReloadTimer = new QTimer(this);
-    mReloadTimer->setInterval(60000);
+    mReloadTimer->setInterval(30000);
     mReloadTimer->setSingleShot(true);
 
-    connect(mReloadTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
+    connect(mReloadTimer, &QTimer::timeout, this, &TransactionsModel::reload);
 }
 
 TransactionsModel::~TransactionsModel()
@@ -110,15 +110,24 @@ void TransactionsModel::reset()
 void TransactionsModel::reload()
 {
     mReloadTimer->stop();
+    mReloadTimer->start(mInited? 30000 : 10000);
+
     restore();
 
     auto backend = beginAction();
     if (!backend)
         return;
 
+    const auto uuid = QUuid::createUuid().toString();
+    mLastRequestId = uuid;
+
     setRefreshing(true);
     const auto pkey = wallet()->publicKey();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), AbstractWalletBackend::TransactionId(), 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), AbstractWalletBackend::TransactionId(), 100,  this, [this, pkey, uuid](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+        if (uuid != mLastRequestId)
+            return;
+
+        mLastRequestId.clear();
         auto w = wallet();
         if (!w || pkey != w->publicKey())
             return;
@@ -146,9 +155,9 @@ void TransactionsModel::reload()
 
         change(transactions);
         store();
+        mInited = true;
         setRefreshing(false);
         Q_EMIT countChanged();
-        mReloadTimer->start();
     });
 }
 
@@ -416,16 +425,23 @@ void TransactionsModel::setLimit(qint32 newLimit)
 
 void TransactionsModel::more()
 {
-    if (refreshing() || mTransactions.isEmpty())
+    if (refreshing() || mLastRequestId.length() || !mInited)
         return;
 
     auto backend = beginAction();
     if (!backend)
         return;
 
+    const auto uuid = QUuid::createUuid().toString();
+    mLastRequestId = uuid;
+
     setRefreshing(true);
     const auto pkey = wallet()->publicKey();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.last().id, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.last().id, 100, this, [this, pkey, uuid](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+        if (uuid != mLastRequestId)
+            return;
+
+        mLastRequestId.clear();
         auto w = wallet();
         if (!w || pkey != w->publicKey())
             return;

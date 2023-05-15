@@ -44,7 +44,7 @@ bool WalletItem::changePassword(const QString &password)
         return false;
     }
 
-    backend->changeLocalPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password, [this](const QByteArray &newPublicKey, const AbstractWalletBackend::Error &error){
+    backend->changeLocalPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password, this, [this](const QByteArray &newPublicKey, const AbstractWalletBackend::Error &error){
         if (!newPublicKey.isEmpty())
             Q_EMIT passwordChangedSuccessfully(QString::fromLatin1(newPublicKey.toBase64()));
         else
@@ -103,7 +103,7 @@ void WalletItem::reload()
 
     setLoading(true);
     setHasPassword( backend->hasPassword(pkey) );
-    backend->getAddress(pkey, [this](const QString &address, const AbstractWalletBackend::Error &){
+    backend->getAddress(pkey, this, [this](const QString &address, const AbstractWalletBackend::Error &){
         setLoading(false);
         setAddress(address);
     });

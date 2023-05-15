@@ -42,6 +42,7 @@ protected:
     void setLastTransactionHash(const QString &newLastTransactionHash);
 
     void reset();
+    void doReload();
 
 private:
     QString mBalance;
@@ -50,6 +51,7 @@ private:
     QString mLastTransactionId = 0;
     QString mLastTransactionHash;
 
+    QTimer *mRefreshTimer;
     QTimer *mRetryTimer;
     QPointer<WalletItem> mOldWallet;
 

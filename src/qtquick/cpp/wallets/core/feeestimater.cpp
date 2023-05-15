@@ -22,7 +22,7 @@ bool FeeEstimater::estimate()
         return false;
 
     const auto pkey = QByteArray::fromBase64(wallet()->publicKey().toLatin1());
-    backend->estimateTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, [this](const AbstractWalletBackend::Fee &fee, const AbstractWalletBackend::Error &err){
+    backend->estimateTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, this, [this](const AbstractWalletBackend::Fee &fee, const AbstractWalletBackend::Error &err){
         endAction();
         if (err.code)
         {

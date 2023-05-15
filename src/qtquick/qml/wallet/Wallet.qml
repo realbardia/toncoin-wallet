@@ -216,7 +216,15 @@ TPage {
                     }
                     footer: Item {
                         width: listv.width
-                        height: Devices.navigationBarHeight
+                        height: 150
+
+                        TBusyIndicator {
+                            anchors.centerIn: parent
+                            width: 32
+                            height: 32
+                            accented: true
+                            running: tmodel.refreshing && tmodel.count > 10
+                        }
                     }
                 }
             }

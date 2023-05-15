@@ -35,7 +35,7 @@ bool TransferRequest::transfer()
         return false;
 
     const auto pkey = QByteArray::fromBase64(wallet()->publicKey().toLatin1());
-    backend->doTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, [this](const QByteArray &bodyHash, const AbstractWalletBackend::Error &err){
+    backend->doTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, this, [this](const QByteArray &bodyHash, const AbstractWalletBackend::Error &err){
         endAction();
         if (err.code)
         {
