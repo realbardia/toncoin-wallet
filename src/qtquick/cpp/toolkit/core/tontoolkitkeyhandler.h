@@ -38,6 +38,7 @@ Q_SIGNALS:
     void scanCodeChanged();
     void mousePositionChanged();
     void mouseKeyChanged();
+    void screenTouched();
 
     void pressed(qint32 modifiers, qint32 key, qint32 scanCode);
     void released(qint32 modifiers, qint32 key, qint32 scanCode);

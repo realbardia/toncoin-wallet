@@ -3,7 +3,7 @@ pragma Singleton
 import QtQuick 2.10
 import Toolkit.Core 1.0
 
-QtObject {
+TonToolkitObject {
 
     function justifyNumber(num, len) {
         num = num + "";
@@ -20,5 +20,20 @@ QtObject {
 
         res = Tools.stringReplace(res, "0+$", "", true);
         return res
+    }
+
+    Timer {
+        id: checkingBiometricTimer
+        interval: 2000
+        repeat: false
+        onTriggered: checkingBiometric = false
+    }
+
+    property bool checkingBiometric
+    function biometricCheck() {
+        checkingBiometric = true;
+        var res = Devices.biometricCheck();
+        checkingBiometricTimer.restart();
+        return res;
     }
 }

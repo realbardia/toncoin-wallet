@@ -31,13 +31,6 @@ TApplication {
 
     onMessageReceived: if (msg.slice(0,6) == "ton://") GlobalValues.tempLinkToOpen = msg
 
-    onApplicationStateChanged: {
-        switch (applicationState) {
-        case 4:
-            break;
-        }
-    }
-
     MainWindow {
         id: mWin
         visible: true

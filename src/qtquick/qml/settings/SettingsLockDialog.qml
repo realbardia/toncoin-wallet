@@ -11,7 +11,7 @@ TPage {
     signal success()
 
     function checkBiometric() {
-        if (!Devices.biometricCheck())
+        if (!GlobalMethods.biometricCheck())
             return;
 
         Devices.triggerVibrateFeedback();

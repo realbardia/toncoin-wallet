@@ -12,7 +12,7 @@ TPage {
     property alias busy: busyIndicator.running
 
     function checkBiometric() {
-        if (!Devices.biometricCheck())
+        if (!GlobalMethods.biometricCheck())
             return;
 
         if (wallet.unlock(Constants.touchIdPass)) {
