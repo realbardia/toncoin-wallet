@@ -124,6 +124,37 @@ public:
         return make_object<tonlib_api::inputKeyRegular>(std::move(key), std::move(password));
     }
 
+    tonlib_api::object_ptr<tonlib_api::InitialAccountState> getInitialAccountState(const QByteArray &publicKey, const QString &walletVersion, td::int32 &revision)
+    {
+        const auto version_lowerCase = walletVersion.toLower();
+        if (version_lowerCase == QStringLiteral("v3r1") || version_lowerCase == QStringLiteral("v3r2"))
+        {
+            revision = version_lowerCase.right(1).toInt();
+            return make_object<tonlib_api::wallet_v3_initialAccountState>(publicKey.toStdString(), walletId);
+        }
+        else if (version_lowerCase == QStringLiteral("v4r2"))
+        {
+            revision = version_lowerCase.right(1).toInt();
+
+            auto dataCell = vm::CellBuilder()
+                .store_long(0, 32)
+                .store_long(walletId + workchainId, 32)
+                .store_bytes( block::PublicKey::parse(publicKey.toStdString()).move_as_ok().key )
+                .store_long(0, 1)
+                .finalize();
+            std::string data = vm::std_boc_serialize(std::move(dataCell)).move_as_ok().as_slice().str();
+
+            auto code = td::base64_decode(td::Slice(v4r2_code)).move_as_ok();
+
+            return make_object<tonlib_api::raw_initialAccountState>(code, data);
+        }
+        else
+        {
+            qDebug() << "Bad wallet version:" << walletVersion;
+            return nullptr;
+        }
+    }
+
     QHash<QByteArray, std::shared_ptr<KeyInfo>> keys;
 
     td::uint32 walletId = 0;
@@ -283,36 +314,10 @@ void TonLibBackend::importKeys(const QStringList &words, const std::function<voi
 
 void TonLibBackend::getAddress(const QByteArray &publicKey, const std::function<void (const QString &, const Error &)> &callback)
 {
-    tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;
-
-    const auto version_lowerCase = walletVersion().toLower();
     td::int32 revision;
-    if (version_lowerCase == QStringLiteral("v3r1") || version_lowerCase == QStringLiteral("v3r2"))
-    {
-        revision = version_lowerCase.right(1).toInt();
-        state = make_object<tonlib_api::wallet_v3_initialAccountState>(publicKey.toStdString(), p->walletId);
-    }
-    else if (version_lowerCase == QStringLiteral("v4r2"))
-    {
-        revision = version_lowerCase.right(1).toInt();
-
-        auto dataCell = vm::CellBuilder()
-            .store_long(0, 32)
-            .store_long(p->walletId + p->workchainId, 32)
-            .store_bytes( block::PublicKey::parse(publicKey.toStdString()).move_as_ok().key )
-            .store_long(0, 1)
-            .finalize();
-        std::string data = vm::std_boc_serialize(std::move(dataCell)).move_as_ok().as_slice().str();
-
-        auto code = td::base64_decode(td::Slice(v4r2_code)).move_as_ok();
-
-        state = make_object<tonlib_api::raw_initialAccountState>(code, data);
-    }
-    else
-    {
-        qDebug() << "Bad wallet version:" << walletVersion();
+    auto state = p->getInitialAccountState(publicKey, walletVersion(), revision);
+    if (!state)
         return;
-    }
 
     auto getAddress_fnc = make_object<tonlib_api::getAccountAddress>(std::move(state), revision, p->workchainId);
     mEngine->append(std::move(getAddress_fnc), [callback](tonlib::Client::Response resp){
@@ -481,6 +486,9 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
             return;
         }
 
+        td::int32 revision;
+        auto state = p->getInitialAccountState(publicKey, walletVersion(), revision);
+
         const auto amount = value / BALANCE_RATIO;
 
         tonlib_api::object_ptr<tonlib_api::msg_Data> data;
@@ -499,7 +507,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
         auto action = make_object<tonlib_api::actionMsg>(std::move(messages), force);
 
-        auto query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), nullptr);
+        auto query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), (state? std::move(state) : nullptr));
         mEngine->append(std::move(query_fnc), [callback](tonlib::Client::Response resp){
             if (resp.object->get_id() == tonlib_api::error::ID)
                 callback(PreparedTransferItem(), ERR(resp));

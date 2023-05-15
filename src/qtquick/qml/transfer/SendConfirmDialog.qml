@@ -29,7 +29,7 @@ TDrawer {
             backend: MainBackend
             publicKey: AppSettings.loggedInPublicKey
         }
-        force: false
+        force: true
         Component.onCompleted: {
             estimate();
         }
