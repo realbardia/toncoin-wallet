@@ -43,8 +43,14 @@ TPage {
         id: urlParser
     }
 
+    Timer {
+        interval: 50
+        repeat: false
+        running: true
+        onTriggered: opened = true
+    }
+
     Component.onCompleted: {
-        opened = true;
         if (GlobalValues.tempLinkToOpen.length) {
             sendTon(GlobalValues.tempLinkToOpen);
             GlobalValues.tempLinkToOpen = "";

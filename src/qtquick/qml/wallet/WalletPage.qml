@@ -65,7 +65,13 @@ TPage {
     Loader {
         id: lockScreen
         anchors.fill: parent
-        active: !walletLoader.item
+        active: opacity > 0
+        opacity: !walletLoader.item || !walletLoader.item.opened? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+        }
+
         sourceComponent: LockDialog {
             anchors.fill: parent
             publicKey: dis.publicKey
