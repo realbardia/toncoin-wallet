@@ -5,11 +5,11 @@ INCLUDEPATH += \
 HEADERS += \
     $$PWD/lottieanimation.h \
     $$PWD/lottiequick/lib/lottiequickglobal.h \
-    $$PWD/lottiequick/lib/lottierenderthread.h \
+    $$PWD/lottierenderthread.h \
     $$PWD/lottiequick/lib/qtcompat.h
 
 SOURCES += \
-    $$PWD/lottiequick/lib/lottierenderthread.cpp \
+    $$PWD/lottierenderthread.cpp \
     $$PWD/lottiequickanimation.cpp \
     $$PWD/vdrawhelper_neon.cpp
 
