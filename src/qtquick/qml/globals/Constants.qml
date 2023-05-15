@@ -16,4 +16,6 @@ QtObject {
     readonly property real itemsHeight: 40
 
     readonly property int commentLimit: 128
+
+    readonly property bool frameless: Devices.isWindows
 }

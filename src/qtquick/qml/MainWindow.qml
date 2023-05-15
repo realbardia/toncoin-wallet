@@ -11,6 +11,8 @@ TWindow {
     id: win
     width: AppSettings.width
     height: AppSettings.height
+    flags: Constants.frameless? Qt.FramelessWindowHint | Qt.Window : Qt.Window
+    color: Constants.frameless? "#00000000" : Colors.background
     visible: true
     title: TonToolkitApp.applicationName
 
@@ -35,38 +37,111 @@ TWindow {
     onWidthChanged: AppSettings.width = width
     onHeightChanged: AppSettings.height = height
 
+    FastRectengleShadow {
+        anchors.fill: windowScene
+        anchors.margins: 2
+        radius: 10
+        horizontalOffset: 1
+        verticalOffset: 1
+        visible: Constants.frameless && win.visibility != Window.Maximized
+    }
+
     Item {
-        id: mainScene
+        id: windowScene
+        anchors.margins: Constants.frameless && win.visibility != Window.Maximized? 5 * Devices.density : 0
         anchors.fill: parent
 
-        Loader {
-            id: introLoader
+        Item {
+            id: mainScene
             anchors.fill: parent
-            active: AppSettings.loggedInPublicKey.length == 0
-            sourceComponent: Intro.IntroPage {
+            anchors.topMargin: framelessPad.height
+
+            Loader {
+                id: introLoader
                 anchors.fill: parent
-                Component.onCompleted: Devices.setupWindowColor(Colors.headerColor)
+                active: AppSettings.loggedInPublicKey.length == 0
+                sourceComponent: Intro.IntroPage {
+                    anchors.fill: parent
+                    Component.onCompleted: Devices.setupWindowColor(Colors.headerColor)
+                }
+            }
+
+            Loader {
+                id: walletLoader
+                anchors.fill: parent
+                active: AppSettings.loggedInPublicKey.length
+                sourceComponent: Wallet.WalletPage {
+                    anchors.fill: parent
+                    publicKey: AppSettings.loggedInPublicKey
+                    Component.onCompleted: Devices.setupWindowColor(color)
+                }
             }
         }
 
-        Loader {
-            id: walletLoader
+        FastBlur {
             anchors.fill: parent
-            active: AppSettings.loggedInPublicKey.length
-            sourceComponent: Wallet.WalletPage {
+            source: visible? mainScene : null
+            cached: true
+            radius: 64
+            visible: TonToolkitApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isTouchDevice
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            border.color: Colors.foreground
+            border.width: 1
+            opacity: 0.2
+            visible: Constants.frameless
+        }
+
+        TSnackBar {
+            id: snackBar
+            anchors.fill: parent
+        }
+
+        Rectangle {
+            id: framelessPad
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: Constants.frameless? 30 * Devices.density : 0
+            color: Colors.headerColor
+            visible: Constants.frameless
+
+            MouseArea {
+                id: marea
                 anchors.fill: parent
-                publicKey: AppSettings.loggedInPublicKey
-                Component.onCompleted: Devices.setupWindowColor(color)
+                visible: Constants.frameless
+                onPressed: {
+                    pin = Qt.point(mouseX, mouseY);
+                }
+                onPositionChanged: {
+                    moveCheckTimer.start()
+                }
+
+                property point pin
+
+                Timer {
+                    id: moveCheckTimer
+                    interval: 10
+                    repeat: false
+                    onTriggered: {
+                        win.x = win.x + marea.mouseX - marea.pin.x;
+                        win.y = win.y + marea.mouseY - marea.pin.y;
+                    }
+                }
             }
+        }
+
+        TTitleBarButtons {
+            visible: Constants.frameless
         }
     }
 
-    FastBlur {
+    TWindowMovable {
         anchors.fill: parent
-        source: visible? mainScene : null
-        cached: true
-        radius: 64
-        visible: TonToolkitApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isTouchDevice
+        visible: Constants.frameless
+        mWin: win
     }
 
     Connections {
@@ -74,10 +149,5 @@ TWindow {
         function onSnackRequest(icon, title, description, color) {
             snackBar.open(icon, title, description, color);
         }
-    }
-
-    TSnackBar {
-        id: snackBar
-        anchors.fill: parent
     }
 }

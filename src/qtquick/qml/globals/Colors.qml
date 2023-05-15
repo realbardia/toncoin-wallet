@@ -10,8 +10,24 @@ TonToolkitObject {
     readonly property color backgroundDeep: darkMode? "#666666" : "#e0e0e0"
     readonly property color background: darkMode? "#222222" : "#ffffff"
 
-    readonly property color headerColor: darkMode? "#222222" : "#ffffff"
-    readonly property color footerColor: headerColor
+    readonly property color headerColor: {
+        if ((GlobalValues.mwin && GlobalValues.mwin.currentViewport.currentType == "popup") || AppSettings.loggedInPublicKey.length)
+            return "#000";
+        else
+        if (Colors.darkMode)
+            return "#000";
+        else
+            return "#fff";
+    }
+    readonly property color headerTextColor: {
+        if ((GlobalValues.mwin && GlobalValues.mwin.currentViewport.currentType == "popup") || AppSettings.loggedInPublicKey.length)
+            return "#fff";
+        else
+        if (Colors.darkMode)
+            return "#fff";
+        else
+            return "#000";
+    }
 
     readonly property color foreground: darkMode? "#fff" : "#222"
 

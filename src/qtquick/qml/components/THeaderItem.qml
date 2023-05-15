@@ -6,7 +6,7 @@ import "../globals"
 Rectangle {
     id: dis
     height: Devices.standardTitleBarHeight + Devices.statusBarHeight
-    color: Colors.headerColor
+    color: Colors.background
 
     signal clicked()
 

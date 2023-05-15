@@ -113,5 +113,9 @@
         <file>globals/translations/lang-ru.qm</file>
         <file>globals/translations/lang-de.qm</file>
         <file>connect/ConnectTransferPage.qml</file>
+        <file>components/FastRectengleShadow.qml</file>
+        <file>components/TTitleBarButtonItem.qml</file>
+        <file>components/TWindowMovable.qml</file>
+        <file>components/TTitleBarButtons.qml</file>
     </qresource>
 </RCC>
