@@ -23,7 +23,7 @@ Item {
     HScrollBar {
         id: scroll
         color: Colors.foreground
-//        anchors.topMargin: scrollArea && scrollArea.headerItem? scrollArea.headerItem.height : 0
+        anchors.topMargin: scrollArea && scrollArea.headerItem? scrollArea.headerItem.height : 0
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
