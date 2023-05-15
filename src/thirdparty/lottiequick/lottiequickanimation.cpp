@@ -5,6 +5,7 @@
 #ifdef WITH_ZLIB
 #include <zlib.h>
 #endif
+#include <QFile>
 #include <QQuickWindow>
 #include <QSGGeometryNode>
 #include <QSGSimpleTextureNode>
@@ -234,9 +235,13 @@ QSGNode *LottieAnimation::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData 
     return node;
 }
 
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 void LottieAnimation::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+#else
+void LottieAnimation::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
+#endif
 {
-    QQuickItem::geometryChanged(newGeometry, oldGeometry);
+    QQuickItem::geometryChange(newGeometry, oldGeometry);
 
     if (newGeometry.size().isEmpty())
         return;

@@ -3,7 +3,7 @@ INCLUDEPATH += \
     $$PWD/lottiequick/lib/
 
 HEADERS += \
-    $$PWD/lottiequick/lib/lottieanimation.h \
+    $$PWD/lottieanimation.h \
     $$PWD/lottiequick/lib/lottiequickglobal.h \
     $$PWD/lottiequick/lib/lottierenderthread.h \
     $$PWD/lottiequick/lib/qtcompat.h

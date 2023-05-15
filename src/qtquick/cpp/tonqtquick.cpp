@@ -69,10 +69,17 @@ void TonQtQuick::registerToolkit()
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
     qmlRegisterType(QUrl("qrc:/components/private/TScrollViewMobile.qml"), "Toolkit.Core", 1, 0, "TScrollView");
 #elif defined(Q_OS_MACOS)
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "Toolkit.Core", 1, 0, "TScrollView");
 #else
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "Toolkit.Core", 1, 0, "TScrollView");
+#endif
+#else
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktopClassic.qml"), "Toolkit.Core", 1, 0, "TScrollView");
-//    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "Toolkit.Core", 1, 0, "TScrollView");
+#else
+    qmlRegisterType(QUrl("qrc:/components/private/TScrollViewDesktop.qml"), "Toolkit.Core", 1, 0, "TScrollView");
+#endif
 #endif
 
 

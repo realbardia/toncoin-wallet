@@ -1,3 +1,3 @@
-import Qt5Compat.GraphicalEffects 1.1 as GraphicalEffects
+import Qt5Compat.GraphicalEffects as GraphicalEffects
 
 GraphicalEffects.FastBlur {}

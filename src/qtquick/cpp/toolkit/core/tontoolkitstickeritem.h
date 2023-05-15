@@ -3,7 +3,7 @@
 
 #include <QQuickItem>
 
-#include "lottiequick/lib/lottieanimation.h"
+#include "lottieanimation.h"
 
 class TonToolkitStickerItem : public QQuickItem
 {
