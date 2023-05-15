@@ -46,6 +46,7 @@ INCLUDEPATH += \
     $$TON_LIB_PATH/include/ \
     $$TON_LIB_PATH/include/crypto \
     $$TON_SOURCE_PATH \
+    $$TON_SOURCE_PATH/tdactor \
     $$TON_SOURCE_PATH/crypto \
     $$TON_SOURCE_PATH/tdutils
 

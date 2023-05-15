@@ -237,11 +237,13 @@ QSGNode *LottieAnimation::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData 
 
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 void LottieAnimation::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+{
+    QQuickItem::geometryChanged(newGeometry, oldGeometry);
 #else
 void LottieAnimation::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
-#endif
 {
     QQuickItem::geometryChange(newGeometry, oldGeometry);
+#endif
 
     if (newGeometry.size().isEmpty())
         return;

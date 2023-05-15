@@ -6,7 +6,8 @@ import Wallet.Core 1.0
 Backend {
     id: dis
     source: TonToolkitApp.homePath + "/ton"
-    backend: TonQmlGlobal.TonLib_V3_R2
+    backend: TonQmlGlobal.TonLib
+    walletVersion: AppSettings.walletVersion
 
     property alias keysManager: keysManager
 

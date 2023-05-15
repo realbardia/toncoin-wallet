@@ -70,6 +70,13 @@ bool WalletBackend::initializing() const
     return mInitializing;
 }
 
+QStringList WalletBackend::availableVersions() const
+{
+    if (!mBackendObject)
+        return QStringList();
+    return mBackendObject->availableVersions();
+}
+
 void WalletBackend::reloadBackend()
 {
     reset();
@@ -97,7 +104,9 @@ void WalletBackend::reloadBackend()
     if (!mBackendObject)
         return;
 
+    mBackendObject->setWalletVersion(mWalletVersion);
     mInitializing = true;
+    Q_EMIT availableVersionsChanged();
     Q_EMIT initializingChanged();
 }
 
@@ -114,6 +123,21 @@ QString WalletBackend::errorString() const
 bool WalletBackend::initialized() const
 {
     return mInitialized;
+}
+
+QString WalletBackend::walletVersion() const
+{
+    return mWalletVersion;
+}
+
+void WalletBackend::setWalletVersion(const QString &newWalletVersion)
+{
+    if (mWalletVersion == newWalletVersion)
+        return;
+    mWalletVersion = newWalletVersion;
+    if (mBackendObject)
+        mBackendObject->setWalletVersion(mWalletVersion);
+    Q_EMIT walletVersionChanged();
 }
 
 QSharedPointer<AbstractWalletBackend> WalletBackend::backendObject() const

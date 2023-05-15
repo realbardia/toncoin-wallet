@@ -103,7 +103,7 @@ void WalletItem::reload()
 
     setLoading(true);
     setHasPassword( backend->hasPassword(pkey) );
-    backend->getAddress(pkey, [this](const QString &address, const AbstractWalletBackend::Error &error){
+    backend->getAddress(pkey, [this](const QString &address, const AbstractWalletBackend::Error &){
         setLoading(false);
         setAddress(address);
     });
@@ -171,6 +171,7 @@ void WalletItem::setBackend(WalletBackend *newBackend)
     {
         connect(mBackend, &WalletBackend::backendChanged, this, &WalletItem::reload);
         connect(mBackend, &WalletBackend::initializedChanged, this, &WalletItem::reload);
+        connect(mBackend, &WalletBackend::walletVersionChanged, this, &WalletItem::reload);
     }
 
     reload();

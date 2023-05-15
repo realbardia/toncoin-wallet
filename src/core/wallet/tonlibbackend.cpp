@@ -5,6 +5,8 @@
 #include <td/utils/base64.h>
 #include <td/utils/optional.h>
 #include <tonlib/tonlib/keys/bip39.h>
+#include <crypto/vm/boc.h>
+#include <crypto/block/block.h>
 
 #include <optional>
 
@@ -33,6 +35,9 @@
 
 using tonlib_api::make_object;
 using namespace TON::Wallet;
+using namespace std::string_literals;
+
+const std::string TonLibBackend::v4r2_code = "te6cckECFAEAAtQAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyZO1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8QERITAubQAdDTAyFxsJJfBOAi10nBIJJfBOAC0x8hghBwbHVnvSKCEGRzdHK9sJJfBeAD+kAwIPpEAcjKB8v/ydDtRNCBAUDXIfQEMFyBAQj0Cm+hMbOSXwfgBdM/yCWCEHBsdWe6kjgw4w0DghBkc3RyupJfBuMNBgcCASAICQB4AfoA9AQw+CdvIjBQCqEhvvLgUIIQcGx1Z4MesXCAGFAEywUmzxZY+gIZ9ADLaRfLH1Jgyz8gyYBA+wAGAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+ICASAKCwBZvSQrb2omhAgKBrkPoCGEcNQICEekk30pkQzmkD6f+YN4EoAbeBAUiYcVnzGEAgFYDA0AEbjJftRNDXCx+AA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYAIBIA4PABmtznaiaEAga5Drhf/AABmvHfaiaEAQa5DrhY/AAG7SB/oA1NQi+QAFyMoHFcv/ydB3dIAYyMsFywIizxZQBfoCFMtrEszMyXP7AMhAFIEBCPRR8qcCAHCBAQjXGPoA0z/IVCBHgQEI9FHyp4IQbm90ZXB0gBjIywXLAlAGzxZQBPoCFMtqEssfyz/Jc/sAAgBsgQEI1xj6ANM/MFIkgQEI9Fnyp4IQZHN0cnB0gBjIywXLAlAFzxZQA/oCE8tqyx8Syz/Jc/sAAAr0AMntVGliJeU="s;
 
 class TonLibBackend::Engine: public QThread
 {
@@ -121,20 +126,18 @@ public:
 
     QHash<QByteArray, std::shared_ptr<KeyInfo>> keys;
 
-    td::int32 walletVersion = 0;
-    td::int32 walletRevision = 0;
     td::uint32 walletId = 0;
     td::int32 workchainId = 0;
 };
 
-TonLibBackend::TonLibBackend(int version, int revision, QObject *parent)
+TonLibBackend::TonLibBackend(QObject *parent)
     : AbstractWalletBackend(parent)
 {
     p = new Private;
-    p->walletVersion = version;
-    p->walletRevision = revision;
     SET_VERBOSITY_LEVEL(0);
 //    SET_VERBOSITY_LEVEL(3);
+
+    setWalletVersion(QStringLiteral("v4r2"));
 
     mEngine = new Engine(this);
     mEngine->start();
@@ -281,23 +284,37 @@ void TonLibBackend::importKeys(const QStringList &words, const std::function<voi
 void TonLibBackend::getAddress(const QByteArray &publicKey, const std::function<void (const QString &, const Error &)> &callback)
 {
     tonlib_api::object_ptr<tonlib_api::InitialAccountState> state;
-    switch (p->walletVersion)
+
+    const auto version_lowerCase = walletVersion().toLower();
+    td::int32 revision;
+    if (version_lowerCase == QStringLiteral("v3r1") || version_lowerCase == QStringLiteral("v3r2"))
     {
-    case 0:
-        state = make_object<tonlib_api::dns_initialAccountState>(publicKey.toStdString(), p->walletId);
-        break;
-    case 1:
-        state = make_object<tonlib_api::wallet_highload_v1_initialAccountState>(publicKey.toStdString(), p->walletId);
-        break;
-    case 2:
-        state = make_object<tonlib_api::wallet_highload_v2_initialAccountState>(publicKey.toStdString(), p->walletId);
-        break;
-    case 3:
+        revision = version_lowerCase.right(1).toInt();
         state = make_object<tonlib_api::wallet_v3_initialAccountState>(publicKey.toStdString(), p->walletId);
-        break;
+    }
+    else if (version_lowerCase == QStringLiteral("v4r2"))
+    {
+        revision = version_lowerCase.right(1).toInt();
+
+        auto dataCell = vm::CellBuilder()
+            .store_long(0, 32)
+            .store_long(p->walletId + p->workchainId, 32)
+            .store_bytes( block::PublicKey::parse(publicKey.toStdString()).move_as_ok().key )
+            .store_long(0, 1)
+            .finalize();
+        std::string data = vm::std_boc_serialize(std::move(dataCell)).move_as_ok().as_slice().str();
+
+        auto code = td::base64_decode(td::Slice(v4r2_code)).move_as_ok();
+
+        state = make_object<tonlib_api::raw_initialAccountState>(code, data);
+    }
+    else
+    {
+        qDebug() << "Bad wallet version:" << walletVersion();
+        return;
     }
 
-    auto getAddress_fnc = make_object<tonlib_api::getAccountAddress>(std::move(state), p->walletRevision, p->workchainId);
+    auto getAddress_fnc = make_object<tonlib_api::getAccountAddress>(std::move(state), revision, p->workchainId);
     mEngine->append(std::move(getAddress_fnc), [callback](tonlib::Client::Response resp){
         if (resp.object->get_id() == tonlib_api::error::ID)
             callback(QString(), ERR(resp));
@@ -336,7 +353,7 @@ void TonLibBackend::getAccountState(const QString &address, const std::function<
 
 void TonLibBackend::getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, const std::function<void (const QList<Transaction> &, const Error &)> &callback)
 {
-    getAddress(publicKey, [this, publicKey, from, count, callback] (const QString &address, const Error &err) {        
+    getAddress(publicKey, [this, publicKey, from, count, callback] (const QString &address, const Error &err) {
         auto doRequest = [this, publicKey, count, callback](const TransactionId &from, const QString &address, const Error &err){
             auto input = p->getInputKey(publicKey);
             if (err.code || !input)
@@ -586,6 +603,15 @@ QList<QByteArray> TonLibBackend::keys() const
 QStringList TonLibBackend::words() const
 {
     return QString::fromStdString(tonlib::bip39_english().str()).split('\n', Qt::SkipEmptyParts);
+}
+
+QStringList TonLibBackend::availableVersions() const
+{
+    return {
+        QStringLiteral("v4R2"),
+        QStringLiteral("v3R2"),
+        QStringLiteral("v3R1"),
+    };
 }
 
 void TonLibBackend::storeKeys()

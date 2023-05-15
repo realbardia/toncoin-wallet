@@ -2,6 +2,7 @@
 #define WALLETBACKEND_H
 
 #include <QObject>
+#include <QStringList>
 
 #include "tonqmlglobal.h"
 #include "tontoolkitquickobject.h"
@@ -15,6 +16,8 @@ class WalletBackend : public TonToolkitQuickObject
     Q_PROPERTY(bool initializing READ initializing NOTIFY initializingChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorChanged)
     Q_PROPERTY(qint32 error READ error NOTIFY errorChanged)
+    Q_PROPERTY(QStringList availableVersions READ availableVersions NOTIFY availableVersionsChanged)
+    Q_PROPERTY(QString walletVersion READ walletVersion WRITE setWalletVersion NOTIFY walletVersionChanged)
 
 public:
     WalletBackend(QObject *parent = nullptr);
@@ -31,6 +34,10 @@ public:
     bool initialized() const;
     bool initializing() const;
 
+    QString walletVersion() const;
+    void setWalletVersion(const QString &newWalletVersion);
+
+    QStringList availableVersions() const;
     QString errorString() const;
     qint32 error() const;
 
@@ -40,6 +47,8 @@ Q_SIGNALS:
     void initializedChanged();
     void errorChanged();
     void initializingChanged();
+    void availableVersionsChanged();
+    void walletVersionChanged();
 
 protected:
     void reloadBackend();
@@ -48,6 +57,7 @@ protected:
 private:
     QString mSource;
     int mBackend = TonQmlGlobal::None;
+    QString mWalletVersion;
 
     bool mInitializing = false;
     bool mInitialized = false;

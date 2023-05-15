@@ -72,10 +72,17 @@ public:
 
     virtual QList<QByteArray> keys() const = 0;
     virtual QStringList words() const = 0;
+    virtual QStringList availableVersions() const = 0;
 
     virtual void unlockUsingPassword(const QByteArray &publicKey, const QString &password) = 0;
     virtual bool hasPassword(const QByteArray &publicKey) = 0;
     virtual bool testPassword(const QByteArray &publicKey, const QString &password) = 0;
+
+    virtual QString walletVersion() const;
+    virtual void setWalletVersion(const QString &newWalletVersion);
+
+private:
+    QString mWalletVersion;
 };
 
 }

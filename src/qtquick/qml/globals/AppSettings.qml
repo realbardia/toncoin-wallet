@@ -20,7 +20,7 @@ Settings {
     property string publicKey
 
     property string currency: "usd"
-    property string walletVersion: "v3R2"
+    property string walletVersion: "v4R2"
 
     property real currencyPrice: 0
     property string balance: "0.00000"

@@ -396,7 +396,7 @@ TPage {
         y: walletMap.result.y + walletItem.height
         x: walletMap.result.x + (walletMenu.LayoutMirroring.enabled? 0 : walletItem.width - width)
         width: 160
-        model: ["v3R1", "v3R2", "v4R2"]
+        model: MainBackend.availableVersions
         transformOrigin: walletMenu.LayoutMirroring.enabled? Item.TopLeft : Item.TopRight
         opacity: opened? 1 : 0
         scale: 0.8 + opacity*0.2

@@ -14,7 +14,7 @@ class TonLibBackend: public AbstractWalletBackend
     class Private;
 
 public:
-    TonLibBackend(int version, int revision, QObject *parent = nullptr);
+    TonLibBackend(QObject *parent = nullptr);
     virtual ~TonLibBackend();
 
     void init(const QString &keysDir, const QByteArray &configs, const std::function<void(bool done, const Error &error)> &callback) override;
@@ -35,6 +35,7 @@ public:
 
     QList<QByteArray> keys() const override;
     QStringList words() const override;
+    QStringList availableVersions() const override;
 
     void unlockUsingPassword(const QByteArray &publicKey, const QString &password) override;
     bool hasPassword(const QByteArray &publicKey) override;
@@ -56,6 +57,8 @@ private:
 
     Engine *mEngine;
     Private *p;
+
+    const static std::string v4r2_code;
 };
 
 }
