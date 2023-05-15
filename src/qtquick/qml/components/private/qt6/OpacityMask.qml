@@ -1,3 +1,3 @@
-import Qt5Compat.GraphicalEffects as GraphicalEffects
+import Qt5Compat.GraphicalEffects 6.0 as GraphicalEffects
 
 GraphicalEffects.OpacityMask {}
