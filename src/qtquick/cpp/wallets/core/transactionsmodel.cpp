@@ -16,12 +16,6 @@ using namespace TON::Wallet;
 TransactionsModel::TransactionsModel(QObject *parent) :
     AbstractWalletModel(parent)
 {
-    mRefreshTimer = new QTimer(this);
-    mRefreshTimer->setInterval(100);
-    mRefreshTimer->setSingleShot(true);
-
-    connect(mRefreshTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
-
     mPendingTimer = new QTimer(this);
     mPendingTimer->setInterval(10000);
     mPendingTimer->setSingleShot(true);
@@ -420,15 +414,8 @@ void TransactionsModel::setLimit(qint32 newLimit)
     Q_EMIT limitChanged();
 }
 
-void TransactionsModel::refresh()
-{
-    mRefreshTimer->stop();
-    mRefreshTimer->start();
-}
-
 void TransactionsModel::more()
 {
-    return;
     if (refreshing() || mTransactions.isEmpty())
         return;
 
@@ -438,7 +425,7 @@ void TransactionsModel::more()
 
     setRefreshing(true);
     const auto pkey = wallet()->publicKey();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.first().id, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.last().id, 100,  [this, pkey](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
         auto w = wallet();
         if (!w || pkey != w->publicKey())
             return;
@@ -449,9 +436,10 @@ void TransactionsModel::more()
             return;
         }
 
-        QList<Transaction> transactions;
+        QList<Transaction> transactions = mTransactions;
         for (const auto &t: list)
-            transactions << t;
+            if (!transactions.contains(t))
+                transactions << t;
         change(transactions);
 
         store();

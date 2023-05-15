@@ -5,6 +5,7 @@
 #include "walletitem.h"
 
 #include <QPointer>
+#include <QTimer>
 
 class AbstractWalletModel : public TonToolkitAbstractListModel
 {
@@ -30,6 +31,9 @@ public:
 
     bool refreshing() const;
 
+public Q_SLOTS:
+    void refresh();
+
 Q_SIGNALS:
     void countChanged();
     void errorChanged();
@@ -49,6 +53,8 @@ protected:
     void tryReload();
 
 private:
+    QTimer *mRefreshTimer;
+
     QPointer<WalletItem> mWallet;
     QPointer<WalletItem> mDefaultWallet;
 

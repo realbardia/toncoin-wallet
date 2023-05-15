@@ -5,11 +5,22 @@
 AbstractWalletModel::AbstractWalletModel(QObject *parent)
     : TonToolkitAbstractListModel(parent)
 {
+    mRefreshTimer = new QTimer(this);
+    mRefreshTimer->setInterval(100);
+    mRefreshTimer->setSingleShot(true);
+
+    connect(mRefreshTimer, &QTimer::timeout, this, &AbstractWalletModel::tryReload);
 }
 
 AbstractWalletModel::~AbstractWalletModel()
 {
 
+}
+
+void AbstractWalletModel::refresh()
+{
+    mRefreshTimer->stop();
+    mRefreshTimer->start();
 }
 
 WalletItem *AbstractWalletModel::wallet() const
@@ -31,16 +42,16 @@ void AbstractWalletModel::setWallet(WalletItem *newWallet)
     if (mWallet)
     {
         connect(mWallet, &WalletItem::addressChanged, this, [this](){
-            reload();
+            refresh();
         });
         connect(mWallet, &WalletItem::backendChanged, this, [this](){
-            reload();
+            refresh();
         });
         connect(mWallet, &WalletItem::publicKeyChanged, this, [this](){
-            reload();
+            refresh();
         });
 
-        reload();
+        refresh();
     }
 
     Q_EMIT walletChanged();

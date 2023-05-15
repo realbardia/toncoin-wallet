@@ -53,7 +53,6 @@ public:
 
 public Q_SLOTS:
     void addPending(TransferRequest *req, FeeEstimater *fee = nullptr);
-    void refresh();
     void more();
 
 Q_SIGNALS:
@@ -73,7 +72,6 @@ protected:
 private:
     qint32 mLimit = 20;
 
-    QTimer *mRefreshTimer;
     QTimer *mPendingTimer;
     QTimer *mReloadTimer;
 
