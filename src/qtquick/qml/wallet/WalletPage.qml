@@ -23,7 +23,6 @@ TPage {
             return false;
 
         GlobalValues.passCode = "";
-        walletLoader.active = false;
         return true;
     }
 
@@ -35,7 +34,8 @@ TPage {
                 keySpy.lastEvent = new Date;
                 unlockTimer.start();
             } else {
-                walletLoader.active = false;
+//                walletLoader.active = false;
+                viewport.visible = false;
             }
         }
     }
@@ -44,12 +44,16 @@ TPage {
         id: unlockTimer
         interval: 500
         repeat: false
-        onTriggered: walletLoader.active = true
+        onTriggered: {
+            walletLoader.active = true;
+            viewport.visible = true;
+        }
     }
 
     TViewport {
         id: viewport
         anchors.fill: parent
+        visible: false
         mainItem: Loader {
             id: walletLoader
             anchors.fill: parent
@@ -66,7 +70,7 @@ TPage {
         id: lockScreen
         anchors.fill: parent
         active: opacity > 0
-        opacity: !walletLoader.item || !walletLoader.item.opened? 1 : 0
+        opacity: !walletLoader.item || !viewport.visible || !walletLoader.item.opened? 1 : 0
 
         Behavior on opacity {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
@@ -76,6 +80,7 @@ TPage {
             anchors.fill: parent
             publicKey: dis.publicKey
             busy: GlobalValues.passCode.length
+            Component.onCompleted: viewport.list.forEach( function(t){ t.ViewportType.open = false } )
         }
     }
 
