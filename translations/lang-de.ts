@@ -1,827 +1,778 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fa_IR">
+<TS version="2.1" language="de">
 <context>
     <name>CongratulationPage</name>
     <message>
         <source>Congratulations</source>
-        <translation type="unfinished"></translation>
+        <translation>Herzlichen Glückwunsch</translation>
     </message>
     <message>
-        <source>Your TON wallet has just been created Only you control it.
+        <source>Your TON wallet has just been created. Only you control it.
 
-To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
-        <translation type="unfinished"></translation>
+To be able to always have access to it, please write down your secret words and set up a secure passcode.</source>
+        <translation>Ihre TON-Brieftasche wurde gerade erstellt. Nur Sie haben die Kontrolle darüber.
+
+Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und richten Sie einen sicheren Passcode ein.</translation>
     </message>
     <message>
         <source>Proceed</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiter</translation>
     </message>
 </context>
 <context>
     <name>ConnectPage</name>
     <message>
         <source>Connect Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Brieftasche verbinden</translation>
     </message>
     <message>
         <source>Connect to Fragment</source>
-        <translation type="unfinished"></translation>
+        <translation>Mit Fragment verbinden</translation>
     </message>
 </context>
 <context>
     <name>CurrenciesModel</name>
     <message>
         <source>United States Dollar</source>
-        <translation type="unfinished"></translation>
+        <translation>US-Dollar</translation>
     </message>
     <message>
         <source>Euro</source>
-        <translation type="unfinished"></translation>
+        <translation>Euro</translation>
     </message>
     <message>
         <source>Russian Ruble</source>
-        <translation type="unfinished"></translation>
+        <translation>Russischer Rubel</translation>
     </message>
     <message>
         <source>United Arab Emirates Dirham</source>
-        <translation type="unfinished"></translation>
+        <translation>Vereinigte Arabische Emirate Dirham</translation>
     </message>
     <message>
         <source>Ukrainian hryvnia</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrainische Hrywnja</translation>
     </message>
     <message>
         <source>Uzbekistani sum</source>
-        <translation type="unfinished"></translation>
+        <translation>Usbekischer Som</translation>
     </message>
     <message>
         <source>Great Britain Pound</source>
-        <translation type="unfinished"></translation>
+        <translation>Britisches Pfund</translation>
     </message>
     <message>
         <source>Swiss Franc</source>
-        <translation type="unfinished"></translation>
+        <translation>Schweizer Franken</translation>
     </message>
     <message>
         <source>China Yuan</source>
-        <translation type="unfinished"></translation>
+        <translation>Chinesischer Yuan</translation>
     </message>
     <message>
         <source>South Korean Won</source>
-        <translation type="unfinished"></translation>
+        <translation>Südkoreanischer Won</translation>
     </message>
     <message>
         <source>Indonesian Rupiah</source>
-        <translation type="unfinished"></translation>
+        <translation>Indonesische Rupiah</translation>
     </message>
     <message>
         <source>Indian Rupee</source>
-        <translation type="unfinished"></translation>
+        <translation>Indische Rupie</translation>
     </message>
     <message>
         <source>Japanese Yen</source>
-        <translation type="unfinished"></translation>
+        <translation>Japanischer Yen</translation>
     </message>
 </context>
 <context>
     <name>DonePage</name>
     <message>
         <source>Ready to go!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bereit loszulegen!</translation>
     </message>
     <message>
-        <source>You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.</source>
-        <translation type="unfinished"></translation>
+        <source>You are all set. Now you have a wallet that only you control -- directly, without middlemen or bankers.</source>
+        <translation>Sie sind bereit. Sie haben jetzt eine Brieftasche, die nur Sie kontrollieren - direkt, ohne Vermittler oder Banker.</translation>
     </message>
     <message>
         <source>View my wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine Brieftasche anzeigen</translation>
     </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
     <message>
         <source>Wallet Created</source>
-        <translation type="unfinished"></translation>
+        <translation>Brieftasche erstellt</translation>
     </message>
     <message>
         <source>Your wallet address</source>
-        <translation type="unfinished"></translation>
+        <translation>Ihre Brieftaschenadresse</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Address copied to clipboard successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse erfolgreich in die Zwischenablage kopiert.</translation>
     </message>
 </context>
 <context>
     <name>ImportWalletPage</name>
     <message>
         <source>Import Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Import fehlgeschlagen</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiter</translation>
     </message>
     <message>
-        <source>You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</source>
-        <translation type="unfinished"></translation>
+        <source>You can restore access to your wallet by entering the 24 words you wrote down when creating the wallet.</source>
+        <translation>Sie können den Zugriff auf Ihre Brieftasche wiederherstellen, indem Sie die 24 Wörter eingeben, die Sie beim Erstellen der Brieftasche notiert haben.</translation>
     </message>
     <message>
         <source>I don&apos;t have those</source>
-        <translation type="unfinished"></translation>
+        <translation>Ich habe diese nicht</translation>
     </message>
     <message>
         <source>24 Secret Words</source>
-        <translation type="unfinished"></translation>
+        <translation>24 Geheimwörter</translation>
     </message>
     <message>
         <source>Incorrect words</source>
-        <translation type="unfinished"></translation>
+        <translation>Falsche Wörter</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, Sie haben falsche Geheimwörter eingegeben. Bitte überprüfen Sie sie nochmals und versuchen Sie es erneut.</translation>
     </message>
 </context>
 <context>
     <name>LockDialog</name>
     <message>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehlgeschlagen</translation>
     </message>
     <message>
         <source>Failed to unlock wallet. Secure key changed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Entsperren der Brieftasche. Sicherer Schlüssel wurde geändert.</translation>
     </message>
     <message>
         <source>Use Touch ID or enter passcode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwenden Sie Touch ID oder geben Sie den Passcode ein.</translation>
     </message>
 </context>
 <context>
     <name>PasscodePage</name>
     <message>
         <source>Failed to change password</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Ändern des Passworts</translation>
     </message>
     <message>
         <source>Confirm a Passcode</source>
-        <translation type="unfinished"></translation>
+        <translation>Passcode bestätigen</translation>
     </message>
     <message>
         <source>Set a Passcode</source>
-        <translation type="unfinished"></translation>
+        <translation>Passcode festlegen</translation>
     </message>
     <message>
-        <source>Enter the %1 digitis in the passcode.</source>
-        <translation type="unfinished"></translation>
+        <source>Enter the %1 digits in the passcode.</source>
+        <translation>Geben Sie die %1 Ziffern des Passcodes ein.</translation>
     </message>
     <message>
         <source>Passcode options</source>
-        <translation type="unfinished"></translation>
+        <translation>Passcode-Optionen</translation>
     </message>
     <message>
         <source>4-digit code</source>
-        <translation type="unfinished"></translation>
+        <translation>4-stelliger Code</translation>
     </message>
     <message>
         <source>6-digit code</source>
-        <translation type="unfinished"></translation>
+        <translation>6-stelliger Code</translation>
     </message>
 </context>
 <context>
     <name>QRScanner</name>
     <message>
         <source>QR Scanner</source>
-        <translation type="unfinished"></translation>
+        <translation>QR-Scanner</translation>
     </message>
 </context>
 <context>
     <name>ReceiveDialog</name>
     <message>
         <source>Receive TON</source>
-        <translation type="unfinished"></translation>
+        <translation>TON empfangen</translation>
     </message>
     <message>
         <source>Share Wallet Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Wallet-Adresse teilen</translation>
     </message>
     <message>
         <source>My TON wallet address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine TON-Wallet-Adresse:</translation>
     </message>
     <message>
         <source>Share this address with other TON wallet owners to receive TON from them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Teilen Sie diese Adresse mit anderen TON-Wallet-Besitzern, um TON von ihnen zu erhalten.</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Address copied to clipboard successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse erfolgreich in die Zwischenablage kopiert.</translation>
     </message>
 </context>
 <context>
     <name>RecoveryPhrasePage</name>
     <message>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Fertig</translation>
     </message>
     <message>
         <source>Write down these 24 words in this exact order and keep them in a secret place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreiben Sie diese 24 Wörter in genau dieser Reihenfolge auf und bewahren Sie sie an einem geheimen Ort auf. Teilen Sie diese Liste mit niemandem. Wenn Sie sie verlieren, verlieren Sie unwiderruflich den Zugriff auf Ihr TON-Konto.</translation>
     </message>
     <message>
         <source>Your Recovery Phrase</source>
-        <translation type="unfinished"></translation>
+        <translation>Ihre Wiederherstellungswörter</translation>
     </message>
     <message>
         <source>Sure done?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sind Sie sicher?</translation>
     </message>
     <message>
         <source>Ok, sorry</source>
-        <translation type="unfinished"></translation>
+        <translation>OK, tut mir leid</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Überspringen</translation>
     </message>
     <message>
         <source>You didn&apos;t have enough time to write these words down.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie hatten nicht genug Zeit, diese Wörter aufzuschreiben.</translation>
     </message>
 </context>
 <context>
     <name>SendConfirmDialog</name>
     <message>
         <source>Send TON</source>
-        <translation type="unfinished"></translation>
+        <translation>TON senden</translation>
     </message>
     <message>
         <source>Continue and send</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortfahren und senden</translation>
     </message>
     <message>
         <source>Comment (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar (optional)</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <source>The comment is visible to everyone. You must include the note when sending to an exchange.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Kommentar ist für alle sichtbar. Sie müssen den Hinweis angeben, wenn Sie an eine Börse senden.</translation>
     </message>
     <message>
-        <source>Message size has been exceeded by %1 charcaters.</source>
-        <translation type="unfinished"></translation>
+        <source>Message size has been exceeded by %1 characters.</source>
+        <translation>Die Nachricht überschreitet die maximale Länge um %1 Zeichen.</translation>
     </message>
     <message>
         <source>%1 characters left.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Zeichen übrig.</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Recipient</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfänger</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Betrag</translation>
     </message>
     <message>
         <source>Fee</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebühr</translation>
     </message>
 </context>
 <context>
     <name>SendCustomDialog</name>
     <message>
         <source>Send TON</source>
-        <translation type="unfinished"></translation>
+        <translation>TON senden</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortfahren</translation>
     </message>
     <message>
         <source>Wallet address or Domain</source>
-        <translation type="unfinished"></translation>
+        <translation>Wallet-Adresse oder Domain</translation>
     </message>
     <message>
         <source>Enter Wallet Address or Domain...</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie Wallet-Adresse oder Domain ein...</translation>
     </message>
     <message>
         <source>Paste the 24-letter wallet address of the recipient here or TON DNS, or ask them to send you a ton:// link.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fügen Sie hier die 24-stellige Wallet-Adresse des Empfängers oder TON-DNS ein oder bitten Sie sie, Ihnen einen ton:// Link zu senden.</translation>
     </message>
     <message>
         <source>Recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Neueste</translation>
     </message>
 </context>
 <context>
     <name>SendDoneDialog</name>
     <message>
         <source>Receive TON</source>
-        <translation type="unfinished"></translation>
+        <translation>TON empfangen</translation>
     </message>
     <message>
         <source>View My Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine Wallet anzeigen</translation>
     </message>
     <message>
         <source>Done!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fertig!</translation>
     </message>
     <message>
         <source>%1 Toncoin have been sent to</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Toncoin wurden an</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Address copied to clipboard successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse erfolgreich in die Zwischenablage kopiert.</translation>
     </message>
 </context>
 <context>
     <name>SendValueDialog</name>
     <message>
         <source>Send TON</source>
-        <translation type="unfinished"></translation>
+        <translation>TON senden</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortfahren</translation>
     </message>
     <message>
         <source>Send to:</source>
-        <translation type="unfinished"></translation>
+        <translation>An:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <source>Insufficient funds</source>
-        <translation type="unfinished"></translation>
+        <translation>Unzureichende Mittel</translation>
     </message>
     <message>
         <source>Send all</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles senden</translation>
     </message>
 </context>
 <context>
     <name>SendingTonDialog</name>
     <message>
         <source>Receive TON</source>
-        <translation type="unfinished"></translation>
+        <translation>TON empfangen</translation>
     </message>
     <message>
         <source>View My Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Meine Wallet anzeigen</translation>
     </message>
     <message>
         <source>Failed to transfer</source>
-        <translation type="unfinished"></translation>
+        <translation>Übertragung fehlgeschlagen</translation>
     </message>
     <message>
         <source>Sending TON</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende TON</translation>
     </message>
     <message>
         <source>Please wait a few seconds for your transaction to be processed...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte warten Sie einige Sekunden, bis Ihre Transaktion verarbeitet wurde...</translation>
     </message>
 </context>
 <context>
     <name>SettingsLockDialog</name>
     <message>
         <source>Use Touch ID or enter passcode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwenden Sie Touch ID oder geben Sie den Passcode ein.</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Failed to active touch ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Aktivieren von Touch ID</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzeroberfläche</translation>
     </message>
     <message>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Dunkler Modus</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <source>Active Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktive Adresse</translation>
     </message>
     <message>
         <source>Primary Currency</source>
-        <translation type="unfinished"></translation>
+        <translation>Primäre Währung</translation>
     </message>
     <message>
         <source>List of tokens</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Tokens</translation>
     </message>
     <message>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>Sicherheit</translation>
     </message>
     <message>
         <source>Show recovery phrase</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederherstellungssatz anzeigen</translation>
     </message>
     <message>
         <source>Change passcode</source>
-        <translation type="unfinished"></translation>
+        <translation>Passcode ändern</translation>
     </message>
     <message>
         <source>Touch ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Touch ID</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
     <message>
         <source>Error: Could not initialize wallet!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler: Wallet konnte nicht initialisiert werden!</translation>
     </message>
 </context>
 <context>
     <name>StartPage</name>
     <message>
         <source>TON Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>TON Wallet</translation>
     </message>
     <message>
-        <source>TON Wallet allows you to make fast and secure blockchian-based payments without intermediaries.</source>
-        <translation type="unfinished"></translation>
+        <source>TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries.</source>
+        <translation>TON Wallet ermöglicht Ihnen schnelle und sichere Zahlungen auf Basis der Blockchain ohne Zwischenhändler.</translation>
     </message>
     <message>
         <source>Create my wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Mein Wallet erstellen</translation>
     </message>
     <message>
         <source>Import existing wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorhandenes Wallet importieren</translation>
     </message>
     <message>
         <source>Failed to create wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Erstellen des Wallets</translation>
     </message>
 </context>
 <context>
     <name>SuccessPage</name>
     <message>
         <source>Perfect!</source>
-        <translation type="unfinished"></translation>
+        <translation>Perfekt!</translation>
     </message>
     <message>
         <source>Now set up a passcode to secure transactions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legen Sie jetzt einen Passcode fest, um Transaktionen zu sichern.</translation>
     </message>
     <message>
-        <source>Failed to active biometric.</source>
-        <translation type="unfinished"></translation>
+        <source>Failed to activate biometric.</source>
+        <translation>Aktivierung der biometrischen Daten fehlgeschlagen.</translation>
     </message>
     <message>
         <source>Set a Passcode</source>
-        <translation type="unfinished"></translation>
+        <translation>Passcode festlegen</translation>
     </message>
     <message>
         <source>Enable Touch ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Touch ID aktivieren</translation>
     </message>
 </context>
 <context>
     <name>TTextArea</name>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles auswählen</translation>
     </message>
     <message>
         <source>Deselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl aufheben</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausschneiden</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfügen</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Rückgängig machen</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
     <name>TTextField</name>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles auswählen</translation>
     </message>
     <message>
         <source>Deselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl aufheben</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausschneiden</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfügen</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Rückgängig machen</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
     <name>TestTimePage</name>
     <message>
         <source>Test Time!</source>
-        <translation type="unfinished"></translation>
+        <translation>Testzeit!</translation>
     </message>
     <message>
-        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; and &lt;b&gt;%3&lt;/b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt;, and &lt;b&gt;%3&lt;/b&gt;.</source>
+        <translation>Lassen Sie uns überprüfen, ob Sie sie korrekt notiert haben. Bitte geben Sie die Wörter &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; und &lt;b&gt;%3&lt;/b&gt; ein.</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiter</translation>
     </message>
     <message>
         <source>Incorrect words</source>
-        <translation type="unfinished"></translation>
+        <translation>Falsche Wörter</translation>
     </message>
     <message>
         <source>See words</source>
-        <translation type="unfinished"></translation>
+        <translation>Wörter anzeigen</translation>
     </message>
     <message>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Nochmal versuchen</translation>
     </message>
     <message>
         <source>The secret words you have entered do not match the ones in the list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TonToolkitTools</name>
-    <message>
-        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>Die eingegebenen geheimen Wörter stimmen nicht mit denen in der Liste überein.</translation>
     </message>
 </context>
 <context>
     <name>TransactionDialog</name>
     <message>
         <source>Transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Transaktion</translation>
     </message>
     <message>
         <source>Retry to send TON to this address</source>
-        <translation type="unfinished"></translation>
+        <translation>Erneut versuchen, TON an diese Adresse zu senden</translation>
     </message>
     <message>
         <source>Send TON to this address</source>
-        <translation type="unfinished"></translation>
+        <translation>TON an diese Adresse senden</translation>
     </message>
     <message>
         <source>Wallet initialized</source>
-        <translation type="unfinished"></translation>
+        <translation>Wallet initialisiert</translation>
     </message>
     <message>
         <source>%1 transaction fee</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Transaktionsgebühr</translation>
     </message>
     <message>
         <source>Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Abgebrochen</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausstehend</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Recipient</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfänger</translation>
     </message>
     <message>
         <source>Recipient address</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfängeradresse</translation>
     </message>
     <message>
         <source>View in explorer</source>
-        <translation type="unfinished"></translation>
+        <translation>Im Explorer anzeigen</translation>
     </message>
 </context>
 <context>
     <name>TransactionsList</name>
     <message>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>an</translation>
     </message>
     <message>
         <source>from</source>
-        <translation type="unfinished"></translation>
+        <translation>von</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Address copied to clipboard successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse erfolgreich in die Zwischenablage kopiert.</translation>
     </message>
     <message>
         <source>Wallet initialized</source>
-        <translation type="unfinished"></translation>
+        <translation>Wallet initialisiert</translation>
     </message>
     <message>
         <source>%1 fee</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Gebühr</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausstehend</translation>
     </message>
 </context>
 <context>
     <name>Wallet</name>
     <message>
         <source>Faild to load state</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Laden des Zustands</translation>
     </message>
     <message>
         <source>Connecting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung wird hergestellt...</translation>
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird geladen...</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Address copied to clipboard successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse erfolgreich in die Zwischenablage kopiert.</translation>
     </message>
     <message>
         <source>Receive</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfangen</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Senden</translation>
     </message>
 </context>
 <context>
     <name>WalletImportErrorPage</name>
     <message>
         <source>Too Bad!</source>
-        <translation type="unfinished"></translation>
+        <translation>Schade!</translation>
     </message>
     <message>
         <source>Without the secret words you can&apos;t restore access to the wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Ohne die geheimen Wörter können Sie keinen Zugriff auf das Wallet wiederherstellen</translation>
     </message>
     <message>
         <source>View my wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Mein Wallet anzeigen</translation>
     </message>
     <message>
         <source>Import existing wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorhandenes Wallet importieren</translation>
     </message>
 </context>
 <context>
     <name>WalletImportSuccessPage</name>
     <message>
         <source>Your wallet has just been imported!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ihr Wallet wurde gerade importiert!</translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Tonium Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonium Wallet</translation>
     </message>
     <message>
         <source>Execute stress test for Qr Code encoding and decoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Führen Sie einen Stresstest für die Codierung und Decodierung von QR-Codes aus</translation>
     </message>
 </context>
 </TS>

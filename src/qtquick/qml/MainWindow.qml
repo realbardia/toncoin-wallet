@@ -54,7 +54,14 @@ TWindow {
         Item {
             id: mainScene
             anchors.fill: parent
+            anchors.bottomMargin: keyboardPadding
             anchors.topMargin: framelessPad.height
+
+            property real keyboardPadding: Constants.keyboardedView? GlobalValues.keyboardGlobalBottomPadding : 0
+
+            Behavior on keyboardPadding {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+            }
 
             Loader {
                 id: introLoader

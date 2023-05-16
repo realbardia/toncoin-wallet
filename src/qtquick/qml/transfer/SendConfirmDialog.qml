@@ -12,9 +12,16 @@ TDrawer {
     height: contentHeight + 300
 
     mainButton {
+        anchors.bottomMargin: keyboardPadding + 20
         text: qsTr("Continue and send")
         enabled: !estimater.running
         onClicked: TViewport.viewport.append(sending_component, {}, "stack")
+    }
+
+    property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight - GlobalValues.keyboardGlobalBottomPadding : Devices.navigationBarHeight
+
+    Behavior on keyboardPadding {
+        NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
     }
 
     property alias address: estimater.destinationAddress
@@ -93,6 +100,29 @@ TDrawer {
                         height: Math.max(50, contentHeight + 20)
                         horizontalAlignment: Text.AlignLeft
                         placeholderText: qsTr("Comment")
+                        input.onFocusChanged: {
+                            if (input.focus) {
+                                GlobalValues.keyboardGlobalBottomPadding = Qt.binding(function(){
+                                    let minimumAllowedHeight = dis.contentHeight + comment.height + 50;
+                                    let heightWithKeyboard = dis.height - Devices.keyboardHeight;
+                                    if (minimumAllowedHeight > heightWithKeyboard)
+                                        return (minimumAllowedHeight - heightWithKeyboard);
+                                    else
+                                        return 0;
+                                });
+                            } else {
+                                GlobalValues.keyboardGlobalBottomPadding = 0;
+                            }
+
+                            if (input.focus)
+                                GlobalValues.keyboardPaddingMode = input;
+                            else if (GlobalValues.keyboardPaddingMode == input)
+                                GlobalValues.keyboardPaddingMode = null
+                        }
+                        Component.onCompleted: {
+                            Devices.setupImEventFilter(comment.input);
+                        }
+                        Component.onDestruction: if (GlobalValues.keyboardPaddingMode == input) GlobalValues.keyboardPaddingMode = null
                     }
 
                     TColumn {

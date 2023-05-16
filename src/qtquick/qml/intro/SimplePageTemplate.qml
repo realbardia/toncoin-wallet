@@ -6,18 +6,21 @@ import "../globals"
 
 TPage {
     id: page
-    data: [headerColumn, body, customColumn, busy, error, footerColumn, backButton]
+    data: [headerColumn, bodyElement, customColumn, busy, error, footerColumn, backButton]
 
     property alias sticker: sticker.source
     property alias stickerLoop: sticker.loops
 
     property alias title: headerTitle.text
-    property alias body: body.text
+    property alias body: bodyElement.text
+    property alias bodyElement: bodyElement
     property alias mainButton: mainBtn
     property alias secondaryButton: secondaryBtn
     property alias backable: backButton.visible
     property alias buttonBusy: buttonBusy.running
     property alias busy: busy
+
+    property real bottomPadding: 64
 
     default property alias sceneData: customColumn.data
 
@@ -28,7 +31,7 @@ TPage {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 40
-        anchors.bottom: body.top
+        anchors.bottom: bodyElement.top
         anchors.bottomMargin: 4
         spacing: 10
 
@@ -50,7 +53,7 @@ TPage {
     }
 
     TLabel {
-        id: body
+        id: bodyElement
         y: Math.min(parent.height/2 + 7, customColumn.y - height - 20)
         anchors.left: parent.left
         anchors.right: parent.right
@@ -95,7 +98,7 @@ TPage {
         id: footerColumn
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.margins: 64
+        anchors.margins: page.bottomPadding
         visible: !MainBackend.initializing && MainBackend.initialized
 
         TButton {

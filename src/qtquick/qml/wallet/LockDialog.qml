@@ -15,9 +15,10 @@ TPage {
         if (!GlobalMethods.biometricCheck())
             return;
 
-        if (wallet.unlock(Constants.touchIdPass)) {
+        var pass = wallet.decodeSecureKey(AppSettings.touchIdSecureKey);
+        if (wallet.unlock(pass)) {
             Devices.triggerVibrateFeedback();
-            GlobalValues.passCode = Constants.touchIdPass;
+            GlobalValues.passCode = pass;
         } else {
             GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed"), qsTr("Failed to unlock wallet. Secure key changed."), Colors.foreground);
         }
@@ -78,7 +79,7 @@ TPage {
                 width: 160
                 anchors.centerIn: parent
                 color: "#fff"
-                visible: !busyIndicator.running && !(AppSettings.touchId && Devices.hasBiometric)
+                visible: !busyIndicator.running
                 digitsCount: AppSettings.passCodeLength
                 onTextChanged: {
                     if (text.length != digitsCount)

@@ -1,5 +1,8 @@
 #include "walletitem.h"
 #include "core/wallet/backendmanager.h"
+#include "core/tools/crypto.h"
+
+#include "qtquick/cpp/toolkit/core/tontoolkitdevices.h"
 
 #include <QtQml>
 
@@ -44,9 +47,13 @@ bool WalletItem::changePassword(const QString &password)
         return false;
     }
 
-    backend->changeLocalPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password, this, [this](const QByteArray &newPublicKey, const AbstractWalletBackend::Error &error){
+    backend->changeLocalPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password, this, [this, password](const QByteArray &newPublicKey, const AbstractWalletBackend::Error &error){
         if (!newPublicKey.isEmpty())
-            Q_EMIT passwordChangedSuccessfully(QString::fromLatin1(newPublicKey.toBase64()));
+        {
+            TON::Tools::CryptoAES crypto(KEYS_DB_SECRET_AES_SALT + TonToolkitDevices::deviceId() + KEYS_DB_SECRET_AES_SALT);
+            const auto secureKey = QString::fromLatin1( crypto.encrypt(password.toUtf8()).toBase64() );
+            Q_EMIT passwordChangedSuccessfully(QString::fromLatin1(newPublicKey.toBase64()), secureKey);
+        }
         else
             Q_EMIT passwordChangeFailed(error.code, error.message);
     });
@@ -107,6 +114,13 @@ void WalletItem::reload()
         setLoading(false);
         setAddress(address);
     });
+}
+
+QString WalletItem::decodeSecureKey(const QString &secureKey) const
+{
+    TON::Tools::CryptoAES crypto(KEYS_DB_SECRET_AES_SALT + TonToolkitDevices::deviceId() + KEYS_DB_SECRET_AES_SALT);
+    const auto bytes = crypto.decrypt( QByteArray::fromBase64(secureKey.toLatin1()) );
+    return QString::fromUtf8(bytes);
 }
 
 void WalletItem::reset()

@@ -12,21 +12,9 @@ SimplePageTemplate {
     body: qsTr("Now set up a passcode to secure transactions.")
     backable: true
 
-    property alias publicKey: wallet.publicKey
+    property string publicKey
 
     onCloseRequest: page.ViewportType.open = false
-
-    WalletItem {
-        id: wallet
-        backend: MainBackend
-        onPasswordChangedSuccessfully: {
-            TViewport.viewport.append(doneComponent, {"publicKey": newPublicKey}, "stack");
-            GlobalValues.passCode = Constants.touchIdPass;
-        }
-        onPasswordChangeFailed: {
-            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to active biometric."), error, Colors.foreground)
-        }
-    }
 
     mainButton {
         text: qsTr("Set a Passcode")
@@ -44,10 +32,9 @@ SimplePageTemplate {
         text: qsTr("Enable Touch ID")
         visible: Devices.hasBiometric
         onClicked: {
-            AppSettings.touchId = true;
-            if (GlobalMethods.biometricCheck())
-                wallet.changePassword(Constants.touchIdPass);
-            else {
+            if (GlobalMethods.biometricCheck()) {
+                AppSettings.touchId = true;
+            } else {
                 AppSettings.touchId = false;
                 checked = false
             }
@@ -64,15 +51,6 @@ SimplePageTemplate {
         PasscodePage {
             id: ppage
             anchors.fill: parent
-            publicKey: page.publicKey
-        }
-    }
-
-    Component {
-        id: doneComponent
-        DonePage {
-            anchors.fill: parent
-            backable: true
             publicKey: page.publicKey
         }
     }

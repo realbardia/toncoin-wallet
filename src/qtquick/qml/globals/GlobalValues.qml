@@ -9,4 +9,7 @@ QtObject {
     property Window mwin
 
     property string tempLinkToOpen: linkToOpen
+
+    property Item keyboardPaddingMode
+    property real keyboardGlobalBottomPadding
 }

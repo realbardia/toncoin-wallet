@@ -27,11 +27,22 @@ TPage {
     SimplePageTemplate {
         id: simplePage
         anchors.fill: parent
+        anchors.bottomMargin: keyboardPadding
         sticker: "qrc:/ton/common/stickers/Test Time.tgs"
         title: qsTr("Test Time!")
         body: qsTr("Let's check that you wrote them down correctly. Please enter the words <b>%1</b>, <b>%2</b> and <b>%3</b>.").arg(5).arg(15).arg(18)
         backable: true
         busy.running: qmodel.refreshing
+        bottomPadding: Constants.keyboardedView? -40 : 64
+
+        property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight : 0
+
+        Behavior on keyboardPadding {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+        }
+        Behavior on bottomPadding {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+        }
 
         onCloseRequest: dis.ViewportType.open = false
 
@@ -90,12 +101,21 @@ TPage {
                             simplePage.mainButton.forceActiveFocus();
                         }
                     }
+                    input.onFocusChanged: {
+                        if (input.focus)
+                            GlobalValues.keyboardPaddingMode = input;
+                        else if (GlobalValues.keyboardPaddingMode == input)
+                            GlobalValues.keyboardPaddingMode = null
+                    }
+
                     Component.onCompleted: {
+                        Devices.setupImEventFilter(input);
                         if (model.index == 0) {
                             focus = true;
                             forceActiveFocus();
                         }
                     }
+                    Component.onDestruction: if (GlobalValues.keyboardPaddingMode == input) GlobalValues.keyboardPaddingMode = null
 
                     TLabel {
                         id: label

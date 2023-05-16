@@ -16,6 +16,7 @@ TControlElement {
     property alias validator: input.validator
     property alias contentWidth: input.contentWidth
     property alias highlightArea: highlightArea.visible
+    property alias input: input
 
     property real leftPadding
     property real rightPadding

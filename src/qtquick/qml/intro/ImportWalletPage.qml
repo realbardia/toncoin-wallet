@@ -39,9 +39,24 @@ TPage {
 
     Item {
         id: recoveryScene
+        clip: true
         anchors.fill: parent
         anchors.topMargin: Devices.statusBarHeight
-        clip: true
+        anchors.bottomMargin: keyboardPadding
+
+        property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight : 0
+
+        Behavior on keyboardPadding {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+        }
+
+        NumberAnimation {
+            id: scrollAnim
+            easing.type: Easing.OutCubic
+            duration: 300
+            target: listv
+            properties: "contentY"
+        }
 
         TScrollView {
             id: scrollView
@@ -138,7 +153,31 @@ TPage {
                             else
                                 listv.footerItem.focus = true;
                         }
-                        Component.onCompleted: if (wordsMap.contains(uniqueIdx)) text = wordsMap.value(uniqueIdx);
+                        input.onFocusChanged: {
+                            if (input.focus) {
+                                var idx = model.index;
+                                Tools.jsDelayCall(10, function(){
+                                    scrollAnim.from = listv.contentY;
+                                    listv.positionViewAtIndex(idx, ListView.Center);
+                                    scrollAnim.to = listv.contentY;
+                                    scrollAnim.start();
+                                });
+
+                                GlobalValues.keyboardPaddingMode = input;
+                            } else if (GlobalValues.keyboardPaddingMode == input) {
+                                GlobalValues.keyboardPaddingMode = null;
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            if (wordsMap.contains(uniqueIdx)) text = wordsMap.value(uniqueIdx);
+                            Devices.setupImEventFilter(input);
+                            if (model.index == 0) {
+                                focus = true;
+                                forceActiveFocus();
+                            }
+                        }
+                        Component.onDestruction: if (GlobalValues.keyboardPaddingMode == input) GlobalValues.keyboardPaddingMode = null
 
                         readonly property string uniqueIdx: GlobalMethods.justifyNumber(model.index, 10)
 

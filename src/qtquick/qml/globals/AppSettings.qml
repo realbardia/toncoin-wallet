@@ -28,4 +28,5 @@ Settings {
 
     property int passCodeLength
     property bool touchId
+    property string touchIdSecureKey
 }

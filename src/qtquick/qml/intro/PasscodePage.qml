@@ -25,6 +25,7 @@ TPage {
             spage.busy.running = false;
             GlobalValues.passCode = passField.text;
             AppSettings.passCodeLength = passField.text.length;
+            AppSettings.touchIdSecureKey = secureKey;
             if (closeAtEnd) {
                 page.success()
                 page.closeRequest();
@@ -44,7 +45,7 @@ TPage {
         backable: true
         sticker: "qrc:/ton/common/stickers/Password.tgs"
         title: confirmMode.length? qsTr("Confirm a Passcode") : qsTr("Set a Passcode")
-        body: qsTr("Enter the %1 digitis in the passcode.").arg(digitsCount)
+        body: qsTr("Enter the %1 digits in the passcode.").arg(digitsCount)
 
         onCloseRequest: {
             if (closeAtEnd && confirmMode.length == 0)

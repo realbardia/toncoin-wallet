@@ -29,17 +29,20 @@ public:
     bool hasPassword() const;
     bool loading() const;
 
+
 public Q_SLOTS:
     bool changePassword(const QString &password);
     bool testPassword(const QString &password);
     bool unlock(const QString &password);
     void reload();
 
+    QString decodeSecureKey(const QString &secureKey) const;
+
 Q_SIGNALS:
     void publicKeyChanged();
     void backendChanged();
 
-    void passwordChangedSuccessfully(const QString &newPublicKey);
+    void passwordChangedSuccessfully(const QString &newPublicKey, const QString &secureKey);
     void passwordChangeFailed(qint32 code, const QString &error);
 
     void addressChanged();

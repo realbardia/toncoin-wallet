@@ -14,6 +14,7 @@ TControlElement {
     property alias contentHeight: input.contentHeight
     property alias horizontalAlignment: input.horizontalAlignment
     property alias placeholderText: placeholder.text
+    property alias input: input
 
     property real leftPadding
     property real rightPadding

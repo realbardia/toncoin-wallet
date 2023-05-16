@@ -10,20 +10,6 @@ TPage {
     id: page
     color: "#000"
 
-    WalletItem {
-        id: wallet
-        backend: MainBackend
-        publicKey: AppSettings.loggedInPublicKey
-        onPasswordChangedSuccessfully: {
-            GlobalValues.passCode = Constants.touchIdPass;
-            AppSettings.touchId = true;
-        }
-        onPasswordChangeFailed: {
-            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to active touch ID"), error, Colors.foreground)
-            AppSettings.touchId = false;
-        }
-    }
-
     component SettingItem: TItemDelegate {
         height: 50
         width: parent.width
@@ -123,7 +109,6 @@ TPage {
                                 anchors.verticalCenter: parent.verticalCenter
                                 z: -1
                                 checked: AppSettings.darkMode
-                                onClicked: AppSettings.darkMode = !AppSettings.darkMode
                             }
                         }
                         SettingItem {
@@ -240,8 +225,7 @@ TPage {
                         SettingItem {
                             title: qsTr("Change passcode")
                             onClicked: {
-                                var item = TViewport.viewport.append(passCode_component, {}, "popup");
-                                item.success.connect(function(){ AppSettings.touchId = false; });
+                                TViewport.viewport.append(passCode_component, {}, "popup");
                             }
                         }
                         SettingItem {
@@ -249,10 +233,9 @@ TPage {
                             visible: Devices.hasBiometric
                             onClicked: {
                                 if (AppSettings.touchId) {
-                                    var item = TViewport.viewport.append(passCode_component, {}, "popup");
-                                    item.success.connect(function(){ AppSettings.touchId = false; });
+                                    AppSettings.touchId = false;
                                 } else if (GlobalMethods.biometricCheck()) {
-                                    wallet.changePassword(Constants.touchIdPass);
+                                    AppSettings.touchId = true;
                                 }
                             }
 
@@ -261,14 +244,6 @@ TPage {
                                 anchors.verticalCenter: parent.verticalCenter
                                 z: -1
                                 checked: AppSettings.touchId
-                                onClicked: {
-                                    if (AppSettings.touchId) {
-                                        var item = TViewport.viewport.append(passCode_component, {}, "popup");
-                                        item.success.connect(function(){ AppSettings.touchId = false; });
-                                    } else if (GlobalMethods.biometricCheck()) {
-                                        wallet.changePassword(Constants.touchIdPass);
-                                    }
-                                }
                             }
                         }
                     }

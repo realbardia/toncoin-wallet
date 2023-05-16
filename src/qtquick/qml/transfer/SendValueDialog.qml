@@ -11,8 +11,15 @@ TDrawer {
 
     mainButton {
         text: qsTr("Continue")
+        anchors.bottomMargin: keyboardPadding + 20
         enabled: amountField.text*1 > 0 && !insufficientLabel.visible? true : false
         onClicked: TViewport.viewport.append(confirm_component, {"address": address, "domain": domain, "amount": amountField.text}, "stack")
+    }
+
+    property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight - GlobalValues.keyboardGlobalBottomPadding : Devices.navigationBarHeight
+
+    Behavior on keyboardPadding {
+        NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
     }
 
     property string address
@@ -56,44 +63,90 @@ TDrawer {
         }
     }
 
-    TTextField {
-        id: amountField
-        anchors.centerIn: parent
-        height: 54
-        width: Math.max(100, contentWidth + 56)
-        highlightArea: false
-        placeholderText: "0"
-        validator: RegularExpressionValidator { regularExpression: /\d+(?:\.\d+)/ }
-        font.pixelSize: 20 * Devices.fontDensity
-        color: insufficientLabel.visible? Colors.red : Colors.foreground
-        Component.onCompleted: {
-            if (Devices.isDesktop)
+    MouseArea {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 40
+        anchors.verticalCenter: parent.verticalCenter
+        height: 100
+        onClicked: {
+            amountField.focus = true;
+            amountField.input.cursorPosition = amountField.text.length;
+        }
+
+        TTextField {
+            id: amountField
+            anchors.centerIn: parent
+            height: 54
+            width: Math.max(100, contentWidth + 56)
+            highlightArea: false
+            placeholderText: "0"
+            validator: RegularExpressionValidator { regularExpression: /\d+(?:\.\d+)/ }
+            font.pixelSize: 20 * Devices.fontDensity
+            color: insufficientLabel.visible? Colors.red : Colors.foreground
+            input.inputMethodHints: Qt.ImhDigitsOnly
+            input.onFocusChanged: {
+                if (input.focus) {
+                    GlobalValues.keyboardGlobalBottomPadding = Qt.binding(function(){
+                        let minimumAllowedHeight = dis.contentHeight + 150;
+                        let heightWithKeyboard = dis.height - Devices.keyboardHeight;
+                        if (minimumAllowedHeight > heightWithKeyboard)
+                            return (minimumAllowedHeight - heightWithKeyboard);
+                        else
+                            return 0;
+                    });
+                } else {
+                    GlobalValues.keyboardGlobalBottomPadding = 0;
+                }
+
+                if (input.focus)
+                    GlobalValues.keyboardPaddingMode = input;
+                else if (GlobalValues.keyboardPaddingMode == input)
+                    GlobalValues.keyboardPaddingMode = null
+            }
+            Component.onCompleted: {
+                Devices.setupImEventFilter(amountField.input);
                 focus = true;
-        }
+            }
+            Component.onDestruction: if (GlobalValues.keyboardPaddingMode == input) GlobalValues.keyboardPaddingMode = null
 
-        LayoutMirroring.enabled: false
-        LayoutMirroring.childrenInherit: true
+            onTextChanged: {
+                if (text == "00") {
+                    text = "0.";
+                    input.cursorPosition = 2;
+                } else if (text.length > lastLength && text == "0") {
+                    text += '.';
+                    input.cursorPosition = 2;
+                }
+                lastLength = text.length;
+            }
 
-        leftPadding: 46
+            property int lastLength
 
-        StickerItem {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: -3
-            anchors.left: parent.left
-            width: 44
-            height: width
-            autoPlay: true
-            source: "qrc:/ton/common/stickers/Main.tgs"
-        }
+            LayoutMirroring.enabled: false
+            LayoutMirroring.childrenInherit: true
 
-        TLabel {
-            id: insufficientLabel
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.bottom
-            color: Colors.red
-            font.pixelSize: 8 * Devices.fontDensity
-            text: qsTr("Insufficient funds")
-            visible: amountField.text*1 > balance.text*1? true : false
+            leftPadding: 46
+
+            StickerItem {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: -3
+                anchors.left: parent.left
+                width: 44
+                height: width
+                autoPlay: true
+                source: "qrc:/ton/common/stickers/Main.tgs"
+            }
+
+            TLabel {
+                id: insufficientLabel
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.bottom
+                color: Colors.red
+                font.pixelSize: 8 * Devices.fontDensity
+                text: qsTr("Insufficient funds")
+                visible: amountField.text*1 > balance.text*1? true : false
+            }
         }
     }
 

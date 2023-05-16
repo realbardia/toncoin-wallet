@@ -66,6 +66,7 @@ TPage {
         anchors.bottom: mainButton.top
         anchors.bottomMargin: 20
         anchors.topMargin: 20
+        clip: true
     }
 
     TButton {

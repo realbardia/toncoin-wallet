@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QRegularExpression>
+#include <QtQml>
 
 class TonToolkitTranslationManager::Private
 {
@@ -126,6 +127,10 @@ void TonToolkitTranslationManager::refresh()
     p->translator->load( QLocale(p->localeName), p->fileName, p->delimiters, path);
 
     QCoreApplication::installTranslator(p->translator);
+
+    auto engine = qmlEngine(this);
+    if (engine)
+        engine->retranslate();
 
     Q_EMIT refreshed();
     Q_EMIT textDirectionChanged();

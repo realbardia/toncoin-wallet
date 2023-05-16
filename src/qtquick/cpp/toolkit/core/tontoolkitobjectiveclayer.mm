@@ -37,7 +37,7 @@ TonToolkitObjectiveCLayer::TonToolkitObjectiveCLayer(QObject *parent)
 {
 
     ObjectiveCLayer_mObjects.insert(this);
-    TonToolkitObjectiveCLayer_core *core = [TonToolkitObjectiveCLayer_core alloc];
+    static TonToolkitObjectiveCLayer_core *core = [TonToolkitObjectiveCLayer_core alloc];
 
     [[NSNotificationCenter defaultCenter] addObserver:core selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }

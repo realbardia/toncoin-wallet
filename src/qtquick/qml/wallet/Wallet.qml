@@ -168,7 +168,7 @@ TPage {
                     anchors.centerIn: parent
                     width: 120
                     height: width
-                    active: (page.connecting || tmodel.refreshing) && tmodel.count == 0
+                    active: (page.connecting || tmodel.refreshing) && listv.count == 0
                     sourceComponent: StickerItem {
                         anchors.fill: parent
                         autoPlay: true
@@ -178,7 +178,7 @@ TPage {
 
                 Loader {
                     anchors.fill: parent
-                    active: tmodel.count == 0 && !walletLoading.active
+                    active: tmodel.count == 0 && !walletLoading.active && listv.count == 0
                     sourceComponent: EmptyWalletElement {
                         anchors.fill: parent
                         anchors.margins: 20

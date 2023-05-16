@@ -59,7 +59,6 @@ TPage {
                 width: 160
                 anchors.centerIn: parent
                 color: "#fff"
-                visible: !(AppSettings.touchId && Devices.hasBiometric)
                 digitsCount: AppSettings.passCodeLength
                 onTextChanged: {
                     if (text.length != digitsCount)
