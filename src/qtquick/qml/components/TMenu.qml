@@ -14,6 +14,7 @@ Item {
     property alias shadow: shadow.visible
     property string textRole
     property alias opened: openedAction.active
+    property bool splitter: false
 
     signal itemClicked(int index)
 
@@ -82,6 +83,16 @@ Item {
                     maximumLineCount: 1
                     elide: Text.ElideRight
                     text: textRole.length? model[textRole] : modelData
+                }
+
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    height: 1
+                    color: Colors.foreground
+                    visible: splitter
+                    opacity: 0.1
                 }
             }
         }

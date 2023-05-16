@@ -45,6 +45,7 @@ TPage {
 
         TScrollView {
             anchors.fill: parent
+            scrollMarginTop: Devices.standardTitleBarHeight
 
             TListView {
                 id: listv

@@ -5,4 +5,6 @@ import "../../globals"
 
 ScrollView {
     verticalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+
+    property real scrollMarginTop
 }

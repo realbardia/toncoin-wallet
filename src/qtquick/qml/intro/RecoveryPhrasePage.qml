@@ -35,6 +35,7 @@ TPage {
 
         TScrollView {
             anchors.fill: parent
+            scrollMarginTop: Devices.standardTitleBarHeight
 
             TGridView {
                 id: gridv

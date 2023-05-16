@@ -7,6 +7,8 @@ Item {
     id: dis
     clip: true
 
+    property real scrollMarginTop
+
     onChildrenChanged: {
         for (var i=0; i<children.length; i++) {
             var d = children[i];
@@ -22,8 +24,8 @@ Item {
 
     HScrollBar {
         id: scroll
-        color: Colors.foreground
-        anchors.topMargin: scrollArea && scrollArea.headerItem? scrollArea.headerItem.height : 0
+        color: Colors.darkMode? "#ffffff" : "#000000"
+        anchors.topMargin: scrollMarginTop
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom

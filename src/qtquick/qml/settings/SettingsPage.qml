@@ -74,6 +74,7 @@ TPage {
     TScrollView {
         anchors.fill: parent
         anchors.topMargin: Devices.standardTitleBarHeight + Devices.statusBarHeight
+        scrollMarginTop: Constants.roundness
         clip: true
 
         TFlickable {
@@ -357,6 +358,7 @@ TPage {
         opacity: opened? 1 : 0
         scale: 0.8 + opacity*0.2
         visible: opacity > 0
+        splitter: true
         shadow: false
 
         Behavior on opacity {
@@ -379,6 +381,7 @@ TPage {
         opacity: opened? 1 : 0
         scale: 0.8 + opacity*0.2
         visible: opacity > 0
+        splitter: true
         shadow: false
 
         Behavior on opacity {
