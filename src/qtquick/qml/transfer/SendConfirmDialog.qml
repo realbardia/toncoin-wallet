@@ -39,7 +39,6 @@ TDrawer {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.margins: -20
         anchors.topMargin: -8
         height: 1
         color: Colors.foreground
@@ -75,7 +74,7 @@ TDrawer {
                     y: 0
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.margins: y
+                    anchors.margins: 20
                     spacing: 8
 
                     TLabel {

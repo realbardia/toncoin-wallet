@@ -64,7 +64,8 @@ TPage {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: mainButton.top
-        anchors.margins: 20
+        anchors.bottomMargin: 20
+        anchors.topMargin: 20
     }
 
     TButton {

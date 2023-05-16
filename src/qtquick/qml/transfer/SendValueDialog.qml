@@ -21,6 +21,7 @@ TDrawer {
     Item {
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.margins: 20
         height: 30
 
         TRow {
@@ -99,7 +100,9 @@ TDrawer {
     TSwitch {
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.margins: 20
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
         onCheckedChanged: if (checked) amountField.text = balance.text
 
         TRow {

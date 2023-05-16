@@ -62,6 +62,7 @@ TDrawer {
                     id: headerColumn
                     anchors.left: parent.left
                     anchors.right: parent.right
+                    anchors.margins: 20
 
                     TLabel {
                         width: parent.width
@@ -118,6 +119,7 @@ TDrawer {
                         id: clmn
                         anchors.left: parent.left
                         anchors.right: parent.right
+                        anchors.margins: 20
                         anchors.verticalCenter: parent.verticalCenter
                         spacing: 0
 
@@ -146,7 +148,7 @@ TDrawer {
                 Rectangle {
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.top: parent.top
+                    anchors.margins: 20
                     height: 1
                     color: Colors.foreground
                     opacity: 0.1

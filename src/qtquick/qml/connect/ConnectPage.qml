@@ -62,6 +62,7 @@ TDrawer {
         id: area
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.margins: 20
         anchors.verticalCenter: parent.verticalCenter
         spacing: 4
 
