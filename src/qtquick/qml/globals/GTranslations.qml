@@ -28,7 +28,7 @@ TonToolkitObject {
 
     TranslationManager {
         id: mgr
-        sourceDirectory: "translations/"
+        sourceDirectory: "qrc:/globals/translations/"
         delimiters: "-"
         fileName: "lang"
         localeName: AppSettings.language
