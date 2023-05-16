@@ -11,8 +11,11 @@ TPage {
     signal success()
 
     function checkBiometric() {
-        if (!GlobalMethods.biometricCheck())
+        if (!GlobalMethods.biometricCheck()) {
+            passField.focus = true;
+            passField.forceActiveFocus();
             return;
+        }
 
         Devices.triggerVibrateFeedback();
         page.success();
@@ -56,6 +59,7 @@ TPage {
             height: 50
 
             TPasswordField {
+                id: passField
                 width: 160
                 anchors.centerIn: parent
                 color: "#fff"

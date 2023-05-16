@@ -12,8 +12,11 @@ TPage {
     property alias busy: busyIndicator.running
 
     function checkBiometric() {
-        if (!GlobalMethods.biometricCheck())
+        if (!GlobalMethods.biometricCheck()) {
+            passField.focus = true;
+            passField.forceActiveFocus();
             return;
+        }
 
         var pass = wallet.decodeSecureKey(AppSettings.touchIdSecureKey);
         if (wallet.unlock(pass)) {
@@ -76,6 +79,7 @@ TPage {
             }
 
             TPasswordField {
+                id: passField
                 width: 160
                 anchors.centerIn: parent
                 color: "#fff"
