@@ -63,7 +63,6 @@ TControlElement {
 
     Item {
         id: highlightScene
-        z: 10
         anchors.fill: parent
         clip: true
         visible: false
@@ -106,5 +105,6 @@ TControlElement {
         anchors.fill: parent
         maskSource: background
         source: highlightScene
+        z: 10
     }
 }
