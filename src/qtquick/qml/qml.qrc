@@ -117,5 +117,6 @@
         <file>components/TTitleBarButtonItem.qml</file>
         <file>components/TWindowMovable.qml</file>
         <file>components/TTitleBarButtons.qml</file>
+        <file>components/TScrollBar.qml</file>
     </qresource>
 </RCC>

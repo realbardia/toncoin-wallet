@@ -194,6 +194,7 @@ TPage {
             clip: true
 
             TScrollView {
+                id: scrollView
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
@@ -228,6 +229,16 @@ TPage {
                         }
                     }
                 }
+            }
+
+            TScrollBar {
+                color: Colors.darkMode? "#ffffff" : "#000000"
+                scrollArea: listv
+                visible: Devices.isDesktop
+                anchors.topMargin: scrollView.scrollMarginTop
+                anchors.right: scrollView.right
+                anchors.top: scrollView.top
+                anchors.bottom: scrollView.bottom
             }
         }
 

@@ -34,6 +34,7 @@ TPage {
         clip: true
 
         TScrollView {
+            id: scrollView
             anchors.fill: parent
             scrollMarginTop: Devices.standardTitleBarHeight
 
@@ -53,7 +54,7 @@ TPage {
 
                 footer: Item {
                     width: gridv.width
-                    height: 180
+                    height: doneVisible? 180 : 50
 
                     TColumn {
                         anchors.centerIn: parent
@@ -106,6 +107,16 @@ TPage {
                     }
                 }
             }
+        }
+
+        TScrollBar {
+            color: Colors.darkMode? "#ffffff" : "#000000"
+            scrollArea: gridv
+            visible: Devices.isDesktop
+            anchors.topMargin: scrollView.scrollMarginTop
+            anchors.right: scrollView.right
+            anchors.top: scrollView.top
+            anchors.bottom: scrollView.bottom
         }
 
         Item {
