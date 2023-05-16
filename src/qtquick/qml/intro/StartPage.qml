@@ -63,6 +63,7 @@ Item {
         width: 160
         color: Colors.foreground
         flat: true
+        font.underline: true
         text: {
             var res = "";
             for (var i=0; i<GTranslations.model.count; i++)

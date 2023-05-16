@@ -77,9 +77,13 @@ TPage {
 
                 header: MouseArea {
                     width: listv.width
-                    height: headerScene.height
-                    onHeightChanged: listv.positionViewAtBeginning()
                     onClicked: Devices.hideKeyboard()
+                    Component.onCompleted: {
+                        Tools.jsDelayCall(10, function() {
+                            height = Qt.binding(function(){ return headerScene.height; });
+                            Tools.jsDelayCall(10, listv.positionViewAtBeginning);
+                        });
+                    }
                 }
 
                 footer: Item {
