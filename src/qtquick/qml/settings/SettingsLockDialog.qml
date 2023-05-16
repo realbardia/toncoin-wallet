@@ -8,6 +8,8 @@ TPage {
     id: page
     color: "#000"
 
+    property bool allowBiometric: Devices.hasBiometric
+
     signal success()
 
     function checkBiometric() {
@@ -23,7 +25,7 @@ TPage {
 
     Timer {
         interval: 300
-        running: AppSettings.touchId && Devices.hasBiometric
+        running: AppSettings.touchId && allowBiometric
         repeat: false
         onTriggered: checkBiometric()
     }
@@ -77,7 +79,7 @@ TPage {
                     }
                 }
                 Component.onCompleted: {
-                    if (AppSettings.touchId && Devices.hasBiometric)
+                    if (AppSettings.touchId && allowBiometric)
                         return;
                     focus = true;
                     forceActiveFocus();
@@ -93,7 +95,7 @@ TPage {
         flat: true
         height: 60
         width: height
-        visible: AppSettings.touchId && Devices.hasBiometric
+        visible: AppSettings.touchId && allowBiometric
         icon.text: MaterialIcons.mdi_fingerprint
         icon.font.pixelSize: 20 * Devices.fontDensity
         highlightColor: "#fff"

@@ -31,7 +31,7 @@ TControlElement {
     property bool highlight
     property alias highlightColor: highlightArea.color
     property alias backgroundColor: background.color
-    property color color: "#fff"
+    property color color: highlight? Colors.accent : "#fff"
     property alias radius: background.radius
     property bool textVisible: true
 
@@ -109,7 +109,7 @@ TControlElement {
         TLabel {
             id: icon
             anchors.verticalCenter: parent.verticalCenter
-            color: highlight? Colors.accent : marea.color
+            color: marea.color
             font.family: MaterialIcons.family
             visible: text.length
         }
@@ -117,7 +117,7 @@ TControlElement {
         TLabel {
             id: label
             anchors.verticalCenter: parent.verticalCenter
-            color: highlight? Colors.accent : marea.color
+            color: marea.color
             visible: text.length
         }
     }

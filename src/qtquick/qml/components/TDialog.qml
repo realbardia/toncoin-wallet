@@ -10,6 +10,8 @@ Item {
     default property alias sceneData: mainColumn.data
     property variant buttons: new Array
 
+    property color lastButtonColor: Colors.accent
+
     property alias title: titleLabel.text
 
     signal buttonClicked(int index)
@@ -115,6 +117,7 @@ Item {
                         highlight: true
                         flat: true
                         text: modelData
+                        color: model.index == buttons.length-1? lastButtonColor : Colors.accent
                         onClicked: buttonClicked(model.index)
                     }
                 }

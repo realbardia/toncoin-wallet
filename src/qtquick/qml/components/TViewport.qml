@@ -31,4 +31,8 @@ Viewport {
             name: "popup"
         }
     ]
+
+    function closeAll() {
+        list.forEach( function(t){ t.ViewportType.open = false } )
+    }
 }

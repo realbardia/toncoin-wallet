@@ -147,7 +147,6 @@ TPage {
         DonePage {
             anchors.fill: parent
             backable: true
-            publicKey: page.publicKey
         }
     }
 }

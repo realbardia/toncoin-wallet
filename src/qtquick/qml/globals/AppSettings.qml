@@ -16,8 +16,6 @@ Settings {
     property int lockTimeout: 60
 
     property string loggedInPublicKey
-    property string privateKey
-    property string publicKey
 
     property string currency: "usd"
     property string walletVersion: "v4R2"
@@ -29,4 +27,14 @@ Settings {
     property int passCodeLength
     property bool touchId
     property string touchIdSecureKey
+
+    function reset() {
+        loggedInPublicKey = "";
+        walletVersion = "v4R2";
+        balance = "0.00000";
+        address = "";
+        passCodeLength = 0;
+        touchId = false;
+        touchIdSecureKey = "";
+    }
 }

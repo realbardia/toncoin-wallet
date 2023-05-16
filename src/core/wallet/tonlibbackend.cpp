@@ -641,7 +641,7 @@ void TonLibBackend::storeKeys()
 
     QByteArray d;
     QDataStream stream(&d, QIODevice::WriteOnly);
-    stream << p->keys.size();
+    stream << (int)p->keys.size();
     for (auto& info : p->keys)
     {
         const auto publicKey = QByteArray::fromStdString(info->public_key);
@@ -719,6 +719,7 @@ bool TonLibBackend::hasPassword(const QByteArray &publicKey)
 
 bool TonLibBackend::testPassword(const QByteArray &publicKey, const QString &password)
 {
+    loadKeys();
     if (!p->keys.contains(publicKey))
         return false;
 
@@ -730,5 +731,6 @@ bool TonLibBackend::testPassword(const QByteArray &publicKey, const QString &pas
 
     TON::Tools::CryptoAES secret_crypto(KEYS_DB_SECRET_AES_SALT + password + KEYS_DB_SECRET_AES_SALT);
     const auto dec = secret_crypto.decrypt(secret);
+
     return !dec.isEmpty();
 }

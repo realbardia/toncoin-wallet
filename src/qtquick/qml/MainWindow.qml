@@ -69,7 +69,7 @@ TWindow {
                 active: AppSettings.loggedInPublicKey.length == 0
                 sourceComponent: Intro.IntroPage {
                     anchors.fill: parent
-                    Component.onCompleted: Devices.setupWindowColor(Colors.headerColor)
+                    Component.onCompleted: Devices.setupWindowColor("#fff")
                 }
             }
 

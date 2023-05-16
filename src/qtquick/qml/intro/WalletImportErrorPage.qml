@@ -5,13 +5,14 @@ import "../components"
 import "../globals"
 
 SimplePageTemplate {
+    id: dis
     sticker: "qrc:/ton/common/stickers/Too Bad.tgs"
     title: qsTr("Too Bad!")
     body: qsTr("Without the secret words you can't restore access to the wallet")
 
     mainButton {
         text: qsTr("View my wallet")
-        onClicked: AppSettings.privateKey = "1a8a1190-441b-49dd-815c-ef9ef0295846"
+        onClicked: dis.ViewportType.open = false
     }
 
     secondaryButton {

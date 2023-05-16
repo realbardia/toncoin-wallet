@@ -15,6 +15,7 @@ TPage {
         width: parent.width
 
         property alias title: titleLabel.text
+        property alias titleColor: titleLabel.color
         property alias spacer: spacerItem.visible
 
         TLabel {
@@ -247,6 +248,41 @@ TPage {
                             }
                         }
                     }
+
+                    Item { width: 1; height: 10 }
+
+                    TLabel {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 20
+                        color: Colors.accent
+                        font.pixelSize: 8 * Devices.fontDensity
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignLeft
+                        font.bold: true
+                        text: qsTr("Actions")
+                    }
+
+                    TColumn {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        spacing: 0
+
+                        SettingItem {
+                            title: qsTr("Logout")
+                            titleColor: Colors.red
+                            onClicked: logoutDialog.open()
+
+                            TMaterialIcon {
+                                anchors.right: parent.right
+                                anchors.rightMargin: 20
+                                anchors.verticalCenter: parent.verticalCenter
+                                color: Colors.red
+                                text: MaterialIcons.mdi_logout
+                                font.pixelSize: 12 * Devices.fontDensity
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -408,6 +444,31 @@ TPage {
 
         onItemClicked: {
             AppSettings.lockTimeout = Tools.stringRemove(autoLockMenu.model[index], "s", false);
+        }
+    }
+
+    TDialog {
+        id: logoutDialog
+        anchors.fill: parent
+        title: qsTr("Logout")
+        buttons: [qsTr("Cancel"), qsTr("Logout")]
+        lastButtonColor: Colors.red
+        onButtonClicked: {
+            switch (index) {
+            case 0:
+                logoutDialog.close();
+                break;
+            case 1:
+                GlobalSignals.logoutRequest()
+                logoutDialog.close();
+                break;
+            }
+        }
+
+        TLabel {
+            width: Math.min(dis.width - 40, 300)
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: qsTr("Do you realy want to logout?")
         }
     }
 

@@ -2,6 +2,7 @@ import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
 import Wallet.Core 1.0
+import "../settings" as Settings
 import "../components"
 import "../globals"
 
@@ -12,7 +13,7 @@ TPage {
     property alias viewport: viewport
     property string publicKey
 
-    Component.onCompleted: if (GlobalValues.passCode.length) walletLoader.active = true
+    Component.onCompleted: if (GlobalValues.passCode.length) { walletLoader.active = true; viewport.visible = true }
 
     function checkLockScreen() {
         var current = Tools.dateToSec(new Date);
@@ -34,9 +35,16 @@ TPage {
                 keySpy.lastEvent = new Date;
                 unlockTimer.start();
             } else {
-//                walletLoader.active = false;
                 viewport.visible = false;
             }
+        }
+    }
+
+    Connections {
+        target: GlobalSignals
+
+        function onLogoutRequest() {
+            viewport.append(secure_logout_component, {}, "popup");
         }
     }
 
@@ -80,7 +88,7 @@ TPage {
             anchors.fill: parent
             publicKey: dis.publicKey
             busy: GlobalValues.passCode.length
-            Component.onCompleted: viewport.list.forEach( function(t){ t.ViewportType.open = false } )
+            Component.onCompleted: viewport.closeAll()
         }
     }
 
@@ -99,5 +107,23 @@ TPage {
         onScreenTouched: if (!checkLockScreen()) lastEvent = new Date
 
         property variant lastEvent: new Date
+    }
+
+    Component {
+        id: secure_logout_component
+        Settings.SettingsLockDialog {
+            id: logoutDlg
+            anchors.fill: parent
+            allowBiometric: false
+            onSuccess: {
+                viewport.closeAll();
+                AppSettings.reset()
+            }
+
+            THeaderCloseButton {
+                onClicked: logoutDlg.ViewportType.open = false;
+                color: "#fff"
+            }
+        }
     }
 }
