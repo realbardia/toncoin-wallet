@@ -16,6 +16,7 @@ TDrawer {
 
     property bool pending
     property bool canceled
+    property bool failed
     property string amount
     property string fee
     property bool sent
@@ -23,6 +24,7 @@ TDrawer {
     property string address
     property string domain
     property string transaction
+    property variant dateTime: new Date
     property bool initializeWallet
 
     TColumn {
@@ -54,7 +56,7 @@ TDrawer {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 4
                     font.pixelSize: 16 * Devices.fontDensity
-                    color: sent? Colors.red : Colors.green
+                    color: failed? Colors.foreground : sent? Colors.red : Colors.green
                     font.weight: Font.Medium
                     text: {
                         var idx = amount.indexOf(".");
@@ -68,7 +70,7 @@ TDrawer {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 6
                     font.pixelSize: 12 * Devices.fontDensity
-                    color: sent? Colors.red : Colors.green
+                    color: failed? Colors.foreground : sent? Colors.red : Colors.green
                     visible: text.length
                     text: {
                         var idx = amount.indexOf(".");
@@ -84,7 +86,6 @@ TDrawer {
             anchors.left: parent.left
             anchors.right: parent.right
             spacing: 0
-            opacity: 0.6
 
             TLabel {
                 anchors.left: parent.left
@@ -93,6 +94,7 @@ TDrawer {
                 font.pixelSize: 8 * Devices.fontDensity
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: initializeWallet? qsTr("Wallet initialized") : qsTr("%1 transaction fee").arg(fee)
+                opacity: 0.6
             }
 
             TLabel {
@@ -101,7 +103,8 @@ TDrawer {
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 8 * Devices.fontDensity
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: "Sept 6, 2022 at 22:22"
+                text: qsTr("%1 at %2").arg(Tools.dateToString(dateTime, "MMM dd, yyyy")).arg(Tools.dateToString(dateTime, "hh:mm"))
+                opacity: 0.6
                 visible: !canceled
             }
 
@@ -137,6 +140,14 @@ TDrawer {
                     color: Colors.accent
                     text: qsTr("Pending")
                 }
+            }
+
+            TLabel {
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: 8 * Devices.fontDensity
+                color: Colors.red
+                visible: failed
+                text: qsTr("Failed")
             }
         }
 

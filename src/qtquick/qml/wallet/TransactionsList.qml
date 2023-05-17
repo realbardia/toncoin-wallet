@@ -53,10 +53,12 @@ TListView {
                     "fee": model.fee,
                     "comment": model.message,
                     "transaction": model.hash,
+                    "dateTime": model.datetime,
                     "domain": model.domain,
                     "address": model.sent? model.destination : model.source,
                     "initializeWallet": model.initializeWallet,
-                    "pending": model.pending
+                    "pending": model.pending,
+                    "failed": model.failed,
                 };
 
                 TViewport.viewport.append(transaction_component, m, "drawer");
@@ -91,7 +93,7 @@ TListView {
                             anchors.verticalCenterOffset: 2
                             font.pixelSize: 11 * Devices.fontDensity
                             font.weight: Font.Medium
-                            color: model.sent? Colors.red : Colors.green
+                            color: model.failed? Colors.foreground : model.sent? Colors.red : Colors.green
                             text: {
                                 var value = model.value;
                                 var idx = value.indexOf(".");
@@ -105,7 +107,7 @@ TListView {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.verticalCenterOffset: 3
                             font.pixelSize: 8 * Devices.fontDensity
-                            color: model.sent? Colors.red : Colors.green
+                            color: model.failed? Colors.foreground : model.sent? Colors.red : Colors.green
                             visible: text.length
                             text: {
                                 var value = model.value;
@@ -197,6 +199,13 @@ TListView {
                     font.pixelSize: 8 * Devices.fontDensity
                     color: Colors.accent
                     text: qsTr("Pending")
+                }
+                TLabel {
+                    anchors.right: parent.right
+                    visible: model.failed
+                    font.pixelSize: 8 * Devices.fontDensity
+                    color: Colors.red
+                    text: qsTr("Failed")
                 }
             }
         }

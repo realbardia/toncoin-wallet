@@ -67,9 +67,11 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
     case RoleSent:
         return t.sent;
     case RolePending:
-        return t.pending;
+        return t.pending && !t.failed();
     case RoleInitializeWallet:
         return t.initializeWallet;
+    case RoleFailed:
+        return t.failed();
     }
 
     return QVariant();
@@ -92,6 +94,7 @@ QHash<qint32, QByteArray> TransactionsModel::roleNames() const
         {RoleSent, "sent"},
         {RolePending, "pending"},
         {RoleInitializeWallet, "initializeWallet"},
+        {RoleFailed, "failed"},
     };
 }
 
@@ -299,7 +302,11 @@ void TransactionsModel::change(const QList<Transaction> &list)
     {
         const Transaction &trs = mTransactions.at(i);
         if( list.contains(trs) )
+        {
+            if (trs.failed())
+                Q_EMIT dataChanged(index(i), index(i), {RoleFailed, RolePending});
             continue;
+        }
 
         beginRemoveRows(QModelIndex(), i, i);
         mTransactions.removeAt(i);
@@ -471,5 +478,6 @@ bool TransactionsModel::Transaction::operator==(const Transaction &b) const
            id.hash == b.id.hash &&
            source == b.source &&
            destination == b.destination &&
-           body_hash == b.body_hash;
+           body_hash == b.body_hash &&
+           pending == b.pending;
 }

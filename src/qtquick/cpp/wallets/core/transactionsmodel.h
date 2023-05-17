@@ -31,6 +31,7 @@ public:
         RoleSent,
         RolePending,
         RoleInitializeWallet,
+        RoleFailed,
     };
     Q_ENUM(Roles)
     TransactionsModel(QObject *parent = nullptr);
@@ -88,6 +89,10 @@ private:
         Transaction(const TON::Wallet::AbstractWalletBackend::Transaction &t): TON::Wallet::AbstractWalletBackend::Transaction(t) {}
 
         bool pending = false;
+
+        bool failed() const {
+            return pending && datetime.secsTo(QDateTime::currentDateTime()) > 60;
+        }
 
         bool operator==(const Transaction &another) const;
     };

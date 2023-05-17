@@ -48,6 +48,7 @@ INCLUDEPATH += \
     $$TON_SOURCE_PATH \
     $$TON_SOURCE_PATH/tdactor \
     $$TON_SOURCE_PATH/crypto \
+    $$TON_SOURCE_PATH/tddb \
     $$TON_SOURCE_PATH/tdutils
 
 LIBS += -L$$TON_LIB_PATH/lib/ \

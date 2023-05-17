@@ -8,6 +8,10 @@
 #include <crypto/vm/boc.h>
 #include <crypto/block/block.h>
 
+#include <crypto/vm/cells/CellString.h>
+#include <crypto/smc-envelope/GenericAccount.h>
+#include <crypto/smc-envelope/MultisigWallet.h>
+
 #include <optional>
 
 #include <QDir>
@@ -511,14 +515,72 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
         auto dest_address = make_object<tonlib_api::accountAddress>(dest.toStdString());
         auto from_address = make_object<tonlib_api::accountAddress>(from.toStdString());
 
-        auto msg = make_object<tonlib_api::msg_message>(std::move(dest_address), "", amount, std::move(data), -1);
 
-        std::vector<tonlib_api::object_ptr<tonlib_api::msg_message>> messages;
-        messages.push_back( std::move(msg) );
+        tonlib_api::object_ptr<tonlib_api::Function> query_fnc;
+        const auto version_lowerCase = walletVersion().toLower();
+        if (version_lowerCase == QStringLiteral("v3r1") || version_lowerCase == QStringLiteral("v3r2"))
+        {
+            auto msg = make_object<tonlib_api::msg_message>(std::move(dest_address), "", amount, std::move(data), -1);
 
-        auto action = make_object<tonlib_api::actionMsg>(std::move(messages), force);
+            std::vector<tonlib_api::object_ptr<tonlib_api::msg_message>> messages;
+            messages.push_back( std::move(msg) );
 
-        auto query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), (state? std::move(state) : nullptr));
+            auto action = make_object<tonlib_api::actionMsg>(std::move(messages), force);
+
+            query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), (state? std::move(state) : nullptr));
+        }
+        else if (version_lowerCase == QStringLiteral("v4r2"))
+        {
+            revision = version_lowerCase.right(1).toInt();
+
+            vm::CellBuilder icb;
+            ton::GenericAccount::store_int_message(icb, block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok(), amount);
+            icb.store_bytes("\0\0\0\0", 4);
+            vm::CellString::store(icb, "Greatings from multisig", 35 * 8).ensure();
+
+            const auto id = GENERATE_ID;
+            td::Ed25519::PrivateKey pkey(std::move(input->key_->secret_));
+            ton::MultisigWallet::QueryBuilder qb(p->walletId, id, icb.finalize());
+            qb.sign(0, pkey);
+
+            std::string body = vm::std_boc_serialize(qb.create(id, pkey)).move_as_ok().as_slice().str();
+
+//            auto bodyCell = vm::CellBuilder()
+//                .store_long(0, 0) // bit0
+//                .store_long(0, 1) // ihr_disabled
+//                .store_long(0, 1) // bounce
+//                .store_long(0, 0) // bounced
+//                .store_bytes(td::Slice(from.toStdString())) // src_addr
+//                .store_bytes(td::Slice(dest.toStdString())) // dest_addr
+//                .store_long_top(amount, 64) // value
+//                .store_long(0, 0) // currency_coll
+//                .store_long(0, 64) // ihr_fees
+//                .store_long(0, 64) // fwd_fees
+//                .store_long(0, 64) // created_lt
+//                .store_long(0, 32) // created_at
+//                .finalize();
+
+//            std::string body = vm::std_boc_serialize(std::move(bodyCell)).move_as_ok().as_slice().str();
+
+            auto dataCell = vm::CellBuilder()
+                .store_long(0, 32)
+                .store_long(p->walletId + p->workchainId, 32)
+                .store_bytes( block::PublicKey::parse(publicKey.toStdString()).move_as_ok().key )
+                .store_long(0, 1)
+                .finalize();
+            std::string data = vm::std_boc_serialize(std::move(dataCell)).move_as_ok().as_slice().str();
+
+            auto code = td::base64_decode(td::Slice(v4r2_code)).move_as_ok();
+
+            query_fnc = make_object<tonlib_api::raw_createQuery>(std::move(dest_address), code, data, body);
+        }
+        else
+        {
+            qDebug() << "Bad wallet version:" << walletVersion();
+            return;
+        }
+
+
         mEngine->append(std::move(query_fnc), receiver, [callback](tonlib::Client::Response resp){
             if (resp.object->get_id() == tonlib_api::error::ID)
                 callback(PreparedTransferItem(), ERR(resp));
