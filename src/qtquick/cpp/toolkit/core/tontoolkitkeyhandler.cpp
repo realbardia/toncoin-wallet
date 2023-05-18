@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QPointer>
+#include <QWheelEvent>
 
 class TonToolkitKeyHandler::Private
 {
@@ -189,6 +190,12 @@ bool TonToolkitKeyHandler::eventFilter(QObject *watched, QEvent *ev)
     case QEvent::MouseMove: {
         QMouseEvent *e = static_cast<QMouseEvent*>(ev);
         setMousePosition(e->pos());
+    }
+        break;
+
+    case QEvent::Wheel: {
+        QWheelEvent *e = static_cast<QWheelEvent*>(ev);
+        setMousePosition(e->position());
     }
         break;
 
