@@ -157,6 +157,7 @@ void TransactionsModel::reload()
             transactions.prepend(t);
         }
 
+        std::stable_sort(transactions.begin(), transactions.end());
         change(transactions);
         store();
         mInited = true;
@@ -265,6 +266,7 @@ void TransactionsModel::restore()
         startCheckingPending();
     }
 
+    std::stable_sort(transactions.begin(), transactions.end());
     change(transactions);
     f.close();
     Q_EMIT countChanged();
@@ -464,6 +466,8 @@ void TransactionsModel::more()
         for (const auto &t: list)
             if (!transactions.contains(t))
                 transactions << t;
+
+        std::stable_sort(transactions.begin(), transactions.end());
         change(transactions);
 
         store();
@@ -480,4 +484,9 @@ bool TransactionsModel::Transaction::operator==(const Transaction &b) const
            destination == b.destination &&
            body_hash == b.body_hash &&
            pending == b.pending;
+}
+
+bool TransactionsModel::Transaction::operator<(const Transaction &another) const
+{
+    return datetime > another.datetime;
 }

@@ -95,6 +95,7 @@ private:
         }
 
         bool operator==(const Transaction &another) const;
+        bool operator<(const Transaction &another) const;
     };
 
 

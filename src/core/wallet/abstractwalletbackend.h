@@ -26,6 +26,7 @@ public:
         qreal balance = 0;
         QDateTime datetime;
         TransactionId lastTransaction;
+        qint32 sequence = 0;
     };
 
     struct Transaction {
