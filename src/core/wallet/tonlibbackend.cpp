@@ -604,43 +604,6 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             .store_long(QDateTime::currentSecsSinceEpoch()+60, 32)
                             .store_long(accountState.sequence, 32);
 
-//#define CUSTOM_METHOD
-#ifdef CUSTOM_METHOD
-                        vm::Dictionary messages(16);
-                        {
-
-                            auto dest_std_address = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
-
-                            auto &messageCell = vm::CellBuilder()
-                                .store_zeroes(1)
-                                .store_ones(2)
-                                .store_zeroes(1)
-                //                .store_bytes(std::string()); // src_addr
-                                .store_zeroes(2); // src_addr
-
-                            ton::GenericAccount::store_int_message(messageCell, dest_std_address, amount); // dest_addr
-
-                            messageCell.store_zeroes(1); // currency_coll
-
-                            messageCell.append_cellslice(ton::smc::pack_grams(0));
-                            messageCell.append_cellslice(ton::smc::pack_grams(0));
-                            messageCell.store_long(0, 64); // created_lt
-                            messageCell.store_long(0, 32); // created_at
-
-                            const auto message_serialize = vm::std_boc_serialize(messageCell.finalize()).move_as_ok().as_slice().str();
-
-                            vm::CellBuilder bodyCell;
-                            vm::CellString::store(bodyCell, message.toStdString(), 35 * 8).ensure();
-                            bodyCell.store_bytes(message_serialize);
-
-                            vm::CellBuilder cb;
-                            cb.store_long(3, 8).store_ref(bodyCell.finalize());
-
-                            auto key = messages.integer_key(td::make_refint(0), 16, false);
-                            messages.set_builder(key.bits(), 16, cb);
-                        }
-                        CHECK(cb.store_maybe_ref(messages.get_root_cell()));
-#else
                         {
                             ton::WalletInterface::Gift gift;
                             gift.destination = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
@@ -654,7 +617,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
                             cb.store_long(3, 8).store_ref(ton::WalletInterface::create_int_message(gift));
                         }
-#endif
+
                         auto message_outer = cb.finalize();
 
                         auto signature = prvKey.sign(message_outer->get_hash().as_slice()).move_as_ok();
