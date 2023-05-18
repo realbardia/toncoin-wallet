@@ -594,67 +594,29 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                     }
                     else if (version_lowerCase == QStringLiteral("v4r2"))
                     {
-                        revision = version_lowerCase.right(1).toInt();
-                        auto state = p->getInitialAccountState(publicKey, walletVersion(), revision, accountState.sequence);
-                        auto state_v4 = ton::move_tl_object_as<tonlib_api::raw_initialAccountState>(state);
+//                        revision = version_lowerCase.right(1).toInt();
+//                        auto state = p->getInitialAccountState(publicKey, walletVersion(), revision, accountState.sequence);
+//                        auto state_v4 = ton::move_tl_object_as<tonlib_api::raw_initialAccountState>(state);
 
                         vm::CellBuilder cb; cb
                             .store_long(p->walletId + p->workchainId, 32)
                             .store_long(QDateTime::currentSecsSinceEpoch()+60, 32)
                             .store_long(accountState.sequence, 32);
 
-#define CUSTOM_METHODD
-#ifdef CUSTOM_METHOD
-                        {
-                            auto dest_std_address = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
-                            vm::CellBuilder adrs_cb;
-                            {
-                              td::BigInt256 dest_addr;
-                              dest_addr.import_bits(dest_std_address.addr.as_bitslice());
-                              adrs_cb.store_ones(1)
-                                  .store_zeroes(2)
-                                  .store_long(dest_std_address.workchain, 8)
-                                  .store_int256(dest_addr, 256);
-                            }
-                            auto address = adrs_cb.finalize();
-
-                            auto body = vm::CellBuilder()
-                                .store_long(0, 32)
-                                .store_bytes(message.toStdString())
-                                .finalize();
-
-                            auto amountRef = td::make_refint(amount);
-                            unsigned len = (((unsigned)amountRef->bit_size(false) + 7) >> 3);
-
-                            vm::CellBuilder b;
-                            b.store_zeroes(1);
-                            b.store_ones(1);
-                            b.store_ones(1);
-                            b.store_zeroes(1);
-                            b.store_long(0, 2);
-                            b.append_cellslice(address);
-                            b.store_long_bool(len, 4) && b.store_int256_bool(*amountRef, len * 8, false); // grams:Grams
-                            b.store_zeroes(1 + 4 + 4 + 64 + 32 + 1);
-                            b.store_ones(1);
-                            b.store_ref(body);
-
-                            cb.store_long(3, 8).store_ref(b.finalize());
-                        }
-#else
                         {
                             ton::WalletInterface::Gift gift;
                             gift.destination = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
                             gift.message = message.toStdString();
                             gift.is_encrypted = encryption;
                             gift.gramms = amount;
-                            gift.init_state = ton::GenericAccount::get_init_state({
-                                vm::std_boc_deserialize(td::Slice(state_v4->code_)).move_as_ok(),
-                                vm::std_boc_deserialize(td::Slice(state_v4->data_)).move_as_ok(),
-                            });
+                            gift.send_mode = 3;
+//                            gift.init_state = ton::GenericAccount::get_init_state({
+//                                vm::std_boc_deserialize(td::Slice(state_v4->code_)).move_as_ok(),
+//                                vm::std_boc_deserialize(td::Slice(state_v4->data_)).move_as_ok(),
+//                            });
 
                             cb.store_long(3, 8).store_ref(ton::WalletInterface::create_int_message(gift));
                         }
-#endif
 
                         auto message_outer = cb.finalize();
 
