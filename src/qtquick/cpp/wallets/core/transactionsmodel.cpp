@@ -163,6 +163,7 @@ void TransactionsModel::reload()
         mInited = true;
         setRefreshing(false);
         Q_EMIT countChanged();
+        Q_EMIT listRefreshed();
     });
 }
 
@@ -194,6 +195,7 @@ void TransactionsModel::store()
         obj["raw_message"] = QString::fromLatin1(t.raw_message.toBase64());
         obj["body_hash"] = QString::fromLatin1(t.body_hash.toBase64());
         obj["sent"] = t.sent;
+        obj["initialize_wallet"] = t.initializeWallet;
 
         array << obj;
     }
@@ -257,6 +259,7 @@ void TransactionsModel::restore()
         t.message = obj.value("message").toString();
         t.raw_message = QByteArray::fromBase64(obj.value("raw_message").toString().toLatin1());
         t.body_hash = QByteArray::fromBase64(obj.value("body_hash").toString().toLatin1());
+        t.initializeWallet = obj.value("initialize_wallet").toBool();
         t.sent = obj.value("sent").toBool();
 
         transactions << t;
@@ -281,6 +284,8 @@ void TransactionsModel::startCheckingPending()
 
 void TransactionsModel::change(const QList<Transaction> &list)
 {
+    if (!mInited)
+        mTransactions.clear();
     if (mTransactions.isEmpty() && list.count())
     {
         beginResetModel();
@@ -464,8 +469,14 @@ void TransactionsModel::more()
 
         QList<Transaction> transactions = mTransactions;
         for (const auto &t: list)
-            if (!transactions.contains(t))
+        {
+            auto idx = transactions.indexOf(t);
+            if (idx < 0)
                 transactions << t;
+            else
+                transactions.replace(idx, t);
+
+        }
 
         std::stable_sort(transactions.begin(), transactions.end());
         change(transactions);

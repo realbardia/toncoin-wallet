@@ -60,6 +60,7 @@ Q_SIGNALS:
     void limitChanged();
     void cachePathChanged();
     void passwordChanged();
+    void listRefreshed();
 
 protected:
     void reset() Q_DECL_OVERRIDE;

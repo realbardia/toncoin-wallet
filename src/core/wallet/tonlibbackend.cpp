@@ -565,7 +565,6 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                     td::Ed25519::PrivateKey prvKey = td::Ed25519::PrivateKey::from_pem(pem->pem_.as_slice(), td::Slice()).move_as_ok();
                     td::Ed25519::PublicKey pubKey(td::SecureString(block::PublicKey::parse(publicKey.toStdString()).move_as_ok().key));
 
-
                     td::int32 revision;
                     auto state = p->getInitialAccountState(publicKey, walletVersion(), revision, 0);
 
@@ -604,6 +603,44 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             .store_long(QDateTime::currentSecsSinceEpoch()+60, 32)
                             .store_long(accountState.sequence, 32);
 
+#define CUSTOM_METHODD
+#ifdef CUSTOM_METHOD
+                        {
+                            auto dest_std_address = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
+                            vm::CellBuilder adrs_cb;
+                            {
+                              td::BigInt256 dest_addr;
+                              dest_addr.import_bits(dest_std_address.addr.as_bitslice());
+                              adrs_cb.store_ones(1)
+                                  .store_zeroes(2)
+                                  .store_long(dest_std_address.workchain, 8)
+                                  .store_int256(dest_addr, 256);
+                            }
+                            auto address = adrs_cb.finalize();
+
+                            auto body = vm::CellBuilder()
+                                .store_long(0, 32)
+                                .store_bytes(message.toStdString())
+                                .finalize();
+
+                            auto amountRef = td::make_refint(amount);
+                            unsigned len = (((unsigned)amountRef->bit_size(false) + 7) >> 3);
+
+                            vm::CellBuilder b;
+                            b.store_zeroes(1);
+                            b.store_ones(1);
+                            b.store_ones(1);
+                            b.store_zeroes(1);
+                            b.store_long(0, 2);
+                            b.append_cellslice(address);
+                            b.store_long_bool(len, 4) && b.store_int256_bool(*amountRef, len * 8, false); // grams:Grams
+                            b.store_zeroes(1 + 4 + 4 + 64 + 32 + 1);
+                            b.store_ones(1);
+                            b.store_ref(body);
+
+                            cb.store_long(3, 8).store_ref(b.finalize());
+                        }
+#else
                         {
                             ton::WalletInterface::Gift gift;
                             gift.destination = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
@@ -617,6 +654,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
                             cb.store_long(3, 8).store_ref(ton::WalletInterface::create_int_message(gift));
                         }
+#endif
 
                         auto message_outer = cb.finalize();
 

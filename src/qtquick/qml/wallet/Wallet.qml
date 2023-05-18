@@ -71,7 +71,7 @@ TPage {
     Connections {
         target: GlobalSignals
         function onReloadTransactionsRequest() {
-            tmodel.refresh();
+            walletState.reload();
         }
         function onPendingTransactionSubmited(req, fee) {
             tmodel.addPending(req, fee);
@@ -211,6 +211,7 @@ TPage {
                         cachePath: TonToolkitApp.homePath + "/transactions"
                         password: GlobalValues.passCode
                         wallet: walletItem
+                        onListRefreshed: tmodel.refresh()
                     }
                     header: Item {
                         width: listv.width
