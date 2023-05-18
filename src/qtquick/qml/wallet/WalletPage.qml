@@ -2,7 +2,9 @@ import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
 import Wallet.Core 1.0
+import Wallet.TonConnect 1.0
 import "../settings" as Settings
+import "../connect" as Connect
 import "../components"
 import "../globals"
 
@@ -25,6 +27,34 @@ TPage {
 
         GlobalValues.passCode = "";
         return true;
+    }
+
+    TonConnect {
+        id: _tonConnect
+        baseUrls: ["ton://connect"]
+        onNewServiceRequest: {
+            var m = {
+                "requestId": id,
+                "manifestUrl": manifestUrl,
+                "items": items,
+            };
+
+            if (walletItem) {
+                viewport.append(connect_page_component, m, "drawer");
+            } else {
+                lastQueuedItem = m;
+            }
+        }
+
+        onWalletItemChanged: {
+            if (walletItem && lastQueuedItem) {
+                viewport.append(connect_page_component, lastQueuedItem, "drawer");
+                lastQueuedItem = null;
+            }
+        }
+
+        property Item walletItem: walletLoader.item
+        property variant lastQueuedItem
     }
 
     Connections {
@@ -70,6 +100,7 @@ TPage {
             sourceComponent: Wallet {
                 publicKey: dis.publicKey
                 anchors.fill: parent
+                tonConnect: _tonConnect
             }
         }
     }
@@ -124,6 +155,16 @@ TPage {
                 onClicked: logoutDlg.ViewportType.open = false;
                 color: "#fff"
             }
+        }
+    }
+
+    Component {
+        id: connect_page_component
+        Connect.ConnectPage {
+            id: con
+            width: dis.width
+            tonConnect: _tonConnect
+            onCloseRequest: con.ViewportType.open = false
         }
     }
 }

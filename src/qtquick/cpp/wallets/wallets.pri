@@ -9,3 +9,4 @@ isEmpty(TOUCH_ID_SECURE_KEY) {
 
 DEFINES += TOUCH_ID_SECURE_KEY=\\\"$$TOUCH_ID_SECURE_KEY\\\"
 include (core/core.pri)
+include (tonconnect/tonconnect.pri)

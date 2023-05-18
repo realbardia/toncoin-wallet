@@ -2,6 +2,7 @@ import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
 import Wallet.Core 1.0
+import Wallet.TonConnect 1.0
 import "../transfer" as Transfer
 import "../settings" as Settings
 import "../connect" as Connect
@@ -20,6 +21,8 @@ TPage {
     property alias publicKey: walletItem.publicKey
     readonly property bool connecting: walletItem.loading || walletState.running
     readonly property bool loading: tmodel.refreshing && tmodel.count
+
+    property TonConnect tonConnect
 
     readonly property string balanceStr: {
         var num = (AppSettings.currencyPrice * AppSettings.balance);
@@ -82,8 +85,16 @@ TPage {
     function sendTon(address) {
         if (sendDialog)
             return;
-        if (address.slice(0,15) != "ton://transfer/")
+        if (address.slice(0,6) == "ton://") {
+            if (address.slice(0,14) != "ton://connect/") {
+                tonConnect.check(address);
+                return;
+            }
+            if (address.slice(0,15) != "ton://transfer/")
+                return;
+        } else {
             address = "ton://transfer/" + address;
+        }
 
         urlParser.url = address;
         if (urlParser.address.length == 0)
@@ -211,7 +222,7 @@ TPage {
                         cachePath: TonToolkitApp.homePath + "/transactions"
                         password: GlobalValues.passCode
                         wallet: walletItem
-                        onListRefreshed: tmodel.refresh()
+                        onListRefreshed: walletState.reload()
                     }
                     header: Item {
                         width: listv.width

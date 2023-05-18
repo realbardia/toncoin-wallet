@@ -36,6 +36,9 @@
 #include "wallets/core/feeestimater.h"
 #include "wallets/core/transferrequest.h"
 
+#include "wallets/tonconnect/tonconnect.h"
+#include "wallets/tonconnect/tonconnectservice.h"
+
 #include <QtQml>
 
 void TonQtQuick::registerToolkit()
@@ -53,6 +56,9 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<FeeEstimater>("Wallet.Core", 1, 0, "FeeEstimater");
     qmlRegisterType<TransferRequest>("Wallet.Core", 1, 0, "TransferRequest");
     qmlRegisterSingletonInstance("Wallet.Core", 1,0, "TonQmlGlobal", new TonQmlGlobal);
+
+    qmlRegisterType<TonConnectService>("Wallet.TonConnect", 1, 0, "TonConnectService");
+    qmlRegisterType<TonConnect>("Wallet.TonConnect", 1, 0, "TonConnect");
 
     qmlRegisterType<TonToolkitMapObject>("Toolkit.Core", 1, 0, "MapObject");
     qmlRegisterType<TonToolkitListObject>("Toolkit.Core", 1, 0, "ListObject");

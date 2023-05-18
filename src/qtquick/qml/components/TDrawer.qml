@@ -7,12 +7,13 @@ TPage {
     id: dis
     height: contentHeight
 
-    readonly property real contentHeight: clmn.height + 2*clmn.y + mainButton.height + clmn.spacing + Devices.navigationBarHeight
+    readonly property real contentHeight: clmn.height + 3*clmn.y + mainButton.height + clmn.spacing + Devices.navigationBarHeight
 
     default property alias sceneData: mainColumn.data
 
     property alias title: titleLabel.text
     property alias mainButton: mainButton
+    property alias header: clmn.visible
     property bool backable
     property bool closable
 

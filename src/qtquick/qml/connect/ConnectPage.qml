@@ -1,50 +1,60 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
+import Wallet.TonConnect 1.0
 import "../components"
 import "../globals"
 
 TDrawer {
+    id: dis
     height: contentHeight + area.height
+    closable: true
 
-    property string domain: "fraement.io"
-    property string address: "223f7e11-e403-449f-8744-3bd7cb8d61d2"
+    property string address: AppSettings.address
     property bool done
+
+    property TonConnect tonConnect
+    property alias requestId: service.requestId
+    property alias manifestUrl: service.manifestUrl
+    property alias items: service.items
+
+    TonConnectService {
+        id: service
+    }
+
+    Connections {
+        target: tonConnect
+        function onConnectedSuccessfully() {
+            dis.done = true;
+            Tools.jsDelayCall(1000, function() {
+                dis.closeRequest();
+            });
+        }
+    }
 
     mainButton {
         width: mainButtonWidth
         radius: mainButtonRadius
-        text: done? "" : qsTr("Connect Wallet")
-        visible: true
+        text: done || busyIndicator.running? "" : qsTr("Connect Wallet")
+        visible: !service.loading
         icon.text: done? MaterialIcons.mdi_check : ""
-        icon.font.pixelSize: 12 * Devices.fontDensity
+        icon.font.pixelSize: 16 * Devices.fontDensity
+        icon.anchors.verticalCenterOffset: 2
         onClicked: {
             if (busyIndicator.running)
                 return;
 
-            busyIndicator.running = true;
-            testTimer.restart()
+            tonConnect.accept(service);
         }
     }
 
-    property real mainButtonWidth: done? mainButton.height : width - 40
-    property real mainButtonRadius: done? mainButton.height/2 : Constants.controlsRoundness
+    property real mainButtonWidth: done || busyIndicator.running? mainButton.height : width - 40
+    property real mainButtonRadius: done || busyIndicator.running? mainButton.height/2 : Constants.controlsRoundness
 
     Behavior on mainButtonRadius {
         NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
     }
     Behavior on mainButtonWidth {
         NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
-    }
-
-    Timer {
-        id: testTimer
-        repeat: false
-        interval: 2000
-        onTriggered: {
-            Devices.triggerVibrateFeedback();
-            busyIndicator.running = false;
-            done = true;
-        }
     }
 
     TBusyIndicator {
@@ -55,7 +65,16 @@ TDrawer {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: 8
+        running: tonConnect.connecting
         accented: false
+    }
+
+    TBusyIndicator {
+        width: 42
+        height: 42
+        anchors.centerIn: parent
+        running: service.loading
+        accented: true
     }
 
     TColumn {
@@ -65,17 +84,36 @@ TDrawer {
         anchors.margins: 20
         anchors.verticalCenter: parent.verticalCenter
         spacing: 4
+        visible: !service.loading
 
-        Image {
-            id: img
-            anchors.left: parent.left
-            anchors.right: parent.right
+        Item {
+            width: height
             height: 92
-            sourceSize: Qt.size(128, 128)
-            fillMode: Image.PreserveAspectFit
-            asynchronous: true
-            source: "qrc:/ton/common/icons/icon.png"
-            mipmap: true
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Image {
+                id: img
+                anchors.fill: parent
+                anchors.margins: 6
+                fillMode: Image.PreserveAspectFit
+                asynchronous: true
+                source: service.serviceIcon
+                mipmap: true
+                visible: false
+            }
+
+            Rectangle {
+                id: mask
+                anchors.fill: img
+                color: Colors.backgroundDeep
+                radius: Constants.roundness
+            }
+
+            OpacityMask {
+                anchors.fill: img
+                source: img
+                maskSource: mask
+            }
 
             TBusyIndicator {
                 width: 32
@@ -94,7 +132,7 @@ TDrawer {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.pixelSize: 14 * Devices.fontDensity
             font.weight: Font.Medium
-            text: qsTr("Connect to Fragment")
+            text: qsTr("Connect to %1").arg(service.serviceName)
         }
 
         TLabel {
@@ -104,7 +142,7 @@ TDrawer {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.pixelSize: 9 * Devices.fontDensity
-            text: qsTr("%1 is requesting access to your wallet address <u>%2</u> v4R2.").arg(domain).arg(address.slice(0,4) + "..." + address.slice(address.length-4))
+            text: qsTr("%1 is requesting access to your wallet address <u>%2</u> v4R2.").arg(service.serviceName).arg(address.slice(0,4) + "..." + address.slice(address.length-4))
         }
 
         Item {
