@@ -48,6 +48,7 @@ void AbstractWalletModel::setWallet(WalletItem *newWallet)
     if (mWallet)
     {
         connect(mWallet, &WalletItem::addressChanged, this, [this](){
+            mRefresher->setForceActiveOnInitialize(true);
             refresh();
         });
         connect(mWallet, &WalletItem::backendChanged, this, [this](){
@@ -74,6 +75,11 @@ void AbstractWalletModel::tryReload()
 bool AbstractWalletModel::refreshing() const
 {
     return mRefresher->refreshing();
+}
+
+TonToolkitRefresherObject *AbstractWalletModel::refresher() const
+{
+    return mRefresher;
 }
 
 QSharedPointer<TON::Wallet::AbstractWalletBackend> AbstractWalletModel::beginAction()

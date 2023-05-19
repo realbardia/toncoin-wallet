@@ -173,5 +173,6 @@ void WalletState::setAddress(const QString &newAddress)
     if (mAddress == newAddress)
         return;
     mAddress = newAddress;
+    refresher()->setForceActiveOnInitialize(true);
     reload();
 }

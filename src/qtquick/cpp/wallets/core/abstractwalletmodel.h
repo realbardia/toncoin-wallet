@@ -16,6 +16,7 @@ class AbstractWalletModel : public TonToolkitAbstractListModel
     Q_PROPERTY(qint32 error READ error NOTIFY errorChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
+    Q_PROPERTY(TonToolkitRefresherObject* refresher READ refresher NOTIFY refresherChanged)
 
 public:
     AbstractWalletModel(QObject *parent = nullptr);
@@ -31,6 +32,7 @@ public:
     qint32 error() const;
 
     bool refreshing() const;
+    TonToolkitRefresherObject *refresher() const;
 
 public Q_SLOTS:
     void refresh();
@@ -40,6 +42,7 @@ Q_SIGNALS:
     void errorChanged();
     void refreshingChanged();
     void walletChanged();
+    void refresherChanged();
 
 protected:
     virtual void reset() = 0;
