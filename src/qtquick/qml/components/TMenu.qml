@@ -21,6 +21,7 @@ Item {
 
     function open() {
         opened = true;
+        Devices.triggerVibrateFeedback();
     }
     function close() {
         opened = false;
