@@ -1,5 +1,4 @@
 isEmpty(TON_LIB_PATH): TON_LIB_PATH = /opt/develop/ton/
-
 exists($$TON_LIB_PATH/include/tonlib/Client.h) {
     message(TON libs found on $$TON_LIB_PATH)
 } else {
@@ -12,7 +11,6 @@ exists($$TON_LIB_PATH/include/tonlib/Client.h) {
 }
 
 isEmpty(TON_SOURCE_PATH): TON_SOURCE_PATH = /home/bardia/Programs/Sources/ton
-
 exists($$TON_SOURCE_PATH/crypto/common/bitstring.h) {
     message(TON source directory found on $$TON_SOURCE_PATH)
 } else {
@@ -21,6 +19,18 @@ exists($$TON_SOURCE_PATH/crypto/common/bitstring.h) {
         message(TON source directory found on $$TON_SOURCE_PATH)
     } else {
         error(Could not find TON source directory. Please set it using TON_SOURCE_PATH argument. You can clone it from https://github.com/ton-blockchain/ton git repository)
+    }
+}
+
+isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = /usr
+exists($$OPENSS_LIB_PATH/include/openssl/conf.h) {
+    message(OpenSSL libs found on $$OPENSS_LIB_PATH)
+} else {
+    OPENSS_LIB_PATH = $$getenv(OPENSS_LIB_PATH)
+    exists($$OPENSS_LIB_PATH/include/tonlib/Client.h) {
+        message(OpenSSL libs found on $$OPENSS_LIB_PATH)
+    } else {
+        error(Could not find OpenSSL lib directory. Please set it using OPENSS_LIB_PATH argument)
     }
 }
 
