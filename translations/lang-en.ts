@@ -25,7 +25,38 @@ To be able to always have access to it, please write own secret words and set up
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connect to Fragment</source>
+        <source>Connect to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -425,10 +456,6 @@ To be able to always have access to it, please write own secret words and set up
 <context>
     <name>SettingsPage</name>
     <message>
-        <source>Failed to active touch ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
@@ -472,6 +499,34 @@ To be able to always have access to it, please write own secret words and set up
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -511,10 +566,6 @@ To be able to always have access to it, please write own secret words and set up
     </message>
     <message>
         <source>Now set up a passcode to secure transactions.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed to active biometric.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -724,6 +775,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>View in explorer</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -755,6 +814,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>Pending</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -784,6 +851,14 @@ To be able to always have access to it, please write own secret words and set up
     </message>
     <message>
         <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

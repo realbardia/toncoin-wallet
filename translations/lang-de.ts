@@ -19,6 +19,14 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <source>Proceed</source>
         <translation>Weiter</translation>
     </message>
+    <message>
+        <source>Your TON wallet has just been created. Only you control it.
+
+To be able to always have access to it, please write your own secret words and set up a secure passcode.</source>
+        <translation>Deine TON-Wallet wurde gerade erstellt. Du hast die alleinige Kontrolle darüber.
+
+Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter auf und richte einen sicheren Zugangscode ein.</translation>
+    </message>
 </context>
 <context>
     <name>ConnectPage</name>
@@ -29,6 +37,41 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
     <message>
         <source>Connect to Fragment</source>
         <translation>Mit Fragment verbinden</translation>
+    </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation>Verbinde mit %1</translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation>%1 fordert Zugriff auf deine Wallet-Adresse &lt;u&gt;%2&lt;/u&gt; v4R2 an.</translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation>Vergewissere dich, dass du die Service-Adresse überprüfst, bevor du die Wallet verbindest.</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation>TON-Überweisung</translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation>Empfänger</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation>Gebühr</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Bestätigen</translation>
     </message>
 </context>
 <context>
@@ -100,6 +143,10 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <source>View my wallet</source>
         <translation>Meine Brieftasche anzeigen</translation>
     </message>
+    <message>
+        <source>You are all set. Now you have a wallet that only you control - directly, without middlemen or bankers.</source>
+        <translation>Du bist fertig. Jetzt hast du eine Wallet, die nur du kontrollierst - direkt, ohne Vermittler oder Banker.</translation>
+    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -153,6 +200,10 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
         <translation>Entschuldigung, Sie haben falsche Geheimwörter eingegeben. Bitte überprüfen Sie sie nochmals und versuchen Sie es erneut.</translation>
+    </message>
+    <message>
+        <source>You can restore access to your wallet by entering the 24 words you wrote down when you created the wallet.</source>
+        <translation>Du kannst den Zugriff auf deine Wallet wiederherstellen, indem du die 24 Wörter eingibst, die du notiert hast, als du die Wallet erstellt hast.</translation>
     </message>
 </context>
 <context>
@@ -289,10 +340,6 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <translation>Der Kommentar ist für alle sichtbar. Sie müssen den Hinweis angeben, wenn Sie an eine Börse senden.</translation>
     </message>
     <message>
-        <source>Message size has been exceeded by %1 characters.</source>
-        <translation>Die Nachricht überschreitet die maximale Länge um %1 Zeichen.</translation>
-    </message>
-    <message>
         <source>%1 characters left.</source>
         <translation>%1 Zeichen übrig.</translation>
     </message>
@@ -311,6 +358,10 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
     <message>
         <source>Fee</source>
         <translation>Gebühr</translation>
+    </message>
+    <message>
+        <source>Message size has been exceeded by %1 characters.</source>
+        <translation>Die Nachrichtenlänge wurde um %1 Zeichen überschritten.</translation>
     </message>
 </context>
 <context>
@@ -474,6 +525,34 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation>Sprache</translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation>Automatische Sperrung</translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation>Nach %1s</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>Aktionen</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Abmelden</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Do you really want to logout?</source>
+        <translation>Möchtest du dich wirklich abmelden?</translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -605,10 +684,6 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <translation>Testzeit!</translation>
     </message>
     <message>
-        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt;, and &lt;b&gt;%3&lt;/b&gt;.</source>
-        <translation>Lassen Sie uns überprüfen, ob Sie sie korrekt notiert haben. Bitte geben Sie die Wörter &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; und &lt;b&gt;%3&lt;/b&gt; ein.</translation>
-    </message>
-    <message>
         <source>Continue</source>
         <translation>Weiter</translation>
     </message>
@@ -627,6 +702,10 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
     <message>
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>Die eingegebenen geheimen Wörter stimmen nicht mit denen in der Liste überein.</translation>
+    </message>
+    <message>
+        <source>Let's check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt;, and &lt;b&gt;%3&lt;/b&gt;.</source>
+        <translation>Lass uns überprüfen, ob du sie korrekt notiert hast. Bitte gib die Wörter &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; und &lt;b&gt;%3&lt;/b&gt; ein.</translation>
     </message>
 </context>
 <context>
@@ -675,6 +754,14 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <source>View in explorer</source>
         <translation>Im Explorer anzeigen</translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation>%1 um %2</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>Fehlgeschlagen</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +793,14 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
         <source>Pending</source>
         <translation>Ausstehend</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>Fehlgeschlagen</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +831,14 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
     <message>
         <source>Send</source>
         <translation>Senden</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation>Überweisung abgeschlossen</translation>
+    </message>
+    <message>
+        <source>%1 TON to %2</source>
+        <translation>%1 TON an %2</translation>
     </message>
 </context>
 <context>

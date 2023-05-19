@@ -19,6 +19,12 @@ To always have access to it, please write down the secret words and set up a sec
         <source>Proceed</source>
         <translation>继续</translation>
     </message>
+    <message>
+        <source>Your TON wallet has just been created Only you control it.
+
+To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectPage</name>
@@ -29,6 +35,41 @@ To always have access to it, please write down the secret words and set up a sec
     <message>
         <source>Connect to Fragment</source>
         <translation>连接到 Fragment</translation>
+    </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation type="unfinished">手续费</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -100,6 +141,10 @@ To always have access to it, please write down the secret words and set up a sec
         <source>View my wallet</source>
         <translation>查看我的钱包</translation>
     </message>
+    <message>
+        <source>You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -153,6 +198,14 @@ To always have access to it, please write down the secret words and set up a sec
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
         <translation>很抱歉，您输入了错误的密语。请仔细检查后重试。</translation>
+    </message>
+    <message>
+        <source>You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -311,6 +364,10 @@ To always have access to it, please write down the secret words and set up a sec
     <message>
         <source>Fee</source>
         <translation>手续费</translation>
+    </message>
+    <message>
+        <source>Message size has been exceeded by %1 charcaters.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -474,6 +531,34 @@ To always have access to it, please write down the secret words and set up a sec
         <source>Settings</source>
         <translation>设置</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -628,6 +713,61 @@ To always have access to it, please write down the secret words and set up a sec
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>您输入的密钥词与列表中的不匹配。</translation>
     </message>
+    <message>
+        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; and &lt;b&gt;%3&lt;/b&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonToolkitTools</name>
+    <message>
+        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TransactionDialog</name>
@@ -675,6 +815,14 @@ To always have access to it, please write down the secret words and set up a sec
         <source>View in explorer</source>
         <translation>在浏览器中查看</translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished">失败</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +854,14 @@ To always have access to it, please write down the secret words and set up a sec
         <source>Pending</source>
         <translation>待处理</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished">失败</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +892,14 @@ To always have access to it, please write down the secret words and set up a sec
     <message>
         <source>Send</source>
         <translation>发送</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

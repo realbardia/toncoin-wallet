@@ -30,6 +30,41 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>Connect to Fragment</source>
         <translation>Conectar a Fragment</translation>
     </message>
+    <message>
+        <source>Conectar a %1</source>
+        <translation>Conectar a %1</translation>
+    </message>
+    <message>
+        <source>%1 está solicitando acceso a la dirección de tu billetera &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation>%1 está solicitando acceso a la dirección de tu billetera &lt;u&gt;%2&lt;/u&gt; v4R2.</translation>
+    </message>
+    <message>
+        <source>Asegúrate de verificar la dirección de servicio antes de conectar la billetera.</source>
+        <translation>Asegúrate de verificar la dirección de servicio antes de conectar la billetera.</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation>Transferencia TON</translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation>Destinatario</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation>Comisión</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmar</translation>
+    </message>
 </context>
 <context>
     <name>CurrenciesModel</name>
@@ -100,6 +135,10 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>View my wallet</source>
         <translation>Ver mi billetera</translation>
     </message>
+    <message>
+        <source>Ya estás listo. Ahora tienes una billetera que solo tú controlas, directamente, sin intermediarios ni banqueros.</source>
+        <translation>Ya estás listo. Ahora tienes una billetera que solo tú controlas, directamente, sin intermediarios ni banqueros.</translation>
+    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -152,6 +191,14 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     </message>
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
+        <translation>Lo siento, has ingresado palabras secretas incorrectas. Por favor, verifica nuevamente e intenta de nuevo.</translation>
+    </message>
+    <message>
+        <source>Puedes restaurar el acceso a tu billetera ingresando las 24 palabras que escribiste al crear la billetera.</source>
+        <translation>Puedes restaurar el acceso a tu billetera ingresando las 24 palabras que escribiste al crear la billetera.</translation>
+    </message>
+    <message>
+        <source>Lo siento, has ingresado palabras secretas incorrectas. Por favor, verifica nuevamente e intenta de nuevo.</source>
         <translation>Lo siento, has ingresado palabras secretas incorrectas. Por favor, verifica nuevamente e intenta de nuevo.</translation>
     </message>
 </context>
@@ -311,6 +358,10 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     <message>
         <source>Fee</source>
         <translation>Comisión</translation>
+    </message>
+    <message>
+        <source>El tamaño del mensaje se ha excedido en %1 caracteres.</source>
+        <translation>El tamaño del mensaje se ha excedido en %1 caracteres.</translation>
     </message>
 </context>
 <context>
@@ -474,6 +525,34 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
+    <message>
+        <source>Idioma</source>
+        <translation>Idioma</translation>
+    </message>
+    <message>
+        <source>Bloqueo automático</source>
+        <translation>Bloqueo automático</translation>
+    </message>
+    <message>
+        <source>Después de %1s</source>
+        <translation>Después de %1s</translation>
+    </message>
+    <message>
+        <source>Acciones</source>
+        <translation>Acciones</translation>
+    </message>
+    <message>
+        <source>Cerrar sesión</source>
+        <translation>Cerrar sesión</translation>
+    </message>
+    <message>
+        <source>Cancelar</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>¿Realmente deseas cerrar sesión?</source>
+        <translation>¿Realmente deseas cerrar sesión?</translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -628,6 +707,10 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>Las palabras secretas que has ingresado no coinciden con las de la lista.</translation>
     </message>
+    <message>
+        <source>Verifiquemos que los hayas escrito correctamente. Por favor, ingresa las palabras &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; y &lt;b&gt;%3&lt;/b&gt;.</source>
+        <translation>Verifiquemos que las hayas escrito correctamente. Por favor, ingresa las palabras &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; y &lt;b&gt;%3&lt;/b&gt;.</translation>
+    </message>
 </context>
 <context>
     <name>TransactionDialog</name>
@@ -675,6 +758,14 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>View in explorer</source>
         <translation>Ver en el explorador</translation>
     </message>
+    <message>
+        <source>%1 en %2</source>
+        <translation>%1 en %2</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>Falló</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +797,14 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>Pending</source>
         <translation>Pendiente</translation>
     </message>
+    <message>
+        <source>Desconocido</source>
+        <translation>Desconocido</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>Falló</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +835,14 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     <message>
         <source>Send</source>
         <translation>Enviar</translation>
+    </message>
+    <message>
+        <source>Transferencia completada</source>
+        <translation>Transferencia completada</translation>
+    </message>
+    <message>
+        <source>%1 TON a %2</source>
+        <translation>%1 TON a %2</translation>
     </message>
 </context>
 <context>

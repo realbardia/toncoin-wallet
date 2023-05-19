@@ -19,6 +19,7 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
         <source>Proceed</source>
         <translation>Continuer</translation>
     </message>
+
 </context>
 <context>
     <name>ConnectPage</name>
@@ -29,6 +30,41 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     <message>
         <source>Connect to Fragment</source>
         <translation>Se connecter à Fragment</translation>
+    </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation>Connectez-vous à %1</translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation>%1 demande l'accès à votre adresse de portefeuille &lt;u&gt;%2&lt;/u&gt; v4R2.</translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation>Assurez-vous de vérifier l'adresse du service avant de connecter le portefeuille.</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation>Transfert TON</translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation>Destinataire</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation>Frais</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmer</translation>
     </message>
 </context>
 <context>
@@ -152,6 +188,14 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     </message>
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
+        <translation>Désolé, vous avez saisi des mots secrets incorrects. Veuillez vérifier à nouveau et réessayer.</translation>
+    </message>
+    <message>
+        <source>You can restore access to your wallet by entering the 24 words you wrote down when you created the wallet.</source>
+        <translation>Vous pouvez restaurer l'accès à votre portefeuille en saisissant les 24 mots que vous avez écrits lorsque vous avez créé le portefeuille.</translation>
+    </message>
+    <message>
+        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
         <translation>Désolé, vous avez saisi des mots secrets incorrects. Veuillez vérifier à nouveau et réessayer.</translation>
     </message>
 </context>
@@ -311,6 +355,10 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     <message>
         <source>Fee</source>
         <translation>Frais</translation>
+    </message>
+    <message>
+        <source>Message size has been exceeded by %1 charcaters.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -474,6 +522,34 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -630,6 +706,57 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     </message>
 </context>
 <context>
+    <name>TonToolkitTools</name>
+    <message>
+        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TransactionDialog</name>
     <message>
         <source>Transaction</source>
@@ -675,6 +802,18 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
         <source>View in explorer</source>
         <translation>Afficher dans l&apos;explorateur</translation>
     </message>
+    <message>
+        <source>Retry to send TON to this address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished">Échec</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +845,14 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
         <source>Pending</source>
         <translation>En attente</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished">Échec</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +883,14 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     <message>
         <source>Send</source>
         <translation>Envoyer</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

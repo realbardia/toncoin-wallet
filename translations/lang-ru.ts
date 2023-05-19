@@ -19,6 +19,12 @@ To ensure that you always have access to it, please write down your secret words
         <source>Proceed</source>
         <translation>Продолжить</translation>
     </message>
+    <message>
+        <source>Your TON wallet has just been created Only you control it.
+
+To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectPage</name>
@@ -29,6 +35,41 @@ To ensure that you always have access to it, please write down your secret words
     <message>
         <source>Connect to Fragment</source>
         <translation>Подключиться к Фрагменту</translation>
+    </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation type="unfinished">Получатель</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation type="unfinished">Комиссия</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -100,6 +141,10 @@ To ensure that you always have access to it, please write down your secret words
         <source>View my wallet</source>
         <translation>Просмотреть мой кошелек</translation>
     </message>
+    <message>
+        <source>You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -153,6 +198,10 @@ To ensure that you always have access to it, please write down your secret words
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
         <translation>Извините, вы ввели неправильные секретные слова. Пожалуйста, проверьте и попробуйте еще раз.</translation>
+    </message>
+    <message>
+        <source>You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -311,6 +360,10 @@ To ensure that you always have access to it, please write down your secret words
     <message>
         <source>Fee</source>
         <translation>Комиссия</translation>
+    </message>
+    <message>
+        <source>Message size has been exceeded by %1 charcaters.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -474,6 +527,34 @@ To ensure that you always have access to it, please write down your secret words
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -630,6 +711,57 @@ To ensure that you always have access to it, please write down your secret words
     </message>
 </context>
 <context>
+    <name>TonToolkitTools</name>
+    <message>
+        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TransactionDialog</name>
     <message>
         <source>Transaction</source>
@@ -675,6 +807,14 @@ To ensure that you always have access to it, please write down your secret words
         <source>View in explorer</source>
         <translation>Посмотреть в исследователе</translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished">Не удалось</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +846,14 @@ To ensure that you always have access to it, please write down your secret words
         <source>Pending</source>
         <translation>В ожидании</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished">Не удалось</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +884,14 @@ To ensure that you always have access to it, please write down your secret words
     <message>
         <source>Send</source>
         <translation>Отправить</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

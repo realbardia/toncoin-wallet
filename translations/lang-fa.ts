@@ -19,6 +19,15 @@ To be able to always have access to it, please write down your secret words and 
         <source>Proceed</source>
         <translation>ادامه</translation>
     </message>
+    <message>
+        <source>Your TON wallet has just been created. Only you control it.
+
+    To be able to always have access to it, please write down your secret words and set up a secure passcode.</source>
+        <translation>کیف پول TON شما به تازگی ایجاد شده است. فقط شما کنترل آن را دارید.
+
+    برای همیشه به آن دسترسی داشتن، لطفاً کلمات رمز خود را یادداشت کنید و یک رمز عبور امن تنظیم کنید.</translation>
+    </message>
+
 </context>
 <context>
     <name>ConnectPage</name>
@@ -30,7 +39,44 @@ To be able to always have access to it, please write down your secret words and 
         <source>Connect to Fragment</source>
         <translation>اتصال به Fragment</translation>
     </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation>اتصال به %1</translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation>%1 درخواست دسترسی به آدرس کیف پول شما &lt;u&gt;%2&lt;/u&gt; v4R2 را دارد.</translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation>حتماً قبل از اتصال کیف پول، آدرس سرویس را بررسی کنید.</translation>
+    </message>
+
 </context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation>انتقال TON</translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation>گیرنده</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation>کارمزد</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>لغو</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>تأیید</translation>
+    </message>
+</context>
+
 <context>
     <name>CurrenciesModel</name>
     <message>
@@ -154,6 +200,15 @@ To be able to always have access to it, please write down your secret words and 
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
         <translation>متأسفانه، شما کلمات اسراری نادرست وارد کرده‌اید. لطفاً دوباره بررسی کنید و مجدداً تلاش کنید.</translation>
     </message>
+    <message>
+        <source>You can restore access to your wallet by entering 24 words you wrote when you created the wallet.</source>
+        <translation>شما می‌توانید با وارد کردن ۲۴ کلمه‌ای که هنگام ایجاد کیف پول نوشتید، دسترسی به کیف پول خود را بازیابی کنید.</translation>
+    </message>
+    <message>
+        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
+        <translation>با عرض پوزش، شما کلمات رازی نادرست وارد کرده‌اید. لطفاً دوباره بررسی کنید و دوباره تلاش کنید.</translation>
+    </message>
+
 </context>
 <context>
     <name>LockDialog</name>
@@ -474,6 +529,34 @@ To be able to always have access to it, please write down your secret words and 
         <source>Settings</source>
         <translation>تنظیمات</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation>زبان</translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation>قفل خودکار</translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation>پس از %1 ثانیه</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>عملیات</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>خروج</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>لغو</translation>
+    </message>
+    <message>
+        <source>Do you really want to logout?</source>
+        <translation>آیا واقعاً می‌خواهید خارج شوید؟</translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -628,6 +711,10 @@ To be able to always have access to it, please write down your secret words and 
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>کلمات مخفی وارد شده با کلمات موجود در لیست مطابقت ندارند.</translation>
     </message>
+    <message>
+        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; and &lt;b&gt;%3&lt;/b&gt;.</source>
+        <translation>بیایید بررسی کنیم که آن‌ها را به درستی یادداشت کرده‌اید. لطفاً کلمات &lt;b&gt;%1&lt;/b&gt;، &lt;b&gt;%2&lt;/b&gt; و &lt;b&gt;%3&lt;/b&gt; را وارد کنید.</translation>
+    </message>
 </context>
 <context>
     <name>TransactionDialog</name>
@@ -675,6 +762,14 @@ To be able to always have access to it, please write down your secret words and 
         <source>View in explorer</source>
         <translation>مشاهده در بررسی کننده</translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation>%1 در %2</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>ناموفق</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +801,14 @@ To be able to always have access to it, please write down your secret words and 
         <source>Pending</source>
         <translation>در انتظار</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation>ناشناخته</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>ناموفق</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +839,14 @@ To be able to always have access to it, please write down your secret words and 
     <message>
         <source>Send</source>
         <translation>ارسال</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation>انتقال انجام شد</translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation>%1 تن به %2</translation>
     </message>
 </context>
 <context>

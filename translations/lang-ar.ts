@@ -30,6 +30,41 @@ To be able to always have access to it, please write own secret words and set up
         <source>Connect to Fragment</source>
         <translation>الاتصال بـ Fragment</translation>
     </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation>الاتصال بـ %1</translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation>يطلب %1 الوصول إلى عنوان محفظتك &lt;u&gt;%2&lt;/u&gt; v4R2.</translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation>تأكد من التحقق من عنوان الخدمة قبل الاتصال بالمحفظة.</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectTransferPage</name>
+    <message>
+        <source>TON Transfer</source>
+        <translation>تحويل TON</translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation>المستلم</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation>الرسوم</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>إلغاء</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>تأكيد</translation>
+    </message>
 </context>
 <context>
     <name>CurrenciesModel</name>
@@ -100,6 +135,10 @@ To be able to always have access to it, please write own secret words and set up
         <source>View my wallet</source>
         <translation>عرض محفظتي</translation>
     </message>
+    <message>
+        <source>You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.</source>
+        <translation>كل شيء جاهز الآن. لديك محفظة تحكم فيها بنفسك فقط - مباشرةً، بدون وسطاء أو بنوك.</translation>
+    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -153,6 +192,14 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
         <translation>عذرًا ، لقد أدخلت كلمات سرية غير صحيحة. يرجى التحقق مرة أخرى والمحاولة مرة أخرى.</translation>
+    </message>
+    <message>
+        <source>You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</source>
+        <translation>يمكنك استعادة الوصول إلى محفظتك عن طريق إدخال الكلمات السرية الـ 24 التي كتبتها عند إنشاء المحفظة.</translation>
+    </message>
+    <message>
+        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
+        <translation>عذرًا، لقد أدخلت كلمات سرية غير صحيحة. يرجى التحقق مرة أخرى والمحاولة مرة أخرى.</translation>
     </message>
 </context>
 <context>
@@ -311,6 +358,10 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Fee</source>
         <translation>الرسوم</translation>
+    </message>
+    <message>
+        <source>Message size has been exceeded by %1 charcaters.</source>
+        <translation>تم تجاوز حجم الرسالة بواسطة %1 حرفًا.</translation>
     </message>
 </context>
 <context>
@@ -474,6 +525,35 @@ To be able to always have access to it, please write own secret words and set up
         <source>Settings</source>
         <translation>الإعدادات</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation>اللغة</translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation>القفل التلقائي</translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation>بعد %1 ثانية</translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation>الإجراءات</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>تسجيل الخروج</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>إلغاء</translation>
+    </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation>هل ترغب حقًا في تسجيل الخروج؟</translation>
+    </message>
+
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -675,6 +755,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>View in explorer</source>
         <translation>عرض في المستكشف</translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation>%1 في %2</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>فشل</translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -706,6 +794,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>Pending</source>
         <translation>قيد الانتظار</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation>مجهول</translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation>فشل</translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -736,6 +832,14 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Send</source>
         <translation>إرسال</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation>تمت عملية التحويل بنجاح</translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation>%1 طن إلى %2</translation>
     </message>
 </context>
 <context>
