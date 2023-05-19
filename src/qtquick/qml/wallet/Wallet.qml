@@ -39,7 +39,7 @@ TPage {
         id: walletState
         wallet: walletItem
         onBalanceChanged: AppSettings.balance = (balance.length? balance : "0.00000");
-        onLastTransactionIdChanged: if (lastTransactionId == "0") AppSettings.newlyCreatedWallet = true
+        onLastTransactionIdChanged: if (lastTransactionId == "0" && !tmodel.refreshing) AppSettings.newlyCreatedWallet = true
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
 
@@ -225,6 +225,7 @@ TPage {
                         wallet: walletItem
                         onTransferCompleted: GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Transfer completed"), qsTr("%1TON to %2").arg(value).arg(address.slice(0,4) + "..." + address.slice(address.length-4)), Colors.green)
                         onListRefreshed: walletState.reload()
+                        onCountChanged: if (count) AppSettings.newlyCreatedWallet = false
                     }
                     header: Item {
                         width: listv.width
