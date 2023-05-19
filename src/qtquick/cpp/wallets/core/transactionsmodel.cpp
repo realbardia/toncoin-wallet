@@ -13,6 +13,9 @@
 
 using namespace TON::Wallet;
 
+QRegularExpression TransactionsModel::rx1 = QRegularExpression("0+$");
+QRegularExpression TransactionsModel::rx2 = QRegularExpression("(?:\\.)0*$");
+
 TransactionsModel::TransactionsModel(QObject *parent) :
     AbstractWalletModel(parent)
 {
@@ -38,8 +41,6 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
     const auto row = index.row();
     const auto t = mTransactions.at(row);
 
-    static QRegularExpression rx1("0+$");
-    static QRegularExpression rx2("(?:\\.)0*$");
     switch (role)
     {
     case RoleId:
@@ -70,6 +71,8 @@ QVariant TransactionsModel::data(const QModelIndex &index, int role) const
         return t.pending && !t.failed();
     case RoleInitializeWallet:
         return t.initializeWallet;
+    case RoleUnknown:
+        return t.unknown;
     case RoleFailed:
         return t.failed();
     }
@@ -94,6 +97,7 @@ QHash<qint32, QByteArray> TransactionsModel::roleNames() const
         {RoleSent, "sent"},
         {RolePending, "pending"},
         {RoleInitializeWallet, "initializeWallet"},
+        {RoleUnknown, "unknown"},
         {RoleFailed, "failed"},
     };
 }
@@ -154,15 +158,20 @@ void TransactionsModel::load(bool clean)
             return;
         }
 
+        QSet<QByteArray> hashes;
         QList<Transaction> transactions;
         if (!clean)
-            transactions = mTransactions;
+        {
+            // If we dont want to clean, So we must add items without pendings
+            for (const auto &t: mTransactions)
+                if (!t.pending)
+                {
+                    hashes.insert(t.body_hash);
+                    transactions << t;
+                }
+        }
 
-        QSet<QByteArray> hashes;
-        for (const auto &t: transactions)
-            hashes.insert(t.body_hash);
-
-        for (const auto &t: list)
+        for (const auto &t: list) // Insert or Replace new items
         {
             hashes.insert(t.body_hash);
             auto idx = transactions.indexOf(t);
@@ -170,16 +179,22 @@ void TransactionsModel::load(bool clean)
                 transactions << t;
             else
                 transactions.replace(idx, t);
-
         }
 
-        for (const auto &t: mPendingTransactions)
+        for (int i=0; i<mPendingTransactions.count(); i++)// Insert pendings
         {
+            const auto t = mPendingTransactions.at(i);
             if (hashes.contains(t.body_hash))
+            {
+                if (!t.failed())
+                    Q_EMIT transferCompleted(t.destination, QString::number(t.value, 'f', 9).remove(rx1).remove(rx2));
+                mPendingTransactions.removeAt(i);
+                i--;
                 continue;
+            }
 
             if (t.source == address || t.destination == address)
-                transactions.prepend(t);
+                transactions << t;
         }
 
         std::stable_sort(transactions.begin(), transactions.end());
@@ -188,6 +203,8 @@ void TransactionsModel::load(bool clean)
 
         setRefreshing(false);
         Q_EMIT countChanged();
+        if (clean)
+            Q_EMIT listRefreshed();
     });
 }
 
@@ -200,7 +217,6 @@ void TransactionsModel::store()
     if (!f.open(QFile::WriteOnly))
         return;
 
-    static QRegularExpression rx("0+$");
     QJsonArray array;
     for (const auto &t: mTransactions)
     {
@@ -210,16 +226,17 @@ void TransactionsModel::store()
         obj["hash"] = QString::fromLatin1(t.id.hash.toBase64());
         obj["source"] = t.source;
         obj["destination"] = t.destination;
-        obj["value"] = QString::number(t.value, 'f', 9).remove(rx);
+        obj["value"] = QString::number(t.value, 'f', 9).remove(rx1).remove(rx2);
         obj["datetime"] = QString::number(t.datetime.toSecsSinceEpoch());
-        obj["fee"] = QString::number(t.fee, 'f', 9).remove(rx);
-        obj["storage_fee"] = QString::number(t.storage_fee, 'f', 9).remove(rx);
-        obj["other_fee"] = QString::number(t.other_fee, 'f', 9).remove(rx);
+        obj["fee"] = QString::number(t.fee, 'f', 9).remove(rx1).remove(rx2);
+        obj["storage_fee"] = QString::number(t.storage_fee, 'f', 9).remove(rx1).remove(rx2);
+        obj["other_fee"] = QString::number(t.other_fee, 'f', 9).remove(rx1).remove(rx2);
         obj["message"] = t.message;
         obj["raw_message"] = QString::fromLatin1(t.raw_message.toBase64());
         obj["body_hash"] = QString::fromLatin1(t.body_hash.toBase64());
         obj["sent"] = t.sent;
         obj["initialize_wallet"] = t.initializeWallet;
+        obj["unknown"] = t.unknown;
 
         array << obj;
     }
@@ -284,6 +301,7 @@ void TransactionsModel::restore()
         t.raw_message = QByteArray::fromBase64(obj.value("raw_message").toString().toLatin1());
         t.body_hash = QByteArray::fromBase64(obj.value("body_hash").toString().toLatin1());
         t.initializeWallet = obj.value("initialize_wallet").toBool();
+        t.unknown = obj.value("unknown").toBool();
         t.sent = obj.value("sent").toBool();
 
         transactions << t;
@@ -308,8 +326,6 @@ void TransactionsModel::startCheckingPending()
 
 void TransactionsModel::change(const QList<Transaction> &list)
 {
-    if (!mInited)
-        mTransactions.clear();
     if (mTransactions.isEmpty() && list.count())
     {
         beginResetModel();

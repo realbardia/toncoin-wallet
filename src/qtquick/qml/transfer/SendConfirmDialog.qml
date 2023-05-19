@@ -14,7 +14,7 @@ TDrawer {
     mainButton {
         anchors.bottomMargin: keyboardPadding + 20
         text: qsTr("Continue and send")
-        enabled: !estimater.running
+        enabled: !estimater.running && comment.text.length <= Constants.commentLimit
         onClicked: TViewport.viewport.append(sending_component, {}, "stack")
     }
 

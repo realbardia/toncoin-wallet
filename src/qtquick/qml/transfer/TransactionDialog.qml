@@ -20,6 +20,7 @@ TDrawer {
     property string amount
     property string fee
     property bool sent
+    property bool unknown
     property string comment
     property string address
     property string domain
