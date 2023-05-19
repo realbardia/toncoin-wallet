@@ -11,7 +11,11 @@ using namespace TON::Wallet;
 WalletItem::WalletItem(QObject *parent)
     : TonToolkitQuickObject(parent)
 {
+    mRefresher = new TonToolkitRefresherObject(this);
+    mRefresher->setForceActiveOnInitialize(true);
+    mRefresher->setDelay(5000);
 
+    connect(mRefresher, &TonToolkitRefresherObject::refreshingChanged, this, &WalletItem::loadingChanged);
 }
 
 WalletItem::~WalletItem()
@@ -144,15 +148,12 @@ void WalletItem::setAddress(const QString &newAddress)
 
 bool WalletItem::loading() const
 {
-    return mLoading;
+    return mRefresher->refreshing();
 }
 
-void WalletItem::setLoading(bool newLoading)
+void WalletItem::setLoading(bool state)
 {
-    if (mLoading == newLoading)
-        return;
-    mLoading = newLoading;
-    Q_EMIT loadingChanged();
+    mRefresher->setRefreshing(state);
 }
 
 bool WalletItem::hasPassword() const

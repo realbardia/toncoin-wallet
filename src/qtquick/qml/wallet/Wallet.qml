@@ -39,6 +39,7 @@ TPage {
         id: walletState
         wallet: walletItem
         onBalanceChanged: AppSettings.balance = (balance.length? balance : "0.00000");
+        onLastTransactionIdChanged: if (lastTransactionId == "0") AppSettings.newlyCreatedWallet = true
         onErrorStringChanged: if (errorString.length) GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Faild to load state"), errorString, Colors.foreground)
     }
 
@@ -179,7 +180,7 @@ TPage {
                     anchors.centerIn: parent
                     width: 120
                     height: width
-                    active: (page.connecting || tmodel.refreshing) && listv.count == 0
+                    active: tmodel.refreshing && listv.count == 0  && !AppSettings.newlyCreatedWallet
                     sourceComponent: StickerItem {
                         anchors.fill: parent
                         autoPlay: true
@@ -189,7 +190,7 @@ TPage {
 
                 Loader {
                     anchors.fill: parent
-                    active: tmodel.count == 0 && !walletLoading.active && listv.count == 0
+                    active: AppSettings.newlyCreatedWallet
                     sourceComponent: EmptyWalletElement {
                         anchors.fill: parent
                         anchors.margins: 20

@@ -28,6 +28,8 @@ Settings {
     property bool touchId
     property string touchIdSecureKey
 
+    property bool newlyCreatedWallet
+
     function reset() {
         loggedInPublicKey = "";
         walletVersion = "v4R2";
@@ -36,5 +38,6 @@ Settings {
         passCodeLength = 0;
         touchId = false;
         touchIdSecureKey = "";
+        newlyCreatedWallet = false;
     }
 }

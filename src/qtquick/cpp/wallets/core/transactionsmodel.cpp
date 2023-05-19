@@ -20,7 +20,7 @@ TransactionsModel::TransactionsModel(QObject *parent) :
     mPendingTimer->setInterval(10000);
     mPendingTimer->setSingleShot(true);
 
-    connect(mPendingTimer, &QTimer::timeout, this, &TransactionsModel::tryReload);
+    connect(mPendingTimer, &QTimer::timeout, this, &TransactionsModel::reload);
 
     mReloadTimer = new QTimer(this);
     mReloadTimer->setInterval(30000);

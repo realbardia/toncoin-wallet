@@ -21,6 +21,7 @@
 #include "toolkit/core/materialicons.h"
 #include "toolkit/core/tontoolkitqrcreator.h"
 #include "toolkit/core/tontoolkitkeyhandler.h"
+#include "toolkit/core/tontoolkitrefresherobject.h"
 
 #include "wallets/core/keysmanager.h"
 #include "wallets/core/recoveryphrasesmodel.h"
@@ -55,6 +56,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<WalletUrlParser>("Wallet.Core", 1, 0, "WalletUrlParser");
     qmlRegisterType<FeeEstimater>("Wallet.Core", 1, 0, "FeeEstimater");
     qmlRegisterType<TransferRequest>("Wallet.Core", 1, 0, "TransferRequest");
+    qmlRegisterUncreatableType<TonToolkitRefresherObject>("Wallet.Core", 1, 0, "RefresherObject", "");
     qmlRegisterSingletonInstance("Wallet.Core", 1,0, "TonQmlGlobal", new TonQmlGlobal);
 
     qmlRegisterType<TonConnectService>("Wallet.TonConnect", 1, 0, "TonConnectService");

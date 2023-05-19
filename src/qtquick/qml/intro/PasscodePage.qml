@@ -63,7 +63,7 @@ TPage {
         Item {
             width: 160
             height: spage.height * 0.4 - 120
-            visible: !spage.busy.running
+            opacity: spage.busy.running? 0 : 1
 
             TPasswordField {
                 id: passField

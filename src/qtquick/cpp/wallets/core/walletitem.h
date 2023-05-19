@@ -2,6 +2,7 @@
 #define WALLETITEM_H
 
 #include "tontoolkitquickobject.h"
+#include "tontoolkitrefresherobject.h"
 #include "walletbackend.h"
 
 #include <QPointer>
@@ -61,7 +62,7 @@ private:
     QString mPublicKey;
     QPointer<WalletBackend> mBackend;
 
-    bool mLoading = false;
+    TonToolkitRefresherObject *mRefresher;
     bool mHasPassword = false;
 };
 

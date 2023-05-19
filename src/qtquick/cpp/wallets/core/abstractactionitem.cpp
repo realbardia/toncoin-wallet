@@ -7,6 +7,12 @@ using namespace TON::Wallet;
 AbstractActionItem::AbstractActionItem(QObject *parent) :
     TonToolkitQuickObject(parent)
 {
+    mRefresher = new TonToolkitRefresherObject(this);
+    mRefresher->setForceActiveOnInitialize(true);
+    mRefresher->setDelay(5000);
+
+    connect(mRefresher, &TonToolkitRefresherObject::refreshingChanged, this, &AbstractActionItem::runningChanged);
+
     mDefaultWallet = new WalletItem(this);
     mWallet = mDefaultWallet;
 }
@@ -44,7 +50,12 @@ qint32 AbstractActionItem::error() const
 
 bool AbstractActionItem::running() const
 {
-    return mRunning;
+    return mRefresher->refreshing();
+}
+
+TonToolkitRefresherObject *AbstractActionItem::refresher() const
+{
+    return mRefresher;
 }
 
 QSharedPointer<AbstractWalletBackend> AbstractActionItem::beginAction()
@@ -67,7 +78,7 @@ QSharedPointer<AbstractWalletBackend> AbstractActionItem::beginAction()
         return nullptr;
     }
 
-    if (mRunning)
+    if (mRefresher->active())
         return nullptr;
 
     setRunning(true);
@@ -88,8 +99,5 @@ void AbstractActionItem::setError(qint32 code, const QString &message)
 
 void AbstractActionItem::setRunning(bool newRunning)
 {
-    if (mRunning == newRunning)
-        return;
-    mRunning = newRunning;
-    Q_EMIT runningChanged();
+    mRefresher->setRefreshing(newRunning);
 }

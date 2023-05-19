@@ -5,6 +5,12 @@
 AbstractWalletModel::AbstractWalletModel(QObject *parent)
     : TonToolkitAbstractListModel(parent)
 {
+    mRefresher = new TonToolkitRefresherObject(this);
+    mRefresher->setForceActiveOnInitialize(true);
+    mRefresher->setDelay(5000);
+
+    connect(mRefresher, &TonToolkitRefresherObject::refreshingChanged, this, &AbstractWalletModel::refreshingChanged);
+
     mRefreshTimer = new QTimer(this);
     mRefreshTimer->setInterval(100);
     mRefreshTimer->setSingleShot(true);
@@ -67,7 +73,7 @@ void AbstractWalletModel::tryReload()
 
 bool AbstractWalletModel::refreshing() const
 {
-    return mRefreshing;
+    return mRefresher->refreshing();
 }
 
 QSharedPointer<TON::Wallet::AbstractWalletBackend> AbstractWalletModel::beginAction()
@@ -89,7 +95,7 @@ QSharedPointer<TON::Wallet::AbstractWalletBackend> AbstractWalletModel::beginAct
     if (!backend)
         return nullptr;
 
-    if (mRefreshing)
+    if (mRefresher->active())
         return nullptr;
 
     setRefreshing(true);
@@ -103,10 +109,7 @@ void AbstractWalletModel::endAction()
 
 void AbstractWalletModel::setRefreshing(bool newRefreshing)
 {
-    if (mRefreshing == newRefreshing)
-        return;
-    mRefreshing = newRefreshing;
-    Q_EMIT refreshingChanged();
+    mRefresher->setRefreshing(newRefreshing);
 }
 
 void AbstractWalletModel::setError(qint32 code, const QString &message)

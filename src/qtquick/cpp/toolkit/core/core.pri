@@ -25,6 +25,7 @@ HEADERS += \
     $$PWD/tontoolkitquickobject.h \
     $$PWD/tontoolkitquickview.h \
     $$PWD/tontoolkitquickviewwrapper.h \
+    $$PWD/tontoolkitrefresherobject.h \
     $$PWD/tontoolkitsettings.h \
     $$PWD/tontoolkitstickeritem.h \
     $$PWD/tontoolkittools.h \
@@ -51,6 +52,7 @@ SOURCES += \
     $$PWD/tontoolkitquickobject.cpp \
     $$PWD/tontoolkitquickview.cpp \
     $$PWD/tontoolkitquickviewwrapper.cpp \
+    $$PWD/tontoolkitrefresherobject.cpp \
     $$PWD/tontoolkitsettings.cpp \
     $$PWD/tontoolkitstickeritem.cpp \
     $$PWD/tontoolkittools.cpp \

@@ -28,9 +28,11 @@ Item {
         Connections {
             target: MainBackend.keysManager
             function onWalletCreatedSuccessfully(publicKey) {
-                 TViewport.viewport.append(congratulation_component, {"publicKey": publicKey}, "stack");
+                AppSettings.newlyCreatedWallet = true;
+                TViewport.viewport.append(congratulation_component, {"publicKey": publicKey}, "stack");
             }
             function onWalletCreationFailed(error) {
+                AppSettings.newlyCreatedWallet = false;
                 GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to create wallet"), MainBackend.keysManager.errorString, Colors.foreground)
             }
         }

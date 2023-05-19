@@ -2,6 +2,7 @@
 #define ABSTRACTWALLETMODEL_H
 
 #include "tontoolkitabstractlistmodel.h"
+#include "tontoolkitrefresherobject.h"
 #include "walletitem.h"
 
 #include <QPointer>
@@ -61,7 +62,7 @@ private:
     QString mErrorString;
     qint32 mError = 0;
 
-    bool mRefreshing = false;
+    TonToolkitRefresherObject *mRefresher;
 };
 
 #endif // ABSTRACTWALLETMODEL_H
