@@ -27,7 +27,7 @@ exists($$OPENSS_LIB_PATH/include/openssl/conf.h) {
     message(OpenSSL libs found on $$OPENSS_LIB_PATH)
 } else {
     OPENSS_LIB_PATH = $$getenv(OPENSS_LIB_PATH)
-    exists($$OPENSS_LIB_PATH/include/tonlib/Client.h) {
+    exists($$OPENSS_LIB_PATH/include/openssl/Client.h) {
         message(OpenSSL libs found on $$OPENSS_LIB_PATH)
     } else {
         error(Could not find OpenSSL lib directory. Please set it using OPENSS_LIB_PATH argument)
