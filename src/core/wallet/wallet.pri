@@ -80,7 +80,7 @@ LIBS += -L$$TON_LIB_PATH/lib/ \
     -lton_block \
     -lton_crypto
 
-LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSS_LIB_PATH -lssl -lcrypto
+LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSS_LIB_PATH/lib -lssl -lcrypto
 
 SOURCES += \
     $$PWD/abstractwalletbackend.cpp \
