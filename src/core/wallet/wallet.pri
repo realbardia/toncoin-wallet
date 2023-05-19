@@ -22,7 +22,11 @@ exists($$TON_SOURCE_PATH/crypto/common/bitstring.h) {
     }
 }
 
-isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = /usr
+linux {
+    isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = /usr
+} else {
+    isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = $$[QT_INSTALL_DATA]
+}
 exists($$OPENSS_LIB_PATH/include/openssl/conf.h) {
     message(OpenSSL libs found on $$OPENSS_LIB_PATH)
 } else {
