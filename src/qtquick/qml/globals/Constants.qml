@@ -16,5 +16,5 @@ QtObject {
 
     readonly property int commentLimit: 128
 
-    readonly property bool frameless: Devices.isWindows
+    readonly property bool frameless: false// Devices.isWindows
 }

@@ -94,20 +94,6 @@ TWindow {
         }
 
         Rectangle {
-            anchors.fill: parent
-            color: "transparent"
-            border.color: Colors.foreground
-            border.width: 1
-            opacity: 0.2
-            visible: Constants.frameless
-        }
-
-        TSnackBar {
-            id: snackBar
-            anchors.fill: parent
-        }
-
-        Rectangle {
             id: framelessPad
             anchors.left: parent.left
             anchors.right: parent.right
@@ -141,6 +127,20 @@ TWindow {
         }
 
         TTitleBarButtons {
+            visible: Constants.frameless
+        }
+
+        TSnackBar {
+            id: snackBar
+            anchors.fill: parent
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            border.color: Colors.foreground
+            border.width: 1
+            opacity: 0.2
             visible: Constants.frameless
         }
     }
