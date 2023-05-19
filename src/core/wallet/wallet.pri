@@ -86,6 +86,8 @@ LIBS += -L$$TON_LIB_PATH/lib/ \
 
 LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSS_LIB_PATH/lib -lssl -lcrypto
 
+win32: LIBS += -lws2_32 -lpsapi
+
 SOURCES += \
     $$PWD/abstractwalletbackend.cpp \
     $$PWD/backendmanager.cpp \
