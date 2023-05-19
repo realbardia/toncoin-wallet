@@ -583,7 +583,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
                         query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), (state? std::move(state) : nullptr));
                     }
-                    else if (version_lowerCase == QStringLiteral("v4r1") || version_lowerCase == QStringLiteral("v3r2"))
+                    else if (version_lowerCase == QStringLiteral("v4r1") || version_lowerCase == QStringLiteral("v4r2"))
                     {
                         const auto revision = version_lowerCase.right(1).toInt();
 
