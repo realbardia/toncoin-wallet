@@ -116,7 +116,13 @@ void TransactionsModel::reload()
     mReloadTimer->stop();
     mReloadTimer->start(mInited? 30000 : 10000);
 
-    restore();
+    load(true);
+}
+
+void TransactionsModel::load(bool clean)
+{
+    if (clean)
+        restore();
 
     auto backend = beginAction();
     if (!backend)
@@ -128,7 +134,12 @@ void TransactionsModel::reload()
     setRefreshing(true);
     const auto pkey = wallet()->publicKey();
     const auto address = wallet()->address();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), AbstractWalletBackend::TransactionId(), 100,  this, [this, pkey, uuid, address](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+
+    AbstractWalletBackend::TransactionId last;
+    if (!clean)
+        last = mTransactions.last().id;
+
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), last, 100, this, [this, pkey, uuid, clean, address](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
         if (uuid != mLastRequestId)
             return;
 
@@ -144,12 +155,24 @@ void TransactionsModel::reload()
         }
 
         QList<Transaction> transactions;
+        if (!clean)
+            transactions = mTransactions;
+
         QSet<QByteArray> hashes;
+        for (const auto &t: transactions)
+            hashes.insert(t.body_hash);
+
         for (const auto &t: list)
         {
             hashes.insert(t.body_hash);
-            transactions << t;
+            auto idx = transactions.indexOf(t);
+            if (idx < 0)
+                transactions << t;
+            else
+                transactions.replace(idx, t);
+
         }
+
         for (const auto &t: mPendingTransactions)
         {
             if (hashes.contains(t.body_hash))
@@ -162,10 +185,9 @@ void TransactionsModel::reload()
         std::stable_sort(transactions.begin(), transactions.end());
         change(transactions);
         store();
-        mInited = true;
+
         setRefreshing(false);
         Q_EMIT countChanged();
-        Q_EMIT listRefreshed();
     });
 }
 
@@ -445,48 +467,7 @@ void TransactionsModel::more()
     if (refreshing() || mLastRequestId.length() || !mInited)
         return;
 
-    auto backend = beginAction();
-    if (!backend)
-        return;
-
-    const auto uuid = QUuid::createUuid().toString();
-    mLastRequestId = uuid;
-
-    setRefreshing(true);
-    const auto pkey = wallet()->publicKey();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), mTransactions.last().id, 100, this, [this, pkey, uuid](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
-        if (uuid != mLastRequestId)
-            return;
-
-        mLastRequestId.clear();
-        auto w = wallet();
-        if (!w || pkey != w->publicKey())
-            return;
-        if (error.code)
-        {
-            setError(error.code, error.message);
-            setRefreshing(false);
-            return;
-        }
-
-        QList<Transaction> transactions = mTransactions;
-        for (const auto &t: list)
-        {
-            auto idx = transactions.indexOf(t);
-            if (idx < 0)
-                transactions << t;
-            else
-                transactions.replace(idx, t);
-
-        }
-
-        std::stable_sort(transactions.begin(), transactions.end());
-        change(transactions);
-
-        store();
-        setRefreshing(false);
-        Q_EMIT countChanged();
-    });
+    load(false);
 }
 
 bool TransactionsModel::Transaction::operator==(const Transaction &b) const

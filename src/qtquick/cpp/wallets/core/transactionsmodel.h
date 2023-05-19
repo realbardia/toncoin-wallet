@@ -65,6 +65,7 @@ Q_SIGNALS:
 protected:
     void reset() Q_DECL_OVERRIDE;
     void reload() Q_DECL_OVERRIDE;
+    void load(bool clean);
 
     void store();
     void restore();
