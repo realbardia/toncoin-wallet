@@ -6,9 +6,7 @@
 #include <QMap>
 #include <QVariant>
 
-#include "tontoolkitgui_global.h"
-
-class LIBQTTONTOOLKIT_GUI_EXPORT TonToolkitTranslationManager : public QObject
+class TonToolkitTranslationManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUrl sourceDirectory READ sourceDirectory WRITE setSourceDirectory NOTIFY sourceDirectoryChanged)

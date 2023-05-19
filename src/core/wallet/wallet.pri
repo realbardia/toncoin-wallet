@@ -60,7 +60,7 @@ INCLUDEPATH += \
     $$TON_SOURCE_PATH/crypto \
     $$TON_SOURCE_PATH/tddb \
     $$TON_SOURCE_PATH/tdutils \
-    $$OPENSS_LIB_PATH
+    $$OPENSS_LIB_PATH/include
 
 LIBS += -L$$TON_LIB_PATH/lib/ \
     -ltonlib \

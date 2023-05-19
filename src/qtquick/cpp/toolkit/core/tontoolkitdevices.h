@@ -23,7 +23,6 @@ class TonToolkitDevices : public QObject
     Q_PROPERTY(bool isDesktop      READ isDesktop      NOTIFY isDesktopChanged      )
     Q_PROPERTY(bool isMacX         READ isMacX         NOTIFY isMacXChanged         )
     Q_PROPERTY(bool isWindows      READ isWindows      NOTIFY isWindowsChanged      )
-    Q_PROPERTY(bool isWindows8     READ isWindows8     NOTIFY isWindowsChanged      )
     Q_PROPERTY(bool isLinux        READ isLinux        NOTIFY isLinuxChanged        )
     Q_PROPERTY(bool isAndroid      READ isAndroid      NOTIFY isAndroidChanged      )
     Q_PROPERTY(bool isIOS          READ isIOS          NOTIFY isIOSChanged          )
@@ -110,7 +109,6 @@ public:
     static bool isIOS();
     static bool isUbuntuTouch();
     static bool isWindowsPhone();
-    static bool isWindows8();
     static bool isWebAssembly();
     static bool isQt6();
 

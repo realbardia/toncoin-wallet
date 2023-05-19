@@ -13,8 +13,6 @@
 #include <QIcon>
 #endif
 
-#include "tontoolkitgui_global.h"
-
 #if defined(QT_GUI_LIB)
 #define DEFAULT_AAPP_TYPE TonToolkitApplication::GuiApplication
 #else
@@ -25,7 +23,7 @@
 
 class QSettings;
 class TonToolkitApplicationPrivate;
-class LIBQTTONTOOLKIT_GUI_EXPORT TonToolkitApplication : public QObject
+class TonToolkitApplication : public QObject
 {
     Q_OBJECT
     Q_ENUMS(ApplicationType)

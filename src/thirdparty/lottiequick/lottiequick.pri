@@ -13,4 +13,8 @@ SOURCES += \
     $$PWD/lottiequickanimation.cpp \
     $$PWD/vdrawhelper_neon.cpp
 
+DEFINES += \
+    RLOTTIE_BUILD \
+    LOTTIE_QUICK_BUILD_LIBRARY
+
 include(rlottie.pri)

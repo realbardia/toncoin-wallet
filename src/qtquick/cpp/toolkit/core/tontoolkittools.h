@@ -11,10 +11,8 @@
 
 #define TONTOOLKIT_TYPE_NAME(TYPE) #TYPE
 
-#include "tontoolkitgui_global.h"
-
 class TonToolkitToolsPrivate;
-class LIBQTTONTOOLKIT_GUI_EXPORT TonToolkitTools : public QObject
+class TonToolkitTools : public QObject
 {
     Q_OBJECT
     Q_ENUMS(HashMethod)

@@ -237,16 +237,6 @@ bool TonToolkitDevices::isWindowsPhone()
 #endif
 }
 
-bool TonToolkitDevices::isWindows8()
-{
-#ifdef Q_OS_WIN
-    return QSysInfo::windowsVersion() == QSysInfo::WV_WINDOWS8 ||
-           QSysInfo::windowsVersion() == QSysInfo::WV_WINDOWS8_1;
-#else
-    return false;
-#endif
-}
-
 bool TonToolkitDevices::isWebAssembly()
 {
 #ifdef Q_OS_WASM
@@ -954,7 +944,6 @@ QVariantMap TonToolkitDevices::deviceDetails()
     map[QStringLiteral("os.iOS")] = TonToolkitDevices::isIOS();
     map[QStringLiteral("os.ubuntuTouch")] = TonToolkitDevices::isUbuntuTouch();
     map[QStringLiteral("os.windowsPhone")] = TonToolkitDevices::isWindowsPhone();
-    map[QStringLiteral("os.windows8")] = TonToolkitDevices::isWindows8();
 
     map[QStringLiteral("ui.transparentStatusBar")] = TonToolkitDevices::transparentStatusBar();
     map[QStringLiteral("ui.transparentNavigationBar")] = TonToolkitDevices::transparentNavigationBar();

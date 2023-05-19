@@ -15,7 +15,6 @@ HEADERS += \
     $$PWD/tontoolkitbackhandler.h \
     $$PWD/tontoolkitdevices.h \
     $$PWD/tontoolkitdevicesitem.h \
-    $$PWD/tontoolkitgui_global.h \
     $$PWD/tontoolkitkeyhandler.h \
     $$PWD/tontoolkitlistmodel.h \
     $$PWD/tontoolkitlistobject.h \
