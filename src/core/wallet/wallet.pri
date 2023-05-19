@@ -59,7 +59,8 @@ INCLUDEPATH += \
     $$TON_SOURCE_PATH/tdactor \
     $$TON_SOURCE_PATH/crypto \
     $$TON_SOURCE_PATH/tddb \
-    $$TON_SOURCE_PATH/tdutils
+    $$TON_SOURCE_PATH/tdutils \
+    $$OPENSS_LIB_PATH
 
 LIBS += -L$$TON_LIB_PATH/lib/ \
     -ltonlib \
@@ -79,7 +80,7 @@ LIBS += -L$$TON_LIB_PATH/lib/ \
     -lton_block \
     -lton_crypto
 
-LIBS += -L$$[QT_INSTALL_LIBS] -lssl -lcrypto
+LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSS_LIB_PATH -lssl -lcrypto
 
 SOURCES += \
     $$PWD/abstractwalletbackend.cpp \
