@@ -32,6 +32,7 @@ public:
         RolePending,
         RoleInitializeWallet,
         RoleFailed,
+        RoleUnknown,
     };
     Q_ENUM(Roles)
     TransactionsModel(QObject *parent = nullptr);
@@ -61,10 +62,12 @@ Q_SIGNALS:
     void cachePathChanged();
     void passwordChanged();
     void listRefreshed();
+    void transferCompleted(const QString &address, const QString &value);
 
 protected:
     void reset() Q_DECL_OVERRIDE;
     void reload() Q_DECL_OVERRIDE;
+    void load(bool clean);
 
     void store();
     void restore();
@@ -104,6 +107,9 @@ private:
 
     QList<Transaction> mTransactions;
     QList<Transaction> mPendingTransactions;
+
+    static QRegularExpression rx1;
+    static QRegularExpression rx2;
 };
 
 #endif // TRANSACTIONSMODEL_H

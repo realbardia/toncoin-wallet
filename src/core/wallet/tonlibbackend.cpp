@@ -431,24 +431,22 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
                     QList<Transaction> res;
                     for (const auto &t_: transactions->transactions_)
                     {
-                        Transaction t;
-                        t.id.id = t_->transaction_id_->lt_;
-                        t.id.hash = QByteArray::fromStdString(t_->transaction_id_->hash_);
-                        t.datetime = QDateTime::fromSecsSinceEpoch(t_->utime_);
-                        t.body_hash = QByteArray::fromStdString(t_->in_msg_->body_hash_);
-
-                        qint64 value = t_->in_msg_->value_;
-                        for (auto& ot : t_->out_msgs_)
-                            value -= ot->value_;
-
-                        t.fee = t_->fee_ * BALANCE_RATIO;
-                        t.storage_fee = t_->storage_fee_ * BALANCE_RATIO;
-                        t.other_fee = t_->other_fee_ * BALANCE_RATIO;
-                        t.value = value * BALANCE_RATIO;
-
-                        auto to_message = [&t](const tonlib_api::object_ptr<tonlib_api::raw_message> &msg){
+                        auto createTransaction = [&](const tonlib_api::object_ptr<tonlib_api::raw_message> &msg){
+                            Transaction t;
                             t.source = QString::fromStdString(msg->source_->account_address_);
                             t.destination = QString::fromStdString(msg->destination_->account_address_);
+                            t.unknown = (t.source.isEmpty() || t.destination.isEmpty());
+
+                            t.fee = t_->fee_ * BALANCE_RATIO;
+                            t.storage_fee = t_->storage_fee_ * BALANCE_RATIO;
+                            t.other_fee = t_->other_fee_ * BALANCE_RATIO;
+                            t.value = msg->value_ * BALANCE_RATIO;
+
+                            t.id.id = t_->transaction_id_->lt_;
+                            t.id.hash = QByteArray::fromStdString(t_->transaction_id_->hash_);
+                            t.datetime = QDateTime::fromSecsSinceEpoch(t_->utime_);
+                            t.body_hash = QByteArray::fromStdString(t_->in_msg_->body_hash_);
+                            t.sent = (t.source == address);
 
                             switch (msg->msg_data_->get_id())
                             {
@@ -477,26 +475,14 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
                             }
                                 break;
                             }
+
+                            res << t;
                         };
 
-                        if (t_->out_msgs_.size())
-                        {
-                            const auto &begin = *(t_->out_msgs_.begin());
-                            to_message(begin);
-                        }
-                        else
-                            to_message(t_->in_msg_);
-
-                        t.sent = (t.source == address);
-
-                        if (value == 0 && !t.sent && t.source.length() == 0)
-                        {
-                            t.initializeWallet = true;
-                            t.sent = true;
-                            t.value = t.fee;
-                        }
-
-                        res << t;
+                        if (t_->out_msgs_.size() == 0)
+                            createTransaction(t_->in_msg_);
+                        for(const auto &msg: t_->out_msgs_)
+                            createTransaction(msg);
                     }
 
                     callback(res, Error());

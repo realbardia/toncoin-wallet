@@ -47,6 +47,9 @@ TListView {
         TItemDelegate {
             anchors.fill: parent
             onClicked: {
+                if (model.unknown || model.initializeWallet)
+                    return;
+
                 var m = {
                     "amount": model.value,
                     "sent": model.sent,
@@ -57,6 +60,7 @@ TListView {
                     "domain": model.domain,
                     "address": model.sent? model.destination : model.source,
                     "initializeWallet": model.initializeWallet,
+                    "unknown": model.unknown,
                     "pending": model.pending,
                     "failed": model.failed,
                 };
@@ -75,6 +79,7 @@ TListView {
                 TRow {
                     spacing: 2
                     anchors.left: parent.left
+                    visible: model.value != 0
 
                     StickerItem {
                         anchors.verticalCenter: parent.verticalCenter
@@ -136,6 +141,7 @@ TListView {
                     address: model.sent? model.destination : model.source
                     font.pixelSize: 8 * Devices.fontDensity
                     elideCount: 6
+                    visible: !model.unknown && !model.initializeWallet
                     onClicked: {
                         Devices.setClipboard(address);
                         GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Copy"), qsTr("Address copied to clipboard successfully."), Colors.green);
@@ -149,8 +155,21 @@ TListView {
                     anchors.leftMargin: 2
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     opacity: 0.6
+                    font.bold: true
+                    font.pixelSize: 10 * Devices.fontDensity
+                    visible: model.unknown || model.initializeWallet
+                    text: model.initializeWallet? qsTr("Wallet initialized") : qsTr("Unknown")
+                }
+
+                TLabel {
+                    horizontalAlignment: Text.AlignLeft
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    anchors.leftMargin: 2
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    opacity: 0.6
                     font.pixelSize: 8 * Devices.fontDensity
-                    text: model.initializeWallet? qsTr("Wallet initialized") : qsTr("%1 fee").arg(model.fee)
+                    text: qsTr("%1 fee").arg(model.fee)
                 }
 
                 Item {

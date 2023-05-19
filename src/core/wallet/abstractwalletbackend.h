@@ -43,6 +43,7 @@ public:
         QByteArray raw_message;
         bool sent = false;
         bool initializeWallet = false;
+        bool unknown = false;
     };
 
     struct Fee {

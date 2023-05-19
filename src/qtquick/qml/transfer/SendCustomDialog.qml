@@ -23,6 +23,8 @@ TDrawer {
             var address = t.sent? t.destination : t.source;
             if (added.indexOf(address) >= 0)
                 continue;
+            if (address.length == 0)
+                continue;
 
             var m = {
                 "address": address,
@@ -79,7 +81,16 @@ TDrawer {
                         placeholderText: qsTr("Enter Wallet Address or Domain...")
                         horizontalAlignment: Text.AlignLeft
                         height: Math.max(contentHeight+18, 50)
-                        onTextChanged: selectedAddress = text
+                        onTextChanged: {
+                            if (text.indexOf("\n") >= 0) {
+                                var pos = input.cursorPosition-1;
+                                text = Tools.stringRemove(text, "\n", false);
+                                input.cursorPosition = Math.min(pos, text.length);
+                                return;
+                            }
+
+                            selectedAddress = text
+                        }
                     }
 
                     TLabel {
