@@ -19,13 +19,27 @@ TPage {
         onClicked: dis.ViewportType.open = false
     }
 
-    ZXingCamera {
+    PointMapListener {
+        id: mapListener
+        source: scene
+        dest: windowScene
+    }
+
+    Item {
+        id: scene
         anchors.top: header.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        onTagFound: {
-            dis.tagFound(tag);
+        clip: true
+
+        ZXingCamera {
+            y: -1 * mapListener.result.y + windowScene.height - height
+            width: parent.width
+            height: parent.height
+            onTagFound: {
+                dis.tagFound(tag);
+            }
         }
     }
 }

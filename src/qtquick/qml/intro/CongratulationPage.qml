@@ -13,6 +13,8 @@ SimplePageTemplate {
 
     property string publicKey
 
+    Component.onCompleted: Devices.triggerVibrateFeedback()
+
     mainButton {
         text: qsTr("Proceed")
         onClicked: TViewport.viewport.append(recovery_phrase_component, {}, "stack")
