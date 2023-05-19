@@ -141,11 +141,21 @@ void TransactionsModel::load(bool clean)
 
     AbstractWalletBackend::TransactionId last;
     if (!clean)
-        last = mTransactions.last().id;
+    {
+        for (int i=mTransactions.count()-1; i>=0; i--)
+        {
+            const auto &t = mTransactions.at(i);
+            if (!t.pending)
+            {
+                last = t.id;
+                break;
+            }
+        }
+    }
 
     backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), last, 100, this, [this, pkey, uuid, clean, address](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
-        if (uuid != mLastRequestId)
-            return;
+//        if (uuid != mLastRequestId)
+//            return;
 
         mLastRequestId.clear();
         auto w = wallet();
@@ -480,8 +490,8 @@ void TransactionsModel::setLimit(qint32 newLimit)
 
 void TransactionsModel::more()
 {
-    if (refreshing() || mLastRequestId.length() || !mInited)
-        return;
+//    if (refreshing() || mLastRequestId.length() || !mInited)
+//        return;
 
     load(false);
 }
