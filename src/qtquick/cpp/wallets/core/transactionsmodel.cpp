@@ -127,7 +127,8 @@ void TransactionsModel::reload()
 
     setRefreshing(true);
     const auto pkey = wallet()->publicKey();
-    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), AbstractWalletBackend::TransactionId(), 100,  this, [this, pkey, uuid](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
+    const auto address = wallet()->address();
+    backend->getTransactions(QByteArray::fromBase64(pkey.toLatin1()), AbstractWalletBackend::TransactionId(), 100,  this, [this, pkey, uuid, address](const QList<AbstractWalletBackend::Transaction> &list, const AbstractWalletBackend::Error &error){
         if (uuid != mLastRequestId)
             return;
 
@@ -154,7 +155,8 @@ void TransactionsModel::reload()
             if (hashes.contains(t.body_hash))
                 continue;
 
-            transactions.prepend(t);
+            if (t.source == address || t.destination == address)
+                transactions.prepend(t);
         }
 
         std::stable_sort(transactions.begin(), transactions.end());

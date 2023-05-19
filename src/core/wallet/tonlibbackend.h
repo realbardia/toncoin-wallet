@@ -59,6 +59,7 @@ private:
     Private *p;
 
     const static std::string v4r2_code;
+    const static std::string v4r1_code;
 };
 
 }

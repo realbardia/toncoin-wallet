@@ -4,18 +4,8 @@
 #include <tonlib/Client.h>
 #include <td/utils/base64.h>
 #include <td/utils/optional.h>
-
 #include <tonlib/tonlib/keys/bip39.h>
-#include <tonlib/tonlib/KeyStorage.h>
-
-#include <crypto/vm/boc.h>
-#include <crypto/block/block.h>
-#include <crypto/block/block-parse.h>
-
-#include <crypto/vm/cells/CellString.h>
-#include <crypto/smc-envelope/GenericAccount.h>
 #include <crypto/smc-envelope/WalletInterface.h>
-#include <crypto/smc-envelope/WalletV3.h>
 
 #include <optional>
 
@@ -49,6 +39,7 @@ using namespace TON::Wallet;
 using namespace std::string_literals;
 
 const std::string TonLibBackend::v4r2_code = "te6cckECFAEAAtQAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyZO1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8QERITAubQAdDTAyFxsJJfBOAi10nBIJJfBOAC0x8hghBwbHVnvSKCEGRzdHK9sJJfBeAD+kAwIPpEAcjKB8v/ydDtRNCBAUDXIfQEMFyBAQj0Cm+hMbOSXwfgBdM/yCWCEHBsdWe6kjgw4w0DghBkc3RyupJfBuMNBgcCASAICQB4AfoA9AQw+CdvIjBQCqEhvvLgUIIQcGx1Z4MesXCAGFAEywUmzxZY+gIZ9ADLaRfLH1Jgyz8gyYBA+wAGAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+ICASAKCwBZvSQrb2omhAgKBrkPoCGEcNQICEekk30pkQzmkD6f+YN4EoAbeBAUiYcVnzGEAgFYDA0AEbjJftRNDXCx+AA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYAIBIA4PABmtznaiaEAga5Drhf/AABmvHfaiaEAQa5DrhY/AAG7SB/oA1NQi+QAFyMoHFcv/ydB3dIAYyMsFywIizxZQBfoCFMtrEszMyXP7AMhAFIEBCPRR8qcCAHCBAQjXGPoA0z/IVCBHgQEI9FHyp4IQbm90ZXB0gBjIywXLAlAGzxZQBPoCFMtqEssfyz/Jc/sAAgBsgQEI1xj6ANM/MFIkgQEI9Fnyp4IQZHN0cnB0gBjIywXLAlAFzxZQA/oCE8tqyx8Syz/Jc/sAAAr0AMntVGliJeU="s;
+const std::string TonLibBackend::v4r1_code = "te6cckECFQEAAvUAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyY+1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8REhMUA+7QAdDTAwFxsJFb4CHXScEgkVvgAdMfIYIQcGx1Z70ighBibG5jvbAighBkc3RyvbCSXwPgAvpAMCD6RAHIygfL/8nQ7UTQgQFA1yH0BDBcgQEI9ApvoTGzkl8F4ATTP8glghBwbHVnupEx4w0kghBibG5juuMABAYHCAIBIAkKAFAB+gD0BDCCEHBsdWeDHrFwgBhQBcsFJ88WUAP6AvQAEstpyx9SEMs/AFL4J28ighBibG5jgx6xcIAYUAXLBSfPFiT6AhTLahPLH1Iwyz8B+gL0AACSghBkc3Ryuo41BIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UghBkc3Rygx6xcIAYUATLBVjPFiL6AhLLassfyz+UEDRfBOLJgED7AAIBIAsMAFm9JCtvaiaECAoGuQ+gIYRw1AgIR6STfSmRDOaQPp/5g3gSgBt4EBSJhxWfMYQCAVgNDgARuMl+1E0NcLH4AD2ynftRNCBAUDXIfQEMALIygfL/8nQAYEBCPQKb6ExgAgEgDxAAGa3OdqJoQCBrkOuF/8AAGa8d9qJoQBBrkOuFj8AAbtIH+gDU1CL5AAXIygcVy//J0Hd0gBjIywXLAiLPFlAF+gIUy2sSzMzJcfsAyEAUgQEI9FHypwIAbIEBCNcYyFQgJYEBCPRR8qeCEG5vdGVwdIAYyMsFywJQBM8WghAF9eEA+gITy2oSyx/JcfsAAgBygQEI1xgwUgKBAQj0WfKn+CWCEGRzdHJwdIAYyMsFywJQBc8WghAF9eEA+gIUy2oTyx8Syz/Jc/sAAAr0AMntVEap808="s;
 
 class TonLibBackend::Engine: public QThread
 {
@@ -153,7 +144,7 @@ public:
             revision = version_lowerCase.right(1).toInt();
             return make_object<tonlib_api::wallet_v3_initialAccountState>(publicKey.toStdString(), walletId);
         }
-        else if (version_lowerCase == QStringLiteral("v4r2"))
+        else if (version_lowerCase == QStringLiteral("v4r1") || version_lowerCase == QStringLiteral("v4r2"))
         {
             revision = version_lowerCase.right(1).toInt();
 
@@ -165,7 +156,7 @@ public:
                 .finalize();
             std::string data = vm::std_boc_serialize(std::move(dataCell)).move_as_ok().as_slice().str();
 
-            auto code = td::base64_decode(td::Slice(v4r2_code)).move_as_ok();
+            auto code = td::base64_decode(td::Slice(revision == 1? v4r1_code : v4r2_code)).move_as_ok();
 
             return make_object<tonlib_api::raw_initialAccountState>(code, data);
         }
@@ -592,16 +583,16 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
                         query_fnc = make_object<tonlib_api::createQuery>(std::move(input), std::move(from_address), 60, std::move(action), (state? std::move(state) : nullptr));
                     }
-                    else if (version_lowerCase == QStringLiteral("v4r2"))
+                    else if (version_lowerCase == QStringLiteral("v4r1") || version_lowerCase == QStringLiteral("v3r2"))
                     {
-//                        revision = version_lowerCase.right(1).toInt();
-//                        auto state = p->getInitialAccountState(publicKey, walletVersion(), revision, accountState.sequence);
-//                        auto state_v4 = ton::move_tl_object_as<tonlib_api::raw_initialAccountState>(state);
+                        const auto revision = version_lowerCase.right(1).toInt();
 
                         vm::CellBuilder cb; cb
                             .store_long(p->walletId + p->workchainId, 32)
                             .store_long(QDateTime::currentSecsSinceEpoch()+60, 32)
-                            .store_long(accountState.sequence, 32);
+                            .store_long(accountState.sequence, 32)
+                            .store_long(0, 8)
+                            .store_long(3, 8);
 
                         {
                             ton::WalletInterface::Gift gift;
@@ -610,19 +601,15 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             gift.is_encrypted = encryption;
                             gift.gramms = amount;
                             gift.send_mode = 3;
-//                            gift.init_state = ton::GenericAccount::get_init_state({
-//                                vm::std_boc_deserialize(td::Slice(state_v4->code_)).move_as_ok(),
-//                                vm::std_boc_deserialize(td::Slice(state_v4->data_)).move_as_ok(),
-//                            });
 
                             cb.store_long(3, 8).store_ref(ton::WalletInterface::create_int_message(gift));
                         }
 
-                        auto message_outer = cb.finalize();
+                        auto external_msg = cb.finalize();
 
-                        auto signature = prvKey.sign(message_outer->get_hash().as_slice()).move_as_ok();
-                        auto msg = vm::CellBuilder().store_bytes(signature).append_cellslice(vm::load_cell_slice(message_outer)).finalize();
-                        auto body_msg = vm::std_boc_serialize(std::move(msg)).move_as_ok().as_slice().str();
+                        auto signature = prvKey.sign(external_msg->get_hash().as_slice()).move_as_ok();
+                        auto body_msg = vm::CellBuilder().store_bytes(signature).append_cellslice(vm::load_cell_slice(external_msg)).finalize();
+                        auto body_msg_cells = vm::std_boc_serialize(std::move(body_msg)).move_as_ok().as_slice().str();
 
                         auto dataCell = vm::CellBuilder()
                             .store_long(accountState.sequence, 32)
@@ -632,9 +619,9 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             .finalize();
                         std::string data = vm::std_boc_serialize(std::move(dataCell)).move_as_ok().as_slice().str();
 
-                        auto code = td::base64_decode(td::Slice(v4r2_code)).move_as_ok();
+                        auto code = td::base64_decode(td::Slice(revision == 1? v4r1_code : v4r2_code)).move_as_ok();
 
-                        query_fnc = make_object<tonlib_api::raw_createQuery>(std::move(from_address), code, data, body_msg);
+                        query_fnc = make_object<tonlib_api::raw_createQuery>(std::move(from_address), code, data, body_msg_cells);
                     }
                     else
                     {
@@ -755,6 +742,7 @@ QStringList TonLibBackend::availableVersions() const
 {
     return {
         QStringLiteral("v4R2"),
+        QStringLiteral("v4R1"),
         QStringLiteral("v3R2"),
         QStringLiteral("v3R1"),
     };

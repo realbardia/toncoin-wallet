@@ -343,6 +343,7 @@ TPage {
 
         MouseArea {
             anchors.fill: parent
+            hoverEnabled: true
             onClicked: {
                 walletMenu.close();
                 currencyMenu.close();
@@ -371,6 +372,12 @@ TPage {
         visible: opacity > 0
         splitter: true
         shadow: false
+        highlightedIndex: {
+            for (var i=0; i<GTranslations.model.count; i++)
+                if (GTranslations.model.get(i).key == AppSettings.language)
+                    return i;
+            return -1;
+        }
 
         Behavior on opacity {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
@@ -394,6 +401,12 @@ TPage {
         visible: opacity > 0
         splitter: true
         shadow: false
+        highlightedIndex: {
+            for (var i=0; i<cmodel.count; i++)
+                if (cmodel.get(i).key.toLowerCase() == AppSettings.currency)
+                    return i;
+            return -1;
+        }
 
         Behavior on opacity {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
@@ -415,7 +428,9 @@ TPage {
         opacity: opened? 1 : 0
         scale: 0.8 + opacity*0.2
         visible: opacity > 0
+        splitter: true
         shadow: false
+        highlightedIndex: MainBackend.availableVersions.indexOf(AppSettings.walletVersion)
 
         Behavior on opacity {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
@@ -437,6 +452,7 @@ TPage {
         scale: 0.8 + opacity*0.2
         visible: opacity > 0
         shadow: false
+        highlightedIndex: model.indexOf(AppSettings.lockTimeout + "s")
 
         Behavior on opacity {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }

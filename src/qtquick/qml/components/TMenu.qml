@@ -15,6 +15,7 @@ Item {
     property string textRole
     property alias opened: openedAction.active
     property bool splitter: false
+    property int highlightedIndex: -1
 
     signal itemClicked(int index)
 
@@ -80,6 +81,8 @@ Item {
                     anchors.margins: 10 * Devices.density
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    font.bold: highlightedIndex == model.index? true : false
+                    color: highlightedIndex == model.index? Colors.accent : Colors.foreground
                     maximumLineCount: 1
                     elide: Text.ElideRight
                     text: textRole.length? model[textRole] : modelData
