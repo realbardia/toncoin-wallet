@@ -14,7 +14,8 @@ QSharedPointer<AbstractWalletBackend> BackendManager::createFreeBackend(BackendT
 {
     switch (static_cast<int>(type))
     {
-    case TonLib:
+    case TonLib_MainNet:
+    case TonLib_TestNet:
         return QSharedPointer<AbstractWalletBackend>(new TonLibBackend);
         break;
     }
@@ -53,9 +54,18 @@ QSharedPointer<AbstractWalletBackend> BackendManager::createBackend(BackendType 
     QByteArray data;
     switch (static_cast<int>(type))
     {
-    case TonLib:
+    case TonLib_MainNet:
     {
         QFile f(":/ton/wallet/configs/global.config.json");
+        f.open(QFile::ReadOnly);
+        data = f.readAll();
+        f.close();
+    }
+        break;
+
+    case TonLib_TestNet:
+    {
+        QFile f(":/ton/wallet/configs/testnet.config.json");
         f.open(QFile::ReadOnly);
         data = f.readAll();
         f.close();

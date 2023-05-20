@@ -14,7 +14,7 @@ TDrawer {
     property bool done
 
     property TonConnect tonConnect
-    property alias requestId: service.requestId
+    property alias serviceId: service.serviceId
     property alias manifestUrl: service.manifestUrl
     property alias items: service.items
 

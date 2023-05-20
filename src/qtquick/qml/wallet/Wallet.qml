@@ -55,9 +55,26 @@ TPage {
     }
 
     Component.onCompleted: {
-        if (GlobalValues.tempLinkToOpen.length) {
-            sendTon(GlobalValues.tempLinkToOpen);
-            GlobalValues.tempLinkToOpen = "";
+        Tools.jsDelayCall(100, function(){
+            if (GlobalValues.tempLinkToOpen.length) {
+                sendTon(GlobalValues.tempLinkToOpen);
+                GlobalValues.tempLinkToOpen = "";
+            }
+        });
+    }
+
+    Connections {
+        target: tonConnect
+        function onNewTransferRequest(serviceId, serviceName, serviceIcon, amount, address) {
+            var m = {
+                "serviceId": serviceId,
+                "serviceName": serviceName,
+                "serviceIcon": serviceIcon,
+                "amount": amount,
+                "address": address,
+            };
+
+            TViewport.viewport.append(connect_transfer_component, m, "drawer");
         }
     }
 
@@ -495,6 +512,14 @@ TPage {
             Behavior on opacity {
                 NumberAnimation { easing.type: Easing.OutCubic; duration: 400 }
             }
+        }
+    }
+
+    Component {
+        id: connect_transfer_component
+        Connect.ConnectTransferPage {
+            width: page.width
+            tonConnect: page.tonConnect
         }
     }
 

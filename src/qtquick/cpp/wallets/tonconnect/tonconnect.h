@@ -24,6 +24,10 @@ class TonConnect : public TonToolkitQuickObject
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(QString cachePath READ cachePath WRITE setCachePath NOTIFY cachePathChanged)
     Q_PROPERTY(QVariantList tokens READ tokens NOTIFY tokensChanged)
+    Q_PROPERTY(QString bridgeUrl READ bridgeUrl WRITE setBridgeUrl NOTIFY bridgeUrlChanged)
+    Q_PROPERTY(QString lastEventId READ lastEventId WRITE setLastEventId NOTIFY lastEventIdChanged)
+    Q_PROPERTY(int network READ network WRITE setNetwork NOTIFY networkChanged)
+    Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
 
 public:
     struct Token {
@@ -37,6 +41,12 @@ public:
         QVariantMap toMap() const;
         static Token fromMap(const QVariantMap &m);
     };
+
+    enum Network {
+        Testnet = -3,
+        Mainnet = -239
+    };
+    Q_ENUMS(Network)
 
     enum Platforms {
         Platform_linux,
@@ -78,12 +88,28 @@ public:
 
     QVariantList tokens() const;
 
+    QString bridgeUrl() const;
+    void setBridgeUrl(const QString &newBridgeUrl);
+
+    QString lastEventId() const;
+    void setLastEventId(const QString &newLastEventId);
+
+    int network() const;
+    void setNetwork(int newNetwork);
+
+    bool locked() const;
+    void setLocked(bool newLocked);
+
 public Q_SLOTS:
     bool check(const QString &tag);
 
     void accept(TonConnectService *service);
     void reject(TonConnectService *service);
     void revoke(const QString &id);
+
+    void transferCompleted(const QString &serviceId, const QString &amount, const QString &address);
+
+    void runEventListener();
 
 Q_SIGNALS:
     void newServiceRequest(const QString &id, const QUrl &manifestUrl, const QVariantList &items);
@@ -99,6 +125,13 @@ Q_SIGNALS:
     void passwordChanged();
     void tokensChanged();
     void cachePathChanged();
+    void bridgeUrlChanged();
+    void lastEventIdChanged();
+    void newEventArrived(const QString &eventId);
+    void failed(const QString &title, const QString &message);
+    void newTransferRequest(const QString &serviceId, const QString &serviceName, const QString &serviceIcon, const QString &amount, const QString &address);
+    void networkChanged();
+    void lockedChanged();
 
 protected:
     QString getPlatformName() const;
@@ -109,23 +142,33 @@ protected:
     QList<Token> getTokens() const;
     void writeTokens(const QList<Token> &tokens);
 
+    void restartEventListener();
+    void processMessage(const Token &from, const QByteArray &data);
+
 private:
+    QString mLastEventId;
+    QPointer<QNetworkReply> mEventListenerReply;
     QNetworkAccessManager *mAm;
 
+    QString mBridgeUrl;
     QStringList mBaseUrls;
     bool mConnecting = false;
+    bool mLocked = false;
 
     qint32 mUniqueId;
 
     QPointer<WalletItem> mWallet;
     QPointer<WalletItem> mDefaultWallet;
 
+    int mNetwork = Mainnet;
     int mPlatform = 0;
     QString mAppName;
     QString mAppVersion;
 
     QString mPassword;
     QString mCachePath;
+
+    QTimer *mRunTimer;
 };
 
 #endif // TONCONNECT_H

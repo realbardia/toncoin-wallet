@@ -26,6 +26,7 @@
 #define CRYPTO_FILE_STORE_SALT "f0b033df-5506-43a5-921a-081289f9cf91"
 #endif
 
+#define BALANCE_RATIO (1/1000000000.0)
 #define DEFINE_BUFFER_STREAM(NAME) QByteArray NAME; QDataStream(&NAME, QIODevice::WriteOnly)
 
 TonConnect::TonConnect(QObject *parent)
@@ -36,6 +37,12 @@ TonConnect::TonConnect(QObject *parent)
     mUniqueId = QDateTime::currentSecsSinceEpoch();
 
     mAm = new QNetworkAccessManager(this);
+
+    mRunTimer = new QTimer(this);
+    mRunTimer->setSingleShot(true);
+    mRunTimer->setInterval(100);
+
+    connect(mRunTimer, &QTimer::timeout, this, &TonConnect::restartEventListener);
 
 #if defined(Q_OS_ANDROID)
     mPlatform = Platform_android;
@@ -61,6 +68,9 @@ TonConnect::~TonConnect()
 
 bool TonConnect::check(const QString &tag)
 {
+    if (mLocked)
+        return false;
+
     QUrl url;
     for (const auto &base: mBaseUrls)
     {
@@ -168,8 +178,8 @@ void TonConnect::accept(TonConnectService *service, const QByteArray &privateKey
         {
             QVariantMap tonAddressItemReply = {
                 {"name", QString("ton_addr")},
-                {"address", QStringLiteral("0:") + addressHex},
-                {"network", rawAddress.testnet? -1 : -239},
+                {"address", QStringLiteral("%1:").arg(rawAddress.workchain) + addressHex},
+                {"network", static_cast<int>(rawAddress.testnet? Testnet : Mainnet)},
                 {"publicKey", QString::fromLatin1(publicKey.toHex())},
                 {"walletStateInit", QString::fromLatin1(mWallet->initState().toBase64())},
             };
@@ -202,18 +212,18 @@ void TonConnect::accept(TonConnectService *service, const QByteArray &privateKey
 
     QUrlQuery query;
     query.addQueryItem("client_id", clientId());
-    query.addQueryItem("to", service->requestId());
+    query.addQueryItem("to", service->serviceId());
     query.addQueryItem("ttl", "300");
 
-    QUrl url("https://bridge.tonapi.io/bridge/message");
+    QUrl url(mBridgeUrl + "/message");
     url.setQuery(query);
 
     const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
 
     QNetworkRequest req(url);
-    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
 
-    auto reply = mAm->post(req, json);
+    auto reply = mAm->post(req, json.toBase64());
 
     connect(service, &QObject::destroyed, this, [reply, this](){
         reply->deleteLater();
@@ -222,7 +232,7 @@ void TonConnect::accept(TonConnectService *service, const QByteArray &privateKey
 
     connect(reply, &QNetworkReply::finished, this, [this, reply, service](){
         const auto json = QJsonDocument::fromJson(reply->readAll());
-        const auto &id = service->requestId();
+        const auto &id = service->serviceId();
         if (json.object().value("statusCode").toInt() == 200)
         {
             Token t;
@@ -246,6 +256,7 @@ void TonConnect::accept(TonConnectService *service, const QByteArray &privateKey
         setConnecting(false);
         service->disconnect(this);
         reply->deleteLater();
+        runEventListener();
     });
 
     setConnecting(true);
@@ -311,6 +322,193 @@ void TonConnect::writeTokens(const QList<Token> &tokens)
     f.close();
 }
 
+void TonConnect::restartEventListener()
+{
+    if (mEventListenerReply)
+        delete mEventListenerReply;
+
+    const auto clientId = TonConnect::clientId();
+    if (clientId.isEmpty())
+        return;
+
+    if (mLocked)
+        return;
+
+    QUrlQuery query;
+    query.addQueryItem("client_id", clientId);
+    query.addQueryItem("last_event_id", mLastEventId.count()? mLastEventId : QStringLiteral("0"));
+
+    QUrl url(mBridgeUrl + "/events");
+    url.setQuery(query);
+
+    QNetworkRequest req(url);
+
+    QHash<QString, Token> tokens;
+    for (const auto &t: getTokens())
+        tokens[t.id.toLower()] = t;
+
+    mEventListenerReply = mAm->get(req);
+    connect(mEventListenerReply, &QNetworkReply::readyRead, this, [this, clientId, tokens](){
+        if (clientId != TonConnect::clientId())
+        {
+            qDebug() << "Client ID changed...\nTry restarting ton-connect";
+            QMetaObject::invokeMethod(this, &TonConnect::restartEventListener, Qt::QueuedConnection);
+            return;
+        }
+
+        auto lines = QString(mEventListenerReply->readAll()).trimmed().split('\n');
+
+        QString lastId;
+        for (const auto &l: lines)
+        {
+            if (l.left(3) == QStringLiteral("id:"))
+            {
+                lastId = l.mid(3).trimmed();
+                continue;
+            }
+            if (lastId.isEmpty())
+                continue;
+
+            const auto currentId = lastId;
+            lastId.clear();
+            // Next line of ID must be data
+            if (l.left(5) != QStringLiteral("data:"))
+                continue;
+
+            const auto jsonStr = l.mid(5).trimmed();
+            const auto json = QJsonDocument::fromJson(jsonStr.toUtf8());
+            if (json.isEmpty())
+                continue;
+
+            const auto obj = json.object();
+            const auto from = obj.value(QStringLiteral("from")).toString();
+            const auto message = obj.value(QStringLiteral("message")).toString();
+
+            if (tokens.contains(from.toLower()))
+                processMessage(tokens.value(from.toLower()), QByteArray::fromBase64(message.toLatin1()));
+
+            Q_EMIT newEventArrived(currentId);
+        }
+    });
+}
+
+void TonConnect::processMessage(const TonConnect::Token &from, const QByteArray &data)
+{
+    static const auto rx1 = QRegularExpression("0+$");
+    static const auto rx2 = QRegularExpression("(?:\\.)0*$");
+
+    const auto json = QJsonDocument::fromJson(data);
+    const auto obj = json.object();
+    const auto method = obj.value(QStringLiteral("method")).toString();
+    if (method == QStringLiteral("sendTransaction"))
+    {
+        const auto params = obj.value("params").toArray();
+        for (const auto &p: params)
+        {
+            const auto t = p.toObject();
+            const auto valid_until = t.value("valid_until").toInt();
+            if (valid_until && valid_until < QDateTime::currentSecsSinceEpoch())
+            {
+                Q_EMIT failed(tr("Timeout"), tr("An expired request received from %1 and rejected").arg(from.name));
+                continue;
+            }
+
+            const auto network = t.value("network").toString().toInt();
+            if (network && network != mNetwork)
+            {
+                Q_EMIT failed(tr("Bad network"), tr("%1 send a transaction request on the wrong network.").arg(from.name));
+                continue;
+            }
+
+            const auto fromAddress = t.value("from").toString();
+            Q_UNUSED(fromAddress) // Ignored, We dont need it
+
+            const auto messages = t.value("messages").toArray();
+            for (const auto &msg: messages)
+            {
+                const auto msgObj = msg.toObject();
+                const auto addressRaw = msgObj.value("address").toString();
+                const auto amount = msgObj.value("amount").toString();
+                const auto stateInit = msgObj.value("stateInit").toString();
+                Q_UNUSED(stateInit)
+                const auto payload = msgObj.value("payload").toString();
+                Q_UNUSED(payload)
+
+                const auto addressParts = addressRaw.split(':');
+                if (addressParts.count() != 2)
+                    continue;
+
+                const auto workchain = addressParts.first().toInt();
+                const auto address = QByteArray::fromHex(addressParts.last().toLatin1());
+
+                ton::StdSmcAddress smcAddress;
+                smcAddress.from_hex(address.toStdString());
+
+                block::StdAddress stdAddress(workchain, smcAddress);
+
+                auto amountTON = QString::number(amount.toLongLong() * BALANCE_RATIO, 'f', 9).remove(rx1).remove(rx2);
+
+                Q_EMIT newTransferRequest(from.id, from.name, from.iconUrl, amountTON, QByteArray::fromStdString(stdAddress.rserialize()));
+            }
+        }
+    }
+}
+
+bool TonConnect::locked() const
+{
+    return mLocked;
+}
+
+void TonConnect::setLocked(bool newLocked)
+{
+    if (mLocked == newLocked)
+        return;
+    mLocked = newLocked;
+    runEventListener();
+    Q_EMIT lockedChanged();
+}
+
+int TonConnect::network() const
+{
+    return mNetwork;
+}
+
+void TonConnect::setNetwork(int newNetwork)
+{
+    if (mNetwork == newNetwork)
+        return;
+    mNetwork = newNetwork;
+    runEventListener();
+    Q_EMIT networkChanged();
+}
+
+QString TonConnect::lastEventId() const
+{
+    return mLastEventId;
+}
+
+void TonConnect::setLastEventId(const QString &newLastEventId)
+{
+    if (mLastEventId == newLastEventId)
+        return;
+    mLastEventId = newLastEventId;
+    Q_EMIT lastEventIdChanged();
+}
+
+QString TonConnect::bridgeUrl() const
+{
+    return mBridgeUrl;
+}
+
+void TonConnect::setBridgeUrl(const QString &newBridgeUrl)
+{
+    if (mBridgeUrl == newBridgeUrl)
+        return;
+    mBridgeUrl = newBridgeUrl;
+    runEventListener();
+    Q_EMIT bridgeUrlChanged();
+}
+
 QString TonConnect::cachePath() const
 {
     return mCachePath;
@@ -321,6 +519,7 @@ void TonConnect::setCachePath(const QString &newCachePath)
     if (mCachePath == newCachePath)
         return;
     mCachePath = newCachePath;
+    runEventListener();
     Q_EMIT cachePathChanged();
 }
 
@@ -342,6 +541,7 @@ void TonConnect::setPassword(const QString &newPassword)
     if (mPassword == newPassword)
         return;
     mPassword = newPassword;
+    runEventListener();
     Q_EMIT passwordChanged();
 }
 
@@ -358,7 +558,19 @@ void TonConnect::revoke(const QString &id)
             tokens << t;
 
     writeTokens(tokens);
+    runEventListener();
     Q_EMIT tokensChanged();
+}
+
+void TonConnect::transferCompleted(const QString &serviceId, const QString &amount, const QString &address)
+{
+
+}
+
+void TonConnect::runEventListener()
+{
+    mRunTimer->stop();
+    mRunTimer->start();
 }
 
 QString TonConnect::getPlatformName() const
@@ -412,6 +624,8 @@ QString TonConnect::clientId() const
 {
     if (!mWallet)
         return QString();
+    if (mWallet->address().isEmpty())
+        return QString();
 
     const auto rawAddress = block::StdAddress::parse(td::Slice(mWallet->address().toStdString())).move_as_ok();
     const auto addressBytes = QByteArray::fromStdString(rawAddress.addr.as_slice().str());
@@ -460,7 +674,15 @@ void TonConnect::setWallet(WalletItem *newWallet)
 {
     if (mWallet == newWallet)
         return;
+
+    if (mWallet)
+        disconnect(mWallet, &WalletItem::addressChanged, this, &TonConnect::runEventListener);
+
     mWallet = newWallet;
+    if (mWallet)
+        connect(mWallet, &WalletItem::addressChanged, this, &TonConnect::runEventListener);
+
+    runEventListener();
     Q_EMIT walletChanged();
 }
 

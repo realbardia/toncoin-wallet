@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/ton/wallet">
         <file>configs/global.config.json</file>
+        <file>configs/testnet.config.json</file>
     </qresource>
 </RCC>

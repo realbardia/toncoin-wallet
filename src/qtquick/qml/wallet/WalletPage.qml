@@ -35,14 +35,20 @@ TPage {
         appVersion: TonToolkitApp.applicationVersion
         password: GlobalValues.passCode
         cachePath: TonToolkitApp.homePath + "/tokens"
+        network: Constants.testNet? TonConnect.Testnet : TonConnect.Mainnet
+        bridgeUrl: "https://bridge.tonapi.io/bridge"
         baseUrls: ["ton://connect"]
+        lastEventId: AppSettings.lastEventId
+        locked: !walletLoader.item || AppSettings.walletVersion != "v4R2"
+        onFailed: GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, title, message, Colors.foreground)
         wallet: WalletItem {
             backend: MainBackend
             publicKey: AppSettings.loggedInPublicKey
         }
+        onNewEventArrived: AppSettings.lastEventId = eventId
         onNewServiceRequest: {
             var m = {
-                "requestId": id,
+                "serviceId": id,
                 "manifestUrl": manifestUrl,
                 "items": items,
             };

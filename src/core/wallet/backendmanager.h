@@ -14,7 +14,8 @@ class BackendManager
 {
 public:
     enum BackendType {
-        TonLib = 1,
+        TonLib_MainNet = 1,
+        TonLib_TestNet = 2,
     };
 
     typedef std::function<void(bool done, const AbstractWalletBackend::Error &error)> InitializeCallback;

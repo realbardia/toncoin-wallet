@@ -5,7 +5,7 @@ import Toolkit.Core 1.0
 
 Settings {
     category: "General"
-    source: TonToolkitApp.homePath + "/settings.ini"
+    source: TonToolkitApp.homePath + (Constants.testNet? "/settings.test.ini" : "/settings.ini")
 
     property bool darkMode: false
     property string language: "en"
@@ -16,6 +16,8 @@ Settings {
     property int lockTimeout: 60
 
     property string loggedInPublicKey
+
+    property string lastEventId
 
     property string currency: "usd"
     property string walletVersion: "v4R2"

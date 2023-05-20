@@ -11,7 +11,8 @@ class TonQmlGlobal : public QObject
 public:
     enum WalletBackend {
         None = 0,
-        TonLib = TON::Wallet::BackendManager::TonLib,
+        TonLib_MainNet = TON::Wallet::BackendManager::TonLib_MainNet,
+        TonLib_TestNet = TON::Wallet::BackendManager::TonLib_TestNet,
     };
     Q_ENUM(WalletBackend)
 

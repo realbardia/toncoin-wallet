@@ -91,17 +91,17 @@ void TonConnectService::reload()
     mReloadTimer->start();
 }
 
-QString TonConnectService::requestId() const
+QString TonConnectService::serviceId() const
 {
-    return mRequestId;
+    return mServiceId;
 }
 
-void TonConnectService::setRequestId(const QString &newRequestId)
+void TonConnectService::setServiceId(const QString &newRequestId)
 {
-    if (mRequestId == newRequestId)
+    if (mServiceId == newRequestId)
         return;
-    mRequestId = newRequestId;
-    Q_EMIT requestIdChanged();
+    mServiceId = newRequestId;
+    Q_EMIT serviceIdChanged();
 }
 
 QUrl TonConnectService::manifestUrl() const
