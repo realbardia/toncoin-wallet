@@ -439,7 +439,7 @@ void TonConnect::processMessage(const TonConnect::Token &from, const QByteArray 
                     continue;
 
                 const auto workchain = addressParts.first().toInt();
-                const auto address = QByteArray::fromHex(addressParts.last().toLatin1());
+                const auto address = addressParts.last().toLatin1();
 
                 ton::StdSmcAddress smcAddress;
                 smcAddress.from_hex(address.toStdString());
@@ -448,7 +448,7 @@ void TonConnect::processMessage(const TonConnect::Token &from, const QByteArray 
 
                 auto amountTON = QString::number(amount.toLongLong() * BALANCE_RATIO, 'f', 9).remove(rx1).remove(rx2);
 
-                Q_EMIT newTransferRequest(from.id, from.name, from.iconUrl, amountTON, QByteArray::fromStdString(stdAddress.rserialize()));
+                Q_EMIT newTransferRequest(from.id, from.name, from.iconUrl, amountTON, QByteArray::fromStdString(stdAddress.rserialize(true)));
             }
         }
     }

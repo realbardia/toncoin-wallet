@@ -11,8 +11,8 @@ TDrawer {
     height: contentHeight + area.height
     title: qsTr("TON Transfer")
 
-    property string amount: feeEstimater.amount
-    property string address: feeEstimater.destinationAddress
+    property alias amount: feeEstimater.amount
+    property alias address: feeEstimater.destinationAddress
     property string serviceId
     property string serviceName
     property string serviceIcon
