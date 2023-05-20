@@ -150,11 +150,7 @@ TPage {
                 viewport.closeAll();
                 AppSettings.reset()
             }
-
-            THeaderCloseButton {
-                onClicked: logoutDlg.ViewportType.open = false;
-                color: "#fff"
-            }
+            onCloseRequest: logoutDlg.ViewportType.open = false
         }
     }
 

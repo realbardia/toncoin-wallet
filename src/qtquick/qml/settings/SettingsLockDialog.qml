@@ -11,6 +11,7 @@ TPage {
     property bool allowBiometric: Devices.hasBiometric
 
     signal success()
+    signal closeRequest()
 
     function checkBiometric() {
         if (!GlobalMethods.biometricCheck()) {
@@ -100,5 +101,11 @@ TPage {
         icon.font.pixelSize: 20 * Devices.fontDensity
         highlightColor: "#fff"
         onClicked: checkBiometric()
+    }
+
+    THeaderCloseButton {
+        id: closeBtn
+        color: "#fff"
+        onClicked: page.closeRequest()
     }
 }

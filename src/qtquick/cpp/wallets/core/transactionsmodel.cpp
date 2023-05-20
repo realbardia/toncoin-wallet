@@ -123,6 +123,14 @@ void TransactionsModel::reload()
     load(true);
 }
 
+void TransactionsModel::more()
+{
+    if (/*refreshing() || mLastRequestId.length() || */!mInited)
+        return;
+
+    load(false);
+}
+
 void TransactionsModel::load(bool clean)
 {
     if (clean)
@@ -210,6 +218,8 @@ void TransactionsModel::load(bool clean)
         std::stable_sort(transactions.begin(), transactions.end());
         change(transactions);
         store();
+        if (clean)
+            mInited = true;
 
         setRefreshing(false);
         Q_EMIT countChanged();
@@ -486,14 +496,6 @@ void TransactionsModel::setLimit(qint32 newLimit)
     mLimit = newLimit;
     refresh();
     Q_EMIT limitChanged();
-}
-
-void TransactionsModel::more()
-{
-//    if (refreshing() || mLastRequestId.length() || !mInited)
-//        return;
-
-    load(false);
 }
 
 bool TransactionsModel::Transaction::operator==(const Transaction &b) const

@@ -491,6 +491,7 @@ TPage {
     Component {
         id: recoverPhrase_component
         Intro.RecoveryPhrasePage {
+            id: rpPage
             anchors.fill: parent
             doneVisible: false
             backable: false
@@ -500,6 +501,7 @@ TPage {
                 anchors.fill: parent
                 z: 100
                 onSuccess: visible = false
+                onCloseRequest: rpPage.ViewportType.open = false
             }
         }
     }
@@ -529,6 +531,7 @@ TPage {
                 anchors.fill: parent
                 z: 100
                 onSuccess: visible = false
+                onCloseRequest: viewport.ViewportType.open = false
             }
         }
     }
