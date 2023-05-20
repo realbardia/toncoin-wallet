@@ -29,7 +29,7 @@ TApplication {
         GlobalValues.mwin = mWin;
     }
 
-    onMessageReceived: if (msg.slice(0,6) == "ton://") GlobalValues.tempLinkToOpen = msg
+    onMessageReceived: GlobalValues.tempLinkToOpen = msg
 
     MainWindow {
         id: mWin

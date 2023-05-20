@@ -31,7 +31,15 @@ TPage {
 
     TonConnect {
         id: _tonConnect
+        appName: TonToolkitApp.applicationName
+        appVersion: TonToolkitApp.applicationVersion
+        password: GlobalValues.passCode
+        cachePath: TonToolkitApp.homePath + "/tokens"
         baseUrls: ["ton://connect"]
+        wallet: WalletItem {
+            backend: MainBackend
+            publicKey: AppSettings.loggedInPublicKey
+        }
         onNewServiceRequest: {
             var m = {
                 "requestId": id,

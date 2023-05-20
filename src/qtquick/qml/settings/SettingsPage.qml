@@ -2,6 +2,7 @@ import QtQuick 2.15
 import Toolkit.Core 1.0
 import Toolkit.Viewport 1.0
 import Wallet.Core 1.0
+import Wallet.TonConnect 1.0
 import "../intro" as Intro
 import "../components"
 import "../globals"
@@ -9,6 +10,8 @@ import "../globals"
 TPage {
     id: page
     color: "#000"
+
+    property TonConnect tonConnect
 
     component SettingItem: TItemDelegate {
         height: 50
@@ -183,7 +186,7 @@ TPage {
                         SettingItem {
                             title: qsTr("List of tokens")
                             spacer: false
-                            visible: false
+                            onClicked: TViewport.viewport.append(tokens_component, {}, "popup")
                         }
                     }
 
@@ -503,6 +506,14 @@ TPage {
                 onSuccess: visible = false
                 onCloseRequest: rpPage.ViewportType.open = false
             }
+        }
+    }
+
+    Component {
+        id: tokens_component
+        TokensPage {
+            anchors.fill: parent
+            tonConnect: page.tonConnect
         }
     }
 

@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     TonToolkitApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
     if (TonToolkitApplicationItem::isRunning())
     {
-        if (app.arguments().count() == 2 && app.arguments().at(1).left(6) == QStringLiteral("ton://"))
+        if (app.arguments().count() == 2)
             TonToolkitApplicationItem::sendMessage(app.arguments().at(1));
         else
             qDebug() << "is running";
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
         QQmlApplicationEngine engine;
 
         engine.rootContext()->setContextProperty("testMode", qEnvironmentVariable("TON_TEST_MODE") == QStringLiteral("1"));
-        if (app.arguments().count() == 2 && app.arguments().at(1).left(6) == QStringLiteral("ton://"))
+        if (app.arguments().count() == 2)
             engine.rootContext()->setContextProperty("linkToOpen", app.arguments().at(1));
         else
             engine.rootContext()->setContextProperty("linkToOpen", QString());

@@ -16,7 +16,7 @@ class TonConnectService : public TonToolkitQuickObject
     Q_OBJECT
     Q_PROPERTY(QUrl manifestUrl READ manifestUrl WRITE setManifestUrl NOTIFY manifestUrlChanged)
     Q_PROPERTY(QString requestId READ requestId WRITE setRequestId NOTIFY requestIdChanged)
-    Q_PROPERTY(QVariantMap items READ items WRITE setItems NOTIFY itemsChanged)
+    Q_PROPERTY(QVariantList items READ items WRITE setItems NOTIFY itemsChanged)
 
     Q_PROPERTY(QUrl serviceUrl READ serviceUrl NOTIFY serviceChanged)
     Q_PROPERTY(QString serviceIcon READ serviceIcon NOTIFY serviceChanged)
@@ -43,8 +43,8 @@ public:
     QString requestId() const;
     void setRequestId(const QString &newRequestId);
 
-    QVariantMap items() const;
-    void setItems(const QVariantMap &newItems);
+    QVariantList items() const;
+    void setItems(const QVariantList &newItems);
 
 public Q_SLOTS:
     void reload();
@@ -62,7 +62,7 @@ protected:
 private:
     QTimer *mReloadTimer;
 
-    QVariantMap mItems;
+    QVariantList mItems;
     QString mRequestId;
     QUrl mManifestUrl;
 

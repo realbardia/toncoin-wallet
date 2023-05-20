@@ -13,6 +13,11 @@ AbstractWalletBackend::~AbstractWalletBackend()
 
 }
 
+QByteArray AbstractWalletBackend::getInitState(const QByteArray &) const
+{
+    return QByteArray();
+}
+
 QString AbstractWalletBackend::walletVersion() const
 {
     return mWalletVersion;

@@ -120,5 +120,6 @@
         <file>components/TScrollBar.qml</file>
         <file>globals/translations/lang-zh.qm</file>
         <file>globals/translations/lang-ja.qm</file>
+        <file>settings/TokensPage.qml</file>
     </qresource>
 </RCC>

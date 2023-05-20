@@ -9,7 +9,9 @@
 #include <QRegularExpression>
 #include <QUuid>
 
+#ifndef CRYPTO_FILE_STORE_SALT
 #define CRYPTO_FILE_STORE_SALT "b43a24bb-9382-4b0c-957e-565b8a48d609"
+#endif
 
 using namespace TON::Wallet;
 

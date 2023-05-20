@@ -151,6 +151,13 @@ bool WalletItem::loading() const
     return mRefresher->refreshing();
 }
 
+QByteArray WalletItem::initState() const
+{
+    if (!mBackend || !mBackend->backendObject())
+        return QByteArray();
+    return mBackend->backendObject()->getInitState( QByteArray::fromBase64(mPublicKey.toLatin1()) );
+}
+
 void WalletItem::setLoading(bool state)
 {
     mRefresher->setRefreshing(state);

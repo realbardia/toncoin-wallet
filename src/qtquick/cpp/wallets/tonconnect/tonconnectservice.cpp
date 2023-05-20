@@ -72,12 +72,12 @@ void TonConnectService::doReload()
     Q_EMIT loadingChanged();
 }
 
-QVariantMap TonConnectService::items() const
+QVariantList TonConnectService::items() const
 {
     return mItems;
 }
 
-void TonConnectService::setItems(const QVariantMap &newItems)
+void TonConnectService::setItems(const QVariantList &newItems)
 {
     if (mItems == newItems)
         return;

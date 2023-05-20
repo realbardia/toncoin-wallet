@@ -26,6 +26,7 @@ public:
 
     void getAddress(const QByteArray &publicKey, QObject *receiver, const std::function<void(const QString &address, const Error &error)> &callback) override;
     void getAccountState(const QString &address, QObject *receiver, const std::function<void(const AccountState &state, const Error &error)> &callback) override;
+    void getPrivateKey(const QByteArray &publicKey, QObject *receiver, const std::function<void(const QByteArray &privateKey, const Error &error)> &callback) override;
 
     void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, QObject *receiver, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) override;
     void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const Fee &fee, const Error &error)> &callback) override;
@@ -36,6 +37,7 @@ public:
     QList<QByteArray> keys() const override;
     QStringList words() const override;
     QStringList availableVersions() const override;
+    QByteArray getInitState(const QByteArray &publicKey) const override;
 
     void unlockUsingPassword(const QByteArray &publicKey, const QString &password) override;
     bool hasPassword(const QByteArray &publicKey) override;

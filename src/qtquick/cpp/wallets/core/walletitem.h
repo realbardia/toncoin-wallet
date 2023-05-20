@@ -30,6 +30,7 @@ public:
     bool hasPassword() const;
     bool loading() const;
 
+    QByteArray initState() const;
 
 public Q_SLOTS:
     bool changePassword(const QString &password);

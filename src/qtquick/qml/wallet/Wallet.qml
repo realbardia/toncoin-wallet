@@ -86,13 +86,11 @@ TPage {
     function sendTon(address) {
         if (sendDialog)
             return;
-        if (address.slice(0,6) == "ton://") {
-            if (address.slice(0,14) != "ton://connect/") {
-                tonConnect.check(address);
-                return;
-            }
-            if (address.slice(0,15) != "ton://transfer/")
-                return;
+        if (tonConnect.check(address))
+            return;
+
+        if (address.slice(0,6) == "ton://" && address.slice(0,15) != "ton://transfer") {
+            return;
         } else {
             address = "ton://transfer/" + address;
         }
@@ -503,6 +501,7 @@ TPage {
     Component {
         id: settings_component
         Settings.SettingsPage {
+            tonConnect: page.tonConnect
         }
     }
 
@@ -514,15 +513,6 @@ TPage {
                 GlobalValues.tempLinkToOpen = tag;
                 ViewportType.open = false
             }
-        }
-    }
-
-    Component {
-        id: connect_component
-        Connect.ConnectPage {
-            width: page.width
-            closable: true
-            onCloseRequest: ViewportType.open = false
         }
     }
 

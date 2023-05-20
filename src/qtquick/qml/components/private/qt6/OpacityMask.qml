@@ -1,3 +1,5 @@
 import Qt5Compat.GraphicalEffects 6.0 as GraphicalEffects
 
-GraphicalEffects.OpacityMask {}
+GraphicalEffects.OpacityMask {
+    cached: true
+}

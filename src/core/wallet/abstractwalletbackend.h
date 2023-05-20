@@ -65,6 +65,7 @@ public:
 
     virtual void getAddress(const QByteArray &publicKey, QObject *receiver, const std::function<void(const QString &address, const Error &error)> &callback) = 0;
     virtual void getAccountState(const QString &address, QObject *receiver, const std::function<void(const AccountState &state, const Error &error)> &callback) = 0;
+    virtual void getPrivateKey(const QByteArray &publicKey, QObject *receiver, const std::function<void(const QByteArray &privateKey, const Error &error)> &callback) = 0;
 
     virtual void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, QObject *receiver, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) = 0;
     virtual void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const Fee &fee, const Error &error)> &callback) = 0;
@@ -75,6 +76,7 @@ public:
     virtual QList<QByteArray> keys() const = 0;
     virtual QStringList words() const = 0;
     virtual QStringList availableVersions() const = 0;
+    virtual QByteArray getInitState(const QByteArray &publicKey) const;
 
     virtual void unlockUsingPassword(const QByteArray &publicKey, const QString &password) = 0;
     virtual bool hasPassword(const QByteArray &publicKey) = 0;

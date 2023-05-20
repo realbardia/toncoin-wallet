@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
+import Wallet.Core 1.0
 import Wallet.TonConnect 1.0
 import "../components"
 import "../globals"
