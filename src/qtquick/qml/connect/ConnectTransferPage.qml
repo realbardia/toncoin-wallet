@@ -181,8 +181,8 @@ TDrawer {
             TButton {
                 width: parent.width/2 - 6
                 text: qsTr("Cancel")
-                color: Colors.accent
-                backgroundColor: "#e6f0f8"
+                color: Colors.darkMode? "#ffffff" : Colors.accent
+                backgroundColor: Colors.darkMode? "#65696d" : "#e6f0f8"
                 opacity: done || busyIndicator.running? 0 : 1
                 scale: done || busyIndicator.running? 0.5 : 1
                 visible: opacity > 0
