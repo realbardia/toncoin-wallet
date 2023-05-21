@@ -66,6 +66,7 @@ INCLUDEPATH += \
     $$TON_SOURCE_PATH/tdutils \
     $$OPENSS_LIB_PATH/include
 
+message($$TON_LIB_PATH/lib/)
 LIBS += -L$$TON_LIB_PATH/lib/ \
     -ltonlib \
     -ladnllite \

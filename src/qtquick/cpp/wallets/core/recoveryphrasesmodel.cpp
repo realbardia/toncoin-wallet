@@ -64,10 +64,9 @@ void RecoveryPhrasesModel::reload()
         int count = 1;
         for (const auto &text: keys)
         {
-            Phrase key = {
-                .text = text,
-                .index = count,
-            };
+            Phrase key;
+            key.text = text;
+            key.index = count;
 
             mPhrases << key;
             count++;

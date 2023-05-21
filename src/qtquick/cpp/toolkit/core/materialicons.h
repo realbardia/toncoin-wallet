@@ -756,7 +756,7 @@ class MaterialIcons: public QObject
     Q_PROPERTY(QString mdi_cancel MEMBER mdi_cancel CONSTANT)
     Q_PROPERTY(QString mdi_candle MEMBER mdi_candle CONSTANT)
     Q_PROPERTY(QString mdi_candycane MEMBER mdi_candycane CONSTANT)
-    Q_PROPERTY(QString mdi_cannabis MEMBER mdi_cannabis CONSTANT)
+//    Q_PROPERTY(QString mdi_cannabis MEMBER mdi_cannabis CONSTANT)
     Q_PROPERTY(QString mdi_caps_lock MEMBER mdi_caps_lock CONSTANT)
     Q_PROPERTY(QString mdi_car MEMBER mdi_car CONSTANT)
     Q_PROPERTY(QString mdi_car_battery MEMBER mdi_car_battery CONSTANT)
@@ -999,7 +999,7 @@ class MaterialIcons: public QObject
     Q_PROPERTY(QString mdi_clock_fast MEMBER mdi_clock_fast CONSTANT)
     Q_PROPERTY(QString mdi_clock_in MEMBER mdi_clock_in CONSTANT)
     Q_PROPERTY(QString mdi_clock_out MEMBER mdi_clock_out CONSTANT)
-    Q_PROPERTY(QString mdi_clock_outline MEMBER mdi_clock_outline CONSTANT)
+//    Q_PROPERTY(QString mdi_clock_outline MEMBER mdi_clock_outline CONSTANT)
     Q_PROPERTY(QString mdi_clock_start MEMBER mdi_clock_start CONSTANT)
     Q_PROPERTY(QString mdi_close MEMBER mdi_close CONSTANT)
     Q_PROPERTY(QString mdi_close_box MEMBER mdi_close_box CONSTANT)
@@ -4358,7 +4358,7 @@ public:
     static const QString mdi_cancel;
     static const QString mdi_candle;
     static const QString mdi_candycane;
-    static const QString mdi_cannabis;
+//    static const QString mdi_cannabis;
     static const QString mdi_caps_lock;
     static const QString mdi_car;
     static const QString mdi_car_battery;
@@ -4601,7 +4601,7 @@ public:
     static const QString mdi_clock_fast;
     static const QString mdi_clock_in;
     static const QString mdi_clock_out;
-    static const QString mdi_clock_outline;
+//    static const QString mdi_clock_outline;
     static const QString mdi_clock_start;
     static const QString mdi_close;
     static const QString mdi_close_box;
