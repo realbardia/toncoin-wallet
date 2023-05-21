@@ -31,8 +31,12 @@ TonToolkitObject {
         sourceDirectory: "qrc:/globals/translations/"
         delimiters: "-"
         fileName: "lang"
-        localeName: AppSettings.language
     }
 
-    function init() {}
+    function init() {
+        mgr.localeName = AppSettings.language;
+        AppSettings.languageChanged.connect(function(){
+            mgr.localeName = AppSettings.language;
+        })
+    }
 }

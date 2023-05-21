@@ -22,7 +22,6 @@ TWindow {
     maximumHeight: 2000
     minimumHeight: 400
 
-    LayoutMirroring.enabled: GTranslations.reverseLayout
     LayoutMirroring.childrenInherit: true
 
     readonly property bool portrait: width<height
@@ -36,6 +35,13 @@ TWindow {
 
     onWidthChanged: AppSettings.width = width
     onHeightChanged: AppSettings.height = height
+
+    Component.onCompleted: {
+        win.LayoutMirroring.enabled = GTranslations.reverseLayout
+        GTranslations.reverseLayoutChanged.connect(function(){
+            win.LayoutMirroring.enabled = GTranslations.reverseLayout;
+        })
+    }
 
     FastRectengleShadow {
         anchors.fill: windowScene
