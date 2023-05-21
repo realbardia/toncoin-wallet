@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import Toolkit.Core 1.0
+import Toolkit.Viewport 1.0
 import Wallet.Core 1.0
 import Wallet.TonConnect 1.0
 import "../components"
@@ -12,14 +13,29 @@ TDrawer {
 
     property string address: AppSettings.address
     property bool done
+    property bool errorOccured
 
     property TonConnect tonConnect
     property alias serviceId: service.serviceId
     property alias manifestUrl: service.manifestUrl
     property alias items: service.items
 
+    readonly property bool openState: dis.ViewportType.open
+    onOpenStateChanged: {
+        if (openState)
+            return;
+        if (done || errorOccured)
+            return;
+
+        tonConnect.reject(serviceId, TonConnect.ConnectDeclinedConnectionError);
+    }
+
     TonConnectService {
         id: service
+        onError: {
+            errorOccured = true;
+            tonConnect.reject(serviceId, TonConnect.ConnectDeclinedConnectionError);
+        }
     }
 
     Connections {

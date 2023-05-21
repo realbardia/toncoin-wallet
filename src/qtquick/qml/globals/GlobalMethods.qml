@@ -36,4 +36,10 @@ TonToolkitObject {
         checkingBiometricTimer.restart();
         return res;
     }
+
+    function pressedScale(width,height) {
+        let m = Math.max(width, height);
+        var res = (m-4) / m;
+        return Math.max(res, 0.95);
+    }
 }

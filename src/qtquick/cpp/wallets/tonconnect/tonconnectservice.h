@@ -55,6 +55,7 @@ Q_SIGNALS:
     void manifestUrlChanged();
     void serviceIdChanged();
     void itemsChanged();
+    void error(int error);
 
 protected:
     void doReload();

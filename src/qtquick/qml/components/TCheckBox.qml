@@ -75,7 +75,7 @@ TControlElement {
     TRow {
         anchors.centerIn: parent
         spacing: 10
-        scale: marea.pressed? 0.97 : 1
+        scale: marea.pressed? GlobalMethods.pressedScale(width,height) : 1
 
         Behavior on scale {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }

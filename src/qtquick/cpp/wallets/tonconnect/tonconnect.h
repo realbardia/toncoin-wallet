@@ -42,6 +42,30 @@ public:
         static Token fromMap(const QVariantMap &m);
     };
 
+    enum ConnectErrors {
+        ConnectUnknownError = 0,
+        ConnectBadRequestError = 1,
+        ConnectManifestNotFoundError = 2,
+        ConnectManifestContentError = 3,
+        ConnectUnknownAppError = 100,
+        ConnectDeclinedConnectionError = 300,
+    };
+    Q_ENUMS(ConnectErrors)
+
+    enum ConnectItemErrors {
+        ConnectUnknownItemError = 0,
+        ConnectUnsupportedItemError = 400,
+    };
+    Q_ENUMS(ConnectItemErrors)
+
+    enum DisconnectErrors {
+        DisonnectUnknownError = 0,
+        DisconnectBadRequestError = 1,
+        DisconnectUnkownAppError = 100,
+        DisconnectUnsupportedMethodError = 400,
+    };
+    Q_ENUMS(DisconnectErrors)
+
     enum Network {
         Testnet = -3,
         Mainnet = -239
@@ -104,10 +128,11 @@ public Q_SLOTS:
     bool check(const QString &tag);
 
     void accept(TonConnectService *service);
-    void reject(TonConnectService *service);
+    void reject(const QString &id, int error);
     void revoke(const QString &id);
 
     void transferCompleted(const QString &serviceId, const QString &amount, const QString &address);
+    void transferRejected(const QString &serviceId, const QString &amount, const QString &address);
 
     void runEventListener();
 
@@ -138,6 +163,7 @@ protected:
     void setConnecting(bool newConnecting);
 
     void accept(TonConnectService *service, const QByteArray &privateKey, const QByteArray &publicKey);
+    QNetworkReply *sendMessage(const QString &serviceId, const QByteArray &decodedData, const std::function<void(const QByteArray &data, bool error)> callback);
 
     QList<Token> getTokens() const;
     void writeTokens(const QList<Token> &tokens);

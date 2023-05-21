@@ -5,7 +5,7 @@ import "../globals"
 
 TControlElement {
     id: dis
-    scale: marea.pressed? 0.97 : 1
+    scale: marea.pressed? GlobalMethods.pressedScale(width,height) : 1
     height: Constants.itemsHeight
 
     property alias font: input.font

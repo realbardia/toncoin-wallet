@@ -1,6 +1,7 @@
 #include "tonconnectservice.h"
 
 #include "tontoolkitapplicationitem.h"
+#include "tonconnect.h"
 
 #include <QUrl>
 #include <QUrlQuery>
@@ -45,12 +46,23 @@ void TonConnectService::doReload()
     QNetworkRequest req(mManifestUrl);
     mReply = mAm->get(req);
     connect(mReply, &QNetworkReply::finished, this, [this](){
-        auto json = QJsonDocument::fromJson(mReply->readAll());
+        const auto data = mReply->readAll();
+        auto json = QJsonDocument::fromJson(data);
         if (json.isObject())
         {
             auto obj = json.object();
             mServiceUrl = obj.value(QStringLiteral("url")).toString();
             mServiceName = obj.value(QStringLiteral("name")).toString();
+            if (mServiceUrl.isEmpty() || mServiceName.isEmpty())
+            {
+                mServiceUrl.clear();
+                mServiceName.clear();
+                mServiceIcon.clear();
+                mServiceTerms.clear();
+                mServicePolicy.clear();
+                Q_EMIT error(TonConnect::ConnectUnknownAppError);
+                return;
+            }
             mServiceIcon = obj.value(QStringLiteral("iconUrl")).toString();
             mServiceTerms = obj.value(QStringLiteral("termsOfUseUrl")).toString();
             mServicePolicy = obj.value(QStringLiteral("privacyPolicyUrl")).toString();
@@ -62,6 +74,11 @@ void TonConnectService::doReload()
             mServiceIcon.clear();
             mServiceTerms.clear();
             mServicePolicy.clear();
+
+            if (data.isEmpty())
+                Q_EMIT error(TonConnect::ConnectManifestNotFoundError);
+            else
+                Q_EMIT error(TonConnect::ConnectManifestContentError);
         }
 
         mReply->deleteLater();

@@ -98,7 +98,7 @@ TControlElement {
 
     TRow {
         anchors.centerIn: parent
-        scale: marea.pressed? 0.97 : 1
+        scale: marea.pressed? GlobalMethods.pressedScale(width,height) : 1
         spacing: 2
         visible: textVisible
 

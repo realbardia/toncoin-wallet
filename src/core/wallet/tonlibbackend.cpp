@@ -598,8 +598,18 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                         .store_long(3, 8);
 
                     {
+                        auto std_dest = block::StdAddress::parse(td::Slice(dest.toStdString()));
+                        if (!std_dest.is_ok())
+                        {
+                            Error err;
+                            err.code = 1;
+                            err.message = QStringLiteral("Bad destination address");
+                            callback(PreparedTransferItem(), err);
+                            return;
+                        }
+
                         ton::WalletInterface::Gift gift;
-                        gift.destination = block::StdAddress::parse(td::Slice(dest.toStdString())).move_as_ok();
+                        gift.destination = std_dest.move_as_ok();
                         gift.message = message.toStdString();
                         gift.is_encrypted = encryption;
                         gift.gramms = amount;

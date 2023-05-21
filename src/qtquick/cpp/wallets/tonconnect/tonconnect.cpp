@@ -105,6 +105,70 @@ bool TonConnect::check(const QString &tag)
     return true;
 }
 
+void TonConnect::revoke(const QString &id)
+{
+    QList<Token> tokens;
+    for (const auto &t: getTokens())
+        if (t.id != id)
+            tokens << t;
+
+    writeTokens(tokens);
+
+    QVariantMap success = {
+        {"type", "disconnect"},
+        {"id", mUniqueId++},
+        {"payload", QVariantMap()},
+    };
+
+    const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
+    sendMessage(id, json, [](const QByteArray &, bool){});
+
+    runEventListener();
+    Q_EMIT tokensChanged();
+}
+
+void TonConnect::reject(const QString &id, int error)
+{
+    QVariantMap payload = {
+        {"code", error},
+    };
+
+    switch (error)
+    {
+    case ConnectUnknownError:
+        payload[QStringLiteral("message")] = QStringLiteral("Unknown error");
+        break;
+    case ConnectBadRequestError:
+        payload[QStringLiteral("message")] = QStringLiteral("Bad request");
+        break;
+    case ConnectManifestNotFoundError:
+        payload[QStringLiteral("message")] = QStringLiteral("App manifest not found");
+        break;
+    case ConnectManifestContentError:
+        payload[QStringLiteral("message")] = QStringLiteral("App manifest content error");
+        break;
+    case ConnectUnknownAppError:
+        payload[QStringLiteral("message")] = QStringLiteral("Unknown app");
+        break;
+    case ConnectDeclinedConnectionError:
+        payload[QStringLiteral("message")] = QStringLiteral("User declined the connection");
+        break;
+    }
+
+    QVariantMap success = {
+        {"event", "connect_error"},
+        {"id", mUniqueId++},
+        {"payload", payload},
+    };
+
+    const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
+
+    sendMessage(id, json, [this](const QByteArray &, bool){
+        setConnecting(false);
+    });
+    setConnecting(true);
+}
+
 void TonConnect::accept(TonConnectService *service)
 {
     if (!mWallet || !mWallet->backend() || !mWallet->backend()->backendObject())
@@ -210,28 +274,10 @@ void TonConnect::accept(TonConnectService *service, const QByteArray &privateKey
         {"payload", payload},
     };
 
-    QUrlQuery query;
-    query.addQueryItem("client_id", clientId());
-    query.addQueryItem("to", service->serviceId());
-    query.addQueryItem("ttl", "300");
-
-    QUrl url(mBridgeUrl + "/message");
-    url.setQuery(query);
-
     const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
 
-    QNetworkRequest req(url);
-    req.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
-
-    auto reply = mAm->post(req, json.toBase64());
-
-    connect(service, &QObject::destroyed, this, [reply, this](){
-        reply->deleteLater();
-        setConnecting(false);
-    });
-
-    connect(reply, &QNetworkReply::finished, this, [this, reply, service](){
-        const auto json = QJsonDocument::fromJson(reply->readAll());
+    QPointer<QNetworkReply> reply = sendMessage(service->serviceId(), json, [this, service](const QByteArray &data, bool error){
+        const auto json = QJsonDocument::fromJson(data);
         const auto &id = service->serviceId();
         if (json.object().value("statusCode").toInt() == 200)
         {
@@ -254,12 +300,39 @@ void TonConnect::accept(TonConnectService *service, const QByteArray &privateKey
             Q_EMIT connectingFailed(id);
 
         setConnecting(false);
-        service->disconnect(this);
+    });
+    connect(service, &QObject::destroyed, this, [reply, this](){
+        if (reply) reply->deleteLater();
+        setConnecting(false);
+    });
+
+    setConnecting(true);
+}
+
+QNetworkReply *TonConnect::sendMessage(const QString &serviceId, const QByteArray &decodedData, const std::function<void (const QByteArray &, bool)> callback)
+{
+    QUrlQuery query;
+    query.addQueryItem("client_id", clientId());
+    query.addQueryItem("to", serviceId);
+    query.addQueryItem("ttl", "300");
+
+    QUrl url(mBridgeUrl + "/message");
+    url.setQuery(query);
+
+    QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
+
+    auto reply = mAm->post(req, decodedData.toBase64());
+
+    connect(reply, &QNetworkReply::finished, this, [this, reply, callback](){
+        callback(reply->readAll(), false);
+        setConnecting(false);
         reply->deleteLater();
         runEventListener();
     });
 
     setConnecting(true);
+    return reply;
 }
 
 QList<TonConnect::Token> TonConnect::getTokens() const
@@ -452,6 +525,28 @@ void TonConnect::processMessage(const TonConnect::Token &from, const QByteArray 
             }
         }
     }
+    else if (method == QStringLiteral("disconnect"))
+    {
+        const auto id = obj.value("id").toString();
+
+        QList<Token> tokens;
+        for (const auto &t: getTokens())
+            if (t.id != from.id)
+                tokens << t;
+
+        writeTokens(tokens);
+
+        QVariantMap success = {
+            {"id", id},
+            {"result", QVariantMap()},
+        };
+
+        const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
+        sendMessage(from.id, json, [](const QByteArray &, bool){});
+
+        runEventListener();
+        Q_EMIT tokensChanged();
+    }
 }
 
 bool TonConnect::locked() const
@@ -545,24 +640,12 @@ void TonConnect::setPassword(const QString &newPassword)
     Q_EMIT passwordChanged();
 }
 
-void TonConnect::reject(TonConnectService *)
-{
-
-}
-
-void TonConnect::revoke(const QString &id)
-{
-    QList<Token> tokens;
-    for (const auto &t: getTokens())
-        if (t.id != id)
-            tokens << t;
-
-    writeTokens(tokens);
-    runEventListener();
-    Q_EMIT tokensChanged();
-}
-
 void TonConnect::transferCompleted(const QString &serviceId, const QString &amount, const QString &address)
+{
+
+}
+
+void TonConnect::transferRejected(const QString &serviceId, const QString &amount, const QString &address)
 {
 
 }
