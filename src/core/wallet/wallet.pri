@@ -23,18 +23,19 @@ exists($$TON_SOURCE_PATH/crypto/common/bitstring.h) {
 }
 
 linux: !android {
-    isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = /usr
+    isEmpty(OPENSSL_LIB_PATH): OPENSSL_LIB_PATH = /usr
 } else {
-    isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = $$[QT_INSTALL_DATA]
+    isEmpty(OPENSSL_LIB_PATH): OPENSSL_LIB_PATH = $$[QT_INSTALL_DATA]
 }
-exists($$OPENSS_LIB_PATH/include/openssl/conf.h) {
-    message(OpenSSL libs found on $$OPENSS_LIB_PATH)
+isEmpty(OPENSSL_LIB_PATH): OPENSSL_LIB_PATH = $$OPENSS_LIB_PATH
+exists($$OPENSSL_LIB_PATH/include/openssl/conf.h) {
+    message(OpenSSL libs found on $$OPENSSL_LIB_PATH)
 } else {
-    OPENSS_LIB_PATH = $$getenv(OPENSS_LIB_PATH)
-    exists($$OPENSS_LIB_PATH/include/openssl/conf.h) {
-        message(OpenSSL libs found on $$OPENSS_LIB_PATH)
+    OPENSSL_LIB_PATH = $$getenv(OPENSSL_LIB_PATH)
+    exists($$OPENSSL_LIB_PATH/include/openssl/conf.h) {
+        message(OpenSSL libs found on $$OPENSSL_LIB_PATH)
     } else {
-        error(Could not find OpenSSL lib directory. Please set it using OPENSS_LIB_PATH argument)
+        error(Could not find OpenSSL lib directory. Please set it using OPENSSL_LIB_PATH argument)
     }
 }
 
@@ -64,7 +65,7 @@ INCLUDEPATH += \
     $$TON_SOURCE_PATH/crypto \
     $$TON_SOURCE_PATH/tddb \
     $$TON_SOURCE_PATH/tdutils \
-    $$OPENSS_LIB_PATH/include
+    $$OPENSSL_LIB_PATH/include
 
 message($$TON_LIB_PATH/lib/)
 LIBS += -L$$TON_LIB_PATH/lib/ \
@@ -85,7 +86,7 @@ LIBS += -L$$TON_LIB_PATH/lib/ \
     -lton_block \
     -lton_crypto
 
-LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSS_LIB_PATH/lib -lssl -lcrypto
+LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSSL_LIB_PATH/lib -lssl -lcrypto
 
 win32: LIBS += -lws2_32 -lpsapi
 
