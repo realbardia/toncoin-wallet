@@ -1,4 +1,4 @@
  
 
-RESOURCES += \
-    $$PWD/images.qrc
+#RESOURCES += \
+#    $$PWD/images.qrc
