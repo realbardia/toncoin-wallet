@@ -83,9 +83,8 @@ void KeysManager::reload()
     {
         for (const auto &publicKey: backend->keys())
         {
-            Key key = {
-                .publicKey = QString::fromLatin1(publicKey.toBase64()),
-            };
+            Key key;
+            key.publicKey = QString::fromLatin1(publicKey.toBase64());
 
             mKeys << key;
         }
@@ -124,9 +123,8 @@ bool KeysManager::createNewWallet()
         }
 
         beginInsertRows(QModelIndex(), count(), count()+1);
-        Key key = {
-            .publicKey = QString::fromLatin1(publicKey.toBase64()),
-        };
+        Key key;
+        key.publicKey = QString::fromLatin1(publicKey.toBase64());
 
         mKeys << key;
         endInsertRows();
@@ -170,9 +168,8 @@ bool KeysManager::importWallet(const QStringList &words)
         }
 
         beginInsertRows(QModelIndex(), count(), count()+1);
-        Key key = {
-            .publicKey = QString::fromLatin1(publicKey.toBase64()),
-        };
+        Key key;
+        key.publicKey = QString::fromLatin1(publicKey.toBase64());
 
         mKeys << key;
         endInsertRows();

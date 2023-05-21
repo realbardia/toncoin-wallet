@@ -64,9 +64,8 @@ void RecoveryWordsModel::reload()
         if (!mKeyword.isEmpty() && text.left(mKeyword.length()).toLower() != mKeyword.toLower())
             continue;
 
-        Phrase key = {
-            .text = text,
-        };
+        Phrase key;
+        key.text = text;
 
         mPhrases << key;
         words.removeAt(i);
@@ -80,9 +79,8 @@ void RecoveryWordsModel::reload()
             if (!text.contains(mKeyword, Qt::CaseInsensitive))
                 continue;
 
-            Phrase key = {
-                .text = text,
-            };
+            Phrase key;
+            key.text = text;
 
             mPhrases << key;
         }

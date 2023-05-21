@@ -1,4 +1,4 @@
-win32 {
+win32: msvc {
     isEmpty(ZLIB_PATH): !android: ZLIB_PATH = /usr
     exists($$ZLIB_PATH/include/zlib.h) {
         message(Zlib found on $$ZLIB_PATH)
