@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 #endif
     app.setApplicationName("Tonium");
     app.setWindowIcon(QIcon(":/ton/common/icons/icon.png"));
+    app.setApplicationVersion(VERSION_STR);
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     if (!app.arguments().contains("--no-check-desktop-installation"))

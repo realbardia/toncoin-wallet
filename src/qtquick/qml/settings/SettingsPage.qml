@@ -303,7 +303,7 @@ TPage {
 
                         TLabel {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: qsTr("Developer by Bardia Daneshvar")
+                            text: qsTr("Developed by Bardia Daneshvar")
                             font.pixelSize: 8 * Devices.fontDensity
                             opacity: 0.6
                         }
