@@ -11,8 +11,8 @@ TWindow {
     id: win
     width: AppSettings.width
     height: AppSettings.height
-    flags: Constants.frameless? Qt.FramelessWindowHint | Qt.Window : Qt.Window
-    color: Constants.frameless? "#00000000" : Colors.background
+    flags: AppSettings.frameless? Qt.FramelessWindowHint | Qt.Window : Qt.Window
+    color: AppSettings.frameless? "#00000000" : Colors.background
     visible: true
     title: AsemanApp.applicationName
 
@@ -58,12 +58,12 @@ TWindow {
         radius: 10
         horizontalOffset: 1
         verticalOffset: 1
-        visible: Constants.frameless && win.visibility != Window.Maximized
+        visible: AppSettings.frameless && win.visibility != Window.Maximized
     }
 
     Item {
         id: windowScene
-        anchors.margins: Constants.frameless && win.visibility != Window.Maximized? 5 * Devices.density : 0
+        anchors.margins: AppSettings.frameless && win.visibility != Window.Maximized? 5 * Devices.density : 0
         anchors.fill: parent
 
         Item {
@@ -112,14 +112,14 @@ TWindow {
             id: framelessPad
             anchors.left: parent.left
             anchors.right: parent.right
-            height: Constants.frameless? 30 * Devices.density : 0
+            height: AppSettings.frameless? 30 * Devices.density : 0
             color: Colors.headerColor
-            visible: Constants.frameless
+            visible: AppSettings.frameless
 
             MouseArea {
                 id: marea
                 anchors.fill: parent
-                visible: Constants.frameless
+                visible: AppSettings.frameless
                 onPressed: {
                     pin = Qt.point(mouseX, mouseY);
                 }
@@ -142,7 +142,7 @@ TWindow {
         }
 
         TTitleBarButtons {
-            visible: Constants.frameless
+            visible: AppSettings.frameless
         }
 
         TSnackBar {
@@ -156,13 +156,13 @@ TWindow {
             border.color: Colors.foreground
             border.width: 1
             opacity: 0.2
-            visible: Constants.frameless
+            visible: AppSettings.frameless
         }
     }
 
     TWindowMovable {
         anchors.fill: parent
-        visible: Constants.frameless
+        visible: AppSettings.frameless
         mWin: win
     }
 

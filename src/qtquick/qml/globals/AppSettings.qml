@@ -9,6 +9,8 @@ Settings {
 
     property bool darkMode: false
     property string language: "en"
+    property bool frameless
+    property bool inited
 
     property real width: 380
     property real height: 680
@@ -41,5 +43,15 @@ Settings {
         touchId = false;
         touchIdSecureKey = "";
         newlyCreatedWallet = false;
+    }
+
+    Component.onCompleted: {
+        if (inited)
+            return;
+
+        if (Constants.framelessSupported)
+            frameless = true;
+
+        inited = true;
     }
 }

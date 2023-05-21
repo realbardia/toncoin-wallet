@@ -118,7 +118,7 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Language")
-                            spacer: false
+                            spacer: Constants.framelessSupported
                             onClicked: languageMenu.open()
 
                             TLabel {
@@ -136,6 +136,30 @@ TPage {
                                         }
                                     return res;
                                 }
+                            }
+                        }
+                        SettingItem {
+                            title: qsTr("Frameless")
+                            visible: Constants.framelessSupported
+                            spacer: false
+                            onClicked: {
+                                AppSettings.frameless = !AppSettings.frameless
+                                Tools.jsDelayCall(10, function(){
+                                    GlobalValues.mwin.hide();
+                                    Tools.jsDelayCall(10, function(){
+                                        GlobalValues.mwin.width += 1;
+                                        GlobalValues.mwin.height += 1;
+                                        GlobalValues.mwin.show();
+                                    });
+                                });
+                            }
+
+                            TSwitch {
+                                anchors.right: parent.right
+                                anchors.rightMargin: 20
+                                anchors.verticalCenter: parent.verticalCenter
+                                z: -1
+                                checked: AppSettings.frameless
                             }
                         }
                     }
