@@ -8,9 +8,9 @@
         <translation>Félicitations</translation>
     </message>
     <message>
-        <source>Your TON wallet has just been created. Only you control it.
+        <source>Your TON wallet has just been created Only you control it.
 
-To be able to always have access to it, please write down your secret words and set up a secure passcode.</source>
+To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
         <translation>Votre portefeuille TON vient d&apos;être créé. Vous en avez le contrôle exclusif.
 
 Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et définir un code de sécurité.</translation>
@@ -19,7 +19,6 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
         <source>Proceed</source>
         <translation>Continuer</translation>
     </message>
-
 </context>
 <context>
     <name>ConnectPage</name>
@@ -37,11 +36,19 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     </message>
     <message>
         <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
-        <translation>%1 demande l'accès à votre adresse de portefeuille &lt;u&gt;%2&lt;/u&gt; v4R2.</translation>
+        <translation>%1 demande l&apos;accès à votre adresse de portefeuille &lt;u&gt;%2&lt;/u&gt; v4R2.</translation>
     </message>
     <message>
         <source>Be sure to check the service address before connecting the wallet.</source>
-        <translation>Assurez-vous de vérifier l'adresse du service avant de connecter le portefeuille.</translation>
+        <translation>Assurez-vous de vérifier l&apos;adresse du service avant de connecter le portefeuille.</translation>
+    </message>
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -65,6 +72,10 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     <message>
         <source>Confirm</source>
         <translation>Confirmer</translation>
+    </message>
+    <message>
+        <source>Failed to transfer</source>
+        <translation type="unfinished">Échec du transfert</translation>
     </message>
 </context>
 <context>
@@ -188,14 +199,6 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     </message>
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
-        <translation>Désolé, vous avez saisi des mots secrets incorrects. Veuillez vérifier à nouveau et réessayer.</translation>
-    </message>
-    <message>
-        <source>You can restore access to your wallet by entering the 24 words you wrote down when you created the wallet.</source>
-        <translation>Vous pouvez restaurer l'accès à votre portefeuille en saisissant les 24 mots que vous avez écrits lorsque vous avez créé le portefeuille.</translation>
-    </message>
-    <message>
-        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
         <translation>Désolé, vous avez saisi des mots secrets incorrects. Veuillez vérifier à nouveau et réessayer.</translation>
     </message>
 </context>
@@ -355,10 +358,6 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     <message>
         <source>Fee</source>
         <translation>Frais</translation>
-    </message>
-    <message>
-        <source>Message size has been exceeded by %1 charcaters.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -544,7 +543,7 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Annuler</translation>
     </message>
     <message>
         <source>Do you realy want to logout?</source>
@@ -706,53 +705,44 @@ Pour pouvoir y accéder en permanence, veuillez noter vos mots de passe et défi
     </message>
 </context>
 <context>
-    <name>TonToolkitTools</name>
+    <name>TokensPage</name>
     <message>
-        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <source>Tokens</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
+        <source>There is no token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>0</source>
+        <source>Revoke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1</source>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonConnect</name>
+    <message>
+        <source>Timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>2</source>
+        <source>An expired request received from %1 and rejected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>3</source>
+        <source>Bad network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>9</source>
+        <source>%1 send a transaction request on the wrong network.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -42,6 +42,26 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>Asegúrate de verificar la dirección de servicio antes de conectar la billetera.</source>
         <translation>Asegúrate de verificar la dirección de servicio antes de conectar la billetera.</translation>
     </message>
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is requesting access to your wallet address &lt;u&gt;%2&lt;/u&gt; v4R2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure to check the service address before connecting the wallet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectTransferPage</name>
@@ -64,6 +84,10 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     <message>
         <source>Confirm</source>
         <translation>Confirmar</translation>
+    </message>
+    <message>
+        <source>Failed to transfer</source>
+        <translation type="unfinished">Error al transferir</translation>
     </message>
 </context>
 <context>
@@ -134,10 +158,6 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     <message>
         <source>View my wallet</source>
         <translation>Ver mi billetera</translation>
-    </message>
-    <message>
-        <source>Ya estás listo. Ahora tienes una billetera que solo tú controlas, directamente, sin intermediarios ni banqueros.</source>
-        <translation>Ya estás listo. Ahora tienes una billetera que solo tú controlas, directamente, sin intermediarios ni banqueros.</translation>
     </message>
 </context>
 <context>
@@ -553,6 +573,34 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>¿Realmente deseas cerrar sesión?</source>
         <translation>¿Realmente deseas cerrar sesión?</translation>
     </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After %1s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -713,6 +761,48 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     </message>
 </context>
 <context>
+    <name>TokensPage</name>
+    <message>
+        <source>Tokens</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revoke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+    <message>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonConnect</name>
+    <message>
+        <source>Timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An expired request received from %1 and rejected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bad network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 send a transaction request on the wrong network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TransactionDialog</name>
     <message>
         <source>Transaction</source>
@@ -766,6 +856,10 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>Failed</source>
         <translation>Falló</translation>
     </message>
+    <message>
+        <source>%1 at %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TransactionsList</name>
@@ -805,6 +899,10 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
         <source>Failed</source>
         <translation>Falló</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Wallet</name>
@@ -843,6 +941,14 @@ Para poder acceder a ella siempre, por favor escribe tus palabras secretas y con
     <message>
         <source>%1 TON a %2</source>
         <translation>%1 TON a %2</translation>
+    </message>
+    <message>
+        <source>Transfer completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

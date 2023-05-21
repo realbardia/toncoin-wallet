@@ -8,9 +8,9 @@
         <translation>Herzlichen Glückwunsch</translation>
     </message>
     <message>
-        <source>Your TON wallet has just been created. Only you control it.
+        <source>Your TON wallet has just been created Only you control it.
 
-To be able to always have access to it, please write down your secret words and set up a secure passcode.</source>
+To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
         <translation>Ihre TON-Brieftasche wurde gerade erstellt. Nur Sie haben die Kontrolle darüber.
 
 Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und richten Sie einen sicheren Passcode ein.</translation>
@@ -18,14 +18,6 @@ Um jederzeit Zugriff darauf zu haben, notieren Sie bitte Ihre Geheimwörter und 
     <message>
         <source>Proceed</source>
         <translation>Weiter</translation>
-    </message>
-    <message>
-        <source>Your TON wallet has just been created. Only you control it.
-
-To be able to always have access to it, please write your own secret words and set up a secure passcode.</source>
-        <translation>Deine TON-Wallet wurde gerade erstellt. Du hast die alleinige Kontrolle darüber.
-
-Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter auf und richte einen sicheren Zugangscode ein.</translation>
     </message>
 </context>
 <context>
@@ -50,6 +42,14 @@ Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter
         <source>Be sure to check the service address before connecting the wallet.</source>
         <translation>Vergewissere dich, dass du die Service-Adresse überprüfst, bevor du die Wallet verbindest.</translation>
     </message>
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectTransferPage</name>
@@ -72,6 +72,10 @@ Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter
     <message>
         <source>Confirm</source>
         <translation>Bestätigen</translation>
+    </message>
+    <message>
+        <source>Failed to transfer</source>
+        <translation type="unfinished">Übertragung fehlgeschlagen</translation>
     </message>
 </context>
 <context>
@@ -553,6 +557,10 @@ Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter
         <source>Do you really want to logout?</source>
         <translation>Möchtest du dich wirklich abmelden?</translation>
     </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -704,8 +712,50 @@ Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter
         <translation>Die eingegebenen geheimen Wörter stimmen nicht mit denen in der Liste überein.</translation>
     </message>
     <message>
-        <source>Let's check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt;, and &lt;b&gt;%3&lt;/b&gt;.</source>
+        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; and &lt;b&gt;%3&lt;/b&gt;.</source>
         <translation>Lass uns überprüfen, ob du sie korrekt notiert hast. Bitte gib die Wörter &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; und &lt;b&gt;%3&lt;/b&gt; ein.</translation>
+    </message>
+</context>
+<context>
+    <name>TokensPage</name>
+    <message>
+        <source>Tokens</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revoke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonConnect</name>
+    <message>
+        <source>Timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An expired request received from %1 and rejected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bad network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 send a transaction request on the wrong network.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -839,6 +889,10 @@ Um jederzeit Zugriff darauf zu haben, schreibe bitte deine eigenen Geheimwörter
     <message>
         <source>%1 TON to %2</source>
         <translation>%1 TON an %2</translation>
+    </message>
+    <message>
+        <source>%1TON to %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -36,6 +36,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>Be sure to check the service address before connecting the wallet.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectTransferPage</name>
@@ -57,6 +65,10 @@ To be able to always have access to it, please write own secret words and set up
     </message>
     <message>
         <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to transfer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -177,10 +189,6 @@ To be able to always have access to it, please write own secret words and set up
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -679,53 +687,44 @@ To be able to always have access to it, please write own secret words and set up
     </message>
 </context>
 <context>
-    <name>TonToolkitTools</name>
+    <name>TokensPage</name>
     <message>
-        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <source>Tokens</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
+        <source>There is no token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>0</source>
+        <source>Revoke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1</source>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>2</source>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonConnect</name>
+    <message>
+        <source>Timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>3</source>
+        <source>An expired request received from %1 and rejected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>4</source>
+        <source>Bad network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>9</source>
+        <source>%1 send a transaction request on the wrong network.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

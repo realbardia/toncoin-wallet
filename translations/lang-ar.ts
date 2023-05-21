@@ -42,6 +42,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>Be sure to check the service address before connecting the wallet.</source>
         <translation>تأكد من التحقق من عنوان الخدمة قبل الاتصال بالمحفظة.</translation>
     </message>
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectTransferPage</name>
@@ -64,6 +72,10 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Confirm</source>
         <translation>تأكيد</translation>
+    </message>
+    <message>
+        <source>Failed to transfer</source>
+        <translation type="unfinished">فشلت عملية التحويل</translation>
     </message>
 </context>
 <context>
@@ -135,10 +147,6 @@ To be able to always have access to it, please write own secret words and set up
         <source>View my wallet</source>
         <translation>عرض محفظتي</translation>
     </message>
-    <message>
-        <source>You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.</source>
-        <translation>كل شيء جاهز الآن. لديك محفظة تحكم فيها بنفسك فقط - مباشرةً، بدون وسطاء أو بنوك.</translation>
-    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -192,14 +200,6 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
         <translation>عذرًا ، لقد أدخلت كلمات سرية غير صحيحة. يرجى التحقق مرة أخرى والمحاولة مرة أخرى.</translation>
-    </message>
-    <message>
-        <source>You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</source>
-        <translation>يمكنك استعادة الوصول إلى محفظتك عن طريق إدخال الكلمات السرية الـ 24 التي كتبتها عند إنشاء المحفظة.</translation>
-    </message>
-    <message>
-        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
-        <translation>عذرًا، لقد أدخلت كلمات سرية غير صحيحة. يرجى التحقق مرة أخرى والمحاولة مرة أخرى.</translation>
     </message>
 </context>
 <context>
@@ -358,10 +358,6 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Fee</source>
         <translation>الرسوم</translation>
-    </message>
-    <message>
-        <source>Message size has been exceeded by %1 charcaters.</source>
-        <translation>تم تجاوز حجم الرسالة بواسطة %1 حرفًا.</translation>
     </message>
 </context>
 <context>
@@ -553,7 +549,6 @@ To be able to always have access to it, please write own secret words and set up
         <source>Do you realy want to logout?</source>
         <translation>هل ترغب حقًا في تسجيل الخروج؟</translation>
     </message>
-
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -707,6 +702,48 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>الكلمات السرية التي أدخلتها لا تتطابق مع الكلمات الموجودة في القائمة.</translation>
+    </message>
+</context>
+<context>
+    <name>TokensPage</name>
+    <message>
+        <source>Tokens</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revoke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">إلغاء</translation>
+    </message>
+    <message>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonConnect</name>
+    <message>
+        <source>Timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An expired request received from %1 and rejected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bad network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 send a transaction request on the wrong network.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

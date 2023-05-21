@@ -8,7 +8,7 @@ SimplePageTemplate {
     id: dis
     sticker: "qrc:/ton/common/stickers/Success.tgs"
     title: qsTr("Ready to go!")
-    body: qsTr("You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.")
+    body: qsTr("You are all set. Now you have a wallet that only you control -- directly, without middlemen or bankers.")
     backable: true
 
     property string publicKey

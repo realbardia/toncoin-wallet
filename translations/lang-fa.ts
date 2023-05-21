@@ -8,9 +8,9 @@
         <translation>تبریک می‌گوییم</translation>
     </message>
     <message>
-        <source>Your TON wallet has just been created. Only you control it.
+        <source>Your TON wallet has just been created Only you control it.
 
-To be able to always have access to it, please write down your secret words and set up a secure passcode.</source>
+To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
         <translation>کیف پول TON شما به تازگی ایجاد شده است. تنها شما کنترل آن را دارید.
 
 برای اطمینان از همیشه دسترسی به آن، لطفاً کلمات اسراری خود را یادداشت کنید و یک رمز عبور امن تنظیم کنید.</translation>
@@ -19,15 +19,6 @@ To be able to always have access to it, please write down your secret words and 
         <source>Proceed</source>
         <translation>ادامه</translation>
     </message>
-    <message>
-        <source>Your TON wallet has just been created. Only you control it.
-
-    To be able to always have access to it, please write down your secret words and set up a secure passcode.</source>
-        <translation>کیف پول TON شما به تازگی ایجاد شده است. فقط شما کنترل آن را دارید.
-
-    برای همیشه به آن دسترسی داشتن، لطفاً کلمات رمز خود را یادداشت کنید و یک رمز عبور امن تنظیم کنید.</translation>
-    </message>
-
 </context>
 <context>
     <name>ConnectPage</name>
@@ -51,7 +42,14 @@ To be able to always have access to it, please write down your secret words and 
         <source>Be sure to check the service address before connecting the wallet.</source>
         <translation>حتماً قبل از اتصال کیف پول، آدرس سرویس را بررسی کنید.</translation>
     </message>
-
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectTransferPage</name>
@@ -75,8 +73,11 @@ To be able to always have access to it, please write down your secret words and 
         <source>Confirm</source>
         <translation>تأیید</translation>
     </message>
+    <message>
+        <source>Failed to transfer</source>
+        <translation type="unfinished">انتقال ناموفق بود</translation>
+    </message>
 </context>
-
 <context>
     <name>CurrenciesModel</name>
     <message>
@@ -200,15 +201,6 @@ To be able to always have access to it, please write down your secret words and 
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
         <translation>متأسفانه، شما کلمات اسراری نادرست وارد کرده‌اید. لطفاً دوباره بررسی کنید و مجدداً تلاش کنید.</translation>
     </message>
-    <message>
-        <source>You can restore access to your wallet by entering 24 words you wrote when you created the wallet.</source>
-        <translation>شما می‌توانید با وارد کردن ۲۴ کلمه‌ای که هنگام ایجاد کیف پول نوشتید، دسترسی به کیف پول خود را بازیابی کنید.</translation>
-    </message>
-    <message>
-        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
-        <translation>با عرض پوزش، شما کلمات رازی نادرست وارد کرده‌اید. لطفاً دوباره بررسی کنید و دوباره تلاش کنید.</translation>
-    </message>
-
 </context>
 <context>
     <name>LockDialog</name>
@@ -344,7 +336,7 @@ To be able to always have access to it, please write down your secret words and 
         <translation>نظر به همه قابل مشاهده است. هنگام ارسال به یک صرافی باید یادداشت را ارسال کنید.</translation>
     </message>
     <message>
-        <source>Message size has been exceeded by %1 charcaters.</source>
+        <source>Message size has been exceeded by %1 characters.</source>
         <translation>اندازه پیام توسط %1 کاراکتر بیش از حد مجاز است.</translation>
     </message>
     <message>
@@ -557,6 +549,10 @@ To be able to always have access to it, please write down your secret words and 
         <source>Do you really want to logout?</source>
         <translation>آیا واقعاً می‌خواهید خارج شوید؟</translation>
     </message>
+    <message>
+        <source>Do you realy want to logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SimplePageTemplate</name>
@@ -711,9 +707,47 @@ To be able to always have access to it, please write down your secret words and 
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>کلمات مخفی وارد شده با کلمات موجود در لیست مطابقت ندارند.</translation>
     </message>
+</context>
+<context>
+    <name>TokensPage</name>
     <message>
-        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; and &lt;b&gt;%3&lt;/b&gt;.</source>
-        <translation>بیایید بررسی کنیم که آن‌ها را به درستی یادداشت کرده‌اید. لطفاً کلمات &lt;b&gt;%1&lt;/b&gt;، &lt;b&gt;%2&lt;/b&gt; و &lt;b&gt;%3&lt;/b&gt; را وارد کنید.</translation>
+        <source>Tokens</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revoke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">لغو</translation>
+    </message>
+    <message>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TonConnect</name>
+    <message>
+        <source>Timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An expired request received from %1 and rejected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bad network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 send a transaction request on the wrong network.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

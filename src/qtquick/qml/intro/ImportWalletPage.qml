@@ -242,7 +242,7 @@ TPage {
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         font.weight: Font.Light
-                        text: qsTr("You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.")
+                        text: qsTr("You can restore access to your wallet by entering the 24 words you wrote down when creating the wallet.")
                     }
 
                     TButton {
@@ -312,7 +312,7 @@ TPage {
         TLabel {
             width: Math.min(recovertPage.width - 40, 300)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTr("Sorry, you have entered incorrect secret words. Please double check and try again.")
+            text: qsTr("Sorry, you have entered incorrect secret words. Please double-check and try again.")
         }
     }
 

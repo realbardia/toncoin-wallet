@@ -87,7 +87,7 @@ public Q_SLOTS:
     static QString urlToLocalPath(const QUrl &url);
 
     static QString qtVersion();
-    static QString aboutTonToolkit();
+    static QString aboutAseman();
 
     static void deleteItemDelay( QObject *o, int ms );
 
@@ -101,8 +101,6 @@ public Q_SLOTS:
 
     static bool createVideoThumbnail(const QString &video, const QString &output, QString ffmpegPath = QString());
 
-    static QString translateNumbers( QString input );
-    static QString trNums(QString input);
     static QString passToMd5( const QString & pass );
     static QString md5(const QString & str );
     static QString passToHash(const QString &pass, int method);

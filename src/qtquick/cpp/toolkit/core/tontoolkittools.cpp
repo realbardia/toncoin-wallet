@@ -426,10 +426,10 @@ QString TonToolkitTools::qtVersion()
     return QString::fromUtf8(qVersion());
 }
 
-QString TonToolkitTools::aboutTonToolkit()
+QString TonToolkitTools::aboutAseman()
 {
-    return tr("TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.") + "\n\n" +
-           tr("By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.");
+    return "Aseman is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.\n\n"
+           "By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.";
 }
 
 void TonToolkitTools::deleteItemDelay(QObject *o, int ms)
@@ -517,26 +517,6 @@ bool TonToolkitTools::createVideoThumbnail(const QString &video, const QString &
 
     return prc.exitCode() == 0;
 #endif
-}
-
-QString TonToolkitTools::translateNumbers(QString input)
-{
-    input.replace(QStringLiteral("0"), TonToolkitTools::tr("0"));
-    input.replace(QStringLiteral("1"), TonToolkitTools::tr("1"));
-    input.replace(QStringLiteral("2"), TonToolkitTools::tr("2"));
-    input.replace(QStringLiteral("3"), TonToolkitTools::tr("3"));
-    input.replace(QStringLiteral("4"), TonToolkitTools::tr("4"));
-    input.replace(QStringLiteral("5"), TonToolkitTools::tr("5"));
-    input.replace(QStringLiteral("6"), TonToolkitTools::tr("6"));
-    input.replace(QStringLiteral("7"), TonToolkitTools::tr("7"));
-    input.replace(QStringLiteral("8"), TonToolkitTools::tr("8"));
-    input.replace(QStringLiteral("9"), TonToolkitTools::tr("9"));
-    return input;
-}
-
-QString TonToolkitTools::trNums(QString input)
-{
-    return TonToolkitTools::translateNumbers(input);
 }
 
 QString TonToolkitTools::passToMd5(const QString &pass)

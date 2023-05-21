@@ -8,9 +8,9 @@
         <translation>恭喜</translation>
     </message>
     <message>
-        <source>Your TON wallet has just been created. Only you control it.
+        <source>Your TON wallet has just been created Only you control it.
 
-To always have access to it, please write down the secret words and set up a secure passcode.</source>
+To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
         <translation>您的 TON 钱包已成功创建。只有您拥有控制权。
 
 为了始终能够访问钱包，请记下密语并设置安全的密码。</translation>
@@ -18,12 +18,6 @@ To always have access to it, please write down the secret words and set up a sec
     <message>
         <source>Proceed</source>
         <translation>继续</translation>
-    </message>
-    <message>
-        <source>Your TON wallet has just been created Only you control it.
-
-To be able to always have access to it, please write own secret words and set up a secure passcode.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -48,6 +42,14 @@ To be able to always have access to it, please write own secret words and set up
         <source>Be sure to check the service address before connecting the wallet.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>dApp failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load dApp data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectTransferPage</name>
@@ -70,6 +72,10 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to transfer</source>
+        <translation type="unfinished">转账失败</translation>
     </message>
 </context>
 <context>
@@ -141,10 +147,6 @@ To be able to always have access to it, please write own secret words and set up
         <source>View my wallet</source>
         <translation>查看我的钱包</translation>
     </message>
-    <message>
-        <source>You are all set. Now you have a wallet that only yout control -- directly, without middlemen or bankers.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>EmptyWalletElement</name>
@@ -198,14 +200,6 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Sorry, you have entered incorrect secret words. Please double-check and try again.</source>
         <translation>很抱歉，您输入了错误的密语。请仔细检查后重试。</translation>
-    </message>
-    <message>
-        <source>You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, you have entered incorrect secret words. Please double check and try again.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -364,10 +358,6 @@ To be able to always have access to it, please write own secret words and set up
     <message>
         <source>Fee</source>
         <translation>手续费</translation>
-    </message>
-    <message>
-        <source>Message size has been exceeded by %1 charcaters.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -713,59 +703,46 @@ To be able to always have access to it, please write own secret words and set up
         <source>The secret words you have entered do not match the ones in the list.</source>
         <translation>您输入的密钥词与列表中的不匹配。</translation>
     </message>
+</context>
+<context>
+    <name>TokensPage</name>
     <message>
-        <source>Let&apos;s check that you wrote them down correctly. Please enter the words &lt;b&gt;%1&lt;/b&gt;, &lt;b&gt;%2&lt;/b&gt; and &lt;b&gt;%3&lt;/b&gt;.</source>
+        <source>Tokens</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revoke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you realy want to revoke &quot;%1&quot; dapp?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>TonToolkitTools</name>
+    <name>TonConnect</name>
     <message>
-        <source>TonToolkit is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <source>Timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.</source>
+        <source>An expired request received from %1 and rejected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>0</source>
+        <source>Bad network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>9</source>
+        <source>%1 send a transaction request on the wrong network.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
