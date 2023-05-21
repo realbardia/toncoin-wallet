@@ -28,7 +28,7 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 
 | Target  |                           Download                           | Note                                                         |
 | ------- | :----------------------------------------------------------: | ------------------------------------------------------------ |
-| Linux   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-x86_64-Linux.AppImage) | Built using Qt5 static and gcc.                              |
+| Linux   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-x86_64-Linux.AppImage) | Built using Qt5 static and gcc on Debian buster. (Tested and worked on debian and ubuntu, both wayland and x11) |
 | Windows | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-x86_64-Windows.zip) | Built using Qt5 and Mingw. Because of the technical reasons currently Frameless feature disabled on Qt6 build and QR Scanner disabled on Qt5 |
 | macOS   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-Intel_macOS.zip) | Built using Qt6 static for x86_64 processors.                |
 | iOS     | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-Intel_macOS.zip) | Built using Qt5                                              |
