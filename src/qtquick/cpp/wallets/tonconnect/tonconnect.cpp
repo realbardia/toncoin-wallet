@@ -749,7 +749,7 @@ QString TonConnect::clientId() const
     const auto addressBytes = QByteArray::fromStdString(rawAddress.addr.as_slice().str());
 
     auto clientId = QCryptographicHash::hash("2a0efb19-269b-4ce3-9007-83fe99cd67ac" +
-                                             AsemanDevices::deviceId().toLatin1() +
+                                             AsemanDevices::deviceId().left(30).toLatin1() +
                                              addressBytes +
                                              "2a0efb19-269b-4ce3-9007-83fe99cd67ac"
                                              , QCryptographicHash::Sha256).toHex();
