@@ -36,7 +36,7 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 
 ## Library and Tools:
 
-- [Qt framework]() (library) (Both Qt5 and Qt6 supports on all platforms)
+- [Qt framework]() (library) (Both Qt5 and Qt6 are supported on all platforms)
   - Personal recommend: Use Qt6 on the desktop to build Tonium and Qt5 on the smart phones
 - [TonLib](https://github.com/ton-blockchain/ton) (library)
 - [QtAseman](https://github.com/Aseman-Land/QtAseman) (embedded)
@@ -63,7 +63,11 @@ sudo apt-get install qtbase5-dev qt5-default "qml-module-qt*"
 
 #### TonLib
 
-There is no pre-built binaries of the TonLib on the internet. So you must build and compile it from Documents. On the Ubuntu and many other systems you can install it using below command:
+There is no pre-built for all target platform and architectures binaries of the TonLib on the internet. 
+
+But I create a repository and upload some of them [here](https://github.com/realbardia/tonlib-builds/releases/tag/2023_May_22).
+
+So you must build and compile it from Documents. On the Ubuntu and many other systems you can install it using below command:
 
 ```bash
 git clone "https://github.com/ton-blockchain/ton.git" --depth 1 --recursive
