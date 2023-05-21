@@ -11,8 +11,6 @@ Item {
         camera.stop();
     }
 
-    Component.onDestruction: stop()
-
     Camera {
         id:camera
         active: true
