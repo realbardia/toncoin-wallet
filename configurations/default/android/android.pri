@@ -16,4 +16,7 @@ DISTFILES += \
     $$PWD/src/com/hmkcode/android/image/RealPathUtilTonium.java \
     $$PWD/src/io/asemantonium/android/AsemanToniumActivity.java \
     $$PWD/src/io/asemantonium/android/AsemanToniumApplication.java \
-    $$PWD/src/io/asemantonium/android/AsemanToniumJavaLayer.java
+    $$PWD/src/io/asemantonium/android/AsemanToniumJavaLayer.java \
+    $$PWD/src/io/asemantonium/android/AsemanToniumQtService.java \
+    $$PWD/src/io/asemantonium/android/AsemanToniumService.java \
+    $$PWD/src/io/asemantonium/android/AsemanToniumServiceDelegate.java
