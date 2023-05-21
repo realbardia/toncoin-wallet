@@ -43,6 +43,15 @@ TWindow {
         })
     }
 
+    Connections {
+        target: GlobalValues
+        function onTempLinkToOpenChanged() {
+            win.requestActivate();
+            win.show();
+            win.alert(0);
+        }
+    }
+
     FastRectengleShadow {
         anchors.fill: windowScene
         anchors.margins: 2

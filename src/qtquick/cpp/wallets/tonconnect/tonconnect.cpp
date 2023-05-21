@@ -163,10 +163,7 @@ void TonConnect::reject(const QString &id, int error)
 
     const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
 
-    sendMessage(id, json, [this](const QByteArray &, bool){
-        setConnecting(false);
-    });
-    setConnecting(true);
+    sendMessage(id, json, [](const QByteArray &, bool){});
 }
 
 void TonConnect::accept(TonConnectService *service)

@@ -34,7 +34,9 @@ TDrawer {
         id: service
         onError: {
             errorOccured = true;
+            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("dApp failed"), qsTr("Failed to load dApp data."), Colors.foreground)
             tonConnect.reject(serviceId, TonConnect.ConnectDeclinedConnectionError);
+            dis.ViewportType.open = false;
         }
     }
 

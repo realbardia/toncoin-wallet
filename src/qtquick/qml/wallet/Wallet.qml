@@ -120,10 +120,6 @@ TPage {
             sendDialog = TViewport.viewport.append(send_value_component, {"address": urlParser.address}, "drawer");
         else
             sendDialog = TViewport.viewport.append(send_confirm_component, {"address": urlParser.address, "amount": urlParser.amount, "message": urlParser.comment}, "drawer");
-
-        GlobalValues.mwin.show();
-        GlobalValues.mwin.requestActivate();
-        GlobalValues.mwin.alert(0);
     }
 
     CurrencyPrice {

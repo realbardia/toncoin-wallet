@@ -47,6 +47,8 @@ TDrawer {
         wallet: walletItem
         onTransferFinishedSucessfully: {
             tonConnect.transferCompleted(serviceId, amount, address);
+            GlobalSignals.pendingTransactionSubmited(transfer, feeEstimater)
+            GlobalSignals.reloadTransactionsRequest();
             Devices.triggerVibrateFeedback();
             done = true;
             dis.ViewportType.open = false;
@@ -186,6 +188,10 @@ TDrawer {
                 opacity: done || busyIndicator.running? 0 : 1
                 scale: done || busyIndicator.running? 0.5 : 1
                 visible: opacity > 0
+                onClicked: {
+                    tonConnect.transferCompleted(serviceId, amount, address);
+                    dis.ViewportType.open = false;
+                }
 
                 Behavior on opacity {
                     NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
