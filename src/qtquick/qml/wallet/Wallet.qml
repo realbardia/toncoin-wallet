@@ -476,7 +476,7 @@ TPage {
                     icon.text: MaterialIcons.mdi_qrcode_scan
                     icon.font.pixelSize: 13 * Devices.fontDensity
                     highlightColor: "#fff"
-                    visible: qzxing
+                    visible: qzxing && (!Devices.isWindows || Devices.isQt6)
                     onClicked: TViewport.viewport.append(qrscanner_component, {}, "popup")
                 }
 
