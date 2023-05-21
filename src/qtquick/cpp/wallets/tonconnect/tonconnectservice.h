@@ -1,7 +1,7 @@
 #ifndef TONCONNECTSERVICE_H
 #define TONCONNECTSERVICE_H
 
-#include "tontoolkitquickobject.h"
+#include "asemanquickobject.h"
 
 #include <QStringList>
 #include <QVariantMap>
@@ -11,7 +11,7 @@
 #include <QTimer>
 #include <QUrl>
 
-class TonConnectService : public TonToolkitQuickObject
+class TonConnectService : public AsemanQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QUrl manifestUrl READ manifestUrl WRITE setManifestUrl NOTIFY manifestUrlChanged)

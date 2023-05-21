@@ -2,20 +2,20 @@
 #include "core/wallet/backendmanager.h"
 #include "core/tools/crypto.h"
 
-#include "qtquick/cpp/toolkit/core/tontoolkitdevices.h"
+#include "qtquick/cpp/toolkit/core/asemandevices.h"
 
 #include <QtQml>
 
 using namespace TON::Wallet;
 
 WalletItem::WalletItem(QObject *parent)
-    : TonToolkitQuickObject(parent)
+    : AsemanQuickObject(parent)
 {
-    mRefresher = new TonToolkitRefresherObject(this);
+    mRefresher = new AsemanRefresherObject(this);
     mRefresher->setForceActiveOnInitialize(true);
     mRefresher->setDelay(5000);
 
-    connect(mRefresher, &TonToolkitRefresherObject::refreshingChanged, this, &WalletItem::loadingChanged);
+    connect(mRefresher, &AsemanRefresherObject::refreshingChanged, this, &WalletItem::loadingChanged);
 }
 
 WalletItem::~WalletItem()
@@ -54,7 +54,7 @@ bool WalletItem::changePassword(const QString &password)
     backend->changeLocalPassword(QByteArray::fromBase64(mPublicKey.toLatin1()), password, this, [this, password](const QByteArray &newPublicKey, const AbstractWalletBackend::Error &error){
         if (!newPublicKey.isEmpty())
         {
-            TON::Tools::CryptoAES crypto(KEYS_DB_SECRET_AES_SALT + TonToolkitDevices::deviceId() + KEYS_DB_SECRET_AES_SALT);
+            TON::Tools::CryptoAES crypto(KEYS_DB_SECRET_AES_SALT + AsemanDevices::deviceId() + KEYS_DB_SECRET_AES_SALT);
             const auto secureKey = QString::fromLatin1( crypto.encrypt(password.toUtf8()).toBase64() );
             Q_EMIT passwordChangedSuccessfully(QString::fromLatin1(newPublicKey.toBase64()), secureKey);
         }
@@ -122,7 +122,7 @@ void WalletItem::reload()
 
 QString WalletItem::decodeSecureKey(const QString &secureKey) const
 {
-    TON::Tools::CryptoAES crypto(KEYS_DB_SECRET_AES_SALT + TonToolkitDevices::deviceId() + KEYS_DB_SECRET_AES_SALT);
+    TON::Tools::CryptoAES crypto(KEYS_DB_SECRET_AES_SALT + AsemanDevices::deviceId() + KEYS_DB_SECRET_AES_SALT);
     const auto bytes = crypto.decrypt( QByteArray::fromBase64(secureKey.toLatin1()) );
     return QString::fromUtf8(bytes);
 }

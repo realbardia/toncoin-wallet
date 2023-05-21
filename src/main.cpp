@@ -13,7 +13,7 @@
 
 #include "thirdparty/tricks-app/checks.h"
 #include "qtquick/cpp/tonqtquick.h"
-#include "qtquick/cpp/toolkit/core/tontoolkitapplicationitem.h"
+#include "qtquick/cpp/toolkit/core/asemanapplicationitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -47,11 +47,11 @@ int main(int argc, char *argv[])
         Checks::checkWindowsDeeplink();
 #endif
 
-    TonToolkitApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
-    if (TonToolkitApplicationItem::isRunning())
+    AsemanApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
+    if (AsemanApplicationItem::isRunning())
     {
         if (app.arguments().count() == 2)
-            TonToolkitApplicationItem::sendMessage(app.arguments().at(1));
+            AsemanApplicationItem::sendMessage(app.arguments().at(1));
         else
             qDebug() << "is running";
         return 0;

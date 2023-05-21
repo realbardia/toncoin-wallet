@@ -8,7 +8,7 @@
 #include <QDebug>
 
 CurrencyPrice::CurrencyPrice(QObject *parent) :
-    TonToolkitQuickObject(parent)
+    AsemanQuickObject(parent)
 {
     mAm = new QNetworkAccessManager(this);
 

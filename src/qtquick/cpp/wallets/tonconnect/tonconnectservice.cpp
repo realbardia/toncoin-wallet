@@ -1,6 +1,6 @@
 #include "tonconnectservice.h"
 
-#include "tontoolkitapplicationitem.h"
+#include "asemanapplicationitem.h"
 #include "tonconnect.h"
 
 #include <QUrl>
@@ -12,7 +12,7 @@
 #include <QJsonObject>
 
 TonConnectService::TonConnectService(QObject *parent)
-    : TonToolkitQuickObject(parent)
+    : AsemanQuickObject(parent)
 {
     mAm = new QNetworkAccessManager(this);
 

@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import Toolkit.Core 1.0
 
-TonToolkitObject {
+AsemanObject {
     id: backAction
     property bool active: false
     property var callback

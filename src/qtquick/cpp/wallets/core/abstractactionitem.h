@@ -3,17 +3,17 @@
 
 #include "walletitem.h"
 #include "core/wallet/abstractwalletbackend.h"
-#include "tontoolkitrefresherobject.h"
+#include "asemanrefresherobject.h"
 
 #include <QSharedPointer>
 
-class AbstractActionItem : public TonToolkitQuickObject
+class AbstractActionItem : public AsemanQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorChanged)
     Q_PROPERTY(qint32 error READ error NOTIFY errorChanged)
     Q_PROPERTY(WalletItem *wallet READ wallet WRITE setWallet NOTIFY walletChanged)
-    Q_PROPERTY(TonToolkitRefresherObject* refresher READ refresher NOTIFY refresherChanged)
+    Q_PROPERTY(AsemanRefresherObject* refresher READ refresher NOTIFY refresherChanged)
     Q_PROPERTY(bool running READ running NOTIFY runningChanged)
 
 public:
@@ -27,7 +27,7 @@ public:
     qint32 error() const;
 
     bool running() const;
-    TonToolkitRefresherObject *refresher() const;
+    AsemanRefresherObject *refresher() const;
 
 Q_SIGNALS:
     void walletChanged();
@@ -47,7 +47,7 @@ private:
     QPointer<WalletItem> mWallet;
     QPointer<WalletItem> mDefaultWallet;
 
-    TonToolkitRefresherObject *mRefresher;
+    AsemanRefresherObject *mRefresher;
 
     QString mErrorString;
     qint32 mError = 0;

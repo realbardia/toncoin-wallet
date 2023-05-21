@@ -3,7 +3,7 @@ pragma Singleton
 import QtQuick 2.10
 import Toolkit.Core 1.0
 
-TonToolkitObject {
+AsemanObject {
 
     function justifyNumber(num, len) {
         num = num + "";

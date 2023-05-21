@@ -5,7 +5,7 @@
 using namespace TON::Wallet;
 
 KeysManager::KeysManager(QObject *parent)
-    : TonToolkitAbstractListModel(parent)
+    : AsemanAbstractListModel(parent)
 {
 
 }

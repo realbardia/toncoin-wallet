@@ -1,14 +1,14 @@
 #ifndef ABSTRACTWALLETMODEL_H
 #define ABSTRACTWALLETMODEL_H
 
-#include "tontoolkitabstractlistmodel.h"
-#include "tontoolkitrefresherobject.h"
+#include "asemanabstractlistmodel.h"
+#include "asemanrefresherobject.h"
 #include "walletitem.h"
 
 #include <QPointer>
 #include <QTimer>
 
-class AbstractWalletModel : public TonToolkitAbstractListModel
+class AbstractWalletModel : public AsemanAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(WalletItem *wallet READ wallet WRITE setWallet NOTIFY walletChanged)
@@ -16,7 +16,7 @@ class AbstractWalletModel : public TonToolkitAbstractListModel
     Q_PROPERTY(qint32 error READ error NOTIFY errorChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
-    Q_PROPERTY(TonToolkitRefresherObject* refresher READ refresher NOTIFY refresherChanged)
+    Q_PROPERTY(AsemanRefresherObject* refresher READ refresher NOTIFY refresherChanged)
 
 public:
     AbstractWalletModel(QObject *parent = nullptr);
@@ -32,7 +32,7 @@ public:
     qint32 error() const;
 
     bool refreshing() const;
-    TonToolkitRefresherObject *refresher() const;
+    AsemanRefresherObject *refresher() const;
 
 public Q_SLOTS:
     void refresh();
@@ -65,7 +65,7 @@ private:
     QString mErrorString;
     qint32 mError = 0;
 
-    TonToolkitRefresherObject *mRefresher;
+    AsemanRefresherObject *mRefresher;
 };
 
 #endif // ABSTRACTWALLETMODEL_H

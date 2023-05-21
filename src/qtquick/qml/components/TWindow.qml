@@ -10,7 +10,7 @@ Window {
 
     signal closeRequest()
 
-    onCloseRequest: if(backController) TonToolkitApp.back()
+    onCloseRequest: if(backController) AsemanApp.back()
 
     Timer {
         id: timer_delayer
@@ -19,7 +19,7 @@ Window {
     }
 
     Connections {
-        target: TonToolkitApp
+        target: AsemanApp
         function onBackRequest() {
             if(timer_delayer.running)
                 return

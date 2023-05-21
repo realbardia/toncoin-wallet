@@ -5,7 +5,7 @@ import Wallet.Core 1.0
 
 Backend {
     id: dis
-    source: TonToolkitApp.homePath + (Constants.testNet? "/ton-test" : "/ton")
+    source: AsemanApp.homePath + (Constants.testNet? "/ton-test" : "/ton")
     backend: Constants.testNet? TonQmlGlobal.TonLib_TestNet : TonQmlGlobal.TonLib_MainNet
     walletVersion: AppSettings.walletVersion
 

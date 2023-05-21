@@ -5,7 +5,7 @@ import Toolkit.Core 1.0
 
 Settings {
     category: "General"
-    source: TonToolkitApp.homePath + (Constants.testNet? "/settings.test.ini" : "/settings.ini")
+    source: AsemanApp.homePath + (Constants.testNet? "/settings.test.ini" : "/settings.ini")
 
     property bool darkMode: false
     property string language: "en"

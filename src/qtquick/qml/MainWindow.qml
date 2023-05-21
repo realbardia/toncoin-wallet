@@ -14,7 +14,7 @@ TWindow {
     flags: Constants.frameless? Qt.FramelessWindowHint | Qt.Window : Qt.Window
     color: Constants.frameless? "#00000000" : Colors.background
     visible: true
-    title: TonToolkitApp.applicationName
+    title: AsemanApp.applicationName
 
     maximumWidth: 450
     minimumWidth: 250
@@ -105,7 +105,7 @@ TWindow {
             source: visible? mainScene : null
             cached: true
             radius: 64
-            visible: TonToolkitApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isTouchDevice
+            visible: AsemanApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isTouchDevice
         }
 
         Rectangle {

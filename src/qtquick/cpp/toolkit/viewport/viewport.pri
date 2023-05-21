@@ -1,13 +1,13 @@
 HEADERS += \
-    $$PWD/tontoolkitviewport.h \
-    $$PWD/tontoolkitviewportcontroller.h \
-    $$PWD/tontoolkitviewportcontrollerroute.h \
-    $$PWD/tontoolkitviewportitem.h \
-    $$PWD/tontoolkitabstractviewporttype.h
+    $$PWD/asemanviewport.h \
+    $$PWD/asemanviewportcontroller.h \
+    $$PWD/asemanviewportcontrollerroute.h \
+    $$PWD/asemanviewportitem.h \
+    $$PWD/asemanabstractviewporttype.h
 
 SOURCES += \
-    $$PWD/tontoolkitviewport.cpp \
-    $$PWD/tontoolkitviewportcontroller.cpp \
-    $$PWD/tontoolkitviewportcontrollerroute.cpp \
-    $$PWD/tontoolkitviewportitem.cpp \
-    $$PWD/tontoolkitabstractviewporttype.cpp
+    $$PWD/asemanviewport.cpp \
+    $$PWD/asemanviewportcontroller.cpp \
+    $$PWD/asemanviewportcontrollerroute.cpp \
+    $$PWD/asemanviewportitem.cpp \
+    $$PWD/asemanabstractviewporttype.cpp

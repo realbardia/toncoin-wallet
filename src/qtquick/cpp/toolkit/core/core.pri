@@ -7,81 +7,81 @@ INCLUDEPATH += $$PWD
 
 HEADERS += \
     $$PWD/materialicons.h \
-    $$PWD/tontoolkit_macros.h \
-    $$PWD/tontoolkitabstractlistmodel.h \
-    $$PWD/tontoolkitapplication.h \
-    $$PWD/tontoolkitapplicationitem.h \
-    $$PWD/tontoolkitapplicationsingleton.h \
-    $$PWD/tontoolkitbackhandler.h \
-    $$PWD/tontoolkitdevices.h \
-    $$PWD/tontoolkitdevicesitem.h \
-    $$PWD/tontoolkitkeyhandler.h \
-    $$PWD/tontoolkitlistmodel.h \
-    $$PWD/tontoolkitlistobject.h \
-    $$PWD/tontoolkitmapobject.h \
-    $$PWD/tontoolkitqrcreator.h \
-    $$PWD/tontoolkitquicklistmodel.h \
-    $$PWD/tontoolkitquickobject.h \
-    $$PWD/tontoolkitquickview.h \
-    $$PWD/tontoolkitquickviewwrapper.h \
-    $$PWD/tontoolkitrefresherobject.h \
-    $$PWD/tontoolkitsettings.h \
-    $$PWD/tontoolkitstickeritem.h \
-    $$PWD/tontoolkittools.h \
-    $$PWD/tontoolkittoolsitem.h \
-    $$PWD/tontoolkittranslationmanager.h \
+    $$PWD/aseman_macros.h \
+    $$PWD/asemanabstractlistmodel.h \
+    $$PWD/asemanapplication.h \
+    $$PWD/asemanapplicationitem.h \
+    $$PWD/asemanapplicationsingleton.h \
+    $$PWD/asemanbackhandler.h \
+    $$PWD/asemandevices.h \
+    $$PWD/asemandevicesitem.h \
+    $$PWD/asemankeyhandler.h \
+    $$PWD/asemanlistmodel.h \
+    $$PWD/asemanlistobject.h \
+    $$PWD/asemanmapobject.h \
+    $$PWD/asemanqrcreator.h \
+    $$PWD/asemanquicklistmodel.h \
+    $$PWD/asemanquickobject.h \
+    $$PWD/asemanquickview.h \
+    $$PWD/asemanquickviewwrapper.h \
+    $$PWD/asemanrefresherobject.h \
+    $$PWD/asemansettings.h \
+    $$PWD/asemanstickeritem.h \
+    $$PWD/asemantools.h \
+    $$PWD/asemantoolsitem.h \
+    $$PWD/asemantranslationmanager.h \
     $$PWD/qmlwidgetmenu.h \
     $$PWD/qmlwidgetmenuitem.h
 
 SOURCES += \
     $$PWD/materialicons.cpp \
-    $$PWD/tontoolkitabstractlistmodel.cpp \
-    $$PWD/tontoolkitapplication.cpp \
-    $$PWD/tontoolkitapplicationitem.cpp \
-    $$PWD/tontoolkitapplicationsingleton.cpp \
-    $$PWD/tontoolkitbackhandler.cpp \
-    $$PWD/tontoolkitdevices.cpp \
-    $$PWD/tontoolkitdevicesitem.cpp \
-    $$PWD/tontoolkitkeyhandler.cpp \
-    $$PWD/tontoolkitlistmodel.cpp \
-    $$PWD/tontoolkitlistobject.cpp \
-    $$PWD/tontoolkitmapobject.cpp \
-    $$PWD/tontoolkitqrcreator.cpp \
-    $$PWD/tontoolkitquicklistmodel.cpp \
-    $$PWD/tontoolkitquickobject.cpp \
-    $$PWD/tontoolkitquickview.cpp \
-    $$PWD/tontoolkitquickviewwrapper.cpp \
-    $$PWD/tontoolkitrefresherobject.cpp \
-    $$PWD/tontoolkitsettings.cpp \
-    $$PWD/tontoolkitstickeritem.cpp \
-    $$PWD/tontoolkittools.cpp \
-    $$PWD/tontoolkittoolsitem.cpp \
-    $$PWD/tontoolkittranslationmanager.cpp \
+    $$PWD/asemanabstractlistmodel.cpp \
+    $$PWD/asemanapplication.cpp \
+    $$PWD/asemanapplicationitem.cpp \
+    $$PWD/asemanapplicationsingleton.cpp \
+    $$PWD/asemanbackhandler.cpp \
+    $$PWD/asemandevices.cpp \
+    $$PWD/asemandevicesitem.cpp \
+    $$PWD/asemankeyhandler.cpp \
+    $$PWD/asemanlistmodel.cpp \
+    $$PWD/asemanlistobject.cpp \
+    $$PWD/asemanmapobject.cpp \
+    $$PWD/asemanqrcreator.cpp \
+    $$PWD/asemanquicklistmodel.cpp \
+    $$PWD/asemanquickobject.cpp \
+    $$PWD/asemanquickview.cpp \
+    $$PWD/asemanquickviewwrapper.cpp \
+    $$PWD/asemanrefresherobject.cpp \
+    $$PWD/asemansettings.cpp \
+    $$PWD/asemanstickeritem.cpp \
+    $$PWD/asemantools.cpp \
+    $$PWD/asemantoolsitem.cpp \
+    $$PWD/asemantranslationmanager.cpp \
     $$PWD/qmlwidgetmenu.cpp \
     $$PWD/qmlwidgetmenuitem.cpp
 
 android {
     QT += androidextras
     HEADERS += \
-        $$PWD/tontoolkitjavalayer.h
+        $$PWD/asemanjavalayer.h
     SOURCES += \
-        $$PWD/tontoolkitjavalayer.cpp
+        $$PWD/asemanjavalayer.cpp
 }
 ios {
     include(private/quickios/quickios.pri)
     HEADERS += \
-        $$PWD/tontoolkitobjectiveclayer.h
+        $$PWD/asemanobjectiveclayer.h
     SOURCES += \
-        $$PWD/tontoolkitobjectiveclayer.mm
+        $$PWD/asemanobjectiveclayer.mm
 
     LIBS += -lobjc
     LIBS += -framework LocalAuthentication
 }
 macx {
     HEADERS += \
-        $$PWD/tontoolkitmacmanager.h
+        $$PWD/asemanmacmanager.h
     SOURCES += \
-        $$PWD/tontoolkitmacmanager.mm
+        $$PWD/asemanmacmanager.mm
 
     LIBS += -framework LocalAuthentication
 }

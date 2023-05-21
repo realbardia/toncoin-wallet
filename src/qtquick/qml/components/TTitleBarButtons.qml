@@ -23,6 +23,6 @@ Row {
         height: 32 * Devices.density
         text: MaterialIcons.mdi_window_close
         color: "#ff0000"
-        onClicked: TonToolkitApp.exit(0)
+        onClicked: AsemanApp.exit(0)
     }
 }

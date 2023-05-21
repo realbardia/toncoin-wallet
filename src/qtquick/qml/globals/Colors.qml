@@ -3,7 +3,7 @@ pragma Singleton
 import QtQuick 2.12
 import Toolkit.Core 1.0
 
-TonToolkitObject {
+AsemanObject {
     property bool darkMode: AppSettings.darkMode
 
     readonly property color backgroundLight: darkMode? "#111111" : "#ffffff"

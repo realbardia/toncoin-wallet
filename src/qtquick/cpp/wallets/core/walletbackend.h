@@ -5,9 +5,9 @@
 #include <QStringList>
 
 #include "tonqmlglobal.h"
-#include "tontoolkitquickobject.h"
+#include "asemanquickobject.h"
 
-class WalletBackend : public TonToolkitQuickObject
+class WalletBackend : public AsemanQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)

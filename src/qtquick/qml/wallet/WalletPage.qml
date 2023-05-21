@@ -31,10 +31,10 @@ TPage {
 
     TonConnect {
         id: _tonConnect
-        appName: TonToolkitApp.applicationName
-        appVersion: TonToolkitApp.applicationVersion
+        appName: AsemanApp.applicationName
+        appVersion: AsemanApp.applicationVersion
         password: GlobalValues.passCode
-        cachePath: TonToolkitApp.homePath + "/tokens"
+        cachePath: AsemanApp.homePath + "/tokens"
         network: Constants.testNet? TonConnect.Testnet : TonConnect.Mainnet
         bridgeUrl: "https://bridge.tonapi.io/bridge"
         baseUrls: ["ton://connect"]

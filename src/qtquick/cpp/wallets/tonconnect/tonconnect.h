@@ -1,7 +1,7 @@
 #ifndef TONCONNECT_H
 #define TONCONNECT_H
 
-#include "tontoolkitquickobject.h"
+#include "asemanquickobject.h"
 #include "qtquick/cpp/wallets/core/walletitem.h"
 
 #include <QStringList>
@@ -11,7 +11,7 @@
 #include <QPointer>
 
 class TonConnectService;
-class TonConnect : public TonToolkitQuickObject
+class TonConnect : public AsemanQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QStringList baseUrls READ baseUrls WRITE setBaseUrls NOTIFY baseUrlsChanged)

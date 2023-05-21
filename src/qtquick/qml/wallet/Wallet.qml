@@ -232,7 +232,7 @@ TPage {
                     onMoreRequest: tmodel.more()
                     model: TransactionsModel {
                         id: tmodel
-                        cachePath: TonToolkitApp.homePath + "/transactions"
+                        cachePath: AsemanApp.homePath + "/transactions"
                         password: GlobalValues.passCode
                         wallet: walletItem
                         onTransferCompleted: GlobalSignals.snackRequest(MaterialIcons.mdi_check, qsTr("Transfer completed"), qsTr("%1TON to %2").arg(value).arg(address.slice(0,4) + "..." + address.slice(address.length-4)), Colors.green)

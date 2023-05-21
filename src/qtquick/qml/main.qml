@@ -10,12 +10,12 @@ TApplication {
     applicationVersion: "1.0.0"
     statusBarStyle: {
         if (mWin.currentViewport.currentType == "popup" || AppSettings.loggedInPublicKey.length)
-            return TonToolkitApp.StatusBarStyleLight;
+            return AsemanApp.StatusBarStyleLight;
         else
         if (Colors.darkMode)
-            return TonToolkitApp.StatusBarStyleLight;
+            return AsemanApp.StatusBarStyleLight;
         else
-            return TonToolkitApp.StatusBarStyleDark;
+            return AsemanApp.StatusBarStyleDark;
     }
 
     Component.onCompleted: {

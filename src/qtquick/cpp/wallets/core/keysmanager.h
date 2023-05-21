@@ -1,12 +1,12 @@
 #ifndef KEYSMANAGER_H
 #define KEYSMANAGER_H
 
-#include "tontoolkitabstractlistmodel.h"
+#include "asemanabstractlistmodel.h"
 #include "walletbackend.h"
 
 #include <QPointer>
 
-class KeysManager : public TonToolkitAbstractListModel
+class KeysManager : public AsemanAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)

@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import Toolkit.Core 1.0
 
-TonToolkitObject {
+AsemanObject {
     property Item source
     property Item dest
     property real x: 0

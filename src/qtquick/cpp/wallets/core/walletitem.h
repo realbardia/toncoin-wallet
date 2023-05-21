@@ -1,13 +1,13 @@
 #ifndef WALLETITEM_H
 #define WALLETITEM_H
 
-#include "tontoolkitquickobject.h"
-#include "tontoolkitrefresherobject.h"
+#include "asemanquickobject.h"
+#include "asemanrefresherobject.h"
 #include "walletbackend.h"
 
 #include <QPointer>
 
-class WalletItem : public TonToolkitQuickObject
+class WalletItem : public AsemanQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QString publicKey READ publicKey WRITE setPublicKey NOTIFY publicKeyChanged)
@@ -63,7 +63,7 @@ private:
     QString mPublicKey;
     QPointer<WalletBackend> mBackend;
 
-    TonToolkitRefresherObject *mRefresher;
+    AsemanRefresherObject *mRefresher;
     bool mHasPassword = false;
 };
 

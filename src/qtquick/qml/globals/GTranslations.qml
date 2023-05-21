@@ -3,7 +3,7 @@ pragma Singleton
 import QtQuick 2.15
 import Toolkit.Core 1.0
 
-TonToolkitObject {
+AsemanObject {
     id: translationManager
 
     property alias model: model

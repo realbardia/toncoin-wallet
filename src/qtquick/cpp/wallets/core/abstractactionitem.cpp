@@ -5,13 +5,13 @@
 using namespace TON::Wallet;
 
 AbstractActionItem::AbstractActionItem(QObject *parent) :
-    TonToolkitQuickObject(parent)
+    AsemanQuickObject(parent)
 {
-    mRefresher = new TonToolkitRefresherObject(this);
+    mRefresher = new AsemanRefresherObject(this);
     mRefresher->setForceActiveOnInitialize(true);
     mRefresher->setDelay(5000);
 
-    connect(mRefresher, &TonToolkitRefresherObject::refreshingChanged, this, &AbstractActionItem::runningChanged);
+    connect(mRefresher, &AsemanRefresherObject::refreshingChanged, this, &AbstractActionItem::runningChanged);
 
     mDefaultWallet = new WalletItem(this);
     mWallet = mDefaultWallet;
@@ -53,7 +53,7 @@ bool AbstractActionItem::running() const
     return mRefresher->refreshing();
 }
 
-TonToolkitRefresherObject *AbstractActionItem::refresher() const
+AsemanRefresherObject *AbstractActionItem::refresher() const
 {
     return mRefresher;
 }

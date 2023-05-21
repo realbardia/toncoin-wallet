@@ -1,9 +1,9 @@
 #include "tonconnect.h"
 
 #include "tonconnectservice.h"
-#include "tontoolkitapplicationitem.h"
-#include "tontoolkitdevices.h"
-#include "tontoolkitapplication.h"
+#include "asemanapplicationitem.h"
+#include "asemandevices.h"
+#include "asemanapplication.h"
 
 #include "core/tools/crypto.h"
 
@@ -30,7 +30,7 @@
 #define DEFINE_BUFFER_STREAM(NAME) QByteArray NAME; QDataStream(&NAME, QIODevice::WriteOnly)
 
 TonConnect::TonConnect(QObject *parent)
-    : TonToolkitQuickObject(parent)
+    : AsemanQuickObject(parent)
 {
     mDefaultWallet = new WalletItem(this);
     mWallet = mDefaultWallet;
@@ -47,7 +47,7 @@ TonConnect::TonConnect(QObject *parent)
 #if defined(Q_OS_ANDROID)
     mPlatform = Platform_android;
 #elif defined(Q_OS_IOS)
-    TonToolkitDevices devices;
+    AsemanDevices devices;
     if (devices.isMobile())
         mPlatform = Platform_iPhone;
     else
@@ -749,7 +749,7 @@ QString TonConnect::clientId() const
     const auto addressBytes = QByteArray::fromStdString(rawAddress.addr.as_slice().str());
 
     auto clientId = QCryptographicHash::hash("2a0efb19-269b-4ce3-9007-83fe99cd67ac" +
-                                             TonToolkitDevices::deviceId().toLatin1() +
+                                             AsemanDevices::deviceId().toLatin1() +
                                              addressBytes +
                                              "2a0efb19-269b-4ce3-9007-83fe99cd67ac"
                                              , QCryptographicHash::Sha256).toHex();

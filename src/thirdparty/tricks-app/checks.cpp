@@ -1,5 +1,5 @@
 #include "checks.h"
-#include "tontoolkitapplication.h"
+#include "asemanapplication.h"
 
 #include <QDialog>
 #include <QVBoxLayout>
@@ -27,7 +27,7 @@ void Checks::checkLinuxDesktopIcon()
     if (qEnvironmentVariableIsSet("APPIMAGE"))
         exePath = qEnvironmentVariable("APPIMAGE");
 
-    QSettings settings(TonToolkitApplication::homePath() + "/checks.ini", QSettings::IniFormat);
+    QSettings settings(AsemanApplication::homePath() + "/checks.ini", QSettings::IniFormat);
     if (settings.value("PreventLinuxDesktopWarn").toString() == exePath)
         return;
 

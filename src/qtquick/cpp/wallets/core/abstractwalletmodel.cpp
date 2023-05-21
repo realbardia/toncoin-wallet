@@ -3,13 +3,13 @@
 #include <QtQml>
 
 AbstractWalletModel::AbstractWalletModel(QObject *parent)
-    : TonToolkitAbstractListModel(parent)
+    : AsemanAbstractListModel(parent)
 {
-    mRefresher = new TonToolkitRefresherObject(this);
+    mRefresher = new AsemanRefresherObject(this);
     mRefresher->setForceActiveOnInitialize(true);
     mRefresher->setDelay(5000);
 
-    connect(mRefresher, &TonToolkitRefresherObject::refreshingChanged, this, &AbstractWalletModel::refreshingChanged);
+    connect(mRefresher, &AsemanRefresherObject::refreshingChanged, this, &AbstractWalletModel::refreshingChanged);
 
     mRefreshTimer = new QTimer(this);
     mRefreshTimer->setInterval(100);
@@ -77,7 +77,7 @@ bool AbstractWalletModel::refreshing() const
     return mRefresher->refreshing();
 }
 
-TonToolkitRefresherObject *AbstractWalletModel::refresher() const
+AsemanRefresherObject *AbstractWalletModel::refresher() const
 {
     return mRefresher;
 }

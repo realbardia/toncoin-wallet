@@ -1,14 +1,14 @@
 #ifndef CURRENCYPRICE_H
 #define CURRENCYPRICE_H
 
-#include "tontoolkitquickobject.h"
+#include "asemanquickobject.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QTimer>
 #include <QPointer>
 
-class CurrencyPrice : public TonToolkitQuickObject
+class CurrencyPrice : public AsemanQuickObject
 {
     Q_OBJECT
     Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)

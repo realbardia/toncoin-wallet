@@ -4,7 +4,7 @@
 using namespace TON::Wallet;
 
 WalletBackend::WalletBackend(QObject *parent)
-    : TonToolkitQuickObject(parent)
+    : AsemanQuickObject(parent)
 {
 
 }
