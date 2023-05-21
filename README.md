@@ -26,13 +26,13 @@ It's a cross platform Wallet designed and developed for Desktop and Smart phones
 
 You can download Tonium for Linux, Windows, macOS, iOS and Android from releases part of the github.
 
-| Target  | Architecture | Note                                                         |
-| ------- | :----------: | ------------------------------------------------------------ |
-| Linux   |    X86_64    | It's an app-image build that tested on the Debian and Ubuntu. Both Qt5 and Qt6 recommended. |
-| Windows |    X86_64    | Because of the technical reasons currently Frameless feature disabled on Qt6 build and QR Scanner disabled on Qt5 |
-| macOS   |    X86_64    | I recommend Qt6.                                             |
-| iOS     |    arm64     | I don't recommend Qt6 for mobile devices currently           |
-| Android |    arm64     | I don't recommend Qt6 for mobile devices currently           |
+| Target  |                           Download                           | Note                                                         |
+| ------- | :----------------------------------------------------------: | ------------------------------------------------------------ |
+| Linux   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-x86_64-Linux.AppImage) | Built using Qt5 static and gcc.                              |
+| Windows | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-x86_64-Windows.zip) | Built using Qt5 and Mingw. Because of the technical reasons currently Frameless feature disabled on Qt6 build and QR Scanner disabled on Qt5 |
+| macOS   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-Intel_macOS.zip) | Built using Qt6 static for x86_64 processors.                |
+| iOS     | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-Intel_macOS.zip) | Built using Qt5                                              |
+| Android | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.0/Tonium-1.0.0-arm64-Android.apk) | Built using Qt5, NDK platform 23 and SDK 23                  |
 
 ## Library and Tools:
 
