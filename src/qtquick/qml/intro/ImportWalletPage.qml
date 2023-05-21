@@ -44,10 +44,25 @@ TPage {
         anchors.topMargin: Devices.statusBarHeight
         anchors.bottomMargin: keyboardPadding
 
-        property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight : 0
+        property real keyboardPadding
+        property bool keyboardedView: Constants.keyboardedView
+        onKeyboardedViewChanged: {
+            keyboardViewTimer.stop();
+            if (keyboardedView)
+                keyboardPadding = Qt.binding(function(){ return Devices.keyboardHeight; });
+            else
+                keyboardViewTimer.start();
+        }
 
         Behavior on keyboardPadding {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+        }
+
+        Timer {
+            id: keyboardViewTimer
+            interval: 100
+            repeat: false
+            onTriggered: recoveryScene.keyboardPadding = 0
         }
 
         NumberAnimation {

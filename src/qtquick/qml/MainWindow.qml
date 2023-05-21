@@ -105,7 +105,7 @@ TWindow {
             source: visible? mainScene : null
             cached: true
             radius: 64
-            visible: AsemanApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isTouchDevice
+            visible: AsemanApp.applicationState != 4 && !GlobalMethods.checkingBiometric && Devices.isIOS
         }
 
         Rectangle {

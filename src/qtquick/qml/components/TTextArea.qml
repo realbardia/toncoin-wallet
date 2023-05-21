@@ -45,6 +45,7 @@ TControlElement {
         leftPadding: 2
         rightPadding: 2
         bottomPadding: 10
+        inputMethodHints: Devices.isAndroid? Qt.ImhNoPredictiveText : 0
         topPadding: 8
         clip: true
 

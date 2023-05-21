@@ -35,13 +35,29 @@ TPage {
         busy.running: qmodel.refreshing
         bottomPadding: Constants.keyboardedView? -40 : 64
 
-        property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight : 0
+        Behavior on bottomPadding {
+            NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+        }
+
+        property real keyboardPadding
+        property bool keyboardedView: Constants.keyboardedView
+        onKeyboardedViewChanged: {
+            keyboardViewTimer.stop();
+            if (keyboardedView)
+                keyboardPadding = Qt.binding(function(){ return Devices.keyboardHeight; });
+            else
+                keyboardViewTimer.start();
+        }
 
         Behavior on keyboardPadding {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
         }
-        Behavior on bottomPadding {
-            NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
+
+        Timer {
+            id: keyboardViewTimer
+            interval: 100
+            repeat: false
+            onTriggered: simplePage.keyboardPadding = 0
         }
 
         onCloseRequest: dis.ViewportType.open = false
