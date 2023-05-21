@@ -22,7 +22,13 @@ Item {
 
         secondaryButton {
             text: qsTr("Import existing wallet")
-            onClicked: if (!buttonBusy)  TViewport.viewport.append(import_component, {}, "stack")
+            onClicked: {
+                if (buttonBusy)
+                    return;
+
+                AppSettings.newlyCreatedWallet = false;
+                TViewport.viewport.append(import_component, {}, "stack")
+            }
         }
 
         Connections {
@@ -32,7 +38,6 @@ Item {
                 TViewport.viewport.append(congratulation_component, {"publicKey": publicKey}, "stack");
             }
             function onWalletCreationFailed(error) {
-                AppSettings.newlyCreatedWallet = false;
                 GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed to create wallet"), MainBackend.keysManager.errorString, Colors.foreground)
             }
         }

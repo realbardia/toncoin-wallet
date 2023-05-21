@@ -13,7 +13,14 @@ SimplePageTemplate {
 
     property string publicKey
 
-    Component.onCompleted: Devices.triggerVibrateFeedback()
+    Component.onCompleted: {
+        Devices.triggerVibrateFeedback();
+        Tools.jsDelayCall(10, function(){
+            Devices.hideKeyboard();
+            dis.mainButton.focus = true;
+            dis.mainButton.forceActiveFocus();
+        })
+    }
     onCloseRequest: dis.ViewportType.open = false
 
     mainButton {

@@ -81,14 +81,18 @@ TListView {
                     anchors.left: parent.left
                     visible: model.value != 0
 
-                    StickerItem {
-                        anchors.verticalCenter: parent.verticalCenter
+                    Loader {
                         width: 18
                         height: width
-                        autoPlay: true
-                        loops: 1
-                        source: "qrc:/ton/common/stickers/Main.tgs"
+                        anchors.verticalCenter: parent.verticalCenter
+                        asynchronous: true
+                        sourceComponent: StickerItem {
+                            autoPlay: true
+                            loops: 1
+                            source: "qrc:/ton/common/stickers/Main.tgs"
+                        }
                     }
+
 
                     TRow {
                         spacing: 0
