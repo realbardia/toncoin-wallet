@@ -351,7 +351,7 @@ TPage {
     TScrollBar {
         color: Colors.darkMode? "#ffffff" : "#000000"
         scrollArea: flick
-        visible: Devices.isDesktop && !Devices.isQt6
+        visible: Devices.isDesktop
         anchors.topMargin: scrollView.scrollMarginTop
         anchors.right: scrollView.right
         anchors.top: scrollView.top
