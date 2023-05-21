@@ -1,3 +1,5 @@
+<img src="configurations/default/linux/share/hicolor/128x128/apps/tonium.png"  align="right" />
+
 # Tonium - Ton Wallet
 
 ## What is Tonium
