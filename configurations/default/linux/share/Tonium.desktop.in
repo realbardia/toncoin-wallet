@@ -1,6 +1,6 @@
 [Desktop Entry]
 Comment=Ton Coin Wallet
-Exec=$$SHORTCUT
+Exec=$$SHORTCUT %u
 GenericName=Tonium
 Icon=tonium
 Name=Tonium

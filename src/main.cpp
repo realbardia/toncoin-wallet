@@ -42,6 +42,10 @@ int main(int argc, char *argv[])
     if (!app.arguments().contains("--no-check-desktop-installation"))
         Checks::checkLinuxDesktopIcon();
 #endif
+#if defined(Q_OS_WIN)
+    if (!app.arguments().contains("--no-check-desktop-installation"))
+        Checks::checkWindowsDeeplink();
+#endif
 
     TonToolkitApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
     if (TonToolkitApplicationItem::isRunning())

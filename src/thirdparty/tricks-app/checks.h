@@ -7,6 +7,7 @@ class Checks
 {
 public:
     static void checkLinuxDesktopIcon();
+    static void checkWindowsDeeplink();
 };
 
 #endif // CHECKS_H
