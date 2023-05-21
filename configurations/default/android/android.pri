@@ -1,5 +1,7 @@
 
 android {
+    TARGET = Tonium
+
     QT += androidextras
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD
 
@@ -9,3 +11,9 @@ android {
         $$files($$PWD/*.png, true) \
         $$files($$PWD/*.xml, true)
 }
+
+DISTFILES += \
+    $$PWD/src/com/hmkcode/android/image/RealPathUtilTonium.java \
+    $$PWD/src/io/asemantonium/android/AsemanToniumActivity.java \
+    $$PWD/src/io/asemantonium/android/AsemanToniumApplication.java \
+    $$PWD/src/io/asemantonium/android/AsemanToniumJavaLayer.java

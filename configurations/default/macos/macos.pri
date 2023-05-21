@@ -1,5 +1,7 @@
 
 macx {
+    TARGET = Tonium
+
     ICON = $$PWD/logo.icns
 
     DISTFILES += \

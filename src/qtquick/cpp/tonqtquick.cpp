@@ -22,6 +22,9 @@
 #include "toolkit/core/asemanqrcreator.h"
 #include "toolkit/core/asemankeyhandler.h"
 #include "toolkit/core/asemanrefresherobject.h"
+#ifdef Q_OS_ANDROID
+#include "toolkit/core/asemanjavalayer.h"
+#endif
 
 #include "wallets/core/keysmanager.h"
 #include "wallets/core/recoveryphrasesmodel.h"

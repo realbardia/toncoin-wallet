@@ -1,17 +1,17 @@
-#ifndef ASEMANJAVALAYER_H
-#define ASEMANJAVALAYER_H
+#ifndef ASEMANTONIUMJAVALAYER_H
+#define ASEMANTONIUMJAVALAYER_H
 
 #include <QObject>
 
-class AsemanJavaLayerPrivate;
-class AsemanJavaLayer : public QObject
+class AsemanToniumJavaLayerPrivate;
+class AsemanToniumJavaLayer : public QObject
 {
     Q_OBJECT
     Q_ENUMS(ImportanceTypes)
 
 public:
-    AsemanJavaLayer();
-    virtual ~AsemanJavaLayer();
+    AsemanToniumJavaLayer();
+    virtual ~AsemanToniumJavaLayer();
 
     enum ImportanceTypes {
         ImportanceDefault = 3,
@@ -22,7 +22,7 @@ public:
         ImportanceNone = 0,
     };
 
-    static AsemanJavaLayer *instance();
+    static AsemanToniumJavaLayer *instance();
 
     bool sharePaper( const QString & title, const QString & msg );
     bool shareFile( const QString & path, const QString & type );
@@ -91,7 +91,9 @@ protected:
     void setImplemented(bool stt);
 
 private:
-    AsemanJavaLayerPrivate *p;
+    AsemanToniumJavaLayerPrivate *p;
 };
 
-#endif // ASEMANJAVALAYER_H
+typedef AsemanToniumJavaLayer AsemanJavaLayer;
+
+#endif // ASEMANTONIUMJAVALAYER_H

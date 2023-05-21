@@ -1,4 +1,4 @@
-isEmpty(TON_LIB_PATH): TON_LIB_PATH = /opt/develop/ton/
+isEmpty(TON_LIB_PATH): !android: TON_LIB_PATH = /opt/develop/ton/
 exists($$TON_LIB_PATH/include/tonlib/Client.h) {
     message(TON libs found on $$TON_LIB_PATH)
 } else {
@@ -22,7 +22,7 @@ exists($$TON_SOURCE_PATH/crypto/common/bitstring.h) {
     }
 }
 
-linux {
+linux: !android {
     isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = /usr
 } else {
     isEmpty(OPENSS_LIB_PATH): OPENSS_LIB_PATH = $$[QT_INSTALL_DATA]

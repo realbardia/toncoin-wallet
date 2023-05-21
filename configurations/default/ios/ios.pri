@@ -1,5 +1,7 @@
 
 ios {
+    TARGET = Tonium
+
     OTHER_FILES += \
         $$PWD/Launch.xib \
         $$PWD/Info.plist \

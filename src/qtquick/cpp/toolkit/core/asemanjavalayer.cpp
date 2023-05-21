@@ -17,25 +17,25 @@
 
 #include <jni.h>
 
-static QSet<AsemanJavaLayer*> java_layers_objects;
+static QSet<AsemanToniumJavaLayer*> java_layers_objects;
 static QList< QPair<QString,QString> > java_layer_inc_share_buffer;
 static QList< QString > java_layer_inc_image_buffer;
 
-static bool aseman_jlayer_registerNativeMethods();
-static bool aseman_jlayer_native_methods_registered = aseman_jlayer_registerNativeMethods();
+static bool asemantonium_jlayer_registerNativeMethods();
+static bool asemantonium_jlayer_native_methods_registered = asemantonium_jlayer_registerNativeMethods();
 
-class AsemanJavaLayerPrivate
+class AsemanToniumJavaLayerPrivate
 {
 public:
     QAndroidJniObject object;
     QAndroidJniEnvironment env;
 };
 
-AsemanJavaLayer::AsemanJavaLayer() :
+AsemanToniumJavaLayer::AsemanToniumJavaLayer() :
     QObject()
 {
-    p = new AsemanJavaLayerPrivate;
-    p->object = QAndroidJniObject("io/aseman/android/AsemanJavaLayer");
+    p = new AsemanToniumJavaLayerPrivate;
+    p->object = QAndroidJniObject("io/asemantonium/android/AsemanToniumJavaLayer");
 
 #if defined(Q_OS_ANDROID) && defined(ASEMAN_STATIC_BUILD)
     QMetaObject::invokeMethod( this, "registerObject", Qt::QueuedConnection );
@@ -48,28 +48,28 @@ AsemanJavaLayer::AsemanJavaLayer() :
     setImplemented(true);
 }
 
-void AsemanJavaLayer::registerObject()
+void AsemanToniumJavaLayer::registerObject()
 {
     java_layers_objects.insert(this);
 }
 
-AsemanJavaLayer *AsemanJavaLayer::instance()
+AsemanToniumJavaLayer *AsemanToniumJavaLayer::instance()
 {
-    if(!aseman_jlayer_native_methods_registered)
-        aseman_jlayer_registerNativeMethods();
+    if(!asemantonium_jlayer_native_methods_registered)
+        asemantonium_jlayer_registerNativeMethods();
 
-    static QPointer<AsemanJavaLayer> java_layer_instance;
+    static QPointer<AsemanToniumJavaLayer> java_layer_instance;
     if( !java_layer_instance )
     {
-        java_layer_instance = new AsemanJavaLayer();
+        java_layer_instance = new AsemanToniumJavaLayer();
         if(QCoreApplication::instance())
-            QObject::connect(QCoreApplication::instance(), &QCoreApplication::destroyed, java_layer_instance, &AsemanJavaLayer::deleteLater);
+            QObject::connect(QCoreApplication::instance(), &QCoreApplication::destroyed, java_layer_instance, &AsemanToniumJavaLayer::deleteLater);
     }
 
     return java_layer_instance;
 }
 
-bool AsemanJavaLayer::sharePaper(const QString &title, const QString &msg)
+bool AsemanToniumJavaLayer::sharePaper(const QString &title, const QString &msg)
 {
     QAndroidJniObject jtitle = QAndroidJniObject::fromString(title.toUtf8());
     QAndroidJniObject jmsg = QAndroidJniObject::fromString(msg.toUtf8());
@@ -77,7 +77,7 @@ bool AsemanJavaLayer::sharePaper(const QString &title, const QString &msg)
     return res;
 }
 
-bool AsemanJavaLayer::shareFile(const QString &path, const QString &type)
+bool AsemanToniumJavaLayer::shareFile(const QString &path, const QString &type)
 {
     QAndroidJniObject jpath = QAndroidJniObject::fromString(path.toUtf8());
     QAndroidJniObject jtype = QAndroidJniObject::fromString(type.toUtf8());
@@ -85,7 +85,7 @@ bool AsemanJavaLayer::shareFile(const QString &path, const QString &type)
     return res;
 }
 
-bool AsemanJavaLayer::openFile(const QString &path, const QString &type)
+bool AsemanToniumJavaLayer::openFile(const QString &path, const QString &type)
 {
     QAndroidJniObject jpath = QAndroidJniObject::fromString(path.toUtf8());
     QAndroidJniObject jtype = QAndroidJniObject::fromString(type.toUtf8());
@@ -93,27 +93,27 @@ bool AsemanJavaLayer::openFile(const QString &path, const QString &type)
     return res;
 }
 
-bool AsemanJavaLayer::startCamera(const QString &output)
+bool AsemanToniumJavaLayer::startCamera(const QString &output)
 {
     QAndroidJniObject joutput = QAndroidJniObject::fromString(output.toUtf8());
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "(Ljava/lang/String;)Z", joutput.object<jstring>() );
     return res;
 }
 
-bool AsemanJavaLayer::callNumber(const QString &number)
+bool AsemanToniumJavaLayer::callNumber(const QString &number)
 {
     QAndroidJniObject jnumber = QAndroidJniObject::fromString(number.toUtf8());
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "(Ljava/lang/String;)Z", jnumber.object<jstring>() );
     return res;
 }
 
-bool AsemanJavaLayer::getOpenPictures()
+bool AsemanToniumJavaLayer::getOpenPictures()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z");
     return res;
 }
 
-bool AsemanJavaLayer::startForeground(qint32 id, const QString &title, const QString &msg, const QString &iconPath, const QString &icon, const QString &channelId)
+bool AsemanToniumJavaLayer::startForeground(qint32 id, const QString &title, const QString &msg, const QString &iconPath, const QString &icon, const QString &channelId)
 {
     jint jid = id;
     QAndroidJniObject jtitle = QAndroidJniObject::fromString(title);
@@ -128,14 +128,14 @@ bool AsemanJavaLayer::startForeground(qint32 id, const QString &title, const QSt
     return res;
 }
 
-bool AsemanJavaLayer::stopForeground(bool removeNotification)
+bool AsemanToniumJavaLayer::stopForeground(bool removeNotification)
 {
     jboolean jremoveNotification = removeNotification;
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "(Z)Z", jremoveNotification);
     return res;
 }
 
-bool AsemanJavaLayer::startNotification(qint32 id, const QString &title, const QString &msg, const QString &iconPath, const QString &icon, const QString &channelId, bool sound, bool vibrate)
+bool AsemanToniumJavaLayer::startNotification(qint32 id, const QString &title, const QString &msg, const QString &iconPath, const QString &icon, const QString &channelId, bool sound, bool vibrate)
 {
     jint jid = id;
     QAndroidJniObject jtitle = QAndroidJniObject::fromString(title);
@@ -152,14 +152,14 @@ bool AsemanJavaLayer::startNotification(qint32 id, const QString &title, const Q
     return res;
 }
 
-bool AsemanJavaLayer::stopNotification(qint32 id)
+bool AsemanToniumJavaLayer::stopNotification(qint32 id)
 {
     jint jid = id;
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "(I)Z", jid);
     return res;
 }
 
-QString AsemanJavaLayer::createNotificationChannel(const QString &channelId, const QString &channelName, int importance)
+QString AsemanToniumJavaLayer::createNotificationChannel(const QString &channelId, const QString &channelName, int importance)
 {
     QAndroidJniObject jchannelId = QAndroidJniObject::fromString(channelId);
     QAndroidJniObject jchannelName = QAndroidJniObject::fromString(channelName);
@@ -169,114 +169,114 @@ QString AsemanJavaLayer::createNotificationChannel(const QString &channelId, con
     return res;
 }
 
-bool AsemanJavaLayer::transparentStatusBar()
+bool AsemanToniumJavaLayer::transparentStatusBar()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z");
     return res;
 }
 
-bool AsemanJavaLayer::transparentNavigationBar()
+bool AsemanToniumJavaLayer::transparentNavigationBar()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z");
     return res;
 }
 
-bool AsemanJavaLayer::startService()
+bool AsemanToniumJavaLayer::startService()
 {
     return startQtService();
 }
 
-bool AsemanJavaLayer::stopService()
+bool AsemanToniumJavaLayer::stopService()
 {
     return stopQtService();
 }
 
-bool AsemanJavaLayer::killService(const QString &serviceName)
+bool AsemanToniumJavaLayer::killService(const QString &serviceName)
 {
     QAndroidJniObject jserviceName = QAndroidJniObject::fromString(serviceName.toUtf8());
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "(Ljava/lang/String;)Z", jserviceName.object<jstring>());
     return res;
 }
 
-bool AsemanJavaLayer::startQtService()
+bool AsemanToniumJavaLayer::startQtService()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z" );
     return res;
 }
 
-bool AsemanJavaLayer::stopQtService()
+bool AsemanToniumJavaLayer::stopQtService()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z" );
     return res;
 }
 
-int AsemanJavaLayer::densityDpi()
+int AsemanToniumJavaLayer::densityDpi()
 {
     jint res = p->object.callMethod<jint>(__FUNCTION__, "()I" );
     return res;
 }
 
-int AsemanJavaLayer::screenSizeWidth()
+int AsemanToniumJavaLayer::screenSizeWidth()
 {
     jint res = p->object.callMethod<jint>(__FUNCTION__, "()I" );
     return res;
 }
 
-int AsemanJavaLayer::screenSizeHeight()
+int AsemanToniumJavaLayer::screenSizeHeight()
 {
     jint res = p->object.callMethod<jint>(__FUNCTION__, "()I" );
     return res;
 }
 
-int AsemanJavaLayer::getSizeName()
+int AsemanToniumJavaLayer::getSizeName()
 {
     jint res = p->object.callMethod<jint>(__FUNCTION__, "()I" );
     return res;
 }
 
-int AsemanJavaLayer::statusBarHeight()
+int AsemanToniumJavaLayer::statusBarHeight()
 {
     jint res = p->object.callMethod<jint>(__FUNCTION__, "()I" );
     return res;
 }
 
-int AsemanJavaLayer::navigationBarHeight()
+int AsemanToniumJavaLayer::navigationBarHeight()
 {
     jint res = p->object.callMethod<jint>(__FUNCTION__, "()I" );
     return res;
 }
 
-bool AsemanJavaLayer::isTablet()
+bool AsemanToniumJavaLayer::isTablet()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z");
     return res;
 }
 
-qreal AsemanJavaLayer::density()
+qreal AsemanToniumJavaLayer::density()
 {
     jfloat res = p->object.callMethod<jfloat>(__FUNCTION__, "()F" );
     return res;
 }
 
-QString AsemanJavaLayer::packageName()
+QString AsemanToniumJavaLayer::packageName()
 {
     QString res = p->object.callObjectMethod(__FUNCTION__, "()Ljava/lang/String;" ).toString();
     return res;
 }
 
-QString AsemanJavaLayer::deviceName()
+QString AsemanToniumJavaLayer::deviceName()
 {
     QString res = p->object.callObjectMethod(__FUNCTION__, "()Ljava/lang/String;" ).toString();
     return res;
 }
 
-QString AsemanJavaLayer::deviceId()
+QString AsemanToniumJavaLayer::deviceId()
 {
     QString res = p->object.callObjectMethod(__FUNCTION__, "()Ljava/lang/String;" ).toString();
     return res;
 }
 
-QRect AsemanJavaLayer::keyboardRect()
+QRect AsemanToniumJavaLayer::keyboardRect()
 {
     jint jheight = p->object.callMethod<jfloat>("menuHeight", "()I" );
     int menuheight = jheight;
@@ -315,7 +315,7 @@ QRect AsemanJavaLayer::keyboardRect()
     return final;
 }
 
-QString AsemanJavaLayer::getLastImages(qint32 offset, qint32 count)
+QString AsemanToniumJavaLayer::getLastImages(qint32 offset, qint32 count)
 {
     jint joffset = offset;
     jint jcount = count;
@@ -323,31 +323,31 @@ QString AsemanJavaLayer::getLastImages(qint32 offset, qint32 count)
     return res;
 }
 
-QString AsemanJavaLayer::getContactList()
+QString AsemanToniumJavaLayer::getContactList()
 {
     QString res = p->object.callObjectMethod(__FUNCTION__, "()Ljava/lang/String;").toString();
     return res;
 }
 
-void AsemanJavaLayer::setKeepScreenOn(bool stt)
+void AsemanToniumJavaLayer::setKeepScreenOn(bool stt)
 {
     jboolean jstt = stt;
     p->object.callMethod<jboolean>(__FUNCTION__, "(Z)V", jstt );
 }
 
-bool AsemanJavaLayer::setTransparentNavigationBar(bool stt)
+bool AsemanToniumJavaLayer::setTransparentNavigationBar(bool stt)
 {
     jboolean jstt = stt;
     return p->object.callMethod<jboolean>(__FUNCTION__, "(Z)Z", jstt );
 }
 
-bool AsemanJavaLayer::setTransparentStatusBar(bool stt)
+bool AsemanToniumJavaLayer::setTransparentStatusBar(bool stt)
 {
     jboolean jstt = stt;
     return p->object.callMethod<jboolean>(__FUNCTION__, "(Z)Z", jstt );\
 }
 
-void AsemanJavaLayer::load_buffer()
+void AsemanToniumJavaLayer::load_buffer()
 {
     while( !java_layer_inc_share_buffer.isEmpty() )
     {
@@ -356,13 +356,13 @@ void AsemanJavaLayer::load_buffer()
     }
 }
 
-void AsemanJavaLayer::setImplemented(bool stt)
+void AsemanToniumJavaLayer::setImplemented(bool stt)
 {
     jboolean jstt = stt;
     p->object.callMethod<jboolean>(__FUNCTION__, "(Z)Z", jstt );
 }
 
-AsemanJavaLayer::~AsemanJavaLayer()
+AsemanToniumJavaLayer::~AsemanToniumJavaLayer()
 {
     java_layers_objects.remove(this);
     delete p;
@@ -376,7 +376,7 @@ static void noteRecieved( JNIEnv *env, jobject obj ,jstring title, jstring msg )
     const char *t = env->GetStringUTFChars(title,&a);
     const char *m = env->GetStringUTFChars(msg,&b);
 
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->incomingShare( QString(t), QString(m) );
 
     if( java_layers_objects.isEmpty() )
@@ -389,10 +389,10 @@ static void imageRecieved( JNIEnv *env, jobject obj ,jstring jpath )
     jboolean a;
     const char *p = env->GetStringUTFChars(jpath,&a);
 
-    QString path = QString("/sdcard/Aseman/%1.jpeg").arg(QDateTime::currentDateTime().toMSecsSinceEpoch());
+    QString path = QString("/sdcard/AsemanTonium/%1.jpeg").arg(QDateTime::currentDateTime().toMSecsSinceEpoch());
     QFile().rename(QString(p),path);
 
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->incomingImage(path);
 
     if( java_layers_objects.isEmpty() )
@@ -405,7 +405,7 @@ static void selectImageResult( JNIEnv *env, jobject obj ,jstring path )
     jboolean a;
     const char *p = env->GetStringUTFChars(path,&a);
 
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->selectImageResult( QString(p) );
 }
 
@@ -413,7 +413,7 @@ static void activityPaused( JNIEnv *env, jobject obj )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->activityPaused();
 }
 
@@ -421,7 +421,7 @@ static void activityStopped( JNIEnv *env, jobject obj )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->activityStopped();
 }
 
@@ -429,7 +429,7 @@ static void activityResumed( JNIEnv *env, jobject obj )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->activityResumed();
 }
 
@@ -437,7 +437,7 @@ static void activityStarted( JNIEnv *env, jobject obj )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->activityStarted();
 }
 
@@ -445,7 +445,7 @@ static void activityRestarted( JNIEnv *env, jobject obj )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->activityRestarted();
 }
 
@@ -453,7 +453,7 @@ static void activityDestroyed( JNIEnv *env, jobject obj )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->activityDestroyed();
 }
 
@@ -461,12 +461,12 @@ static void keyboardVisiblityChanged( JNIEnv *env, jobject obj, jint height )
 {
     Q_UNUSED(env)
     Q_UNUSED(obj)
-    for(AsemanJavaLayer *sjl: java_layers_objects)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
         Q_EMIT sjl->keyboardVisiblityChanged(height);
 }
 
-bool aseman_jlayer_registerNativeMethods() {
-    if(aseman_jlayer_native_methods_registered)
+bool asemantonium_jlayer_registerNativeMethods() {
+    if(asemantonium_jlayer_native_methods_registered)
         return true;
 
     JNINativeMethod methods[] {{"_sendNote", "(Ljava/lang/String;Ljava/lang/String;)V", reinterpret_cast<void *>(noteRecieved)},
@@ -480,7 +480,7 @@ bool aseman_jlayer_registerNativeMethods() {
                                {"_activityDestroyed", "()V", reinterpret_cast<void *>(activityDestroyed)},
                                {"_keyboardVisiblityChanged", "(I)V", reinterpret_cast<void *>(keyboardVisiblityChanged)}};
 
-    QAndroidJniObject javaClass("io/aseman/android/AsemanJavaLayer");
+    QAndroidJniObject javaClass("io/asemantonium/android/AsemanToniumJavaLayer");
     QAndroidJniEnvironment env;
     jclass objectClass = env->GetObjectClass(javaClass.object<jobject>());
 
