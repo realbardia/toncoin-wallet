@@ -65,8 +65,9 @@ TPage {
 
     Connections {
         target: tonConnect
-        function onNewTransferRequest(serviceId, serviceName, serviceIcon, amount, address) {
+        function onNewTransferRequest(transferId, serviceId, serviceName, serviceIcon, amount, address) {
             var m = {
+                "transferId": transferId,
                 "serviceId": serviceId,
                 "serviceName": serviceName,
                 "serviceIcon": serviceIcon,

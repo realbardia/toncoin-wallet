@@ -45,7 +45,7 @@ bool TransferRequest::transfer()
         }
 
         if (bodyHash.size())
-            Q_EMIT transferFinishedSucessfully(bodyHash);
+            Q_EMIT transferFinishedSucessfully(bodyHash, QString::fromLatin1(bodyHash.toBase64()));
         else
             Q_EMIT transferFailed();
     });

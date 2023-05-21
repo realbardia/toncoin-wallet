@@ -13,6 +13,7 @@ TDrawer {
 
     property alias amount: feeEstimater.amount
     property alias address: feeEstimater.destinationAddress
+    property string transferId
     property string serviceId
     property string serviceName
     property string serviceIcon
@@ -24,6 +25,16 @@ TDrawer {
     mainButton {
         height: 1
         anchors.bottomMargin: -5
+    }
+
+    readonly property bool openState: dis.ViewportType.open
+    onOpenStateChanged: {
+        if (openState)
+            return;
+        if (done)
+            return;
+
+        tonConnect.transferRejected(serviceId, transferId, TonConnect.TransferUserDeclinedError);
     }
 
     WalletItem {
@@ -46,7 +57,7 @@ TDrawer {
         force: true
         wallet: walletItem
         onTransferFinishedSucessfully: {
-            tonConnect.transferCompleted(serviceId, amount, address);
+            tonConnect.transferCompleted(transferId, serviceId, bodyHash_base64);
             GlobalSignals.pendingTransactionSubmited(transfer, feeEstimater)
             GlobalSignals.reloadTransactionsRequest();
             Devices.triggerVibrateFeedback();
@@ -189,7 +200,6 @@ TDrawer {
                 scale: done || busyIndicator.running? 0.5 : 1
                 visible: opacity > 0
                 onClicked: {
-                    tonConnect.transferCompleted(serviceId, amount, address);
                     dis.ViewportType.open = false;
                 }
 

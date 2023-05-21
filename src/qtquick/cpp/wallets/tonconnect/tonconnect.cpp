@@ -155,13 +155,13 @@ void TonConnect::reject(const QString &id, int error)
         break;
     }
 
-    QVariantMap success = {
+    QVariantMap map = {
         {"event", "connect_error"},
         {"id", mUniqueId++},
         {"payload", payload},
     };
 
-    const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
+    const auto json = QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact);
 
     sendMessage(id, json, [](const QByteArray &, bool){});
 }
@@ -469,6 +469,7 @@ void TonConnect::processMessage(const TonConnect::Token &from, const QByteArray 
 
     const auto json = QJsonDocument::fromJson(data);
     const auto obj = json.object();
+    const auto reqId = obj.value("id").toString();
     const auto method = obj.value(QStringLiteral("method")).toString();
     if (method == QStringLiteral("sendTransaction"))
     {
@@ -518,7 +519,7 @@ void TonConnect::processMessage(const TonConnect::Token &from, const QByteArray 
 
                 auto amountTON = QString::number(amount.toLongLong() * BALANCE_RATIO, 'f', 9).remove(rx1).remove(rx2);
 
-                Q_EMIT newTransferRequest(from.id, from.name, from.iconUrl, amountTON, QByteArray::fromStdString(stdAddress.rserialize(true)));
+                Q_EMIT newTransferRequest(reqId, from.id, from.name, from.iconUrl, amountTON, QByteArray::fromStdString(stdAddress.rserialize(true)));
             }
         }
     }
@@ -637,14 +638,51 @@ void TonConnect::setPassword(const QString &newPassword)
     Q_EMIT passwordChanged();
 }
 
-void TonConnect::transferCompleted(const QString &serviceId, const QString &amount, const QString &address)
+void TonConnect::transferCompleted(const QString &serviceId, const QString &id, const QString &result_base64)
 {
+    QVariantMap success = {
+        {"id", id},
+        {"result", result_base64},
+    };
 
+    const auto json = QJsonDocument::fromVariant(success).toJson(QJsonDocument::Compact);
+
+    sendMessage(serviceId, json, [](const QByteArray &, bool){});
 }
 
-void TonConnect::transferRejected(const QString &serviceId, const QString &amount, const QString &address)
+void TonConnect::transferRejected(const QString &serviceId, const QString &id, int error)
 {
+    QVariantMap payload = {
+        {"code", error},
+    };
 
+    switch (error)
+    {
+    case TransferUnknownError:
+        payload[QStringLiteral("message")] = QStringLiteral("Unknown error");
+        break;
+    case TransferBadRequestError:
+        payload[QStringLiteral("message")] = QStringLiteral("Bad request");
+        break;
+    case TransferUnkownAppError:
+        payload[QStringLiteral("message")] = QStringLiteral("Unknown app");
+        break;
+    case TransferUserDeclinedError:
+        payload[QStringLiteral("message")] = QStringLiteral("User declined the transaction");
+        break;
+    case TransferNotSupportedError:
+        payload[QStringLiteral("message")] = QStringLiteral("Method not supported");
+        break;
+    }
+
+    QVariantMap map = {
+        {"id", id},
+        {"error", payload},
+    };
+
+    const auto json = QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact);
+
+    sendMessage(serviceId, json, [](const QByteArray &, bool){});
 }
 
 void TonConnect::runEventListener()

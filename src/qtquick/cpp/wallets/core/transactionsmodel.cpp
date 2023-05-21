@@ -441,7 +441,7 @@ void TransactionsModel::addPending(TransferRequest *req, FeeEstimater *fee)
     const auto storage_fee = fee? fee->storageFee().toDouble() : 0;
     const auto other_fee = fee? fee->gasFee().toDouble() + fee->fwdFee().toDouble() + fee->inFwdFee().toDouble() : 0;
 
-    connect(req, &TransferRequest::transferFinishedSucessfully, this, [this, total_fee, storage_fee, other_fee, req](const QByteArray &bodyHash){
+    connect(req, &TransferRequest::transferFinishedSucessfully, this, [this, total_fee, storage_fee, other_fee, req](const QByteArray &bodyHash, const QString &){
         auto w = req->wallet();
         if (!w)
             return;

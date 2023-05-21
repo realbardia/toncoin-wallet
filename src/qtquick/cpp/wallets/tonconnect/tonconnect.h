@@ -58,6 +58,15 @@ public:
     };
     Q_ENUMS(ConnectItemErrors)
 
+    enum TransferErrors {
+        TransferUnknownError = 0,
+        TransferBadRequestError = 1,
+        TransferUnkownAppError = 100,
+        TransferUserDeclinedError = 300,
+        TransferNotSupportedError = 400,
+    };
+    Q_ENUMS(TransferErrors)
+
     enum DisconnectErrors {
         DisonnectUnknownError = 0,
         DisconnectBadRequestError = 1,
@@ -131,8 +140,8 @@ public Q_SLOTS:
     void reject(const QString &id, int error);
     void revoke(const QString &id);
 
-    void transferCompleted(const QString &serviceId, const QString &amount, const QString &address);
-    void transferRejected(const QString &serviceId, const QString &amount, const QString &address);
+    void transferCompleted(const QString &serviceId, const QString &id, const QString &result_base64);
+    void transferRejected(const QString &serviceId, const QString &id, int error);
 
     void runEventListener();
 
@@ -154,7 +163,7 @@ Q_SIGNALS:
     void lastEventIdChanged();
     void newEventArrived(const QString &eventId);
     void failed(const QString &title, const QString &message);
-    void newTransferRequest(const QString &serviceId, const QString &serviceName, const QString &serviceIcon, const QString &amount, const QString &address);
+    void newTransferRequest(const QString &transferId, const QString &serviceId, const QString &serviceName, const QString &serviceIcon, const QString &amount, const QString &address);
     void networkChanged();
     void lockedChanged();
 

@@ -36,7 +36,7 @@ Q_SIGNALS:
     void messageChanged();
     void forceChanged();
 
-    void transferFinishedSucessfully(const QByteArray &bodyHash);
+    void transferFinishedSucessfully(const QByteArray &bodyHash, const QString &bodyHash_base64);
     void transferFailed();
 
 private:
