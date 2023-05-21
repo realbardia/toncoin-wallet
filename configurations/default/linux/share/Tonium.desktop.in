@@ -8,3 +8,4 @@ StartupNotify=true
 Type=Application
 MimeType=x-scheme-handler/ton;x-scheme-handler/tonium;
 Version=1.0
+Categories=Finance;Network;
