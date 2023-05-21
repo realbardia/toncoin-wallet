@@ -10,7 +10,23 @@ Item {
     property alias color: bilbilak.color
     property bool forceVisible: false
 
-    opacity: scrollArea.movingVertically || scrollArea.movingHorizontally || forceVisible? 1 : 0
+    opacity: movingTimer.running || forceVisible? 1 : 0
+
+    Connections {
+        target: scrollArea
+        function onContentYChanged() {
+            movingTimer.restart();
+        }
+        function onContentXChanged() {
+            movingTimer.restart();
+        }
+    }
+
+    Timer {
+        id: movingTimer
+        interval: 500
+        repeat: false
+    }
 
     function position()
     {
