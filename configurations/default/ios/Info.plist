@@ -37,7 +37,8 @@
 			<string>Tonium Links</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tricks</string>
+                                <string>ton</string>
+                                <string>tonium</string>
 			</array>
 		</dict>
 		<dict/>

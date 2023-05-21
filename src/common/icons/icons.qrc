@@ -2,5 +2,6 @@
     <qresource prefix="/ton/common/icons">
         <file>icon.png</file>
         <file>gem.png</file>
+        <file>dialog-information.png</file>
     </qresource>
 </RCC>

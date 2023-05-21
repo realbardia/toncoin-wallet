@@ -1,4 +1,7 @@
 linux: !android {
+    TARGET = tonium
+
+    isEmpty(PREFIX): PREFIX = /usr
 
     SHORTCUT = tonium
 
@@ -14,7 +17,7 @@ linux: !android {
 
     QMAKE_SUBSTITUTES += shortcut
 
-    INSTALLS += target shortcut icons pixmaps
+    INSTALLS = target shortcut icons pixmaps
 
     DISTFILES += \
         $$PWD/share/Tonium.desktop.in \

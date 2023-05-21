@@ -1,0 +1,10 @@
+[Desktop Entry]
+Comment=Ton Coin Wallet
+Exec=$$SHORTCUT
+GenericName=Tonium
+Icon=tonium
+Name=Tonium
+StartupNotify=true
+Type=Application
+MimeType=x-scheme-handler/ton;x-scheme-handler/tonium;
+Version=1.0

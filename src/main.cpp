@@ -11,6 +11,7 @@
 #include "QZXing.h"
 #endif
 
+#include "thirdparty/tricks-app/checks.h"
 #include "qtquick/cpp/tonqtquick.h"
 #include "qtquick/cpp/toolkit/core/tontoolkitapplicationitem.h"
 
@@ -34,7 +35,13 @@ int main(int argc, char *argv[])
 #else
     QGuiApplication app(argc, argv);
 #endif
+    app.setApplicationName("Tonium");
     app.setWindowIcon(QIcon(":/ton/common/icons/icon.png"));
+
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    if (!app.arguments().contains("--no-check-desktop-installation"))
+        Checks::checkLinuxDesktopIcon();
+#endif
 
     TonToolkitApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
     if (TonToolkitApplicationItem::isRunning())
