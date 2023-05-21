@@ -62,6 +62,7 @@ TPage {
     }
 
     TScrollView {
+        id: scrollView
         anchors.fill: parent
         anchors.topMargin: Devices.standardTitleBarHeight + Devices.statusBarHeight
         scrollMarginTop: Constants.roundness
@@ -117,6 +118,7 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Language")
+                            spacer: false
                             onClicked: languageMenu.open()
 
                             TLabel {
@@ -228,6 +230,7 @@ TPage {
                         }
                         SettingItem {
                             title: qsTr("Change passcode")
+                            spacer: Devices.hasBiometric
                             onClicked: {
                                 TViewport.viewport.append(passCode_component, {}, "popup");
                             }
@@ -235,6 +238,7 @@ TPage {
                         SettingItem {
                             title: qsTr("Touch ID")
                             visible: Devices.hasBiometric
+                            spacer: false
                             onClicked: {
                                 if (AppSettings.touchId) {
                                     AppSettings.touchId = false;
@@ -274,6 +278,7 @@ TPage {
                         SettingItem {
                             title: qsTr("Logout")
                             titleColor: Colors.red
+                            spacer: false
                             onClicked: logoutDialog.open()
 
                             TMaterialIcon {
@@ -286,9 +291,47 @@ TPage {
                             }
                         }
                     }
+
+                    TColumn {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: 0
+
+                        Item {
+                            width: 1
+                            height: 40
+                        }
+
+                        TLabel {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: qsTr("Developer by Bardia Daneshvar")
+                            font.pixelSize: 8 * Devices.fontDensity
+                            opacity: 0.6
+                        }
+                        TLabel {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: qsTr("2023")
+                            font.pixelSize: 7 * Devices.fontDensity
+                            opacity: 0.6
+                        }
+
+                        Item {
+                            width: 1
+                            height: 40 + Devices.navigationBarHeight
+                        }
+                    }
                 }
             }
         }
+    }
+
+    TScrollBar {
+        color: Colors.darkMode? "#ffffff" : "#000000"
+        scrollArea: flick
+        visible: Devices.isDesktop
+        anchors.topMargin: scrollView.scrollMarginTop
+        anchors.right: scrollView.right
+        anchors.top: scrollView.top
+        anchors.bottom: scrollView.bottom
     }
 
     Item {
