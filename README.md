@@ -4,7 +4,7 @@
 
 Tonium is a open-source, free and cross platform TON wallet written and developed using C++, Qt framework,TonLib and QtAseman framework and released under the MIT license.
 
-It's a cross platform Wallet designed and developed for Desktop and Smart phones. All primary operating systems like Linux, Windows, macOS, iOS and Android are fully supported by the Tonium.
+It's a cross platform Wallet designed and developed for Desktop and Smart phones. All primary operating systems like **Linux**💻, **Windows💻**, **macOS**💻, **iOS**📱 and **Android**📱 are fully supported by the Tonium.
 
 ## Main Features
 
@@ -20,6 +20,7 @@ It's a cross platform Wallet designed and developed for Desktop and Smart phones
 - Deep link supported (using QR scanner, Command line arguments and ...)
 - Dynamic Back-end
   - Currently TonLib backends developed. But technicaly Tonium support's different back-end using different libraries.
+- Both Wayland and X11 are supported
 
 ## Download
 
@@ -27,13 +28,11 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 
 | Target  | Architecture | Note                                                         |
 | ------- | :----------: | ------------------------------------------------------------ |
-| Linux   |    X86_64    | It's an app-image build that tested on the Debian and Ubuntu |
-| Windows |    X86_64    | Tested on the Windows 11                                     |
-| macOS   |    X86_64    | Tested on the intel based mac-books                          |
-| iOS     |    arm64     | Tested on the iOS 16 and 15                                  |
-| Android |    arm64     | Tested on the android 8                                      |
-
-
+| Linux   |    X86_64    | It's an app-image build that tested on the Debian and Ubuntu. Both Qt5 and Qt6 recommended. |
+| Windows |    X86_64    | Because of the technical reasons currently Frameless feature disabled on Qt6 build and QR Scanner disabled on Qt5 |
+| macOS   |    X86_64    | I recommend Qt6.                                             |
+| iOS     |    arm64     | I don't recommend Qt6 for mobile devices currently           |
+| Android |    arm64     | I don't recommend Qt6 for mobile devices currently           |
 
 ## Library and Tools:
 
