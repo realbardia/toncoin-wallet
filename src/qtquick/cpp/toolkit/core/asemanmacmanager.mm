@@ -1,6 +1,6 @@
 #include "asemanmacmanager.h"
 #include <Cocoa/Cocoa.h>
-#include <QEventLoop>
+#include <QSemaphore>
 
 #import <LocalAuthentication/LocalAuthentication.h>
 
@@ -44,7 +44,7 @@ bool AsemanMacManager::biometricCheck()
         return false;
 
     auto res = new bool;
-    auto loop = new QEventLoop;
+    auto semaphore = new QSemaphore;
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
               localizedReason:@"Authenticate with Touch ID"
                         reply:^(BOOL success, NSError *error) {
@@ -53,12 +53,12 @@ bool AsemanMacManager::biometricCheck()
         } else {
             *res = false;
         }
-        loop->exit();
+        semaphore->release(1);
     }];
 
-    loop->exec();
+    semaphore->acquire(1);
     auto r = *res;
-    delete loop;
+    delete semaphore;
     delete res;
     return r;
 }
