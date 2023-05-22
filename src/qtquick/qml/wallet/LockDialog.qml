@@ -31,7 +31,7 @@ TPage {
         interval: 300
         running: AppSettings.touchId && Devices.hasBiometric
         repeat: false
-        onTriggered: checkBiometric()
+        onTriggered: if (GlobalValues.passCode.length == 0) checkBiometric()
     }
 
     WalletItem {
@@ -99,6 +99,8 @@ TPage {
                 }
                 Component.onCompleted: {
                     if (AppSettings.touchId && Devices.hasBiometric)
+                        return;
+                    if (GlobalValues.passCode.length)
                         return;
                     focus = true;
                     forceActiveFocus();
