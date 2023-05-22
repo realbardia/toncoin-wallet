@@ -327,13 +327,19 @@ TPage {
 
                         TLabel {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: qsTr("Developed by Bardia Daneshvar")
-                            font.pixelSize: 8 * Devices.fontDensity
+                            text: qsTr("%1 v%2").arg(AsemanApp.applicationName).arg(AsemanApp.applicationVersion)
+                            font.pixelSize: 7 * Devices.fontDensity
                             opacity: 0.6
                         }
                         TLabel {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: qsTr("2023")
+                            text: qsTr("Developed by Bardia Daneshvar")
+                            font.pixelSize: 7 * Devices.fontDensity
+                            opacity: 0.6
+                        }
+                        TLabel {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: (new Date).getFullYear()
                             font.pixelSize: 7 * Devices.fontDensity
                             opacity: 0.6
                         }
