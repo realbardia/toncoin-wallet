@@ -6,6 +6,9 @@
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QFileInfo>
+
+#include <iostream>
 
 #ifdef QZXING_AVAILABLE
 #include "QZXing.h"
@@ -38,6 +41,23 @@ int main(int argc, char *argv[])
     app.setApplicationName("Tonium");
     app.setWindowIcon(QIcon(":/ton/common/icons/icon.png"));
     app.setApplicationVersion(VERSION_STR);
+    if (app.arguments().contains("--help"))
+    {
+        std::cout << app.applicationName().toStdString() << " " << app.applicationVersion().toStdString() << std::endl << std::endl;
+
+        const auto fileName = QFileInfo(app.applicationFilePath()).fileName().toStdString();
+        std::cout << "To transfer using deeplink just run below command:" << std::endl;
+        std::cout << fileName << " ton://transfer/SOME_ADDRESS\n" << std::endl;
+
+        std::cout << "To connect using Ton Connect:" << std::endl;
+        std::cout << fileName << " ton://connect?blahblah\n" << std::endl;
+
+#if defined(Q_OS_WIN)
+        std::cout << "To install deeplink support on windows, run below command as adiminstrator:" << std::endl;
+        std::cout << fileName << " --install-deeplinks" << std::endl;
+#endif
+        return 0;
+    }
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     if (!app.arguments().contains("--no-check-desktop-installation"))
@@ -45,6 +65,8 @@ int main(int argc, char *argv[])
 #endif
 #if defined(Q_OS_WIN)
     Checks::checkWindowsDeeplink();
+    if (app.arguments().contains("--install-deeplinks"))
+        return 0;
 #endif
 
     AsemanApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );

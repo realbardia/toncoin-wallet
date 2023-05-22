@@ -127,4 +127,7 @@ void Checks::checkWindowsDeeplink()
     settings.setValue("URL Protocol", "");
     settings.setValue("DefaultIcon/.", appPath);
     settings.setValue("shell/open/command/.", appPath + " \"%1\"");
+
+    if (!settings.value("shell/open/command/.").isValid())
+        qDebug() << "Could not install deep link. You must run app as administrator or setup deep link manualy on the HKEY_CLASSES_ROOT";
 }
