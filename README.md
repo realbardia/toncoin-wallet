@@ -8,6 +8,12 @@ Tonium is a open-source, free and cross platform TON wallet written and develope
 
 It's a cross platform Wallet designed and developed for Desktop and Smart phones. All primary operating systems like **Linux**💻, **Windows💻**, **macOS**💻, **iOS**📱 and **Android**📱 are fully supported by the Tonium.
 
+
+
+<img src="images/adv.png"  align="center" />
+
+
+
 ## Main Features
 
 - All v4R2, v4R1, v3R2 and v3R1 wallets are supported
