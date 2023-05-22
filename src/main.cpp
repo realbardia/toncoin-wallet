@@ -7,6 +7,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QFileInfo>
+#include <QTimer>
+#include <QSharedPointer>
 
 #include <iostream>
 
@@ -17,6 +19,10 @@
 #include "thirdparty/tricks-app/checks.h"
 #include "qtquick/cpp/tonqtquick.h"
 #include "qtquick/cpp/toolkit/core/asemanapplicationitem.h"
+
+#ifdef Q_OS_MAC
+#include "macappdelegate.h"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -67,6 +73,11 @@ int main(int argc, char *argv[])
     Checks::checkWindowsDeeplink();
     if (app.arguments().contains("--install-deeplinks"))
         return 0;
+#endif
+
+#if defined(Q_OS_MAC)
+    MacAppDelegate macApp;
+    Q_UNUSED(macApp)
 #endif
 
     AsemanApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
