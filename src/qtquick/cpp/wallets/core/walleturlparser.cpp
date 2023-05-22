@@ -2,6 +2,7 @@
 
 #include <QUrl>
 #include <QUrlQuery>
+#include <QDebug>
 
 WalletUrlParser::WalletUrlParser(QObject *parent)
     : QObject(parent)

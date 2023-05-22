@@ -107,9 +107,12 @@ TPage {
         if (tonConnect.check(address))
             return;
 
-        if (address.slice(0,6) == "ton://" && address.slice(0,15) != "ton://transfer") {
+        if (address.slice(0,6) == "ton://" && address.slice(0,14) != "ton://transfer")
             return;
-        } else {
+        if (address.slice(0,1) == "-")
+            return;
+
+        if (address.slice(0,6) != "ton://") {
             address = "ton://transfer/" + address;
         }
 
