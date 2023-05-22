@@ -114,6 +114,7 @@ TPage {
 
         if (address.slice(0,6) != "ton://") {
             address = "ton://transfer/" + address;
+            return;
         }
 
         urlParser.url = address;
