@@ -21,6 +21,8 @@ public Q_SLOTS:
     void jsDelayCall(int ms, const QJSValue &value);
     void imageResize(const QString &path, const QSize &size, const QString &dest, const QJSValue &callback);
 
+    QObject *createObject(const QUrl &qml);
+
     static void setInAppStoreProperty(QObject *store, const QString &propertyName, const QString &value);
 
 protected:

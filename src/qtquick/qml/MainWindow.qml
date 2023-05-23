@@ -72,6 +72,8 @@ TWindow {
             anchors.bottomMargin: keyboardPadding
             anchors.topMargin: framelessPad.height
 
+            Component.onCompleted: GlobalValues.mainScene = mainScene;
+
             property real keyboardPadding: Constants.keyboardedView? GlobalValues.keyboardGlobalBottomPadding : 0
 
             Behavior on keyboardPadding {

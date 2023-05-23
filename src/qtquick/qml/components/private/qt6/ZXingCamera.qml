@@ -1,40 +1,40 @@
 import QtQuick 2.15
+import Toolkit.Core 1.0
 import QtMultimedia 6.4
 import QZXing 3.3
+import "../../../globals"
 
 Item {
     id: dis
 
     signal tagFound(string tag)
 
-    function stop() {
+    property CrashSafeCameraSession camera
+
+    Component.onCompleted: {
+        if (GlobalValues.crashSafeCamera) {
+            camera = GlobalValues.crashSafeCamera;
+        } else {
+            camera = Tools.createObject("qrc:/components/private/qt6/CrashSafeCameraSession.qml");
+            GlobalValues.crashSafeCamera = camera;
+        }
+
+        camera.parent = dis;
+        camera.visible = true;
+        camera.start();
+    }
+    Component.onDestruction: {
+        camera.parent = GlobalValues.mainScene;
+        camera.visible = false;
         camera.stop();
-    }
-
-    Camera {
-        id:camera
-        active: true
-        focusMode: Camera.FocusModeAutoNear
-        Component.onCompleted: start()
-    }
-
-    CaptureSession {
-        camera: camera
-        videoOutput: videoOutput
-    }
-
-    VideoOutput {
-        id: videoOutput
-        anchors.fill: parent
-        fillMode: VideoOutput.PreserveAspectCrop
     }
 
     QZXingFilter {
         id: zxingFilter
-        videoSink: videoOutput.videoSink
-        orientation: videoOutput.orientation
+        videoSink: camera.videoOutput.videoSink
+        orientation: camera.videoOutput.orientation
 
-        captureRect: videoOutput.sourceRect
+        captureRect: camera.videoOutput.sourceRect
         decoder {
             enabledDecoders: QZXing.DecoderFormat_QR_CODE
             onTagFound: dis.tagFound(tag)

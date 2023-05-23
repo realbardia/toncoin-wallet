@@ -2,6 +2,7 @@
 
 #include <QJsonDocument>
 #include <QTimerEvent>
+#include <QtQml>
 
 class AsemanToolsItemPrivate
 {
@@ -36,6 +37,16 @@ void AsemanToolsItem::imageResize(const QString &path, const QSize &size, const 
     AsemanTools::imageResize(path, size, dest, this, [callback](bool stt){
         QJSValue(callback).call(QJSValueList() << stt);
     });
+}
+
+QObject *AsemanToolsItem::createObject(const QUrl &qml)
+{
+    auto engine = qmlEngine(this);
+    if (!engine)
+        return nullptr;
+
+    auto com = new QQmlComponent(engine, qml, this);
+    return com->create();
 }
 
 void AsemanToolsItem::setInAppStoreProperty(QObject *store, const QString &propertyName, const QString &value)

@@ -122,5 +122,6 @@
         <file>globals/translations/lang-ja.qm</file>
         <file>settings/TokensPage.qml</file>
         <file>components/SamsungInputBugFixer.qml</file>
+        <file>components/private/qt6/CrashSafeCameraSession.qml</file>
     </qresource>
 </RCC>

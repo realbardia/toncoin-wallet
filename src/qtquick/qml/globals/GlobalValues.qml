@@ -7,9 +7,12 @@ import Toolkit.Core 1.0
 QtObject {
     property string passCode
     property Window mwin
+    property Item mainScene
 
     property string tempLinkToOpen: linkToOpen
 
     property Item keyboardPaddingMode
     property real keyboardGlobalBottomPadding
+
+    property Item crashSafeCamera
 }
