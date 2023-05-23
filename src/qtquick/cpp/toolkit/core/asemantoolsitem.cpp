@@ -46,7 +46,10 @@ QObject *AsemanToolsItem::createObject(const QUrl &qml)
         return nullptr;
 
     auto com = new QQmlComponent(engine, qml, this);
-    return com->create();
+    auto obj = com->create();
+    obj->setParent(this);
+
+    return obj;
 }
 
 void AsemanToolsItem::setInAppStoreProperty(QObject *store, const QString &propertyName, const QString &value)
