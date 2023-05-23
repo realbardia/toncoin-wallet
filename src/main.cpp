@@ -57,11 +57,6 @@ int main(int argc, char *argv[])
 
         std::cout << "To connect using Ton Connect:" << std::endl;
         std::cout << fileName << " ton://connect?blahblah\n" << std::endl;
-
-#if defined(Q_OS_WIN)
-        std::cout << "To install deeplink support on windows, run below command as adiminstrator:" << std::endl;
-        std::cout << fileName << " --install-deeplinks" << std::endl;
-#endif
         return 0;
     }
 

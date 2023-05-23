@@ -123,7 +123,8 @@ void Checks::checkLinuxDesktopIcon()
 void Checks::checkWindowsDeeplink()
 {
     const auto appPath = qApp->applicationFilePath().replace("/", "\\");
-    QSettings settings("HKEY_CLASSES_ROOT\\" + qApp->applicationName(), QSettings::NativeFormat);
+
+    QSettings settings("HKEY_CURRENT_USER\\Software\\Classes\\" + qApp->applicationName(), QSettings::NativeFormat);
     settings.setValue("URL Protocol", "");
     settings.setValue("DefaultIcon/.", appPath);
     settings.setValue("shell/open/command/.", appPath + " \"%1\"");
