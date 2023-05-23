@@ -34,7 +34,7 @@ TPage {
         clip: true
 
         ZXingCamera {
-            y: -1 * mapListener.result.y + windowScene.height - height
+//            y: -1 * mapListener.result.y + windowScene.height - height
             width: parent.width
             height: parent.height
             onTagFound: {
