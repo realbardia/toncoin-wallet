@@ -255,6 +255,15 @@ bool AsemanDevices::isQt6()
 #endif
 }
 
+bool AsemanDevices::isMSVC()
+{
+#if defined(Q_CC_MSVC)
+    return true;
+#else
+    return false;
+#endif
+}
+
 QScreen *AsemanDevices::screen()
 {
     const QList<QScreen*> & screens = QGuiApplication::screens();

@@ -41,7 +41,6 @@ Item {
         id: camera_component
         Camera {
             id: camera
-            focus.focusMode: Camera.FocusContinuous
             captureMode: Camera.CaptureViewfinder
             viewfinder.resolution: {
                 if (!imageCapture)

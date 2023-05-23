@@ -29,6 +29,7 @@ class AsemanDevices : public QObject
     Q_PROPERTY(bool isUbuntuTouch  READ isUbuntuTouch  NOTIFY isUbuntuTouchChanged  )
     Q_PROPERTY(bool isWindowsPhone READ isWindowsPhone NOTIFY isWindowsPhoneChanged )
     Q_PROPERTY(bool isQt6          READ isQt6          NOTIFY isQt6Changed          )
+    Q_PROPERTY(bool isMSVC         READ isMSVC         NOTIFY isMSVCChanged          )
     Q_PROPERTY(bool isWebAssembly  READ isWebAssembly  NOTIFY isWebAssemblyChanged  )
 
     Q_PROPERTY(QObject* screen READ screenObj NOTIFY screenChanged )
@@ -111,6 +112,7 @@ public:
     static bool isWindowsPhone();
     static bool isWebAssembly();
     static bool isQt6();
+    static bool isMSVC();
 
     static QScreen *screen();
     QObject *screenObj() const;
@@ -228,6 +230,7 @@ Q_SIGNALS:
     void isWindowsPhoneChanged();
     void isWebAssemblyChanged();
     void isQt6Changed();
+    void isMSVCChanged();
 
     void deviceNameChanged();
     void deviceIdChanged();

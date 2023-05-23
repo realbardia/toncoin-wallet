@@ -3,6 +3,8 @@ QT += qml \
 
 include (qtsingleapplication/qtsingleapplication.pri)
 
+CONFIG += unicode
+
 INCLUDEPATH += $$PWD
 
 HEADERS += \

@@ -10,7 +10,11 @@ win32: msvc {
             error(Could not find Zlib directory. Please set it using ZLIB_PATH argument)
         }
     }
-    LIBS += -L$$ZLIB_PATH/lib -lz
+    win32-msvc* {
+        LIBS += -L$$ZLIB_PATH/lib -lzlib
+    } else {
+        LIBS += -L$$ZLIB_PATH/lib -lz
+    }
     INCLUDEPATH += \
         $$ZLIB_PATH/include
 } else {

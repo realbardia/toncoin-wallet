@@ -86,9 +86,16 @@ LIBS += -L$$TON_LIB_PATH/lib/ \
     -lton_block \
     -lton_crypto
 
-LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSSL_LIB_PATH/lib -lssl -lcrypto
+win32-msvc* {
+    LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSSL_LIB_PATH/lib -llibssl -llibcrypto
+} else {
+    LIBS += -L$$[QT_INSTALL_LIBS] -L$$OPENSSL_LIB_PATH/lib -lssl -lcrypto
+}
 
-win32: LIBS += -lws2_32 -lpsapi
+win32 {
+    LIBS += -lws2_32 -lpsapi
+    win32-msvc*: LIBS += -lnormaliz
+}
 
 SOURCES += \
     $$PWD/abstractwalletbackend.cpp \
