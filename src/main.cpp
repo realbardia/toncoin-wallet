@@ -17,8 +17,8 @@
 #endif
 
 #include "thirdparty/tricks-app/checks.h"
-#include "qtquick/cpp/tonqtquick.h"
 #include "qtquick/cpp/toolkit/core/asemanapplicationitem.h"
+#include "qtquick/cpp/tonqtquick.h"
 
 #ifdef Q_OS_MAC
 #include "macappdelegate.h"
