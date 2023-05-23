@@ -123,12 +123,11 @@ void Checks::checkLinuxDesktopIcon()
 void Checks::checkWindowsDeeplink()
 {
     const auto appPath = qApp->applicationFilePath().replace("/", "\\");
-
-    QSettings settings("HKEY_CURRENT_USER\\Software\\Classes\\" + qApp->applicationName(), QSettings::NativeFormat);
-    settings.setValue("URL Protocol", "");
-    settings.setValue("DefaultIcon/.", appPath);
-    settings.setValue("shell/open/command/.", appPath + " \"%1\"");
-
-    if (!settings.value("shell/open/command/.").isValid())
-        qDebug() << "Could not install deep link. You must run app as administrator or setup deep link manualy on the HKEY_CLASSES_ROOT";
+    for (const auto &uri: QStringList({"ton", "tonium"}))
+    {
+        QSettings settings("HKEY_CURRENT_USER\\Software\\Classes\\" + uri, QSettings::NativeFormat);
+        settings.setValue("URL Protocol", "");
+        settings.setValue("DefaultIcon/.", appPath);
+        settings.setValue("shell/open/command/.", appPath + " \"%1\"");
+    }
 }
