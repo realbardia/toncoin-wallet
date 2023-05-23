@@ -83,10 +83,14 @@ int main(int argc, char *argv[])
     AsemanApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );
     if (AsemanApplicationItem::isRunning())
     {
-        if (app.arguments().count() == 2)
-            AsemanApplicationItem::sendMessage(app.arguments().at(1));
-        else
-            qDebug() << "is running";
+        for (const auto &arg: app.arguments().mid(1))
+            if (arg.left(1) != "-")
+            {
+                AsemanApplicationItem::sendMessage(arg);
+                return 0;
+            }
+
+        qDebug() << "is running";
         return 0;
     }
 
@@ -105,10 +109,13 @@ int main(int argc, char *argv[])
         QQmlApplicationEngine engine;
 
         engine.rootContext()->setContextProperty("testMode", qEnvironmentVariable("TON_TEST_MODE") == QStringLiteral("1"));
-        if (app.arguments().count() == 2)
-            engine.rootContext()->setContextProperty("linkToOpen", app.arguments().at(1));
-        else
-            engine.rootContext()->setContextProperty("linkToOpen", QString());
+        engine.rootContext()->setContextProperty("linkToOpen", QString());
+        for (const auto &arg: app.arguments().mid(1))
+            if (arg.left(1) != "-")
+            {
+                engine.rootContext()->setContextProperty("linkToOpen", arg);
+                break;
+            }
 
 #ifdef QZXING_AVAILABLE
         QZXing::registerQMLTypes();

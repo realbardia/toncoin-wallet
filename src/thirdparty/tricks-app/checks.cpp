@@ -84,14 +84,14 @@ void Checks::checkLinuxDesktopIcon()
             entries["StartupNotify"] = "true";
             entries["Type"] = "Application";
             entries["Version"] = "1.0";
-            entries["Exec"] = exePath + " --no-check-desktop-installation";
+            entries["Exec"] = exePath + " --no-check-desktop-installation %U";
             entries["Icon"] = QString(pngs.first()).remove(".png");
 
             auto data = QString::fromUtf8(f_in.readAll());
             for (const auto &[k, v]: entries.toStdMap())
             {
-                QRegularExpression rx(k + "=.+\\n");
-                data.remove(rx);
+                QRegularExpression rx("\\n" + k + "=.+\\n");
+                data.replace(rx, "\n");
                 data += k + "=" + v + "\n";
             }
 
