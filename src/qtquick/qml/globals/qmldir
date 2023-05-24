@@ -7,3 +7,4 @@ singleton GlobalValues 1.0 GlobalValues.qml
 singleton MainBackend 1.0 MainBackend.qml
 singleton GlobalMethods 1.0 GlobalMethods.qml
 singleton GTranslations 1.0 GTranslations.qml
+singleton RecentModel 1.0 RecentModel.qml

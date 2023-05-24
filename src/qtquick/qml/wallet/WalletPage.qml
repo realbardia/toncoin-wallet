@@ -162,7 +162,10 @@ TPage {
             allowBiometric: false
             onSuccess: {
                 viewport.closeAll();
-                AppSettings.reset()
+                AppSettings.reset();
+                GlobalValues.passCode = "";
+                Tools.deleteFile(RecentModel.cachePath);
+                Tools.deleteFile(AsemanApp.homePath + "/transactions");
             }
             onCloseRequest: logoutDlg.ViewportType.open = false
         }

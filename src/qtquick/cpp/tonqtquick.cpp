@@ -39,6 +39,7 @@
 #include "wallets/core/walleturlparser.h"
 #include "wallets/core/feeestimater.h"
 #include "wallets/core/transferrequest.h"
+#include "wallets/core/recentaddressesmodel.h"
 
 #include "wallets/tonconnect/tonconnect.h"
 #include "wallets/tonconnect/tonconnectservice.h"
@@ -59,6 +60,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<WalletUrlParser>("Wallet.Core", 1, 0, "WalletUrlParser");
     qmlRegisterType<FeeEstimater>("Wallet.Core", 1, 0, "FeeEstimater");
     qmlRegisterType<TransferRequest>("Wallet.Core", 1, 0, "TransferRequest");
+    qmlRegisterType<RecentAddressesModel>("Wallet.Core", 1, 0, "RecentAddressesModel");
     qmlRegisterUncreatableType<AsemanRefresherObject>("Wallet.Core", 1, 0, "RefresherObject", "");
     qmlRegisterSingletonInstance("Wallet.Core", 1,0, "TonQmlGlobal", new TonQmlGlobal);
 
@@ -71,7 +73,7 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType<AsemanSettings>("Toolkit.Core", 1, 0, "Settings");
     qmlRegisterType<AsemanApplicationItem>("Toolkit.Core", 1,0, "AsemanApplicationBase");
     qmlRegisterType<AsemanTranslationManager>("Toolkit.Core", 1, 0, "TranslationManager");
-    qmlRegisterType<AsemanQuickListModel>("Toolkit.Core", 1, 0, "ToolkitListModel");
+    qmlRegisterType<AsemanQuickListModel>("Toolkit.Core", 1, 0, "AsemanListModel");
     qmlRegisterType<AsemanQrCreator>("Toolkit.Core", 1, 0, "QrCreator");
     qmlRegisterType<AsemanKeyHandler>("Toolkit.Core", 1, 0, "KeyHandler");
 

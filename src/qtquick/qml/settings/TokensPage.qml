@@ -40,7 +40,7 @@ TPage {
 
         TListView {
             id: listv
-            model: ToolkitListModel {
+            model: AsemanListModel {
                 data: tonConnect.tokens
             }
             delegate: TItemDelegate {

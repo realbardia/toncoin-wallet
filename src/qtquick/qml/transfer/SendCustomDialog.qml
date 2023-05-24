@@ -10,33 +10,6 @@ TDrawer {
     height: contentHeight + Math.max(300, scrollArea.height)
 
     property string selectedAddress
-    property variant transactionsModel
-
-    onTransactionsModelChanged: {
-        if (!transactionsModel)
-            return;
-
-        var added = new Array;
-        var items = new Array;
-        for (var i=0; i<transactionsModel.count; i++) {
-            var t = transactionsModel.get(i);
-            var address = t.sent? t.destination : t.source;
-            if (added.indexOf(address) >= 0)
-                continue;
-            if (address.length == 0)
-                continue;
-
-            var m = {
-                "address": address,
-                "domain": "",
-                "datetime": t.datetime,
-            };
-
-            added[added.length] = address;
-            items[items.length] = m;
-            recentsModel.data = items;
-        }
-    }
 
     mainButton {
         text: qsTr("Continue")
@@ -51,7 +24,7 @@ TDrawer {
 
         TListView {
             id: recentsList
-            model: ToolkitListModel { id: recentsModel }
+            model: RecentModel
 
             Component.onCompleted: Tools.jsDelayCall(10, recentsList.positionViewAtBeginning)
 
@@ -124,7 +97,14 @@ TDrawer {
 
                 TItemDelegate {
                     anchors.fill: parent
-                    onClicked: TViewport.viewport.append(send_component, {"address": model.address, "domain": model.domain}, "stack")
+                    onClicked: {
+                        var m = {
+                            "address": model.domain.length? model.domain : model.address,
+                            "domain": model.domain,
+                            "finalAddress": model.address,
+                        };
+                        TViewport.viewport.append(send_component, m, "stack");
+                    }
 
                     TColumn {
                         id: clmn

@@ -11,7 +11,7 @@ AsemanObject {
     property alias textDirection: mgr.textDirection
     readonly property bool reverseLayout: textDirection == Qt.RightToLeft
 
-    ToolkitListModel {
+    AsemanListModel {
         id: model
         data: {
             var res = new Array;

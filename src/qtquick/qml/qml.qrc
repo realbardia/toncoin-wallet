@@ -123,5 +123,6 @@
         <file>settings/TokensPage.qml</file>
         <file>components/SamsungInputBugFixer.qml</file>
         <file>components/private/qt6/CrashSafeCameraSession.qml</file>
+        <file>globals/RecentModel.qml</file>
     </qresource>
 </RCC>

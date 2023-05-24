@@ -13,7 +13,7 @@ TDrawer {
         text: qsTr("Continue")
         anchors.bottomMargin: keyboardPadding + 20
         enabled: amountField.text*1 > 0 && !insufficientLabel.visible? true : false
-        onClicked: TViewport.viewport.append(confirm_component, {"address": address, "domain": domain, "amount": amountField.text}, "stack")
+        onClicked: TViewport.viewport.append(confirm_component, {"address": address, "amount": amountField.text}, "stack")
     }
 
     property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight - GlobalValues.keyboardGlobalBottomPadding : Devices.navigationBarHeight
@@ -24,6 +24,7 @@ TDrawer {
 
     property string address
     property string domain
+    property string finalAddress
 
     Item {
         anchors.left: parent.left
@@ -43,7 +44,7 @@ TDrawer {
             }
 
             TLabel {
-                text: address.slice(0,4) + "..." + address.slice(address.length-4)
+                text: finalAddress.slice(0,4) + "..." + finalAddress.slice(finalAddress.length-4)
             }
 
             TLabel {

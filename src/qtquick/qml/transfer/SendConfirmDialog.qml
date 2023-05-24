@@ -15,7 +15,10 @@ TDrawer {
         anchors.bottomMargin: keyboardPadding + 20
         text: qsTr("Continue and send")
         enabled: !estimater.running && comment.text.length <= Constants.commentLimit
-        onClicked: TViewport.viewport.append(sending_component, {}, "stack")
+        onClicked: {
+            TViewport.viewport.append(sending_component, {}, "stack");
+            RecentModel.append(recipient, domain, new Date);
+        }
     }
 
     property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight - GlobalValues.keyboardGlobalBottomPadding : Devices.navigationBarHeight

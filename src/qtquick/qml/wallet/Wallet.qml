@@ -557,7 +557,6 @@ TPage {
         Transfer.SendCustomDialog {
             width: page.width
             closable: true
-            transactionsModel: tmodel
             onCloseRequest: ViewportType.open = false
         }
     }
