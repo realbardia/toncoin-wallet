@@ -62,6 +62,13 @@ protected:
     void checkAddress(const QString &address, QObject *receiver, const std::function<void(const Address &result, const Error &error)> &callback);
 
 private:
+    struct CacheQuery {
+        QByteArray hash;
+        PreparedTransferItem item;
+        QDateTime time;
+    };
+    CacheQuery mCacheQuery;
+
     QString mKeysDir;
 
     Engine *mEngine;

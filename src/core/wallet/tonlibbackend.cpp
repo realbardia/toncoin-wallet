@@ -534,6 +534,29 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
 
 void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void (const PreparedTransferItem &item, const Error &)> &callback)
 {
+    QByteArray hash;
+    QDataStream stream(&hash, QIODevice::WriteOnly);
+    stream << publicKey;
+    stream << dest;
+    stream << (qint64)(value/BALANCE_RATIO);
+    stream << message;
+    stream << force;
+    stream << encryption;
+    hash = QCryptographicHash::hash(hash, QCryptographicHash::Md5).toHex();
+
+    if (!mCacheQuery.time.isNull() && mCacheQuery.time.secsTo(QDateTime::currentDateTime()) < 60)
+    {
+        if (mCacheQuery.hash == hash)
+        {
+            callback(mCacheQuery.item, Error());
+            mCacheQuery.time = QDateTime();
+            return;
+        }
+    }
+
+    mCacheQuery.time = QDateTime();
+    mCacheQuery.hash = hash;
+
     checkAddress(dest, receiver, [this, publicKey, value, message, encryption, force, receiver, callback](const TonLibBackend::Address &destAdrs, const Error &err){
         if (err.code)
         {
@@ -653,7 +676,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                     }
 
 
-                    mEngine->append(std::move(query_fnc), receiver, [callback, destAdrs](tonlib::Client::Response resp){
+                    mEngine->append(std::move(query_fnc), receiver, [callback, destAdrs, this](tonlib::Client::Response resp){
                         if (resp.object->get_id() == tonlib_api::error::ID)
                             callback(PreparedTransferItem(), ERR(resp));
                         else
@@ -664,6 +687,9 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             p.id = info->id_;
                             p.body_hash = QByteArray::fromStdString(info->body_hash_);
                             p.address = destAdrs;
+
+                            mCacheQuery.item = p;
+                            mCacheQuery.time = QDateTime::currentDateTime();
 
                             callback(p, Error());
                         }
