@@ -53,6 +53,7 @@ protected:
     };
 
     void prepareTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const PreparedTransferItem &item, const Error &error)> &callback);
+    void checkAddress(const QString &address, QObject *receiver, const std::function<void(const QString &result, const Error &error)> &callback);
 
 private:
     QString mKeysDir;
