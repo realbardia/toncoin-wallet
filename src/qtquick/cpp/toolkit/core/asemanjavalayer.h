@@ -58,6 +58,7 @@ public:
     void setKeepScreenOn(bool stt);
 
 public Q_SLOTS:
+    void reloadBuffer();
     bool startService();
     bool stopService();
     bool killService(const QString &serviceName);
@@ -74,6 +75,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     void incomingShare( const QString & title, const QString & msg );
     void incomingImage( const QString & path );
+    void deepLinkRecieved(const QString &link);
     void selectImageResult( const QString & path );
     void keyboardVisiblityChanged(qint32 height);
     void activityPaused();

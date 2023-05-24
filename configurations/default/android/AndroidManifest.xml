@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<manifest package="io.asemantonium.Tonium" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.1" android:versionCode="2" android:installLocation="auto">
+<manifest package="io.asemantonium.Tonium" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.2" android:versionCode="3" android:installLocation="auto">
 <application android:hardwareAccelerated="true" android:name="io.asemantonium.android.AsemanToniumApplication" android:icon="@mipmap/ic_launcher" android:label="Tonium" android:extractNativeLibs="true">
         <activity android:launchMode="singleInstance" 
 android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation" 
@@ -14,7 +14,7 @@ android:maxAspectRatio="3">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="app" android:scheme="tricks" />
+                <data android:scheme="ton" />
             </intent-filter>
 
             <!-- Application arguments -->

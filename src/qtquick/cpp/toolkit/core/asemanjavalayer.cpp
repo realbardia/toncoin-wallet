@@ -20,6 +20,7 @@
 static QSet<AsemanToniumJavaLayer*> java_layers_objects;
 static QList< QPair<QString,QString> > java_layer_inc_share_buffer;
 static QList< QString > java_layer_inc_image_buffer;
+static QList< QString > java_layer_inc_deeplinks_buffer;
 
 static bool asemantonium_jlayer_registerNativeMethods();
 static bool asemantonium_jlayer_native_methods_registered = asemantonium_jlayer_registerNativeMethods();
@@ -335,6 +336,11 @@ void AsemanToniumJavaLayer::setKeepScreenOn(bool stt)
     p->object.callMethod<jboolean>(__FUNCTION__, "(Z)V", jstt );
 }
 
+void AsemanToniumJavaLayer::reloadBuffer()
+{
+    load_buffer();
+}
+
 bool AsemanToniumJavaLayer::setTransparentNavigationBar(bool stt)
 {
     jboolean jstt = stt;
@@ -353,6 +359,11 @@ void AsemanToniumJavaLayer::load_buffer()
     {
         const QPair<QString,QString> & pair = java_layer_inc_share_buffer.takeFirst();
         Q_EMIT incomingShare( pair.first, pair.second );
+    }
+    while( !java_layer_inc_deeplinks_buffer.isEmpty() )
+    {
+        const auto & link = java_layer_inc_deeplinks_buffer.takeFirst();
+        Q_EMIT deepLinkRecieved(link);
     }
 }
 
@@ -381,6 +392,19 @@ static void noteRecieved( JNIEnv *env, jobject obj ,jstring title, jstring msg )
 
     if( java_layers_objects.isEmpty() )
         java_layer_inc_share_buffer << QPair<QString,QString>( QString(t), QString(m) );
+}
+
+static void deepLinkRecieved( JNIEnv *env, jobject obj ,jstring link)
+{
+    Q_UNUSED(obj)
+    jboolean a;
+    const char *l = env->GetStringUTFChars(link,&a);
+
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
+        Q_EMIT sjl->deepLinkRecieved(QString(l));
+
+    if( java_layers_objects.isEmpty() )
+        java_layer_inc_deeplinks_buffer << QString(l);
 }
 
 static void imageRecieved( JNIEnv *env, jobject obj ,jstring jpath )
@@ -471,6 +495,7 @@ bool asemantonium_jlayer_registerNativeMethods() {
 
     JNINativeMethod methods[] {{"_sendNote", "(Ljava/lang/String;Ljava/lang/String;)V", reinterpret_cast<void *>(noteRecieved)},
                                {"_sendImage", "(Ljava/lang/String;)V", reinterpret_cast<void *>(imageRecieved)},
+                               {"_sendDeepLink", "(Ljava/lang/String;)V", reinterpret_cast<void *>(deepLinkRecieved)},
                                {"_selectImageResult", "(Ljava/lang/String;)V", reinterpret_cast<void *>(selectImageResult)},
                                {"_activityPaused", "()V", reinterpret_cast<void *>(activityPaused)},
                                {"_activityStopped", "()V", reinterpret_cast<void *>(activityStopped)},

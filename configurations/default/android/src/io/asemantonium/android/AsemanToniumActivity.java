@@ -50,6 +50,8 @@ import android.app.NotificationChannel;
 import android.graphics.Color;
 import android.os.Build.VERSION_CODES;
 import android.os.Build;
+import android.os.Handler;
+
 
 //import com.google.android.gms.common.api.GoogleApiClient;
 //import com.google.android.gms.common.api.GoogleSignInOptions;
@@ -284,7 +286,14 @@ public class AsemanToniumActivity extends QtActivity
                }
          });
 
-        checkIntent(getIntent());
+        Intent intent = getIntent();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIntent(intent);
+            }
+        }, 3000);
     }
 
     @Override
@@ -296,6 +305,11 @@ public class AsemanToniumActivity extends QtActivity
 
     protected void checkIntent(Intent intent)
     {
+        Uri data = intent.getData();
+        if (data != null) {
+            AsemanToniumJavaLayer.sendDeepLink(data.toString());
+        }
+
         String action = intent.getAction();
         String type = intent.getType();
         if ( !Intent.ACTION_SEND.equals(action) || type == null)

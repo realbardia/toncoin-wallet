@@ -24,7 +24,7 @@ TDrawer {
 
     property string address
     property string domain
-    property string finalAddress
+    property string finalAddress: address
 
     Item {
         anchors.left: parent.left

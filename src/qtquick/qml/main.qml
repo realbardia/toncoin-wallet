@@ -25,6 +25,12 @@ TApplication {
         MainBackend.start();
         GTranslations.init();
         GlobalValues.mwin = mWin;
+        if (Devices.isAndroid) {
+            JavaLayer.deepLinkRecieved.connect(function(link){
+                GlobalValues.tempLinkToOpen = link;
+            });
+            JavaLayer.reloadBuffer();
+        }
     }
 
     onMessageReceived: GlobalValues.tempLinkToOpen = msg
