@@ -54,7 +54,7 @@ public:
     Engine(QObject *parent) : mParent(parent) {}
     virtual ~Engine() {}
 
-    void checkDnsAddress(tonlib_api::object_ptr<tonlib_api::accountAddress> address, const std::string &name, const std::string &category, qint32 ttl, QObject *receiver, const std::function<void (const QString &, const TonLibBackend::Error &)> &callback);
+    void checkDnsAddress(tonlib_api::object_ptr<tonlib_api::accountAddress> address, const std::string &name, const std::string &category, qint32 ttl, QObject *receiver, const std::function<void (const TonLibBackend::Address &, const TonLibBackend::Error &)> &callback);
 
     void append(tonlib_api::object_ptr<tonlib_api::Function> func, QObject *receiver, const std::function<void(tonlib::Client::Response)> &responseCallback) {
         tonlib::Client::Request req;
@@ -534,28 +534,28 @@ void TonLibBackend::getTransactions(const QByteArray &publicKey, const Transacti
 
 void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void (const PreparedTransferItem &item, const Error &)> &callback)
 {
-    checkAddress(dest, receiver, [this, publicKey, value, message, encryption, force, receiver, callback](const QString &dest, const Error &err){
+    checkAddress(dest, receiver, [this, publicKey, value, message, encryption, force, receiver, callback](const TonLibBackend::Address &destAdrs, const Error &err){
         if (err.code)
         {
             callback(PreparedTransferItem(), err);
             return;
         }
 
-        getAddress(publicKey, receiver, [this, publicKey, dest, value, message, encryption, force, receiver, callback] (const QString &from, const Error &err) {
+        getAddress(publicKey, receiver, [this, publicKey, destAdrs, value, message, encryption, force, receiver, callback] (const QString &from, const Error &err) {
             if (err.code)
             {
                 callback(PreparedTransferItem(), err);
                 return;
             }
 
-            getAccountState(from, this, [this, publicKey, dest, value, message, encryption, force, receiver, callback, from](const AccountState &accountState, const Error &err){
+            getAccountState(from, this, [this, publicKey, destAdrs, value, message, encryption, force, receiver, callback, from](const AccountState &accountState, const Error &err){
                 if (err.code)
                 {
                     callback(PreparedTransferItem(), err);
                     return;
                 }
 
-                getPrivateKey(publicKey, receiver, [this, publicKey, dest, value, message, encryption, force, receiver, callback, from, accountState](const QString &privateKey, const Error &err){
+                getPrivateKey(publicKey, receiver, [this, publicKey, destAdrs, value, message, encryption, force, receiver, callback, from, accountState](const QString &privateKey, const Error &err){
                     if (err.code)
                     {
                         callback(PreparedTransferItem(), err);
@@ -574,7 +574,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
 
                     const qint64 amount = value / BALANCE_RATIO;
 
-                    auto dest_address = make_object<tonlib_api::accountAddress>(dest.toStdString());
+                    auto dest_address = make_object<tonlib_api::accountAddress>(destAdrs.address.toStdString());
                     auto from_address = make_object<tonlib_api::accountAddress>(from.toStdString());
 
                     tonlib_api::object_ptr<tonlib_api::Function> query_fnc;
@@ -608,7 +608,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             .store_long(3, 8);
 
                         {
-                            auto std_dest = block::StdAddress::parse(td::Slice(dest.toStdString()));
+                            auto std_dest = block::StdAddress::parse(td::Slice(destAdrs.address.toStdString()));
                             if (!std_dest.is_ok())
                             {
                                 Error err;
@@ -653,7 +653,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                     }
 
 
-                    mEngine->append(std::move(query_fnc), receiver, [callback](tonlib::Client::Response resp){
+                    mEngine->append(std::move(query_fnc), receiver, [callback, destAdrs](tonlib::Client::Response resp){
                         if (resp.object->get_id() == tonlib_api::error::ID)
                             callback(PreparedTransferItem(), ERR(resp));
                         else
@@ -663,6 +663,7 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
                             PreparedTransferItem p;
                             p.id = info->id_;
                             p.body_hash = QByteArray::fromStdString(info->body_hash_);
+                            p.address = destAdrs;
 
                             callback(p, Error());
                         }
@@ -673,13 +674,13 @@ void TonLibBackend::prepareTransfer(const QByteArray &publicKey, const QString &
     });
 }
 
-void TonLibBackend::Engine::checkDnsAddress(tonlib_api::object_ptr<tonlib_api::accountAddress> address, const std::string &name, const std::string &category, qint32 ttl, QObject *receiver, const std::function<void (const QString &, const TonLibBackend::Error &)> &callback)
+void TonLibBackend::Engine::checkDnsAddress(tonlib_api::object_ptr<tonlib_api::accountAddress> address, const std::string &name, const std::string &category, qint32 ttl, QObject *receiver, const std::function<void (const TonLibBackend::Address &, const TonLibBackend::Error &)> &callback)
 {
     td::Bits256 category_obj = category.empty() ? td::Bits256::zero() : td::sha256_bits256(td::as_slice(category));
     auto resolve_fnc = make_object<tonlib_api::dns_resolve>(std::move(address), name, std::move(category_obj), ttl);
     append(std::move(resolve_fnc), receiver, [callback, ttl, name, category, receiver, this](tonlib::Client::Response resp){
         if (resp.object->get_id() == tonlib_api::error::ID)
-            callback(QString(), ERR(resp));
+            callback(TonLibBackend::Address(), ERR(resp));
         else
         {
             auto resolved = ton::move_tl_object_as<tonlib_api::dns_resolved>(resp.object);
@@ -688,7 +689,7 @@ void TonLibBackend::Engine::checkDnsAddress(tonlib_api::object_ptr<tonlib_api::a
                 TonLibBackend::Error err;
                 err.code = 2;
                 err.message = QStringLiteral("No dns entries found");
-                callback(QString(), err);
+                callback(TonLibBackend::Address(), err);
                 return;
             }
             if (resolved->entries_[0]->entry_->get_id() == tonlib_api::dns_entryDataNextResolver::ID && ttl != 0)
@@ -707,7 +708,10 @@ void TonLibBackend::Engine::checkDnsAddress(tonlib_api::object_ptr<tonlib_api::a
                 case tonlib_api::dns_entryDataSmcAddress::ID:
                 {
                     auto smc = ton::move_tl_object_as<tonlib_api::dns_entryDataSmcAddress>(entry->entry_);
-                    callback(QString::fromStdString(smc->smc_address_->account_address_), Error());
+                    TonLibBackend::Address adrs;
+                    adrs.address = QString::fromStdString(smc->smc_address_->account_address_);
+                    adrs.dns_address = false;
+                    callback(adrs, Error());
                 }
                     break;
 
@@ -716,7 +720,7 @@ void TonLibBackend::Engine::checkDnsAddress(tonlib_api::object_ptr<tonlib_api::a
                     TonLibBackend::Error err;
                     err.code = 3;
                     err.message = QStringLiteral("Unsupported DNS.");
-                    callback(QString(), err);
+                    callback(TonLibBackend::Address(), err);
                 }
                 }
             }
@@ -724,12 +728,16 @@ void TonLibBackend::Engine::checkDnsAddress(tonlib_api::object_ptr<tonlib_api::a
     });
 }
 
-void TonLibBackend::checkAddress(const QString &address, QObject *receiver, const std::function<void (const QString &, const Error &)> &callback)
+void TonLibBackend::checkAddress(const QString &address, QObject *receiver, const std::function<void (const Address &, const Error &)> &callback)
 {
     auto std_adrs = block::StdAddress::parse(td::Slice(address.toStdString()));
     if (std_adrs.is_ok())
     {
-        callback(address, Error());
+        Address adrs;
+        adrs.address = address;
+        adrs.dns_address = false;
+
+        callback(adrs, Error());
         return;
     }
     if (address.right(4) != QStringLiteral(".ton"))
@@ -737,7 +745,7 @@ void TonLibBackend::checkAddress(const QString &address, QObject *receiver, cons
         Error err;
         err.code = 1;
         err.message = QStringLiteral("Bad destination address");
-        callback(QString(), err);
+        callback(Address(), err);
         return;
     }
 
@@ -749,27 +757,28 @@ void TonLibBackend::checkAddress(const QString &address, QObject *receiver, cons
     mEngine->checkDnsAddress(nullptr, name, std::string(), ttl, receiver, callback);
 }
 
-void TonLibBackend::estimateTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void (const Fee &, const Error &)> &callback)
+void TonLibBackend::estimateTransfer(const QByteArray &publicKey, const QString &dest, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void (const Estimate &, const Error &)> &callback)
 {
     prepareTransfer(publicKey, dest, value, message, encryption, force, receiver, [this, receiver, callback](const PreparedTransferItem &item, const Error &err){
         if (err.code)
         {
-            callback(Fee(), err);
+            callback(Estimate(), err);
             return;
         }
 
         auto estimate_fnc = make_object<tonlib_api::query_estimateFees>(item.id, true);
-        mEngine->append(std::move(estimate_fnc), receiver, [callback](tonlib::Client::Response resp){
+        mEngine->append(std::move(estimate_fnc), receiver, [callback, item](tonlib::Client::Response resp){
             if (resp.object->get_id() == tonlib_api::error::ID)
-                callback(Fee(), ERR(resp));
+                callback(Estimate(), ERR(resp));
             else
             {
                 auto res = ton::move_tl_object_as<tonlib_api::query_fees>(resp.object);
-                Fee f;
+                Estimate f;
                 f.gas_fee = res->source_fees_->gas_fee_ * BALANCE_RATIO;
                 f.fwd_fee = res->source_fees_->fwd_fee_ * BALANCE_RATIO;
                 f.in_fwd_fee = res->source_fees_->in_fwd_fee_ * BALANCE_RATIO;
                 f.storage_fee = res->source_fees_->storage_fee_ * BALANCE_RATIO;
+                f.finalAddress = item.address.address;
 
                 callback(f, Error());
             }

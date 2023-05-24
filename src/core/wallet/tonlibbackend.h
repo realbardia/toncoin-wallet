@@ -29,7 +29,7 @@ public:
     void getPrivateKey(const QByteArray &publicKey, QObject *receiver, const std::function<void(const QByteArray &privateKey, const Error &error)> &callback) override;
 
     void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, QObject *receiver, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) override;
-    void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const Fee &fee, const Error &error)> &callback) override;
+    void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const Estimate &estimate, const Error &error)> &callback) override;
     void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const QByteArray &bodyHash, const Error &error)> &callback) override;
 
     void changeLocalPassword(const QByteArray &publicKey, const QString &password, QObject *receiver, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) override;
@@ -47,13 +47,19 @@ protected:
     void storeKeys();
     void loadKeys();
 
+    struct Address {
+        QString address;
+        bool dns_address = false;
+    };
+
     struct PreparedTransferItem {
         qint64 id;
         QByteArray body_hash;
+        Address address;
     };
 
     void prepareTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const PreparedTransferItem &item, const Error &error)> &callback);
-    void checkAddress(const QString &address, QObject *receiver, const std::function<void(const QString &result, const Error &error)> &callback);
+    void checkAddress(const QString &address, QObject *receiver, const std::function<void(const Address &result, const Error &error)> &callback);
 
 private:
     QString mKeysDir;

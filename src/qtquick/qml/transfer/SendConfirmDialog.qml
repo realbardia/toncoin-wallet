@@ -25,9 +25,11 @@ TDrawer {
     }
 
     property alias address: estimater.destinationAddress
-    property string domain
     property alias amount: estimater.amount
     property alias message: comment.text
+
+    readonly property string recipient: address == estimater.finalAddress? address : estimater.finalAddress
+    readonly property string domain: address == estimater.finalAddress? "" : address
 
     FeeEstimater {
         id: estimater
@@ -189,7 +191,40 @@ TDrawer {
                             id: addressLabel
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
-                            text: address.slice(0,4) + "..." + address.slice(address.length-4)
+                            text: recipient.slice(0,4) + "..." + recipient.slice(recipient.length-4)
+                        }
+
+                        Rectangle {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            height: 1
+                            color: Colors.foreground
+                            opacity: 0.1
+                        }
+                    }
+
+                    Item {
+                        height: Constants.itemsHeight
+                        width: parent.width
+                        visible: dis.domain.length
+
+                        TLabel {
+                            anchors.left: parent.left
+                            anchors.right: domainLabel.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            horizontalAlignment: Text.AlignLeft
+                            maximumLineCount: 1
+                            elide: Text.ElideRight
+                            text: qsTr("Recipient Domain")
+                        }
+
+                        TLabel {
+                            id: domainLabel
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            text: dis.domain
                         }
 
                         Rectangle {

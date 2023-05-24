@@ -22,7 +22,7 @@ bool FeeEstimater::estimate()
         return false;
 
     const auto pkey = QByteArray::fromBase64(wallet()->publicKey().toLatin1());
-    backend->estimateTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, this, [this](const AbstractWalletBackend::Fee &fee, const AbstractWalletBackend::Error &err){
+    backend->estimateTransfer(pkey, mDestinationAddress, mAmount.toDouble(), mMessage, false, mForce, this, [this](const AbstractWalletBackend::Estimate &fee, const AbstractWalletBackend::Error &err){
         endAction();
         if (err.code)
         {
@@ -35,10 +35,17 @@ bool FeeEstimater::estimate()
         mInFwdFee = QString::number(fee.in_fwd_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
         mFwdFee = QString::number(fee.fwd_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
         mFee = QString::number(fee.gas_fee + fee.storage_fee + fee.in_fwd_fee + fee.fwd_fee, 'f', 9).remove(QRegularExpression("(?:\\.)0+$"));
+        mFinalAddress = fee.finalAddress;
         Q_EMIT feeChanged();
+        Q_EMIT finalAddressChanged();
     });
 
     return true;
+}
+
+QString FeeEstimater::finalAddress() const
+{
+    return mFinalAddress;
 }
 
 QString FeeEstimater::fwdFee() const

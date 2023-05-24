@@ -46,11 +46,12 @@ public:
         bool unknown = false;
     };
 
-    struct Fee {
+    struct Estimate {
         qreal in_fwd_fee = 0;
         qreal storage_fee = 0;
         qreal gas_fee = 0;
         qreal fwd_fee = 0;
+        QString finalAddress;
     };
 
     AbstractWalletBackend(QObject *parent = nullptr);
@@ -68,7 +69,7 @@ public:
     virtual void getPrivateKey(const QByteArray &publicKey, QObject *receiver, const std::function<void(const QByteArray &privateKey, const Error &error)> &callback) = 0;
 
     virtual void getTransactions(const QByteArray &publicKey, const TransactionId &from, int count, QObject *receiver, const std::function<void(const QList<Transaction> &list, const Error &error)> &callback) = 0;
-    virtual void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const Fee &fee, const Error &error)> &callback) = 0;
+    virtual void estimateTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const Estimate &estimate, const Error &error)> &callback) = 0;
     virtual void doTransfer(const QByteArray &publicKey, const QString &destinationAddress, qreal value, const QString &message, bool encryption, bool force, QObject *receiver, const std::function<void(const QByteArray &bodyHash, const Error &error)> &callback) = 0;
 
     virtual void changeLocalPassword(const QByteArray &publicKey, const QString &password, QObject *receiver, const std::function<void(const QByteArray &newPublicKey, const Error &error)> &callback) = 0;
