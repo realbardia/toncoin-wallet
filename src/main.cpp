@@ -20,8 +20,11 @@
 #include "qtquick/cpp/toolkit/core/asemanapplicationitem.h"
 #include "qtquick/cpp/tonqtquick.h"
 
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACX
 #include "macappdelegate.h"
+#endif
+#ifdef Q_OS_IOS
+#include "iosappdelegate.h"
 #endif
 
 int main(int argc, char *argv[])
@@ -70,9 +73,13 @@ int main(int argc, char *argv[])
         return 0;
 #endif
 
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MACX)
     MacAppDelegate macApp;
     Q_UNUSED(macApp)
+#endif
+#ifdef Q_OS_IOS
+    IOSAppDelegate iosApp;
+    Q_UNUSED(iosApp)
 #endif
 
     AsemanApplicationItem::setApplicationId( QStringLiteral("8c37fdef-2156-458e-ae82-6c7aad1078b3") );

@@ -11,9 +11,6 @@ public:
     MacAppDelegate();
     virtual ~MacAppDelegate();
 
-Q_SIGNALS:
-    void urlRequested(const QString &url);
-
 private:
     Private *p;
 };

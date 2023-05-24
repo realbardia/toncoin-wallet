@@ -8,14 +8,19 @@ include (qtquick/qtquick.pri)
 include (widgets/widgets.pri)
 include (common/common.pri)
 
-macx: {
+macx {
     LIBS += -framework Cocoa
     SOURCES += \
         $$PWD/macappdelegate.mm
     HEADERS += \
         $$PWD/macappdelegate.h
 }
+ios {
+    SOURCES += \
+        $$PWD/iosappdelegate.mm
+    HEADERS += \
+        $$PWD/iosappdelegate.h
+}
 
 SOURCES += \
     $$PWD/main.cpp
-

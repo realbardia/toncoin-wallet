@@ -26,7 +26,7 @@ public:
 
         auto app = qobject_cast<AsemanApplicationItem*>(AsemanApplication::instance());
         if (app)
-            Q_EMIT app->messageReceived(str);
+            QMetaObject::invokeMethod(app, "messageReceived", Qt::QueuedConnection, Q_ARG(QString, str));
 
         qDebug() << "Received deep link:" << str;
     }

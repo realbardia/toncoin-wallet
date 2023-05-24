@@ -36,6 +36,12 @@ TDrawer {
             backend: MainBackend
             publicKey: AppSettings.loggedInPublicKey
         }
+        onErrorChanged: {
+            if (errorString.length) {
+                GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Failed"), errorString, Colors.foreground)
+                dis.ViewportType.open = false;
+            }
+        }
         force: true
         Component.onCompleted: {
             estimate();

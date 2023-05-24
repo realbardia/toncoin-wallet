@@ -6,6 +6,8 @@ import "../globals"
 Item {
     clip: true
 
+    property bool fullFill: Devices.isIOS
+
     function open(icon, title, description, color) {
         background.color = color;
         iconLabel.text = icon;
@@ -27,6 +29,16 @@ Item {
         onTriggered: snack.opened = false
     }
 
+    Rectangle {
+        id: background
+        anchors.top: snack.top
+        anchors.left: fullFill? parent.left : snack.left
+        anchors.right: fullFill? parent.right : snack.right
+        anchors.bottom: fullFill? parent.bottom : snack.bottom
+        radius: fullFill? 0 : Constants.controlsRoundness
+        color: Colors.foreground
+    }
+
     MouseArea {
         id: snack
         anchors.left: parent.left
@@ -45,13 +57,6 @@ Item {
         }
         Behavior on opacity {
             NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
-        }
-
-        Rectangle {
-            id: background
-            anchors.fill: parent
-            radius: Constants.controlsRoundness
-            color: Colors.foreground
         }
 
         Item {
