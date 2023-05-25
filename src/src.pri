@@ -2,6 +2,9 @@ INCLUDEPATH += $$PWD
 
 VERSION = 1.0.2
 
+QTPLUGIN.imageformats += qsvg qjpeg
+linux: QTPLUGIN.platforms += qxcb qlinuxfb qminimal
+
 include (core/core.pri)
 include (thirdparty/thirdparty.pri)
 include (qtquick/qtquick.pri)
