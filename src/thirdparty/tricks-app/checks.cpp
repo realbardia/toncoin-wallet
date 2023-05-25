@@ -20,6 +20,8 @@
 #include <QProcess>
 #endif
 
+#define DONT_ASK_BEFORE_CREATE_SHORTCUT
+
 void Checks::checkLinuxDesktopIcon()
 {
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
@@ -39,33 +41,7 @@ void Checks::checkLinuxDesktopIcon()
     if (pngs.count() != 1)
         return;
 
-    auto check = new QCheckBox(QDialog::tr("Do not ask again"));
-    auto label = new QLabel(QDialog::tr("Do you want to install application shortcut to the main menu?"));
-
-    auto labelLayout = new QVBoxLayout;
-    labelLayout->addWidget(label);
-    labelLayout->addWidget(check);
-    labelLayout->setSpacing(0);
-
-    auto icon = new QLabel();
-    icon->setPixmap(QPixmap(":/ton/common/icons/dialog-information.png").scaledToWidth(64, Qt::SmoothTransformation));
-
-    auto centerLayout = new QHBoxLayout;
-    centerLayout->addWidget(icon);
-    centerLayout->addLayout(labelLayout);
-
-    auto buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No);
-
-    auto layout = new QVBoxLayout;
-    layout->addLayout(centerLayout);
-    layout->addWidget(buttons);
-
-    QDialog dialog;
-    dialog.setLayout(layout);
-    dialog.setWindowTitle(QDialog::tr("Shortcut"));
-    dialog.connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-    dialog.connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
-    dialog.connect(&dialog, &QDialog::accepted, [&](){
+    auto createShortcut = [&](){
         auto app_install_path = QDir::homePath() + "/.local/share/applications/";
         auto icon_install_path = QDir::homePath() + "/.local/share/icons/";
 
@@ -110,13 +86,45 @@ void Checks::checkLinuxDesktopIcon()
         QProcess::startDetached("xdg-desktop-menu", {"forceupdate", "--mode", "user"});
 
         settings.setValue("PreventLinuxDesktopWarn", exePath);
-    });
+    };
+
+#if defined(DONT_ASK_BEFORE_CREATE_SHORTCUT)
+    createShortcut();
+#else
+    auto check = new QCheckBox(QDialog::tr("Do not ask again"));
+    auto label = new QLabel(QDialog::tr("Do you want to install application shortcut to the main menu?"));
+
+    auto labelLayout = new QVBoxLayout;
+    labelLayout->addWidget(label);
+    labelLayout->addWidget(check);
+    labelLayout->setSpacing(0);
+
+    auto icon = new QLabel();
+    icon->setPixmap(QPixmap(":/ton/common/icons/dialog-information.png").scaledToWidth(64, Qt::SmoothTransformation));
+
+    auto centerLayout = new QHBoxLayout;
+    centerLayout->addWidget(icon);
+    centerLayout->addLayout(labelLayout);
+
+    auto buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No);
+
+    auto layout = new QVBoxLayout;
+    layout->addLayout(centerLayout);
+    layout->addWidget(buttons);
+
+    QDialog dialog;
+    dialog.setLayout(layout);
+    dialog.setWindowTitle(QDialog::tr("Shortcut"));
+    dialog.connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    dialog.connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    dialog.connect(&dialog, &QDialog::accepted, createShortcut);
     dialog.connect(&dialog, &QDialog::rejected, [&](){
         if (check->isChecked())
             settings.setValue("PreventLinuxDesktopWarn", exePath);
     });
 
     dialog.exec();
+#endif
 #endif
 }
 
