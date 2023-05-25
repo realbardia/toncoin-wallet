@@ -2,8 +2,7 @@ INCLUDEPATH += $$PWD
 
 VERSION = 1.0.2
 
-QTPLUGIN.playlistformats += none
-QTPLUGIN.qmltooling += none
+QTPLUGIN.qmltooling += qmldbg_debugger
 QTPLUGIN.imageformats += qsvg qjpeg
 linux: {
     QTPLUGIN.platforms += qxcb qlinuxfb qminimal
