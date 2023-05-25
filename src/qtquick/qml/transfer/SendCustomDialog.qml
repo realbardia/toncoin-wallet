@@ -12,9 +12,16 @@ TDrawer {
     property string selectedAddress
 
     mainButton {
+        anchors.bottomMargin: keyboardPadding + 20
         text: qsTr("Continue")
         onClicked: TViewport.viewport.append(send_component, {"address": selectedAddress}, "stack")
         enabled: selectedAddress.length > 0? true : false
+    }
+
+    property real keyboardPadding: Constants.keyboardedView? Devices.keyboardHeight - GlobalValues.keyboardGlobalBottomPadding : Devices.navigationBarHeight
+
+    Behavior on keyboardPadding {
+        NumberAnimation { easing.type: Easing.OutCubic; duration: 300 }
     }
 
     TScrollView {
@@ -50,6 +57,7 @@ TDrawer {
                     }
 
                     TTextArea {
+                        id: addressField
                         width: parent.width
                         placeholderText: qsTr("Enter Wallet Address or Domain...")
                         horizontalAlignment: Text.AlignLeft
@@ -64,6 +72,29 @@ TDrawer {
 
                             selectedAddress = text
                         }
+                        input.onActiveFocusChanged: {
+                            if (input.activeFocus) {
+                                GlobalValues.keyboardGlobalBottomPadding = Qt.binding(function(){
+                                    let minimumAllowedHeight = dis.contentHeight + addressField.height + 50;
+                                    let heightWithKeyboard = dis.height - Devices.keyboardHeight;
+                                    if (minimumAllowedHeight > heightWithKeyboard)
+                                        return (minimumAllowedHeight - heightWithKeyboard);
+                                    else
+                                        return 0;
+                                });
+                            } else {
+                                GlobalValues.keyboardGlobalBottomPadding = 0;
+                            }
+
+                            if (input.activeFocus)
+                                GlobalValues.keyboardPaddingMode = input;
+                            else if (GlobalValues.keyboardPaddingMode == input)
+                                GlobalValues.keyboardPaddingMode = null
+                        }
+                        Component.onCompleted: {
+                            Devices.setupImEventFilter(addressField.input);
+                        }
+                        Component.onDestruction: if (GlobalValues.keyboardPaddingMode == input) GlobalValues.keyboardPaddingMode = null
                     }
 
                     TLabel {

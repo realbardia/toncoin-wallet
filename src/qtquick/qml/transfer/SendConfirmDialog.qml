@@ -111,8 +111,8 @@ TDrawer {
                         height: Math.max(50, contentHeight + 20)
                         horizontalAlignment: Text.AlignLeft
                         placeholderText: qsTr("Comment")
-                        input.onFocusChanged: {
-                            if (input.focus) {
+                        input.onActiveFocusChanged: {
+                            if (input.activeFocus) {
                                 GlobalValues.keyboardGlobalBottomPadding = Qt.binding(function(){
                                     let minimumAllowedHeight = dis.contentHeight + comment.height + 50;
                                     let heightWithKeyboard = dis.height - Devices.keyboardHeight;
@@ -125,7 +125,7 @@ TDrawer {
                                 GlobalValues.keyboardGlobalBottomPadding = 0;
                             }
 
-                            if (input.focus)
+                            if (input.activeFocus)
                                 GlobalValues.keyboardPaddingMode = input;
                             else if (GlobalValues.keyboardPaddingMode == input)
                                 GlobalValues.keyboardPaddingMode = null

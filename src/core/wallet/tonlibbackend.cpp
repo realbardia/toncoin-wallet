@@ -766,14 +766,14 @@ void TonLibBackend::checkAddress(const QString &address, QObject *receiver, cons
         callback(adrs, Error());
         return;
     }
-    if (address.right(4) != QStringLiteral(".ton"))
-    {
-        Error err;
-        err.code = 1;
-        err.message = QStringLiteral("Bad destination address");
-        callback(Address(), err);
-        return;
-    }
+//    if (address.right(4) != QStringLiteral(".ton"))
+//    {
+//        Error err;
+//        err.code = 1;
+//        err.message = QStringLiteral("Bad destination address");
+//        callback(Address(), err);
+//        return;
+//    }
 
     auto name = address.toStdString();
     auto ttl = 10;

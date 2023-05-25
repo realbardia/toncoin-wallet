@@ -86,7 +86,7 @@ TControlElement {
         Rectangle {
             anchors.centerIn: parent
             height: parent.height
-            width: input.focus || marea.pressed? parent.width : 0
+            width: input.activeFocus || marea.pressed? parent.width : 0
             radius: height/2
             color: Colors.accent
 
