@@ -3,8 +3,6 @@
 
 #import <LocalAuthentication/LocalAuthentication.h>
 
-#define NONBLOCK_BIOMETRIC_METHOD
-
 #ifdef NONBLOCK_BIOMETRIC_METHOD
 #include <QEventLoop>
 #else
