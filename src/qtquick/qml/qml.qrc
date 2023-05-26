@@ -14,7 +14,6 @@
         <file>globals/fonts/UbuntuMono-B.ttf</file>
         <file>globals/fonts/UbuntuMono-R.ttf</file>
         <file>globals/fonts/Vazir-Regular-FD.ttf</file>
-        <file>qtquickcontrols2.conf</file>
         <file>components/THeaderItem.qml</file>
         <file>components/TDialog.qml</file>
         <file>components/TItemDelegate.qml</file>
