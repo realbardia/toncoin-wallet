@@ -1,8 +1,13 @@
 #include "asemanmacmanager.h"
 #include <Cocoa/Cocoa.h>
-#include <QSemaphore>
 
 #import <LocalAuthentication/LocalAuthentication.h>
+
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+#include <QEventLoop>
+#else
+#include <QSemaphore>
+#endif
 
 void AsemanMacManager::removeTitlebarFromWindow(double r, double g, double b)
 {
@@ -44,7 +49,11 @@ bool AsemanMacManager::biometricCheck()
         return false;
 
     auto res = new bool;
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+    auto loop = new QEventLoop;
+#else
     auto semaphore = new QSemaphore;
+#endif
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
               localizedReason:@"Authenticate with Touch ID"
                         reply:^(BOOL success, NSError *error) {
@@ -53,12 +62,21 @@ bool AsemanMacManager::biometricCheck()
         } else {
             *res = false;
         }
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+        loop->exit();
+#else
         semaphore->release(1);
+#endif
     }];
 
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+    loop->exec();
+    delete loop;
+#else
     semaphore->acquire(1);
-    auto r = *res;
     delete semaphore;
+#endif
+    auto r = *res;
     delete res;
     return r;
 }

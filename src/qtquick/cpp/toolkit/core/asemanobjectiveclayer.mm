@@ -11,7 +11,13 @@
 #include <QDesktopServices>
 #include <QDebug>
 #include <QTimer>
+
+
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+#include <QEventLoop>
+#else
 #include <QSemaphore>
+#endif
 
 QSet<AsemanObjectiveCLayer*> ObjectiveCLayer_mObjects;
 
@@ -141,7 +147,11 @@ bool AsemanObjectiveCLayer::biometricCheck()
         return false;
 
     auto res = new bool;
-    auto *semaphore = new QSemaphore;
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+    auto loop = new QEventLoop;
+#else
+    auto semaphore = new QSemaphore;
+#endif
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
               localizedReason:@"Authenticating"
                         reply:^(BOOL success, NSError *error) {
@@ -150,12 +160,22 @@ bool AsemanObjectiveCLayer::biometricCheck()
         } else {
             *res = false;
         }
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+        loop->exit();
+#else
         semaphore->release(1);
+#endif
     }];
 
+#ifdef NONBLOCK_BIOMETRIC_METHOD
+    loop->exec();
+    delete loop;
+#else
     semaphore->acquire(1);
-    auto r = *res;
     delete semaphore;
+#endif
+
+    auto r = *res;
     delete res;
     return r;
 }
