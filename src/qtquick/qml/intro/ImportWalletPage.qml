@@ -83,10 +83,12 @@ TPage {
                 model: 24
                 spacing: 8
 
-                highlightMoveDuration: 200
-                highlightRangeMode: Devices.isMobile? ListView.NoHighlightRange : ListView.ApplyRange
-                preferredHighlightBegin: 0
-                preferredHighlightEnd: height - 100
+//                highlightMoveDuration: 200
+//                highlightRangeMode: Devices.isMobile? ListView.NoHighlightRange : ListView.ApplyRange
+//                preferredHighlightBegin: 0
+//                preferredHighlightEnd: height - 100
+                displayMarginBeginning: 1000
+                displayMarginEnd: 1000
 
                 signal focusOn(int index)
 
@@ -146,12 +148,15 @@ TPage {
 
                     property alias text: textField.text
 
-                    onFocusChanged: {
-                        if (!focus)
-                            return;
+                    Connections {
+                        target: listv
+                        function onFocusOn(index) {
+                            if (index != model.index)
+                                return;
 
-                        textField.focus = true;
-                        textField.forceActiveFocus();
+                            textField.input.focus = true;
+                            textField.input.forceActiveFocus();
+                        }
                     }
 
                     TTextField {
@@ -168,7 +173,7 @@ TPage {
                         onTabPressed: accepted()
                         onAccepted: {
                             if (model.index < listv.count-1)
-                                listv.currentIndex = model.index+1;
+                                listv.focusOn(model.index+1);
                             else
                                 listv.footerItem.focus = true;
                         }

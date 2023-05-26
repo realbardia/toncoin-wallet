@@ -74,8 +74,8 @@ TPage {
             }
             onTabPressed: {
                 var first = repeater.itemAt(0);
-                first.focus = true;
-                first.forceActiveFocus();
+                first.input.focus = true;
+                first.input.forceActiveFocus();
             }
         }
 
@@ -110,8 +110,8 @@ TPage {
                     onAccepted: {
                         if (model.index+1 < repeater.count) {
                             var next = repeater.itemAt(model.index+1);
-                            next.focus = true;
-                            next.forceActiveFocus();
+                            next.input.focus = true;
+                            next.input.forceActiveFocus();
                         } else {
                             simplePage.mainButton.focus = true;
                             simplePage.mainButton.forceActiveFocus();

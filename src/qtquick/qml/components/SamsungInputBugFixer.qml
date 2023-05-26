@@ -25,7 +25,7 @@ MouseArea {
 
     Connections {
         target: dis.parent
-        onInputMethodComposingChanged: {
+        function onInputMethodComposingChanged() {
             if (!dis.visible)
                 return;
             if (timerDisabled.running)

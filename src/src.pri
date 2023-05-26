@@ -5,10 +5,12 @@ VERSION = 1.0.2
 QTPLUGIN.qmltooling += qmldbg_debugger
 QTPLUGIN.imageformats += qsvg qjpeg
 
-greaterThan(QT_MAJOR_VERSION, 5) {
-    QTPLUGIN.multimedia += gstreamermedia
-} else {
-    QTPLUGIN.mediaservice += gstcamerabin gstmediacapture
+linux: !android: {
+    greaterThan(QT_MAJOR_VERSION, 5) {
+        QTPLUGIN.multimedia += gstreamermedia
+    } else {
+        QTPLUGIN.mediaservice += gstcamerabin gstmediacapture
+    }
 }
 
 include (core/core.pri)

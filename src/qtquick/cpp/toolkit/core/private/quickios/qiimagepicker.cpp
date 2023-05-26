@@ -1,5 +1,4 @@
 #include <QStandardPaths>
-#include <QFileDialog>
 #include <QTemporaryFile>
 #include <QUrl>
 #include <QRunnable>

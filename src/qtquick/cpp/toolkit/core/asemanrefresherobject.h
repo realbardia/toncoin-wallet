@@ -8,6 +8,7 @@ class AsemanRefresherObject : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
+    Q_PROPERTY(bool active READ active NOTIFY activeChanged)
     Q_PROPERTY(qint32 delay READ delay NOTIFY delayChanged)
 
 public:
@@ -26,6 +27,7 @@ public:
 
 Q_SIGNALS:
     void refreshingChanged();
+    void activeChanged();
     void delayChanged();
 
 private:

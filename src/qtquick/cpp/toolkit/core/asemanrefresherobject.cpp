@@ -9,6 +9,7 @@ AsemanRefresherObject::AsemanRefresherObject(QObject *parent)
     connect(mDelayTimer, &QTimer::timeout, this, [this](){
         mRefreshing = true;
         Q_EMIT refreshingChanged();
+        Q_EMIT activeChanged();
     });
 }
 
@@ -48,6 +49,7 @@ void AsemanRefresherObject::setRefreshing(bool state)
         if (!mDelayTimer->isActive())
             mDelayTimer->start(mDelay);
     }
+    Q_EMIT activeChanged();
 }
 
 qint32 AsemanRefresherObject::delay() const

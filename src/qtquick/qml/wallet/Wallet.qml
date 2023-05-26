@@ -256,7 +256,7 @@ TPage {
                             width: 32
                             height: 32
                             accented: true
-                            running: tmodel.refreshing && tmodel.count > 10
+                            running: tmodel.refresher.active && tmodel.count > 10
                         }
                     }
                 }
