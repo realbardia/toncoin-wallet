@@ -4,9 +4,6 @@ VERSION = 1.0.2
 
 QTPLUGIN.qmltooling += qmldbg_debugger
 QTPLUGIN.imageformats += qsvg qjpeg
-linux: {
-    QTPLUGIN.mediaservice += gstcamerabin gstmediacapture
-}
 
 include (core/core.pri)
 include (thirdparty/thirdparty.pri)
