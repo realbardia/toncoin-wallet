@@ -5,7 +5,6 @@ VERSION = 1.0.2
 QTPLUGIN.qmltooling += qmldbg_debugger
 QTPLUGIN.imageformats += qsvg qjpeg
 linux: {
-    QTPLUGIN.platforms += qxcb qlinuxfb qminimal
     QTPLUGIN.mediaservice += gstcamerabin gstmediacapture
 }
 
