@@ -18,7 +18,14 @@ win32: msvc {
     INCLUDEPATH += \
         $$ZLIB_PATH/include
 } else {
-    LIBS += -lz
+    exists($$ZLIB_PATH/include/zlib.h) {
+        message(Zlib found on $$ZLIB_PATH)
+        INCLUDEPATH += \
+            $$ZLIB_PATH/include
+        LIBS += -L$$ZLIB_PATH/lib -lz
+    } else {
+        LIBS += -lz
+    }
 }
 
 HEADERS += \
