@@ -18,7 +18,7 @@ TPage {
         }
 
         function onWalletImportFailed() {
-            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Import Failed"), MainBackend.keysManager.errorString, Colors.foreground)
+//            GlobalSignals.snackRequest(MaterialIcons.mdi_alert_octagon, qsTr("Import Failed"), MainBackend.keysManager.errorString, Colors.foreground)
             warnDialog.open();
         }
     }
