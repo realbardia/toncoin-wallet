@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import Toolkit.Core 1.0
 import "../globals"
 
 TControlElement {
@@ -31,7 +32,7 @@ TControlElement {
         maximumLength: 4
         inputMethodHints: Qt.ImhDigitsOnly
         validator: RegularExpressionValidator {
-            regularExpression: /\d+/
+            regularExpression: Devices.isDesktop? /.+/ : /\d+/
         }
     }
 

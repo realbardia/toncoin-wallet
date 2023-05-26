@@ -162,7 +162,7 @@ TControlElement {
 
             if (Devices.isDesktop) {
                 menuMap.x = mouseX;
-                menuMap.y = mouseY;
+                menuMap.y = height;
                 newMenu.open();
             }
         }
@@ -199,7 +199,7 @@ TControlElement {
 
         TMenu {
             id: newMenu
-            y: menuMap.result.y
+            y: menuMap.result.y + (menuMap.result.y < menuScene.height - height? 0 : -height)
             x: menuMap.result.x + (menuMap.result.x < menuScene.width/2? 0 : -width)
             width: 160
             model: [
@@ -209,7 +209,12 @@ TControlElement {
                 qsTr("Paste"),
                 qsTr("Delete"),
             ]
-            transformOrigin: menuMap.result.x < menuScene.width/2? Item.TopLeft : Item.TopRight
+            transformOrigin: {
+                if (menuMap.result.y < menuScene.height - height)
+                    return menuMap.result.x < menuScene.width/2? Item.TopLeft : Item.TopRight;
+                else
+                    return menuMap.result.x < menuScene.width/2? Item.BottomLeft : Item.BottomRight;
+            }
             opacity: opened? 1 : 0
             scale: 0.8 + opacity*0.2
             visible: opacity > 0
