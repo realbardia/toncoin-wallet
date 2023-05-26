@@ -20,8 +20,9 @@ It's a cross platform Wallet designed and developed for Desktop and Smart phones
 - Ton Connect v2 supported
 - Fully touch and gesture supported on the Desktop touch screen devices and Smart phones
 - QR Scanner
-- Biometric Login on the supported platforms
-- Auto lock, Lock timer and Blured task manager's thumbnails on iOS
+- Biometric Login on the supported platforms (Android biometric will add soon)
+- Auto lock, Lock timer
+- blured task manager's thumbnails on iOS
 - Multi Language (English, Spanish, Japanese, Chinese, Persian, Russian and ...)
   - Both RTL and LTR layout directions supported
 - Dark mode and Light mode
@@ -36,16 +37,15 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 
 | Target  |                           Download                           | Note                                                         |
 | ------- | :----------------------------------------------------------: | ------------------------------------------------------------ |
-| Linux   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.1/Tonium-1.0.1-x86_64-Linux.AppImage) | Built using Qt5 static and gcc on Debian buster. (Tested and worked on debian and ubuntu, both wayland and x11). |
-| Windows | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.1/Tonium-1.0.1-x86_64-Windows.zip) | Built using Qt5 and Mingw. Because of the technical reasons currently Frameless feature disabled on Qt6 build and QR Scanner disabled on Qt5 |
-| macOS   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.1/Tonium-1.0.1-x86_64-macOS.zip) | Built using Qt6 static for x86_64 processors.                |
-| iOS     | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.1/Tonium-1.0.1-arm64-iOS.ipa) | Built using Qt5. You can install/side-load it using [altstore.io](https://altstore.io/) |
-| Android | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.1/Tonium-1.0.1-x86_64-Android.apk) | Built using Qt5, NDK platform 23 and SDK 23                  |
+| Linux   | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.2/Tonium-1.0.2-x86_64-Linux.AppImage) | Built using Qt5 static and gcc on Debian buster. (Tested and worked on debian and ubuntu, both wayland and x11). |
+| Windows | [X86_64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.2/Tonium-1.0.2-x86_64-Windows.zip) | Built using Qt5 and MSVC.                                    |
+| macOS   | [Universal](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.2/Tonium-1.0.2-Universal-macOS.zip) | Built using Qt6 static for Intel and M1 processors.          |
+| iOS     | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.2/Tonium-1.0.2-arm64-iOS.ipa) | Built using Qt5. You can install/side-load it using [altstore.io](https://altstore.io/) |
+| Android | [arm64](https://github.com/realbardia/toncoin-wallet/releases/download/1.0.2/Tonium-1.0.2-arm64-Android.apk) | Built using Qt5, NDK platform 23 and SDK 23                  |
 
 ## Library and Tools:
 
 - [Qt framework]() (library) (Both Qt5 and Qt6 are supported on all platforms)
-  - Personal recommend: Use Qt6 on the desktop to build Tonium and Qt5 on the smart phones
 - [TonLib](https://github.com/ton-blockchain/ton) (library)
 - [QtAseman](https://github.com/Aseman-Land/QtAseman) (embedded)
 - [OpenSSL](https://www.openssl.org/) (library)
