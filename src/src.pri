@@ -5,10 +5,16 @@ VERSION = 1.0.2
 QTPLUGIN.qmltooling += qmldbg_debugger
 QTPLUGIN.imageformats += qsvg qjpeg
 
+greaterThan(QT_MAJOR_VERSION, 5) {
+    QTPLUGIN.multimedia += gstreamermedia
+} else {
+    QTPLUGIN.mediaservice += gstcamerabin gstmediacapture
+}
+
 include (core/core.pri)
 include (thirdparty/thirdparty.pri)
 include (qtquick/qtquick.pri)
-include (widgets/widgets.pri)
+#include (widgets/widgets.pri)
 include (common/common.pri)
 
 macx {

@@ -31,9 +31,7 @@ HEADERS += \
     $$PWD/asemanstickeritem.h \
     $$PWD/asemantools.h \
     $$PWD/asemantoolsitem.h \
-    $$PWD/asemantranslationmanager.h \
-    $$PWD/qmlwidgetmenu.h \
-    $$PWD/qmlwidgetmenuitem.h
+    $$PWD/asemantranslationmanager.h
 
 SOURCES += \
     $$PWD/materialicons.cpp \
@@ -58,9 +56,7 @@ SOURCES += \
     $$PWD/asemanstickeritem.cpp \
     $$PWD/asemantools.cpp \
     $$PWD/asemantoolsitem.cpp \
-    $$PWD/asemantranslationmanager.cpp \
-    $$PWD/qmlwidgetmenu.cpp \
-    $$PWD/qmlwidgetmenuitem.cpp
+    $$PWD/asemantranslationmanager.cpp
 
 android {
     QT += androidextras

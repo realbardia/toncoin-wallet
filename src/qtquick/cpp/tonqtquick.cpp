@@ -16,7 +16,6 @@
 #include "toolkit/core/asemanapplicationsingleton.h"
 #include "toolkit/core/asemanquickview.h"
 #include "toolkit/core/asemanstickeritem.h"
-#include "toolkit/core/qmlwidgetmenu.h"
 #include "toolkit/core/asemanlistobject.h"
 #include "toolkit/core/materialicons.h"
 #include "toolkit/core/asemanqrcreator.h"
@@ -105,9 +104,6 @@ void TonQtQuick::registerToolkit()
     qmlRegisterType(QUrl("qrc:/components/private/qt6/OpacityMask.qml"), "Toolkit.Core", 1, 0, "OpacityMask");
     qmlRegisterType(QUrl("qrc:/components/private/qt6/FastBlur.qml"), "Toolkit.Core", 1, 0, "FastBlur");
 #endif
-
-    qmlRegisterType<QmlWidgetMenu>("Toolkit.Core", 1, 0, "QmlWidgetMenu");
-    qmlRegisterType<QmlWidgetMenuItem>("Toolkit.Core", 1, 0, "QmlWidgetMenuItem");
 
     qmlRegisterSingletonType<AsemanQuickView>("Toolkit.Core", 1, 0, "View", [](QQmlEngine *engine, QJSEngine *){ return new AsemanQuickView(engine); });
     qmlRegisterSingletonInstance<AsemanDevicesItem>("Toolkit.Core", 1, 0, "Devices", new AsemanDevicesItem);

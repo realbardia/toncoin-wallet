@@ -7,7 +7,7 @@ TControlElement {
     id: marea
     hoverEnabled: true
     height: Constants.itemsHeight
-    acceptedButtons: Qt.LeftButton | Qt.RightButton
+    acceptedButtons: Qt.LeftButton
     pressAndHoldInterval: 300
     data: [opacityAnim, ratioAnim, background, highlightScene, opacMask, scene]
 

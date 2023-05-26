@@ -1,17 +1,19 @@
 #include "checks.h"
 #include "asemanapplication.h"
 
+#if defined(QT_WIDGETS_LIB)
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QCheckBox>
 #include <QDialogButtonBox>
-#include <QDir>
+#include <QMessageBox>
 #include <QApplication>
+#endif
+#include <QDir>
 #include <QSettings>
 #include <QPixmap>
-#include <QMessageBox>
 #include <QDebug>
 #include <QRegularExpression>
 #include <QPalette>
@@ -77,10 +79,7 @@ void Checks::checkLinuxDesktopIcon()
             f_out.close();
         }
         else
-        {
-            QMessageBox::critical(Q_NULLPTR, QDialog::tr("Shortcut"), QDialog::tr("Failed to install application shortcut"));
             return;
-        }
 
         QProcess::startDetached("update-icon-caches", {icon_install_path});
         QProcess::startDetached("xdg-desktop-menu", {"forceupdate", "--mode", "user"});

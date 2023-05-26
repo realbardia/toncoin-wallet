@@ -161,61 +161,84 @@ TControlElement {
             samsung.poke();
 
             if (Devices.isDesktop) {
-                menu.x = mouseX;
-                menu.y = mouseY;
-                menu.open();
+                menuMap.x = mouseX;
+                menuMap.y = mouseY;
+                newMenu.open();
             }
         }
     }
+    Item {
+        id: menuScene
+        parent: GlobalValues.mainScene
+        anchors.fill: parent
 
-    QmlWidgetMenu {
-        id: menu
+        Rectangle {
+            anchors.fill: parent
+            color: Colors.foreground
+            opacity: {
+                if (newMenu.visible)
+                    return newMenu.opacity * 0.4;
+                return 0
+            }
+            visible: opacity > 0
 
-        QmlWidgetMenuItem {
-            text: qsTr("Select All")
-            shortcut: "Ctrl+A"
-            onClicked: input.selectAll()
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    newMenu.close();
+                }
+            }
         }
-        QmlWidgetMenuItem {
-            text: qsTr("Deselect")
-            onClicked: input.deselect()
+
+        PointMapListener {
+            id: menuMap
+            source: dis
+            dest: GlobalValues.mainScene
         }
-        QmlWidgetMenuItem{}
-        QmlWidgetMenuItem {
-            text: qsTr("Copy")
-            shortcut: "Ctrl+C"
-            onClicked: input.copy()
-        }
-        QmlWidgetMenuItem {
-            text: qsTr("Cut")
-            shortcut: "Ctrl+X"
-            onClicked: input.cut()
-        }
-        QmlWidgetMenuItem {
-            text: qsTr("Paste")
-            shortcut: "Ctrl+V"
-            onClicked: input.paste()
-            enabled: input.canPaste
-        }
-        QmlWidgetMenuItem{}
-        QmlWidgetMenuItem {
-            text: qsTr("Undo")
-            shortcut: "Ctrl+Z"
-            onClicked: input.cut()
-            enabled: input.canUndo
-        }
-        QmlWidgetMenuItem {
-            text: qsTr("Redo")
-            shortcut: "Ctrl+Shift+Z"
-            onClicked: input.paste()
-            enabled: input.canRedo
-        }
-        QmlWidgetMenuItem{}
-        QmlWidgetMenuItem {
-            text: qsTr("Delete")
-            shortcut: "Delete"
-            enabled: input.selectionStart && input.selectionStart != input.selectionEnd
-            onClicked: input.remove(input.selectionStart, input.selectionEnd)
+
+        TMenu {
+            id: newMenu
+            y: menuMap.result.y
+            x: menuMap.result.x + (menuMap.result.x < menuScene.width/2? 0 : -width)
+            width: 160
+            model: [
+                qsTr("Select All"),
+                qsTr("Copy"),
+                qsTr("Cut"),
+                qsTr("Paste"),
+                qsTr("Delete"),
+            ]
+            transformOrigin: menuMap.result.x < menuScene.width/2? Item.TopLeft : Item.TopRight
+            opacity: opened? 1 : 0
+            scale: 0.8 + opacity*0.2
+            visible: opacity > 0
+            shadow: false
+            highlightedIndex: model.indexOf(AppSettings.lockTimeout + "s")
+
+            Behavior on opacity {
+                NumberAnimation { easing.type: Easing.OutCubic; duration: 150 }
+            }
+
+            onItemClicked: {
+                switch (index) {
+                case 0:
+                    input.selectAll();
+                    break;
+                case 1:
+                    input.copy();
+                    break;
+                case 2:
+                    input.cut();
+                    break;
+                case 3:
+                    input.paste();
+                    break;
+                case 4:
+                    input.remove(input.selectionStart, input.selectionEnd)
+                    break;
+                }
+            }
         }
     }
 
