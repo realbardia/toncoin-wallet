@@ -8,7 +8,7 @@ TControlElement {
     width: label.width + 20
     cursorShape: Qt.PointingHandCursor
     hoverEnabled: true
-    height: 42
+    height: Devices.isMobile? 48 : 42
 
     onFocusChanged: doHighlight(focus)
     onPressed: doHighlight(pressed)

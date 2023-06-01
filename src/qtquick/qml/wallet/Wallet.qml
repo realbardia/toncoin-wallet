@@ -477,7 +477,7 @@ TPage {
                     anchors.margins: 6 * Devices.density
                     flat: true
                     width: height
-                    icon.text: MaterialIcons.mdi_qrcode_scan
+                    icon.text: MaterialIcons.mdi_barcode_scan
                     icon.font.pixelSize: 13 * Devices.fontDensity
                     highlightColor: "#fff"
                     visible: qzxing && (!(Devices.isWindows && !Devices.isMSVC) || Devices.isQt6)

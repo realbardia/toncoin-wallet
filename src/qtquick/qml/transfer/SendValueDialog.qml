@@ -86,6 +86,7 @@ TDrawer {
             font.pixelSize: 20 * Devices.fontDensity
             color: insufficientLabel.visible? Colors.red : Colors.foreground
             input.inputMethodHints: Qt.ImhDigitsOnly
+            iosStyle: false
             input.onActiveFocusChanged: {
                 if (input.activeFocus) {
                     GlobalValues.keyboardGlobalBottomPadding = Qt.binding(function(){
