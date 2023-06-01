@@ -14,6 +14,8 @@ It's a cross platform Wallet designed and developed for Desktop and Smart phones
 
 
 
+**Note:** To check TON contest release, please check [tag 1.0.2](https://github.com/realbardia/toncoin-wallet/tree/1.0.2). Because repository updated after the contest deadline.
+
 ## Main Features
 
 - All v4R2, v4R1, v3R2 and v3R1 wallets are supported
