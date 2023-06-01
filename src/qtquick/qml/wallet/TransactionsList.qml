@@ -10,20 +10,28 @@ TListView {
 
     signal moreRequest()
 
-//    add: Transition {
-//        NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
-//    }
-//    addDisplaced: Transition {
-//        NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
-//    }
-//    removeDisplaced: Transition {
-//        NumberAnimation { properties: "x,y"; duration: 200; easing.type: Easing.OutCubic }
-//    }
-
-    section.property: "section"
-    section.delegate: Item {
+    component SectionItem: Item {
+        id: sitem
         width: listv.width
         height: 36
+
+        property string text
+        property bool fullBackground
+
+        Item {
+            anchors.fill: parent
+            anchors.bottomMargin: -6
+            clip: true
+
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: sitem.fullBackground? 0 : 20
+                height: 100
+                radius: Constants.roundness
+                color: Colors.background
+            }
+        }
 
         TLabel {
             anchors.left: parent.left
@@ -33,16 +41,47 @@ TListView {
             anchors.bottom: parent.bottom
             horizontalAlignment: Text.AlignLeft
             font.bold: true
-            text: section
+            text: sitem.text
         }
+    }
+
+    section.property: "section"
+    section.delegate: Item {
+        width: listv.width
+        height: 36
     }
 
     delegate: Item {
         id: titem
         width: listv.width
         height: clmn.height + clmn.y*2.5
+        z: model.index
+
+        property string nextSection: model.index+1 < listv.model.count? listv.model.get(model.index+1).section : ""
+        property string prevSection: model.index > 0? listv.model.get(model.index-1).section : ""
 
         Component.onCompleted: if (model.index && model.index == listv.count-1) listv.moreRequest()
+
+        PointMapListener {
+            id: mapListener
+            source: titem
+            dest: listv
+            y: - Devices.standardTitleBarHeight - sectionItem.height
+        }
+
+        SectionItem {
+            id: sectionItem
+            text: model.section
+            y: {
+                var res = Math.max(0, - mapListener.result.y) - height;
+                if (titem.nextSection != text)
+                    res = Math.min(res, titem.height - height);
+                return res;
+            }
+            visible: (mapListener.result.y <= 0 && y < titem.height) || titem.prevSection != text
+            fullBackground: titem.nextSection == text || titem.height > -mapListener.result.y
+            z: 10
+        }
 
         TItemDelegate {
             anchors.fill: parent
@@ -253,6 +292,11 @@ TListView {
             width: listv.width
             closable: true
             onCloseRequest: ViewportType.open = false
+        }
+    }
+    Component {
+        id: section_component
+        SectionItem {
         }
     }
 }

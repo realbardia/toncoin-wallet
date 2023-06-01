@@ -19,7 +19,7 @@ TApplication {
     Component.onCompleted: {
         if (Devices.isDesktop) Devices.fontScale = 1.1;
         if (Devices.isAndroid) Devices.fontScale = 1;
-        if (Devices.isIOS) Devices.fontScale = 1.15;
+        if (Devices.isIOS) Devices.fontScale = 1.25;
 
         Fonts.init();
         MainBackend.start();

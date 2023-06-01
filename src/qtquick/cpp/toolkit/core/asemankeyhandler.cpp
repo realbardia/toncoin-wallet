@@ -110,9 +110,6 @@ void AsemanKeyHandler::setMouseKey(qint32 mouseKey)
 
 void AsemanKeyHandler::setMousePosition(const QPointF &mousePosition)
 {
-    if (p->mousePosition == mousePosition)
-        return;
-
     p->mousePosition = mousePosition;
     Q_EMIT mousePositionChanged();
 }

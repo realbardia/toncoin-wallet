@@ -227,7 +227,7 @@ TPage {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 height: walletScene.height
-                scrollMarginTop: headerHeight + Constants.roundness
+                scrollMarginTop: Math.max(0, mapListener.result.y) + headerHeight + Constants.roundness
                 clip: true
 
                 TransactionsList {
