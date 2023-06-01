@@ -96,8 +96,9 @@ TPage {
                 }
 
                 TTextField {
+                    id: textField
                     width: 160
-                    leftPadding: 24
+                    leftPadding: textField.iosStyle? 34 : 24
                     suggestions: wordsModel
                     z: suggestionsMenu? 100 : 0
 
@@ -136,7 +137,7 @@ TPage {
                     TLabel {
                         id: label
                         anchors.right: parent.left
-                        anchors.rightMargin: -20
+                        anchors.rightMargin: textField.iosStyle? -30 : -20
                         anchors.verticalCenter: parent.verticalCenter
                         opacity: 0.4
                         text: model.itemIndex + ":"

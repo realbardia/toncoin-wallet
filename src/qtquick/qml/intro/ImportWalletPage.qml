@@ -82,11 +82,6 @@ TPage {
                 id: listv
                 model: 24
                 spacing: 8
-
-//                highlightMoveDuration: 200
-//                highlightRangeMode: Devices.isMobile? ListView.NoHighlightRange : ListView.ApplyRange
-//                preferredHighlightBegin: 0
-//                preferredHighlightEnd: height - 100
                 displayMarginBeginning: 1000
                 displayMarginEnd: 1000
 
@@ -163,7 +158,7 @@ TPage {
                         id: textField
                         width: 200
                         anchors.centerIn: parent
-                        leftPadding: 24
+                        leftPadding: textField.iosStyle? 34 : 24
                         suggestions: wordsModel
                         onTextChanged: {
                             wordsMap.remove(uniqueIdx);
@@ -208,7 +203,7 @@ TPage {
                         TLabel {
                             id: label
                             anchors.right: parent.left
-                            anchors.rightMargin: -20
+                            anchors.rightMargin: textField.iosStyle? -30 : -20
                             anchors.verticalCenter: parent.verticalCenter
                             opacity: 0.4
                             text: (model.index+1) + ":"

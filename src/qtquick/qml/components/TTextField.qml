@@ -26,6 +26,8 @@ TControlElement {
     property variant suggestionsMenu
     property variant suggestions: new Array
 
+    property bool iosStyle: Devices.isIOS
+
     signal accepted()
 
     onFocusChanged: {
@@ -123,11 +125,21 @@ TControlElement {
         NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
     }
 
+    Rectangle {
+        anchors.fill: parent
+        visible: iosStyle
+        color: Colors.backgroundDeep
+        radius: Constants.controlsRoundness
+        opacity: 0.7
+        z: -1
+    }
+
     Item {
         id: highlightArea
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        visible: !iosStyle
         height: 2
 
         Rectangle {
