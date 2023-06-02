@@ -32,4 +32,6 @@ ios {
     }
 
     QMAKE_ASSET_CATALOGS += $$PWD/icons.xcassets
+
+    greaterThan(QT_MAJOR_VERSION, 5): QMAKE_LFLAGS += -Wl,-e,_qt_main_wrapper
 }
