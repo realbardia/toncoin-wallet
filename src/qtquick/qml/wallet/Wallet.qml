@@ -345,7 +345,6 @@ TPage {
                     anchors.bottom: parent.bottom
                     anchors.margins: 20
                     anchors.rightMargin: 6
-                    height: Devices.isIOS? 48 : 42
                     text: qsTr("Receive")
                     icon.text: MaterialIcons.mdi_arrow_bottom_left
                     icon.font.pixelSize: 12 * Devices.fontDensity
@@ -358,7 +357,6 @@ TPage {
                     anchors.bottom: parent.bottom
                     anchors.margins: 20
                     anchors.leftMargin: 6
-                    height: Devices.isIOS? 48 : 42
                     text: qsTr("Send")
                     icon.text: MaterialIcons.mdi_arrow_top_right
                     icon.font.pixelSize: 12 * Devices.fontDensity
