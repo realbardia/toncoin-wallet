@@ -6,7 +6,7 @@ import Toolkit.Core 1.0
 QtObject {
     readonly property real dialogsRoundness: 8
     readonly property real roundness: 16
-    readonly property real controlsRoundness: Devices.isMobile? 10 : 6
+    readonly property real controlsRoundness: Devices.isIOS? 10 : 6
 
     readonly property bool testNet: false
 
@@ -14,7 +14,7 @@ QtObject {
     readonly property bool keyboardedView: Qt.inputMethod.visible && !Devices.isDesktop && GlobalValues.keyboardPaddingMode
     readonly property real panelWidth: 320
 
-    readonly property real itemsHeight: Devices.isMobile? 46 : 40
+    readonly property real itemsHeight: Devices.isIOS? 46 : 40
 
     readonly property int commentLimit: 128
 

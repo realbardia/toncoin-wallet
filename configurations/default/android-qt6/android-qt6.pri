@@ -2,7 +2,6 @@
 android {
     TARGET = Tonium
 
-    QT += androidextras
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD
 
     OTHER_FILES += \
@@ -10,7 +9,10 @@ android {
         $$PWD/build.gradle \
         $$files($$PWD/*.png, true) \
         $$files($$PWD/*.xml, true)
+
+    error(Android on Qt6 not supported)
 }
+
 
 DISTFILES += \
     $$PWD/src/com/hmkcode/android/image/RealPathUtilTonium.java \
