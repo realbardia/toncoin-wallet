@@ -59,7 +59,7 @@ SOURCES += \
     $$PWD/asemantranslationmanager.cpp
 
 android {
-    QT += androidextras
+    lessThan(QT_MAJOR_VERSION, 5) QT += androidextras
     HEADERS += \
         $$PWD/asemanjavalayer.h
     SOURCES += \

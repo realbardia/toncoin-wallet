@@ -2,7 +2,7 @@
 android {
     TARGET = Tonium
 
-    QT += androidextras
+    lessThan(QT_MAJOR_VERSION, 5) QT += androidextras
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD
 
     OTHER_FILES += \
