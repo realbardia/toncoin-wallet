@@ -47,7 +47,7 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 
 ## Library and Tools:
 
-- [Qt framework]() (library) (Both Qt5 and Qt6 are supported on all platforms)
+- [Qt framework]() (library)
 
 | Operating System  | Compiler  | Qt5  | Qt6  | Note                    |
 | :---------------: | :-------: | :--: | :--: | :---------------------- |
