@@ -53,7 +53,7 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 | :---------------: | :-------: | :--: | :--: | :---------------------- |
 |       Linux       | GCC/Clang |  ✔️   |  ✔️   |                         |
 | Microsoft Windows | GCC/Clang |  ✔️   |  ✔️   |                         |
-| Microsoft Windows |   MSVC    |  ✔️   |  ✔️   |                         |
+| Microsoft Windows |   MSVC    |  ✔️   |  ❌   |                         |
 |    Apple macOS    | GCC/Clang |  ✔️   |  ✔️   |                         |
 |     Apple iOS     | GCC/Clang |  ✔️   |  ✔️   |                         |
 |      Android      | GCC/Clang |  ✔️   |  ❌   | NDK >= 23 are supported |
