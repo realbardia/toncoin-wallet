@@ -1172,6 +1172,8 @@ bool AsemanDevices::hasBiometric()
     return p->objc_layer->hasBiometric();
 #elif defined(Q_OS_MACOS)
     return AsemanMacManager::hasBiometric();
+#elif defined (Q_OS_ANDROID)
+    return p->java_layer->hasBiometric();
 #else
     return false;
 #endif
@@ -1183,6 +1185,17 @@ bool AsemanDevices::biometricCheck()
     return p->objc_layer->biometricCheck();
 #elif defined(Q_OS_MACOS)
     return AsemanMacManager::biometricCheck();
+#elif defined (Q_OS_ANDROID)
+    auto loop = new QEventLoop(this);
+    int res = 0;
+    connect(p->java_layer, &AsemanToniumJavaLayer::checkBiometricResult, loop, [&](int r){
+        res = r;
+        loop->exit();
+    }, Qt::QueuedConnection);
+    p->java_layer->checkBiometric();
+    loop->exec();
+    delete loop;
+    return res == 1;
 #else
     return false;
 #endif

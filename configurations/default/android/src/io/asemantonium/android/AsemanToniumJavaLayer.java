@@ -47,6 +47,11 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.content.ContentResolver;
 import androidx.core.content.FileProvider;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+import java.util.concurrent.Executor;
+import androidx.fragment.app.FragmentActivity;
 
 import java.io.File;
 import java.io.InputStream;
@@ -75,6 +80,7 @@ public class AsemanToniumJavaLayer
     private static native void _activityRestarted();
     private static native void _activityDestroyed();
     private static native void _selectImageResult( String path );
+    private static native void _checkBiometricResult(int result);
     private static native void _keyboardVisiblityChanged(int height);
     private static boolean implemented = false;
 
@@ -308,6 +314,59 @@ public class AsemanToniumJavaLayer
         } catch(Exception e) {
             return false;
         }
+        return true;
+    }
+
+    boolean hasBiometric()
+    {
+        Context context = AsemanToniumActivity.getActivityInstance();
+
+        BiometricManager biometricManager = BiometricManager.from(context);
+        if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean checkBiometric(String title, String msg)
+    {
+        Context context = AsemanToniumActivity.getActivityInstance();
+        FragmentActivity fragmentActivity = (FragmentActivity) context;
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+            .setTitle(title)
+            .setDescription(msg)
+            .setNegativeButtonText("Cancel")
+            .build();
+
+        Log.i("Biometric" , "Starting");
+        Executor executor = ContextCompat.getMainExecutor(context);
+        BiometricPrompt biometricPrompt = new BiometricPrompt(fragmentActivity, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Log.i("Biometric" , "Error");
+                _checkBiometricResult(-1);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Log.i("Biometric" , "Succeeded");
+                _checkBiometricResult(1);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Log.i("Biometric" , "Failed");
+                _checkBiometricResult(0);
+            }
+        });
+
+        biometricPrompt.authenticate(promptInfo);
+
         return true;
     }
 

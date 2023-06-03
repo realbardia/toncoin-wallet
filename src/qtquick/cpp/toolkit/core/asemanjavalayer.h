@@ -62,6 +62,8 @@ public Q_SLOTS:
     bool startService();
     bool stopService();
     bool killService(const QString &serviceName);
+    bool hasBiometric();
+    bool checkBiometric();
 
     bool startQtService();
     bool stopQtService();
@@ -78,6 +80,7 @@ Q_SIGNALS:
     void deepLinkRecieved(const QString &link);
     void selectImageResult( const QString & path );
     void keyboardVisiblityChanged(qint32 height);
+    void checkBiometricResult(qint32 res);
     void activityPaused();
     void activityStopped();
     void activityResumed();

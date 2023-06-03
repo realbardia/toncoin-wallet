@@ -207,6 +207,21 @@ bool AsemanToniumJavaLayer::killService(const QString &serviceName)
     return res;
 }
 
+bool AsemanToniumJavaLayer::hasBiometric()
+{
+    return false;
+//    jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z" );
+//    return res;
+}
+
+bool AsemanToniumJavaLayer::checkBiometric()
+{
+    QAndroidJniObject jpath = QAndroidJniObject::fromString(QString().toUtf8());
+    QAndroidJniObject jtype = QAndroidJniObject::fromString(QString().toUtf8());
+    jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "(Ljava/lang/String;Ljava/lang/String;)Z", jpath.object<jstring>(), jtype.object<jstring>() );
+    return res;
+}
+
 bool AsemanToniumJavaLayer::startQtService()
 {
     jboolean res = p->object.callMethod<jboolean>(__FUNCTION__, "()Z" );
@@ -497,6 +512,14 @@ static void keyboardVisiblityChanged( JNIEnv *env, jobject obj, jint height )
         Q_EMIT sjl->keyboardVisiblityChanged(height);
 }
 
+static void checkBiometricResult( JNIEnv *env, jobject obj, jint result )
+{
+    Q_UNUSED(env)
+    Q_UNUSED(obj)
+    for(AsemanToniumJavaLayer *sjl: java_layers_objects)
+        Q_EMIT sjl->checkBiometricResult(result);
+}
+
 bool asemantonium_jlayer_registerNativeMethods() {
     if(asemantonium_jlayer_native_methods_registered)
         return true;
@@ -505,6 +528,7 @@ bool asemantonium_jlayer_registerNativeMethods() {
                                {"_sendImage", "(Ljava/lang/String;)V", reinterpret_cast<void *>(imageRecieved)},
                                {"_sendDeepLink", "(Ljava/lang/String;)V", reinterpret_cast<void *>(deepLinkRecieved)},
                                {"_selectImageResult", "(Ljava/lang/String;)V", reinterpret_cast<void *>(selectImageResult)},
+                               {"_checkBiometricResult", "(I)V", reinterpret_cast<void *>(checkBiometricResult)},
                                {"_activityPaused", "()V", reinterpret_cast<void *>(activityPaused)},
                                {"_activityStopped", "()V", reinterpret_cast<void *>(activityStopped)},
                                {"_activityResumed", "()V", reinterpret_cast<void *>(activityResumed)},

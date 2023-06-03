@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.0'
     implementation 'com.android.support:design:27.0.0'
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'androidx.biometric:biometric:1.1.0'
 }
