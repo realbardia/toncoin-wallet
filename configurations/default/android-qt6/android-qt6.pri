@@ -9,8 +9,6 @@ android {
         $$PWD/build.gradle \
         $$files($$PWD/*.png, true) \
         $$files($$PWD/*.xml, true)
-
-    error(Android on Qt6 not supported)
 }
 
 

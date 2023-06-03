@@ -73,7 +73,9 @@ TPage {
 
                     if (GlobalValues.passCode == text) {
                         Devices.triggerVibrateFeedback();
-                        page.success()
+                        Qt.callLater(function(){
+                            page.success();
+                        })
                     } else {
                         vibrate();
                         text = "";

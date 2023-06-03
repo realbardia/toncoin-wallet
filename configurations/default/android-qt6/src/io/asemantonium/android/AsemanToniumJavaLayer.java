@@ -75,6 +75,7 @@ public class AsemanToniumJavaLayer
     private static native void _activityRestarted();
     private static native void _activityDestroyed();
     private static native void _selectImageResult( String path );
+    private static native void _checkBiometricResult(int result);
     private static native void _keyboardVisiblityChanged(int height);
     private static boolean implemented = false;
 

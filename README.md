@@ -49,14 +49,14 @@ You can download Tonium for Linux, Windows, macOS, iOS and Android from releases
 
 - [Qt framework]() (library)
 
-| Operating System  | Compiler  | Qt5  | Qt6  | Note                    |
-| :---------------: | :-------: | :--: | :--: | :---------------------- |
-|       Linux       | GCC/Clang |  ✔️   |  ✔️   |                         |
-| Microsoft Windows | GCC/Clang |  ✔️   |  ✔️   |                         |
-| Microsoft Windows |   MSVC    |  ✔️   |  ❌   |                         |
-|    Apple macOS    | GCC/Clang |  ✔️   |  ✔️   |                         |
-|     Apple iOS     | GCC/Clang |  ✔️   |  ✔️   |                         |
-|      Android      | GCC/Clang |  ✔️   |  ❌   | NDK >= 23 are supported |
+| Operating System  | Compiler  | Qt5  | Qt6  | Note                                    |
+| :---------------: | :-------: | :--: | :--: | :-------------------------------------- |
+|       Linux       | GCC/Clang |  ✔️   |  ✔️   |                                         |
+| Microsoft Windows | GCC/Clang |  ✔️   |  ✔️   |                                         |
+| Microsoft Windows |   MSVC    |  ✔️   |  ❌   | Qt6 not build because of a bug          |
+|    Apple macOS    | GCC/Clang |  ✔️   |  ✔️   |                                         |
+|     Apple iOS     | GCC/Clang |  ✔️   |  ✔️   |                                         |
+|      Android      | GCC/Clang |  ✔️   |  ✔️   | NDK >= 23 are supported, Qt6 is preview |
 
 - [TonLib](https://github.com/ton-blockchain/ton) (library)
 - [QtAseman](https://github.com/Aseman-Land/QtAseman) (embedded)

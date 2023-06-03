@@ -91,7 +91,9 @@ TPage {
 
                     if (wallet.unlock(text)) {
                         Devices.triggerVibrateFeedback();
-                        GlobalValues.passCode = text;
+                        Qt.callLater(function(){
+                            GlobalValues.passCode = text;
+                        })
                     } else {
                         vibrate();
                         text = "";

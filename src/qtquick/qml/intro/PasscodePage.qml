@@ -77,7 +77,9 @@ TPage {
                             vibrate();
                         } else {
                             spage.busy.running = true;
-                            wallet.changePassword(passField.text)
+                            Qt.callLater(function(){
+                                wallet.changePassword(passField.text);
+                            });
                         }
                     } else {
                         spage.focus = true;
